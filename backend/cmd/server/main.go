@@ -40,7 +40,7 @@ func main() {
 	// CORS cho frontend (Vite default: http://localhost:5173)
 	r.Use(func(c *gin.Context) {
 		origin := c.Request.Header.Get("Origin")
-		if origin == "http://localhost:5173" || origin == "http://127.0.0.1:5173" {
+		if origin == "http://localhost:5174" || origin == "http://127.0.0.1:5173" {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
 			c.Writer.Header().Set("Vary", "Origin")
 		}

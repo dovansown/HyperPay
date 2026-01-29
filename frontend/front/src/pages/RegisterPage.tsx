@@ -43,10 +43,10 @@ export function RegisterPage() {
         </div>
 
         <div className="mb-10 text-center max-w-2xl px-4">
-          <h1 className="text-[#1d1a0c] dark:text-white tracking-tight text-3xl md:text-4xl font-extrabold leading-tight mb-4">
+          <h1 className="text-[#1d1a0c] dark:text-white tracking-tight text-2xl md:text-3xl font-extrabold leading-tight mb-4">
             Bắt đầu hành trình Fintech của bạn ngay hôm nay 🎉
           </h1>
-          <p className="text-[#a19345] dark:text-gray-400 text-lg font-medium">
+          <p className="text-[#a19345] dark:text-gray-400 text-base font-medium">
             Join 10,000+ businesses managing transactions with Hero efficiency.
           </p>
         </div>
@@ -85,7 +85,7 @@ export function RegisterPage() {
                 Security Score
               </p>
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#34D399] text-lg font-bold">
+                <span className="material-symbols-outlined text-[#34D399] text-base font-bold">
                   check_circle
                 </span>
                 <span className="text-sm font-medium text-[#1d1a0c] dark:text-gray-300">
@@ -93,7 +93,7 @@ export function RegisterPage() {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#34D399] text-lg font-bold">
+                <span className="material-symbols-outlined text-[#34D399] text-base font-bold">
                   check_circle
                 </span>
                 <span className="text-sm font-medium text-[#1d1a0c] dark:text-gray-300">
@@ -101,7 +101,7 @@ export function RegisterPage() {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-gray-300 dark:text-zinc-600 text-lg">
+                <span className="material-symbols-outlined text-gray-300 dark:text-zinc-600 text-base">
                   circle
                 </span>
                 <span className="text-sm font-medium text-gray-400">

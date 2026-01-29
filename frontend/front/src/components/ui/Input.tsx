@@ -5,7 +5,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   iconLeft?: ReactNode
   helperText?: string
   error?: string
-  rounded?: 'md' | 'full'
+  rounded?: 'sm' | 'md' | 'full'
 }
 
 export function Input({
@@ -14,11 +14,11 @@ export function Input({
   helperText,
   error,
   className = '',
-  rounded = 'md',
+  rounded = 'sm',
   ...props
 }: InputProps) {
   const roundedClass =
-    rounded === 'full' ? 'rounded-full h-14' : 'rounded-xl h-12'
+    rounded === 'full' ? 'rounded-full h-14' : rounded === 'md' ? 'rounded-lg h-12' : 'rounded-sm h-10 text-sm'
 
   return (
     <div className="flex flex-col gap-2">

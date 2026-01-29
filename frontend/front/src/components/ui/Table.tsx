@@ -1,8 +1,8 @@
-import type { HTMLAttributes, ReactNode, ThHTMLAttributes, TdHTMLAttributes } from 'react'
+import type { HTMLAttributes, ThHTMLAttributes, TdHTMLAttributes } from 'react'
 
 export function Table({ className = '', ...props }: HTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="overflow-hidden rounded-xl border border-[#eae5cd] dark:border-white/10 bg-white dark:bg-white/5">
+    <div className="overflow-hidden rounded-lg border border-[#eae5cd] dark:border-white/10 bg-white dark:bg-white/5">
       <table
         className={['w-full border-collapse text-sm', className].filter(Boolean).join(' ')}
         {...props}

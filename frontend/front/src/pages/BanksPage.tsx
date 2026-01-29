@@ -23,8 +23,6 @@ export function BanksPage() {
   }, [fetchAccounts, fetchBanks])
 
   const total = accounts.length
-  const running = accounts.length
-  const warning = 0
 
   const bankOptions = useMemo(() => {
     const fromApi = banks
@@ -56,14 +54,14 @@ export function BanksPage() {
   }
 
   return (
-    <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto px-6 py-8">
+    <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto w-full px-6 lg:px-10 py-8">
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-2 mb-6">
         <a
           className="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1"
           href="#"
         >
-          <span className="material-symbols-outlined text-lg">home</span>
+          <span className="material-symbols-outlined text-base">home</span>
           <span className="text-sm font-medium leading-none">Trang chủ</span>
         </a>
         <span className="text-[#8d865e] text-sm">/</span>
@@ -72,46 +70,9 @@ export function BanksPage() {
         </span>
       </nav>
 
-      {/* Page Heading & Stats */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl lg:text-5xl font-black tracking-tight mb-4">
-            Quản lý kết nối
-          </h1>
-          <p className="text-[#8d865e] text-lg max-w-lg">
-            Theo dõi và đồng bộ hóa các tài khoản ngân hàng của bạn trong thời gian thực
-            với bảo mật cấp độ doanh nghiệp.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <div className="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-            <span className="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">
-              Tổng cộng
-            </span>
-            <span className="text-2xl font-black">{String(total).padStart(2, '0')}</span>
-          </div>
-          <div className="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-            <span className="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">
-              Đang chạy
-            </span>
-            <span className="text-2xl font-black text-green-500">
-              {String(running).padStart(2, '0')}
-            </span>
-          </div>
-          <div className="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-            <span className="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">
-              Cảnh báo
-            </span>
-            <span className="text-2xl font-black text-red-500">
-              {String(warning).padStart(2, '0')}
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* Section Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">Tài khoản đã liên kết</h2>
+        <h2 className="text-xl font-bold tracking-tight">Tài khoản đã liên kết</h2>
         <button className="text-sm font-bold text-primary underline underline-offset-4 hover:opacity-80 transition-opacity">
           Xem tất cả lịch sử
         </button>
@@ -160,7 +121,7 @@ export function BanksPage() {
                   fetchAccounts()
                 }}
               >
-                <span className="material-symbols-outlined text-lg">sync</span>
+                <span className="material-symbols-outlined text-base">sync</span>
               </button>
             </div>
           </div>
@@ -172,11 +133,11 @@ export function BanksPage() {
           onClick={() => setIsAddOpen(true)}
         >
           <div className="size-14 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-2xl group-hover:text-[#181710]">
+            <span className="material-symbols-outlined text-xl group-hover:text-[#181710]">
               add
             </span>
           </div>
-          <h3 className="text-lg font-bold">Thêm tài khoản mới</h3>
+          <h3 className="text-base font-bold">Thêm tài khoản mới</h3>
           <p className="text-[#8d865e] text-sm mt-1">Hỗ trợ hơn 30+ ngân hàng tại VN</p>
         </button>
       </div>
@@ -184,7 +145,7 @@ export function BanksPage() {
       {/* Sync Now Global CTA */}
       <div className="mt-12 bg-primary rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20">
         <div className="text-center md:text-left">
-          <h2 className="text-[#181710] text-2xl font-black mb-2">
+          <h2 className="text-[#181710] text-xl font-black mb-2">
             Đồng bộ tất cả dữ liệu?
           </h2>
           <p className="text-[#181710]/70 font-medium">
@@ -193,7 +154,7 @@ export function BanksPage() {
           </p>
         </div>
         <button
-          className="bg-[#181710] text-white hover:bg-black px-10 py-4 rounded-full font-black text-lg transition-transform hover:scale-105 flex items-center gap-3"
+          className="bg-[#181710] text-white hover:bg-black px-10 py-4 rounded-full font-black text-base transition-transform hover:scale-105 flex items-center gap-3"
           onClick={() => fetchAccounts()}
         >
           <span className="material-symbols-outlined">bolt</span>
@@ -204,7 +165,7 @@ export function BanksPage() {
       {/* Footer Info */}
       <div className="mt-12 text-center">
         <p className="text-[#8d865e] text-sm font-medium flex items-center justify-center gap-2">
-          <span className="material-symbols-outlined text-lg">verified_user</span>
+          <span className="material-symbols-outlined text-base">verified_user</span>
           Dữ liệu được bảo mật bởi chuẩn mã hóa AES-256.
         </p>
       </div>

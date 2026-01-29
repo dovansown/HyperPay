@@ -20,10 +20,10 @@ export function PlanBillingPage() {
 
       <div className="flex flex-wrap justify-between items-end gap-3 py-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-[#181710] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+          <h1 className="text-[#181710] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
             Plan &amp; Billing
           </h1>
-          <p className="text-[#8d865e] text-base font-normal">
+          <p className="text-[#8d865e] text-sm font-normal">
             Manage your subscription, usage limits, and invoices.
           </p>
         </div>
@@ -34,13 +34,13 @@ export function PlanBillingPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 flex flex-col gap-6">
-          <div className="flex items-center justify-between gap-6 rounded-xl bg-white dark:bg-[#1a180c] p-8 shadow-sm border border-[#e5e4de] dark:border-[#3d3a2a]">
+          <div className="flex items-center justify-between gap-6 rounded-lg bg-white dark:bg-[#1a180c] p-8 shadow-sm border border-[#e5e4de] dark:border-[#3d3a2a]">
             <div className="flex flex-col gap-4 flex-1">
               <div className="flex flex-col gap-1">
                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 text-black dark:text-primary text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
                   Current Plan
                 </span>
-                <p className="text-[#181710] dark:text-white text-3xl font-black">
+                <p className="text-[#181710] dark:text-white text-2xl font-black">
                   Pro Hero Plan
                 </p>
                 <p className="text-[#8d865e] text-sm font-medium">
@@ -61,7 +61,7 @@ export function PlanBillingPage() {
             </div>
             <div className="hidden sm:block w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent" />
-              <span className="material-symbols-outlined text-6xl text-primary">
+              <span className="material-symbols-outlined text-5xl text-primary">
                 rocket_launch
               </span>
             </div>
@@ -72,14 +72,14 @@ export function PlanBillingPage() {
               Usage Limits
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-[#1a180c] p-6 rounded-xl border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+              <div className="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <p className="text-sm font-bold text-[#8d865e]">API REQUESTS</p>
                   <span className="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">
                     ACTIVE
                   </span>
                 </div>
-                <p className="text-2xl font-black mb-1">
+                <p className="text-xl font-black mb-1">
                   850,000{' '}
                   <span className="text-sm font-normal text-[#8d865e]">/ 1.0M</span>
                 </p>
@@ -90,14 +90,14 @@ export function PlanBillingPage() {
                   85% of monthly limit
                 </p>
               </div>
-              <div className="bg-white dark:bg-[#1a180c] p-6 rounded-xl border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+              <div className="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
                 <div className="flex justify-between items-center mb-4">
                   <p className="text-sm font-bold text-[#8d865e]">TRANSACTIONS</p>
                   <span className="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">
                     ACTIVE
                   </span>
                 </div>
-                <p className="text-2xl font-black mb-1">
+                <p className="text-xl font-black mb-1">
                   12,400 <span className="text-sm font-normal text-[#8d865e]">/ 20k</span>
                 </p>
                 <div className="w-full bg-[#f5f4f0] dark:bg-[#2d2a1a] h-4 rounded-full overflow-hidden mb-2">
@@ -115,7 +115,7 @@ export function PlanBillingPage() {
               Available Plans (API)
             </h2>
             {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
-            <div className="bg-white dark:bg-[#1a180c] rounded-xl border border-[#e5e4de] dark:border-[#3d3a2a] overflow-hidden">
+            <div className="bg-white dark:bg-[#1a180c] rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] overflow-hidden">
               <table className="w-full text-left">
                 <thead className="bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#8d865e] text-xs font-bold uppercase tracking-wider">
                   <tr>
@@ -192,48 +192,48 @@ export function PlanBillingPage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <div className="rounded-xl bg-[#181710] text-white p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
+          <div className="rounded-lg bg-[#181710] text-white p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
             <div className="absolute top-[-20px] right-[-20px] size-40 bg-primary/20 rounded-full blur-3xl" />
             <div className="relative z-10">
               <div className="size-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,217,0,0.4)]">
-                <span className="material-symbols-outlined text-black text-4xl font-black">
+                <span className="material-symbols-outlined text-black text-3xl font-black">
                   diamond
                 </span>
               </div>
-              <h3 className="text-2xl font-black mb-3">Go Enterprise</h3>
+              <h3 className="text-xl font-black mb-3">Go Enterprise</h3>
               <p className="text-[#8d865e] text-sm leading-relaxed mb-6">
                 Unlock unlimited API calls, custom SLAs, and dedicated priority support for
                 your entire team.
               </p>
               <ul className="flex flex-col gap-3 mb-8">
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="material-symbols-outlined text-primary text-lg">
+                  <span className="material-symbols-outlined text-primary text-base">
                     check_circle
                   </span>
                   Unlimited transactions
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="material-symbols-outlined text-primary text-lg">
+                  <span className="material-symbols-outlined text-primary text-base">
                     check_circle
                   </span>
                   Custom Endpoints
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="material-symbols-outlined text-primary text-lg">
+                  <span className="material-symbols-outlined text-primary text-base">
                     check_circle
                   </span>
                   99.99% Uptime SLA
                 </li>
               </ul>
-              <button className="w-full py-4 rounded-full bg-primary text-black font-black text-base hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
+              <button className="w-full py-4 rounded-full bg-primary text-black font-black text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
                 Upgrade Now
               </button>
             </div>
           </div>
 
-          <div className="rounded-xl bg-white dark:bg-[#1a180c] p-6 border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
-            <h3 className="text-lg font-bold mb-4">Payment Method</h3>
-            <div className="flex items-center gap-4 p-4 rounded-xl border border-primary/20 bg-primary/5 mb-4">
+          <div className="rounded-lg bg-white dark:bg-[#1a180c] p-6 border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+            <h3 className="text-base font-bold mb-4">Payment Method</h3>
+            <div className="flex items-center gap-4 p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4">
               <div className="size-10 bg-[#181710] rounded flex items-center justify-center text-white font-bold text-[10px]">
                 VISA
               </div>
@@ -246,7 +246,7 @@ export function PlanBillingPage() {
               </button>
             </div>
             <button className="w-full flex items-center justify-center gap-2 h-10 rounded-full border border-dashed border-[#8d865e] text-[#8d865e] text-sm font-bold hover:bg-[#f5f4f0] transition-colors">
-              <span className="material-symbols-outlined text-lg">add</span>
+              <span className="material-symbols-outlined text-base">add</span>
               Add New Method
             </button>
           </div>

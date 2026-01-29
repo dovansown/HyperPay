@@ -15,10 +15,10 @@ export function TeamRolesPage() {
               Admin Panel
             </span>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-black leading-tight tracking-[-0.033em]">
+          <h1 className="text-3xl lg:text-4xl font-black leading-tight tracking-[-0.033em]">
             Team Roles &amp; Permissions
           </h1>
-          <p className="text-[#a19345] dark:text-gray-400 text-lg font-medium">
+          <p className="text-[#a19345] dark:text-gray-400 text-base font-medium">
             Manage 12 active seats and granular access levels for your banking team.
           </p>
         </div>
@@ -53,7 +53,7 @@ export function TeamRolesPage() {
 
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 px-2">
-        <h2 className="text-2xl font-bold tracking-tight">Access Control Cards</h2>
+        <h2 className="text-xl font-bold tracking-tight">Access Control Cards</h2>
         <div className="flex items-center gap-2 text-[#a19345]">
           <span className="material-symbols-outlined text-xl">info</span>
           <span className="text-sm font-medium">Changes take effect immediately</span>
@@ -75,7 +75,7 @@ export function TeamRolesPage() {
                 }}
               />
               <div>
-                <h3 className="font-bold text-lg">Alex Rivera</h3>
+                <h3 className="font-bold text-base">Alex Rivera</h3>
                 <p className="text-xs text-[#a19345] font-medium">alex@fintech.so</p>
               </div>
             </div>
@@ -98,7 +98,7 @@ export function TeamRolesPage() {
             </div>
           </div>
           <button className="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#eae5cd] transition-colors">
-            <span className="material-symbols-outlined text-lg">settings</span> Edit Detailed
+            <span className="material-symbols-outlined text-base">settings</span> Edit Detailed
             Access
           </button>
         </Card>
@@ -116,7 +116,7 @@ export function TeamRolesPage() {
                 }}
               />
               <div>
-                <h3 className="font-bold text-lg">Jordan Lee</h3>
+                <h3 className="font-bold text-base">Jordan Lee</h3>
                 <p className="text-xs text-[#a19345] font-medium">jordan@dev.fintech.so</p>
               </div>
             </div>
@@ -139,7 +139,7 @@ export function TeamRolesPage() {
             </div>
           </div>
           <button className="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-lg">settings</span> Edit Detailed
+            <span className="material-symbols-outlined text-base">settings</span> Edit Detailed
             Access
           </button>
         </Card>
@@ -157,7 +157,7 @@ export function TeamRolesPage() {
                 }}
               />
               <div>
-                <h3 className="font-bold text-lg">Taylor Smith</h3>
+                <h3 className="font-bold text-base">Taylor Smith</h3>
                 <p className="text-xs text-[#a19345] font-medium">taylor@finance.fintech.so</p>
               </div>
             </div>
@@ -180,7 +180,7 @@ export function TeamRolesPage() {
             </div>
           </div>
           <button className="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-lg">settings</span> Edit Detailed
+            <span className="material-symbols-outlined text-base">settings</span> Edit Detailed
             Access
           </button>
         </Card>
@@ -189,9 +189,9 @@ export function TeamRolesPage() {
       {/* Table View Section */}
       <div className="mt-16">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <h2 className="text-2xl font-bold tracking-tight">Detailed Permission Controls</h2>
+          <h2 className="text-xl font-bold tracking-tight">Detailed Permission Controls</h2>
           <div className="flex items-center gap-2 bg-white dark:bg-white/5 border border-[#f4f2e6] dark:border-white/10 rounded-full px-4 py-2">
-            <span className="material-symbols-outlined text-lg text-primary">filter_list</span>
+            <span className="material-symbols-outlined text-base text-primary">filter_list</span>
             <select className="bg-transparent border-none text-sm font-semibold focus:ring-0 cursor-pointer">
               <option>Sort by: Name</option>
               <option>Sort by: Role</option>
@@ -321,7 +321,7 @@ export function TeamRolesPage() {
         <div className="size-12 rounded-full bg-primary/20 flex items-center justify-center">
           <span className="material-symbols-outlined text-primary">security</span>
         </div>
-        <h4 className="font-bold text-lg">Bank-Grade Security Controls</h4>
+        <h4 className="font-bold text-base">Bank-Grade Security Controls</h4>
         <p className="text-[#a19345] dark:text-gray-400 max-w-md mx-auto text-sm">
           All permission changes are recorded in the audit trail. Multi-factor
           authentication is required for Admin role assignments.

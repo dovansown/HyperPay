@@ -53,7 +53,7 @@ export function Modal({
     >
       <div
         className={[
-          'w-full bg-white dark:bg-[#1c1a0e] rounded-xl shadow-2xl border border-[#e7e5da] dark:border-[#3a3622] overflow-hidden',
+          'w-full bg-white dark:bg-[#1c1a0e] rounded-lg shadow-2xl border border-[#e7e5da] dark:border-[#3a3622] overflow-hidden',
           maxWidthClassName,
           // không bao giờ vượt quá chiều cao viewport; nếu content nhiều -> scroll nội bộ
           // 3rem ~ p-6 top + bottom (đảm bảo không full-height)

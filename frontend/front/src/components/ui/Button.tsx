@@ -15,9 +15,9 @@ const baseClasses =
   'inline-flex items-center justify-center rounded-full font-bold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-60 disabled:cursor-not-allowed'
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-10 px-4 text-sm gap-1.5',
+  sm: 'h-10 px-4 text-xs gap-1.5',
   md: 'h-12 px-6 text-sm gap-2',
-  lg: 'h-14 px-8 text-base gap-2.5',
+  lg: 'h-14 px-8 text-sm gap-2.5',
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -33,7 +33,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 export function Button({
   variant = 'primary',
-  size = 'md',
+  size = 'sm',
   fullWidth,
   leftIcon,
   rightIcon,

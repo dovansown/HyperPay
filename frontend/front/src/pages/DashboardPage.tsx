@@ -2,18 +2,18 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
 
 export function DashboardPage() {
   return (
-    <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto px-6 lg:px-10 py-8">
+    <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto w-full px-6 lg:px-10 py-8">
       {/* System Status Action Panel */}
       <div className="mb-8">
-        <div className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 p-4 rounded-lg shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05),0_8px_10px_-6px_rgba(0,0,0,0.05)]">
-          <div className="flex items-center gap-4 mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 p-4 md:p-5 rounded-lg">
+          <div className="flex items-center gap-4 mb-4 md:mb-0 md:flex-1">
             <div className="flex items-center justify-center size-10 bg-[#34D399]/20 rounded-full">
               <span className="material-symbols-outlined text-[#34D399] font-bold">
                 check_circle
               </span>
             </div>
             <div>
-              <p className="text-base font-bold leading-tight">
+              <p className="text-sm font-bold leading-tight">
                 All systems operational 🟢
               </p>
               <p className="text-zinc-500 text-sm font-normal">
@@ -21,7 +21,7 @@ export function DashboardPage() {
               </p>
             </div>
           </div>
-          <a className="text-sm font-bold flex items-center gap-2 text-[#4C51BF] hover:underline" href="#">
+          <a className="text-sm font-bold flex items-center gap-2 text-[#4C51BF] hover:underline md:ml-6" href="#">
             View live status page
             <span className="material-symbols-outlined text-base">arrow_forward</span>
           </a>
@@ -30,10 +30,10 @@ export function DashboardPage() {
 
       {/* Page Heading */}
       <div className="mb-10">
-        <h2 className="text-4xl lg:text-5xl font-black tracking-tight mb-2">
+        <h2 className="text-3xl lg:text-4xl font-black tracking-tight mb-2">
           Good morning, Hero! 👋
         </h2>
-        <p className="text-zinc-500 dark:text-zinc-400 text-lg">
+        <p className="text-zinc-500 dark:text-zinc-400 text-base">
           Here's a high-level overview of your bank transactions and API health.
         </p>
       </div>
@@ -54,7 +54,7 @@ export function DashboardPage() {
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
             Today's Total 💰
           </p>
-          <p className="text-4xl font-extrabold tracking-tighter">$42,500.00</p>
+          <p className="text-3xl font-extrabold tracking-tighter">$42,500.00</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center justify-between">
             <span className="text-xs font-medium text-zinc-400">Target: $50k</span>
             <div className="h-1.5 w-24 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
@@ -77,7 +77,7 @@ export function DashboardPage() {
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
             New Transactions 📈
           </p>
-          <p className="text-4xl font-extrabold tracking-tighter">1,284</p>
+          <p className="text-3xl font-extrabold tracking-tighter">1,284</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800">
             <div className="flex -space-x-2">
               <img
@@ -116,7 +116,7 @@ export function DashboardPage() {
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
             API Uptime ⚡️
           </p>
-          <p className="text-4xl font-extrabold tracking-tighter">99.99%</p>
+          <p className="text-3xl font-extrabold tracking-tighter">99.99%</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center gap-1">
             <div className="h-4 w-full flex items-end gap-0.5">
               <div className="bg-[#34D399] w-full h-full rounded-sm opacity-20" />
@@ -135,8 +135,8 @@ export function DashboardPage() {
       </div>
 
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6 px-2">
-        <h3 className="text-2xl font-bold tracking-tight">Recent Activity Overview</h3>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold tracking-tight">Recent Activity Overview</h3>
         <button className="text-sm font-bold text-[#4C51BF] bg-[#4C51BF]/10 px-4 py-2 rounded-full hover:bg-[#4C51BF] hover:text-white transition-all">
           View Full Report
         </button>

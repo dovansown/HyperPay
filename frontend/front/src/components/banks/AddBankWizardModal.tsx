@@ -90,7 +90,7 @@ export function AddBankWizardModal({
         {/* Progress Bar Component */}
         <div className="flex flex-col gap-3 p-8 border-b border-[#f5f4f0] dark:border-[#3a3622]">
           <div className="flex gap-6 justify-between items-center">
-            <p className="text-[#181710] dark:text-white text-lg font-bold leading-normal">
+            <p className="text-[#181710] dark:text-white text-base font-bold leading-normal">
               Link New Bank Account
             </p>
             <p className="text-primary text-sm font-bold leading-normal bg-black dark:bg-primary dark:text-black px-3 py-1 rounded-full">
@@ -136,7 +136,7 @@ export function AddBankWizardModal({
                       onClick={() => setSelectedBank(b)}
                     >
                       <div className="size-12 rounded-full bg-blue-600 flex items-center justify-center text-white mb-3 shadow-lg">
-                        <span className="material-symbols-outlined text-2xl">
+                        <span className="material-symbols-outlined text-xl">
                           account_balance
                         </span>
                       </div>
@@ -154,7 +154,7 @@ export function AddBankWizardModal({
                   className="bank-card flex flex-col items-center justify-center p-6 bg-primary/20 dark:bg-primary/10 rounded-lg border-2 border-dashed border-primary group transition-all"
                 >
                   <div className="size-12 rounded-full bg-primary flex items-center justify-center text-black mb-3 shadow-lg">
-                    <span className="material-symbols-outlined text-2xl">more_horiz</span>
+                    <span className="material-symbols-outlined text-xl">more_horiz</span>
                   </div>
                   <span className="font-bold text-[#181710] dark:text-white">
                     Other Banks
@@ -171,7 +171,7 @@ export function AddBankWizardModal({
                 <h1 className="text-[#181710] dark:text-white tracking-tight text-[28px] font-extrabold leading-tight mb-2">
                   Enter account details
                 </h1>
-                <p className="text-[#8d865e] text-lg font-normal max-w-lg mx-auto">
+                <p className="text-[#8d865e] text-base font-normal max-w-lg mx-auto">
                   Bank: <span className="font-bold">{selectedBank?.name}</span> (
                   <span className="font-bold">{selectedBank?.code}</span>)
                 </p>
@@ -201,14 +201,14 @@ export function AddBankWizardModal({
           {step === 3 && (
             <div className="text-center py-10">
               <div className="mx-auto size-16 rounded-full bg-primary/20 flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-primary text-3xl">
+                <span className="material-symbols-outlined text-primary text-2xl">
                   check_circle
                 </span>
               </div>
               <h1 className="text-[#181710] dark:text-white tracking-tight text-[28px] font-extrabold leading-tight mb-2">
                 Connected!
               </h1>
-              <p className="text-[#8d865e] text-lg font-normal max-w-lg mx-auto">
+              <p className="text-[#8d865e] text-base font-normal max-w-lg mx-auto">
                 Your bank account has been linked successfully.
               </p>
             </div>
@@ -218,19 +218,19 @@ export function AddBankWizardModal({
           <div className="flex flex-col items-center gap-6 mt-4">
             <div className="flex gap-8 items-center justify-center opacity-70 flex-wrap">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-                <span className="material-symbols-outlined text-green-500 text-lg">
+                <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
                 256-bit AES
               </div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-                <span className="material-symbols-outlined text-green-500 text-lg">
+                <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
                 FCA Regulated
               </div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-                <span className="material-symbols-outlined text-green-500 text-lg">
+                <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
                 End-to-end Encrypted

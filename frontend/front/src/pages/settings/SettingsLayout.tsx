@@ -17,7 +17,7 @@ export function SettingsLayout() {
                 </span>
               </div>
               <div>
-                <h1 className="text-[#181711] dark:text-white text-lg font-extrabold leading-none">
+                <h1 className="text-[#181711] dark:text-white text-base font-extrabold leading-none">
                   Hero Fintech
                 </h1>
                 <p className="text-[#8c855f] text-xs font-medium uppercase tracking-wider mt-1">

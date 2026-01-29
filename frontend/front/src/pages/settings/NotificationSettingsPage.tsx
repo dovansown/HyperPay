@@ -20,10 +20,10 @@ export function NotificationSettingsPage() {
         </div>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-[#181711] dark:text-white text-4xl md:text-5xl font-black tracking-tight mb-4">
+            <h1 className="text-[#181711] dark:text-white text-3xl md:text-4xl font-black tracking-tight mb-4">
               Notification Center
             </h1>
-            <p className="text-[#8c855f] dark:text-[#a19b80] text-lg font-medium">
+            <p className="text-[#8c855f] dark:text-[#a19b80] text-base font-medium">
               Control how your team stays informed about transaction events, security
               alerts, and system integrations.
             </p>
@@ -37,15 +37,15 @@ export function NotificationSettingsPage() {
 
       <div className="max-w-[1300px] mx-auto w-full px-8">
         <div className="flex border-b border-[#e6e4db] dark:border-[#3d3a2a] gap-10 mb-8 overflow-x-auto">
-          <button className="pb-4 border-b-4 border-primary text-[#181711] dark:text-white font-extrabold text-base flex items-center gap-2 whitespace-nowrap">
+          <button className="pb-4 border-b-4 border-primary text-[#181711] dark:text-white font-extrabold text-sm flex items-center gap-2 whitespace-nowrap">
             <span className="material-symbols-outlined">webhook</span>
             Webhooks
           </button>
-          <button className="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all">
+          <button className="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-sm flex items-center gap-2 whitespace-nowrap transition-all">
             <span className="material-symbols-outlined">mail</span>
             Email Alerts
           </button>
-          <button className="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all">
+          <button className="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-sm flex items-center gap-2 whitespace-nowrap transition-all">
             <span className="material-symbols-outlined">chat_bubble</span>
             Slack Integration
             <span className="bg-[#181711] text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">
@@ -57,7 +57,7 @@ export function NotificationSettingsPage() {
         <div className="space-y-8 pb-20">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-black text-[#181711] dark:text-white">
+              <h2 className="text-xl font-black text-[#181711] dark:text-white">
                 Webhook Configuration
               </h2>
               <p className="text-[#8c855f] font-medium">
@@ -70,7 +70,7 @@ export function NotificationSettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-lg border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
                   <span className="material-symbols-outlined">paid</span>
@@ -85,7 +85,7 @@ export function NotificationSettingsPage() {
               <Switch checked={newTx} onChange={setNewTx} />
             </div>
 
-            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-lg border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
                   <span className="material-symbols-outlined">sync_problem</span>
@@ -100,7 +100,7 @@ export function NotificationSettingsPage() {
               <Switch checked={syncErr} onChange={setSyncErr} />
             </div>
 
-            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-lg border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
                   <span className="material-symbols-outlined">shield_person</span>
@@ -115,7 +115,7 @@ export function NotificationSettingsPage() {
               <Switch checked={blocked} onChange={setBlocked} />
             </div>
 
-            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+            <div className="bg-white dark:bg-[#1f1d10] p-6 rounded-lg border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
                   <span className="material-symbols-outlined">outbox</span>
@@ -131,13 +131,13 @@ export function NotificationSettingsPage() {
             </div>
           </div>
 
-          <div className="bg-primary/10 border-2 border-primary/20 rounded-xl p-8 mt-12">
+          <div className="bg-primary/10 border-2 border-primary/20 rounded-lg p-8 mt-12">
             <div className="flex items-start gap-4">
               <div className="bg-primary p-3 rounded-full">
                 <span className="material-symbols-outlined text-[#181711]">vpn_key</span>
               </div>
               <div>
-                <h3 className="text-xl font-black text-[#181711] mb-2">
+                <h3 className="text-base font-black text-[#181711] mb-2">
                   Endpoint Security
                 </h3>
                 <p className="text-[#181711]/70 font-medium mb-4">

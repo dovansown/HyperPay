@@ -15,7 +15,7 @@ export function Card({
   return (
     <div
       className={[
-        'bg-white dark:bg-[#2d2a15] rounded-xl border border-[#e9e5ce] dark:border-[#4a452a] shadow-sm',
+        'bg-white dark:bg-[#2d2a15] rounded-lg border border-[#e9e5ce] dark:border-[#4a452a] shadow-sm',
         className,
       ]
         .filter(Boolean)

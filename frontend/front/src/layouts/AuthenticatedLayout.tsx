@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import Button from '../components/ui/Button'
 import { useAuthStore } from '../store/authStore'
 
 function ProfileMenu() {
@@ -24,34 +23,34 @@ function ProfileMenu() {
     <div className="relative" ref={rootRef}>
       <button
         type="button"
-        className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary cursor-pointer"
+        className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-primary/80 cursor-pointer shadow-sm"
         aria-label="Profile menu"
         onClick={() => setOpen((v) => !v)}
       />
       {open && (
-        <div className="absolute right-0 top-[52px] w-56 rounded-xl border border-[#e7e5da] dark:border-[#3a3622] bg-white dark:bg-[#1a180b] shadow-2xl overflow-hidden">
+        <div className="absolute right-0 top-[48px] w-60 rounded-lg border border-[#e7e5da] dark:border-[#3a3622] bg-white dark:bg-[#1a180b] shadow-xl overflow-hidden py-1">
           <button
             type="button"
-            className="w-full px-4 py-3 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-2"
+            className="w-full px-4 py-2.5 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-3"
             onClick={() => {
               setOpen(false)
               navigate('/settings/profile')
             }}
           >
-            <span className="material-symbols-outlined text-lg">settings</span>
-            Cài đặt tài khoản
+          <span className="material-symbols-outlined text-base">settings</span>
+          <span className="truncate">Cài đặt tài khoản</span>
           </button>
           <button
             type="button"
-            className="w-full px-4 py-3 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-2 text-red-600 dark:text-red-400"
+            className="w-full px-4 py-2.5 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-3 text-red-600 dark:text-red-400 border-t border-black/5 dark:border-white/5"
             onClick={() => {
               setOpen(false)
               logout()
               navigate('/login')
             }}
           >
-            <span className="material-symbols-outlined text-lg">logout</span>
-            Đăng xuất
+            <span className="material-symbols-outlined text-base">logout</span>
+            <span className="truncate">Đăng xuất</span>
           </button>
         </div>
       )}
@@ -66,9 +65,9 @@ function AuthenticatedHeader() {
         <div className="flex items-center gap-8">
         <div className="flex items-center gap-4">
           <div className="size-8 bg-primary rounded-full flex items-center justify-center text-black">
-            <span className="material-symbols-outlined text-xl">account_balance</span>
-          </div>
-          <h2 className="text-lg font-extrabold leading-tight tracking-[-0.015em]">
+          <span className="material-symbols-outlined text-lg">account_balance</span>
+        </div>
+        <h2 className="text-base font-extrabold leading-tight tracking-[-0.015em]">
             Hero Fintech
           </h2>
         </div>
@@ -78,7 +77,7 @@ function AuthenticatedHeader() {
               <span className="material-symbols-outlined text-xl">search</span>
             </div>
             <input
-              className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-[#a19345] px-4 pl-2 text-base font-normal"
+              className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-[#a19345] px-4 pl-2 text-sm font-normal"
               placeholder="Search team members"
             />
           </div>
@@ -95,16 +94,6 @@ function AuthenticatedHeader() {
             }
           >
             Dashboard
-          </NavLink>
-          <NavLink
-            to="/transactions"
-            className={({ isActive }) =>
-              isActive
-                ? 'text-sm font-semibold text-primary underline underline-offset-4 decoration-2'
-                : 'text-sm font-semibold hover:text-primary transition-colors'
-            }
-          >
-            Transactions
           </NavLink>
           <NavLink
             to="/banks"

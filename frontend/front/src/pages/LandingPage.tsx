@@ -13,26 +13,26 @@ export function LandingPage() {
                 Vừa ra mắt: API v3.0
               </span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-black leading-[1.1] tracking-tight text-[#1c1a0d] dark:text-white">
+            <h1 className="text-3xl md:text-4xl font-black leading-[1.1] tracking-tight text-[#1c1a0d] dark:text-white">
               Ngân hàng thông minh, <span className="text-primary italic">Dev tự tin 🚀</span>
             </h1>
-            <p className="text-lg md:text-xl text-[#6b6645] dark:text-[#a8a48d] max-w-[540px]">
+            <p className="text-sm md:text-base text-[#6b6645] dark:text-[#a8a48d] max-w-[540px]">
               API mạnh mẽ, giao diện thân thiện, giúp doanh nghiệp bứt phá mọi rào cản
               tài chính. Tích hợp thanh toán chỉ trong vài phút.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="h-14 px-8 rounded-full bg-primary text-[#1c1a0d] text-base font-bold shadow-xl shadow-primary/30 flex items-center justify-center gap-2 hover:translate-y-[-2px] transition-all">
+              <button className="h-14 px-8 rounded-full bg-primary text-[#1c1a0d] text-sm font-bold shadow-xl shadow-primary/30 flex items-center justify-center gap-2 hover:translate-y-[-2px] transition-all">
                 Dùng thử miễn phí
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
-              <button className="h-14 px-8 rounded-full bg-[#f4f2e6] dark:bg-[#3a3620] text-[#1c1a0d] dark:text-white text-base font-bold flex items-center justify-center gap-2 border border-[#e9e5ce] dark:border-[#4a452a] hover:bg-white dark:hover:bg-black transition-all">
+              <button className="h-14 px-8 rounded-full bg-[#f4f2e6] dark:bg-[#3a3620] text-[#1c1a0d] dark:text-white text-sm font-bold flex items-center justify-center gap-2 border border-[#e9e5ce] dark:border-[#4a452a] hover:bg-white dark:hover:bg-black transition-all">
                 Tài liệu API
                 <span className="material-symbols-outlined">code</span>
               </button>
             </div>
           </div>
           <div className="relative">
-            <div className="relative z-10 bg-white dark:bg-[#2d2a15] rounded-xl shadow-2xl border border-[#e9e5ce] dark:border-[#4a452a] p-4 transform rotate-1 lg:rotate-2">
+            <div className="relative z-10 bg-white dark:bg-[#2d2a15] rounded-lg shadow-2xl border border-[#e9e5ce] dark:border-[#4a452a] p-4 transform rotate-1 lg:rotate-2">
               <div
                 className="w-full aspect-[4/3] bg-center bg-no-repeat bg-cover rounded-lg overflow-hidden"
                 data-alt="Vibrant fintech dashboard showing transaction charts and financial data"
@@ -51,7 +51,7 @@ export function LandingPage() {
       {/* Social Proof (landing1) */}
       <section className="py-12 bg-white dark:bg-[#2d2a15] border-y border-[#f4f2e6] dark:border-[#3a3620]">
         <div className="max-w-[1300px] mx-auto px-6 text-center">
-          <h4 className="text-[#9e9147] text-sm font-bold uppercase tracking-[0.2em] mb-10">
+          <h4 className="text-[#9e9147] text-xs font-bold uppercase tracking-[0.2em] mb-10">
             Tin dùng bởi 500+ doanh nghiệp hàng đầu
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
@@ -68,46 +68,46 @@ export function LandingPage() {
       <section className="py-24 px-6 bg-background-light dark:bg-background-dark">
         <div className="max-w-[1300px] mx-auto flex flex-col gap-16">
           <div className="max-w-[720px]">
-            <h2 className="text-4xl md:text-5xl font-black leading-tight mb-6">
+            <h2 className="text-2xl md:text-3xl font-black leading-tight mb-6">
               Tại sao chọn Hero?
             </h2>
-            <p className="text-lg text-[#6b6645] dark:text-[#a8a48d]">
+            <p className="text-base text-[#6b6645] dark:text-[#a8a48d]">
               Nền tảng của chúng tôi được thiết kế để cân bằng giữa sự mạnh mẽ của hệ
               thống tài chính và sự linh hoạt của các công cụ lập trình hiện đại.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-xl border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
+            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-lg border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
               <div className="size-14 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[32px] font-bold">
                   bolt
                 </span>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Giao dịch chớp nhoáng</h3>
+              <h3 className="text-xl font-bold mb-4">Giao dịch chớp nhoáng</h3>
               <p className="text-[#6b6645] dark:text-[#a8a48d] leading-relaxed">
                 Độ trễ thấp nhất thị trường. Xử lý hàng nghìn giao dịch mỗi giây mà
                 không làm gián đoạn trải nghiệm khách hàng.
               </p>
             </div>
-            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-xl border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
+            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-lg border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
               <div className="size-14 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[32px] font-bold">
                   shield
                 </span>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Ổn định 99.9%</h3>
+              <h3 className="text-xl font-bold mb-4">Ổn định 99.9%</h3>
               <p className="text-[#6b6645] dark:text-[#a8a48d] leading-relaxed">
                 Hệ thống bảo mật đa tầng, đạt chuẩn quốc tế. Đảm bảo dịch vụ của bạn luôn
                 sẵn sàng 24/7 trong mọi điều kiện.
               </p>
             </div>
-            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-xl border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
+            <div className="group bg-white dark:bg-[#2d2a15] p-10 rounded-lg border border-[#e9e5ce] dark:border-[#4a452a] hover:border-primary transition-all hover:shadow-xl shadow-primary/5">
               <div className="size-14 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-8 group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[32px] font-bold">
                   mood
                 </span>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Giao diện thân thiện</h3>
+              <h3 className="text-xl font-bold mb-4">Giao diện thân thiện</h3>
               <p className="text-[#6b6645] dark:text-[#a8a48d] leading-relaxed">
                 Loại bỏ sự nhàm chán của ngân hàng truyền thống. Trải nghiệm UI hiện
                 đại, mượt mà và đầy cảm hứng.
@@ -121,7 +121,7 @@ export function LandingPage() {
       <section className="py-24 px-6 relative">
         <div className="max-w-[1300px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="order-2 lg:order-1">
-            <div className="relative bg-white dark:bg-[#2d2a15] rounded-xl border border-[#e9e5ce] dark:border-[#4a452a] p-8 overflow-hidden">
+            <div className="relative bg-white dark:bg-[#2d2a15] rounded-lg border border-[#e9e5ce] dark:border-[#4a452a] p-8 overflow-hidden">
               <div className="flex items-center justify-center h-[300px] relative">
                 <div className="size-20 bg-primary rounded-full flex items-center justify-center z-10 shadow-2xl shadow-primary/40">
                   <span className="material-symbols-outlined text-white text-[40px] font-bold">
@@ -149,10 +149,10 @@ export function LandingPage() {
             </div>
           </div>
           <div className="order-1 lg:order-2 flex flex-col gap-8">
-            <h2 className="text-4xl md:text-5xl font-black leading-tight">
+            <h2 className="text-2xl md:text-3xl font-black leading-tight">
               Kết nối mọi ngân hàng chỉ với một chạm
             </h2>
-            <p className="text-lg text-[#6b6645] dark:text-[#a8a48d]">
+            <p className="text-base text-[#6b6645] dark:text-[#a8a48d]">
               Đồng bộ hóa dữ liệu giao dịch từ Vietcombank, Techcombank, MB Bank và 20+
               ngân hàng nội địa khác ngay lập tức. Hero Bank Sync giúp bạn quản lý dòng
               tiền tập trung mà không cần chuyển đổi giữa các ứng dụng.
@@ -195,13 +195,13 @@ export function LandingPage() {
         className="w-full max-w-[1300px] mx-auto py-20 px-4 md:px-10"
       >
         <div className="flex flex-col items-center mb-12 text-center">
-          <span className="bg-primary/20 text-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+          <span className="bg-primary/20 text-primary px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">
             Success Stories
           </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
             Hero Stories
           </h2>
-          <p className="mt-4 text-gray-500 dark:text-gray-400 max-w-2xl">
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
             Join thousands of high-growth companies that use Hero to power their financial
             infrastructure.
           </p>
@@ -209,7 +209,7 @@ export function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Three static cards preserved from landing2 */}
           {/* Card 1 */}
-          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
             <div className="flex gap-1 text-primary">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span key={i} className="material-symbols-outlined">
@@ -217,7 +217,7 @@ export function LandingPage() {
                 </span>
               ))}
             </div>
-            <p className="text-lg leading-relaxed font-medium italic">
+            <p className="text-base leading-relaxed font-medium italic">
               &quot;Hero transformed our financial workflow overnight. The speed is
               unmatched, and the API is a dream to work with.&quot;
             </p>
@@ -239,7 +239,7 @@ export function LandingPage() {
             </div>
           </div>
           {/* Card 2 */}
-          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
             <div className="flex gap-1 text-primary">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span key={i} className="material-symbols-outlined">
@@ -247,7 +247,7 @@ export function LandingPage() {
                 </span>
               ))}
             </div>
-            <p className="text-lg leading-relaxed font-medium italic">
+            <p className="text-base leading-relaxed font-medium italic">
               &quot;Integrating with our existing stack took minutes. High energy and high
               impact. The best SaaS tool we&apos;ve used this year.&quot;
             </p>
@@ -269,7 +269,7 @@ export function LandingPage() {
             </div>
           </div>
           {/* Card 3 */}
-          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm">
+          <div className="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
             <div className="flex gap-1 text-primary">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span key={i} className="material-symbols-outlined">
@@ -277,7 +277,7 @@ export function LandingPage() {
                 </span>
               ))}
             </div>
-            <p className="text-lg leading-relaxed font-medium italic">
+            <p className="text-base leading-relaxed font-medium italic">
               &quot;The Pro Hero plan is a game changer for scaling teams. Our
               reconciliation time dropped by 80% in the first month.&quot;
             </p>
@@ -305,7 +305,7 @@ export function LandingPage() {
       <section className="w-full bg-white dark:bg-[#1e1c0d] py-20">
         <div className="max-w-[1300px] mx-auto px-4 md:px-10">
           <div className="flex flex-col items-center mb-12 text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-2xl font-extrabold tracking-tight mb-4">
               Seamless Integrations
             </h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-xl">
@@ -323,9 +323,9 @@ export function LandingPage() {
             ].map(({ icon, label }) => (
               <div
                 key={label}
-                className="flex flex-col items-center justify-center p-6 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group"
+                className="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group"
               >
-                <span className="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">
+                <span className="material-symbols-outlined text-3xl mb-3 group-hover:scale-110 transition-transform">
                   {icon}
                 </span>
                 <span className="font-bold">{label}</span>
@@ -341,7 +341,7 @@ export function LandingPage() {
         className="w-full max-w-[1300px] mx-auto py-24 px-4 md:px-10"
       >
         <div className="flex flex-col items-center mb-16 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-6">
             Choose Your Power
           </h2>
           <div className="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-full mt-4">
@@ -355,13 +355,13 @@ export function LandingPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {/* Starter */}
-          <div className="bg-white dark:bg-[#2d2a1a] p-10 rounded-xl border border-gray-100 dark:border-gray-800 flex flex-col h-full">
-            <h3 className="text-xl font-bold mb-2">Starter</h3>
+          <div className="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
+            <h3 className="text-base font-bold mb-2">Starter</h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               For solo founders and enthusiasts.
             </p>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-extrabold">$0</span>
+              <span className="text-3xl font-extrabold">$0</span>
               <span className="text-gray-500">/mo</span>
             </div>
             <ul className="flex flex-col gap-4 mb-10 flex-grow">
@@ -388,16 +388,16 @@ export function LandingPage() {
           </div>
 
           {/* Pro Hero */}
-          <div className="relative bg-white dark:bg-[#2d2a1a] p-10 rounded-xl border-4 border-primary flex flex-col h-full scale-105 z-10 shadow-lg">
+          <div className="relative bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border-4 border-primary flex flex-col h-full scale-105 z-10 shadow-lg">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-black px-4 py-1 rounded-full uppercase tracking-widest">
               Most Popular
             </div>
-            <h3 className="text-xl font-bold mb-2">Pro Hero</h3>
+            <h3 className="text-base font-bold mb-2">Pro Hero</h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               For growing teams and startups.
             </p>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-extrabold">$29</span>
+              <span className="text-3xl font-extrabold">$29</span>
               <span className="text-gray-500">/mo</span>
             </div>
             <ul className="flex flex-col gap-4 mb-10 flex-grow font-medium">
@@ -432,13 +432,13 @@ export function LandingPage() {
           </div>
 
           {/* Enterprise */}
-          <div className="bg-white dark:bg-[#2d2a1a] p-10 rounded-xl border border-gray-100 dark:border-gray-800 flex flex-col h-full">
-            <h3 className="text-xl font-bold mb-2">Enterprise</h3>
+          <div className="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
+            <h3 className="text-base font-bold mb-2">Enterprise</h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               For global corporations.
             </p>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-extrabold">Custom</span>
+              <span className="text-3xl font-extrabold">Custom</span>
             </div>
             <ul className="flex flex-col gap-4 mb-10 flex-grow">
               <li className="flex items-center gap-3">
@@ -470,13 +470,13 @@ export function LandingPage() {
       {/* FAQ (landing2) */}
       <section className="w-full bg-[#fcfbf8] dark:bg-[#221f10] py-24 px-4 md:px-10 border-y border-primary/10">
         <div className="max-w-[800px] mx-auto">
-          <h2 className="text-3xl font-extrabold text-center mb-12">
+          <h2 className="text-2xl font-extrabold text-center mb-12">
             Frequently Asked Questions
           </h2>
           <div className="flex flex-col gap-4">
-            <div className="bg-white dark:bg-[#2d2a1a] rounded-xl p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+            <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
               <div className="flex justify-between items-center">
-                <h4 className="font-bold text-lg">How secure is Hero Fintech?</h4>
+            <h4 className="font-bold text-base">How secure is Hero Fintech?</h4>
                 <span className="material-symbols-outlined text-primary transition-transform group-hover:rotate-45">
                   add
                 </span>
@@ -486,25 +486,25 @@ export function LandingPage() {
                 data security is our top priority.
               </div>
             </div>
-            <div className="bg-white dark:bg-[#2d2a1a] rounded-xl p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+            <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
               <div className="flex justify-between items-center">
-                <h4 className="font-bold text-lg">
+                <h4 className="font-bold text-base">
                   Can I migrate from legacy platforms?
                 </h4>
                 <span className="material-symbols-outlined text-primary">add</span>
               </div>
             </div>
-            <div className="bg-white dark:bg-[#2d2a1a] rounded-xl p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+            <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
               <div className="flex justify-between items-center">
-                <h4 className="font-bold text-lg">
+                <h4 className="font-bold text-base">
                   Do you offer 24/7 technical support?
                 </h4>
                 <span className="material-symbols-outlined text-primary">add</span>
               </div>
             </div>
-            <div className="bg-white dark:bg-[#2d2a1a] rounded-xl p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+            <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
               <div className="flex justify-between items-center">
-                <h4 className="font-bold text-lg">
+                <h4 className="font-bold text-base">
                   What are the API rate limits for Pro?
                 </h4>
                 <span className="material-symbols-outlined text-primary">add</span>
@@ -516,9 +516,9 @@ export function LandingPage() {
 
       {/* Team / Culture (landing2) */}
       <section className="w-full max-w-[1300px] mx-auto py-24 px-4 md:px-10">
-        <div className="bg-primary/10 dark:bg-primary/5 rounded-xl p-10 md:p-20 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
+        <div className="bg-primary/10 dark:bg-primary/5 rounded-lg p-10 md:p-20 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
           <div className="flex-1 z-10">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 leading-tight">
               Học hỏi và phát triển cùng cộng đồng
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-10 max-w-lg">
@@ -537,7 +537,7 @@ export function LandingPage() {
           <div className="flex-1 flex gap-4 relative">
             <div className="flex flex-col gap-4 mt-12">
               <div
-                className="w-32 md:w-48 h-48 md:h-64 rounded-xl bg-center bg-cover"
+                className="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover"
                 data-alt="Team members collaborating in a modern office"
                 style={{
                   backgroundImage:
@@ -545,7 +545,7 @@ export function LandingPage() {
                 }}
               />
               <div
-                className="w-32 md:w-48 h-32 md:h-48 rounded-xl bg-center bg-cover"
+                className="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
                 data-alt="Hero Fintech company team retreat"
                 style={{
                   backgroundImage:
@@ -555,7 +555,7 @@ export function LandingPage() {
             </div>
             <div className="flex flex-col gap-4">
               <div
-                className="w-32 md:w-48 h-32 md:h-48 rounded-xl bg-center bg-cover"
+                className="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
                 data-alt="Developer coding on Hero Fintech platform"
                 style={{
                   backgroundImage:
@@ -563,7 +563,7 @@ export function LandingPage() {
                 }}
               />
               <div
-                className="w-32 md:w-48 h-48 md:h-64 rounded-xl bg-center bg-cover"
+                className="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover"
                 data-alt="Team celebrating a milestone together"
                 style={{
                   backgroundImage:
@@ -578,22 +578,22 @@ export function LandingPage() {
 
       {/* Final CTA (landing1) */}
       <section className="py-24 px-6">
-        <div className="max-w-[1300px] mx-auto bg-[#1c1a0d] dark:bg-black rounded-xl p-12 md:p-20 relative overflow-hidden text-center">
+        <div className="max-w-[1300px] mx-auto bg-[#1c1a0d] dark:bg-black rounded-lg p-12 md:p-20 relative overflow-hidden text-center">
           <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/10 to-transparent" />
           <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-primary/10 to-transparent" />
           <div className="relative z-10 flex flex-col items-center gap-8">
-            <h2 className="text-3xl md:text-5xl font-black text-white leading-tight max-w-[800px]">
+            <h2 className="text-2xl md:text-4xl font-black text-white leading-tight max-w-[800px]">
               Sẵn sàng xây dựng tương lai tài chính cùng Hero?
             </h2>
-            <p className="text-lg text-white/70 max-w-[600px]">
+            <p className="text-base text-white/70 max-w-[600px]">
               Bắt đầu tích hợp ngay hôm nay. Chỉ mất 5 phút để có tài khoản Sandbox và
               bắt đầu gọi API đầu tiên của bạn.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="h-14 px-10 rounded-full bg-primary text-[#1c1a0d] text-base font-bold hover:scale-105 transition-transform">
+              <button className="h-14 px-10 rounded-full bg-primary text-[#1c1a0d] text-sm font-bold hover:scale-105 transition-transform">
                 Tạo tài khoản ngay
               </button>
-              <button className="h-14 px-10 rounded-full border border-white/20 text-white text-base font-bold hover:bg-white/10 transition-colors">
+              <button className="h-14 px-10 rounded-full border border-white/20 text-white text-sm font-bold hover:bg-white/10 transition-colors">
                 Liên hệ bộ phận kinh doanh
               </button>
             </div>

@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
@@ -85,28 +86,29 @@ export function ApiKeysWebhookPage() {
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary w-fit text-xs font-bold uppercase tracking-wider">
             <span className="material-symbols-outlined text-xs">terminal</span> Developer Mode
           </div>
-          <h1 className="text-[#181710] dark:text-white text-5xl font-black leading-tight tracking-[-0.033em]">
+          <h1 className="text-[#181710] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
             API &amp; Webhook Hub
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-lg max-w-2xl font-medium">
+          <p className="text-gray-500 dark:text-gray-400 text-base max-w-2xl font-medium">
             Manage your credentials, secure your integration, and monitor real-time
             transaction events across the globe.
           </p>
         </div>
-        <button
-          className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-black text-base font-black hover:scale-105 transition-transform shadow-lg shadow-primary/20"
+        <Button
+          variant="primary"
           onClick={handleGenerate}
           disabled={isLoading}
+          size="sm"
         >
-          <span className="material-symbols-outlined mr-2">add_circle</span>
-          {isLoading ? 'Generating...' : 'Generate New Key'}
-        </button>
+          <span className="material-symbols-outlined text-base mr-2">add_circle</span>
+          <span className="truncate">{isLoading ? 'Generating...' : 'Generate New Key'}</span>
+        </Button>
       </div>
 
       {/* API Keys Section */}
       <div className="flex flex-col gap-4 mt-10">
         <div className="flex items-center justify-between px-2">
-          <h2 className="text-2xl font-bold flex items-center gap-2">
+          <h2 className="text-xl font-bold flex items-center gap-2">
             <span className="material-symbols-outlined text-primary">key</span> API Keys
           </h2>
           <span className="text-sm font-medium text-gray-400">
@@ -122,7 +124,7 @@ export function ApiKeysWebhookPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Card 1 */}
-          <div className="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+          <div className="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-lg bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
             <div className="flex flex-col justify-between gap-6 flex-1">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -131,7 +133,7 @@ export function ApiKeysWebhookPage() {
                     Account Token
                   </p>
                 </div>
-                <p className="text-xl font-extrabold">
+                <p className="text-base font-extrabold">
                   {selectedAccount
                     ? `Account #${selectedAccount.id} (${selectedAccount.bank_name})`
                     : 'Chọn account để xem key'}
@@ -148,7 +150,7 @@ export function ApiKeysWebhookPage() {
                       await copyToClipboard(selectedAccount.api_token)
                     }}
                   >
-                    <span className="material-symbols-outlined text-lg">content_copy</span>
+                    <span className="material-symbols-outlined text-base">content_copy</span>
                   </button>
                 </div>
               </div>
@@ -180,7 +182,7 @@ export function ApiKeysWebhookPage() {
               </div>
             </div>
             <div
-              className="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+              className="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
               data-alt="Abstract colorful purple and yellow security pattern"
               style={{
                 backgroundImage:
@@ -190,7 +192,7 @@ export function ApiKeysWebhookPage() {
           </div>
 
           {/* Card 2 (sandbox style - still using accounts data) */}
-          <div className="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+          <div className="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-lg bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
             <div className="flex flex-col justify-between gap-6 flex-1">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -199,7 +201,7 @@ export function ApiKeysWebhookPage() {
                     External API Endpoint
                   </p>
                 </div>
-                <p className="text-xl font-extrabold">Transactions API</p>
+                <p className="text-base font-extrabold">Transactions API</p>
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 font-mono text-sm flex items-center justify-between border border-dashed border-gray-200 dark:border-gray-700">
                   <span className="text-gray-600 dark:text-gray-300">
                     GET /api/v1/external/accounts/&lt;ACCOUNT_TOKEN&gt;/transactions
@@ -213,18 +215,18 @@ export function ApiKeysWebhookPage() {
                       )
                     }
                   >
-                    <span className="material-symbols-outlined text-lg">content_copy</span>
+                    <span className="material-symbols-outlined text-base">content_copy</span>
                   </button>
                 </div>
               </div>
 
               <button className="flex items-center justify-center rounded-full h-10 px-6 bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-sm font-bold gap-2 hover:bg-primary hover:text-black transition-all w-fit">
-                <span className="material-symbols-outlined text-lg">description</span>
+                <span className="material-symbols-outlined text-base">description</span>
                 View Docs
               </button>
             </div>
             <div
-              className="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+              className="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
               data-alt="Abstract blue and yellow code grid pattern"
               style={{
                 backgroundImage:
@@ -239,7 +241,7 @@ export function ApiKeysWebhookPage() {
       <div className="flex flex-col gap-6 mt-12">
         <div className="flex items-center justify-between px-2">
           <div className="flex flex-col gap-1">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl font-bold flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">hub</span> Webhook
               Deliveries
             </h2>
@@ -256,7 +258,7 @@ export function ApiKeysWebhookPage() {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
           >
-            <span className="material-symbols-outlined mr-2 text-lg">
+            <span className="material-symbols-outlined mr-2 text-base">
               settings_input_component
             </span>
             Add Endpoint
@@ -264,9 +266,9 @@ export function ApiKeysWebhookPage() {
         </div>
 
         {/* Webhook configuration form (đấu API /webhook) */}
-        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 border border-gray-100 dark:border-gray-800">
+        <div className="rounded-lg bg-white dark:bg-gray-900 p-6 border border-gray-100 dark:border-gray-800">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-extrabold flex items-center gap-2">
+            <h3 className="text-base font-extrabold flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">settings</span>
               Webhook Config
             </h3>
@@ -283,14 +285,16 @@ export function ApiKeysWebhookPage() {
               placeholder="https://your-system.com/webhooks/hyperpay"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
+              rounded="sm"
             />
             <Input
               label="Secret Token"
               placeholder="your-webhook-secret"
               value={secretToken}
               onChange={(e) => setSecretToken(e.target.value)}
+              rounded="sm"
             />
-            <div className="flex items-center justify-between md:col-span-2 rounded-xl border border-gray-200 dark:border-gray-800 p-4">
+            <div className="flex items-center justify-between md:col-span-2 rounded-sm border border-gray-200 dark:border-gray-800 p-4">
               <div className="flex flex-col">
                 <span className="text-sm font-bold">Active</span>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -300,7 +304,7 @@ export function ApiKeysWebhookPage() {
               <Switch checked={isActive} onChange={setIsActive} />
             </div>
             <div className="md:col-span-2 flex justify-end">
-              <Button type="submit" disabled={webhookLoading}>
+              <Button type="submit" disabled={webhookLoading} size="sm">
                 {webhookLoading ? 'Saving...' : 'Save Config'}
               </Button>
             </div>

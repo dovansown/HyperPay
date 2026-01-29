@@ -29,17 +29,17 @@ export function ForgotPasswordPage() {
           <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-[-10%] left-[-5%] w-72 h-72 bg-primary/5 rounded-full blur-2xl" />
           <div className="w-full max-w-[480px] z-10">
-            <div className="bg-white dark:bg-[#1f1e16] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#e7e5da] dark:border-[#3a372a] p-8 md:p-12">
+            <div className="bg-white dark:bg-[#1f1e16] rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#e7e5da] dark:border-[#3a372a] p-8 md:p-12">
               <div className="text-center space-y-3 mb-10">
                 <div className="mx-auto w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4">
                   <span className="material-symbols-outlined text-primary text-[32px] font-semibold">
                     lock_reset
                   </span>
                 </div>
-                <h1 className="text-[#181710] dark:text-white text-3xl font-extrabold tracking-tight">
+                <h1 className="text-[#181710] dark:text-white text-2xl font-extrabold tracking-tight">
                   Quên mật khẩu?
                 </h1>
-                <p className="text-[#5c5944] dark:text-[#b0ad98] text-base leading-relaxed">
+            <p className="text-[#5c5944] dark:text-[#b0ad98] text-sm leading-relaxed">
                   Đừng lo lắng, chúng tôi sẽ giúp bạn lấy lại quyền truy cập! 🔑
                 </p>
               </div>

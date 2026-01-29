@@ -12,7 +12,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-[#f4f2e6] dark:border-[#3a3620]">
         <div className="max-w-[1300px] mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="size-10 bg-primary flex items-center justify-center rounded-xl shadow-lg shadow-primary/20">
+            <div className="size-10 bg-primary flex items-center justify-center rounded-lg shadow-lg shadow-primary/20">
               <span className="material-symbols-outlined text-[#1c1a0d] font-bold">
                 bolt
               </span>

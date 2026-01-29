@@ -18,10 +18,10 @@ export function ProfileSettingsPage() {
         </div>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-[#181711] dark:text-white text-4xl md:text-5xl font-black tracking-tight mb-4">
+            <h1 className="text-[#181711] dark:text-white text-3xl md:text-4xl font-black tracking-tight mb-4">
               Hồ sơ cá nhân
             </h1>
-            <p className="text-[#8c855f] dark:text-[#a19b80] text-lg font-medium">
+            <p className="text-[#8c855f] dark:text-[#a19b80] text-base font-medium">
               Cập nhật thông tin để chúng mình hiểu bạn hơn nhé! 😊
             </p>
           </div>
@@ -39,22 +39,27 @@ export function ProfileSettingsPage() {
             </button>
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl font-black text-[#181711] dark:text-white mb-1">
+            <h2 className="text-xl font-black text-[#181711] dark:text-white mb-1">
               Alex Morgan
             </h2>
             <p className="text-[#8c855f] font-medium mb-4">
               Enterprise Owner • Joined March 2024
             </p>
-            <button className="bg-[#181711] dark:bg-white dark:text-[#181711] text-white font-bold py-2 px-6 rounded-full text-sm hover:opacity-90 transition-opacity">
+            <Button
+              size="sm"
+              variant="secondary"
+              className="px-6 rounded-full"
+              type="button"
+            >
               Edit Photo
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="bg-white dark:bg-[#1f1d10] p-8 rounded-[1rem] border border-[#e6e4db] dark:border-[#3d3a2a]">
           <div className="flex items-center gap-3 mb-8">
             <span className="material-symbols-outlined text-primary">person</span>
-            <h3 className="text-xl font-black text-[#181711] dark:text-white uppercase tracking-tight">
+            <h3 className="text-base font-black text-[#181711] dark:text-white uppercase tracking-tight">
               Personal Info
             </h3>
           </div>
@@ -70,7 +75,7 @@ export function ProfileSettingsPage() {
           <div className="bg-white dark:bg-[#1f1d10] p-8 rounded-[1rem] border border-[#e6e4db] dark:border-[#3d3a2a]">
             <div className="flex items-center gap-3 mb-6">
               <span className="material-symbols-outlined text-primary">security</span>
-              <h3 className="text-xl font-black text-[#181711] dark:text-white">
+              <h3 className="text-base font-black text-[#181711] dark:text-white">
                 Security
               </h3>
             </div>
@@ -80,9 +85,14 @@ export function ProfileSettingsPage() {
                   <p className="font-bold text-[#181711] dark:text-white">Password</p>
                   <p className="text-xs text-[#8c855f]">Last changed 3 months ago</p>
                 </div>
-                <button className="text-sm font-bold underline decoration-primary decoration-2 underline-offset-4">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  type="button"
+                  className="px-0 h-auto text-sm font-bold underline decoration-primary decoration-2 underline-offset-4"
+                >
                   Update
-                </button>
+                </Button>
               </div>
               <div className="h-px bg-[#e6e4db] dark:bg-[#3d3a2a]" />
               <div className="flex items-center justify-between">
@@ -102,7 +112,7 @@ export function ProfileSettingsPage() {
           <div className="bg-white dark:bg-[#1f1d10] p-8 rounded-[1rem] border border-[#e6e4db] dark:border-[#3d3a2a]">
             <div className="flex items-center gap-3 mb-6">
               <span className="material-symbols-outlined text-primary">link</span>
-              <h3 className="text-xl font-black text-[#181711] dark:text-white">
+              <h3 className="text-base font-black text-[#181711] dark:text-white">
                 Connected Accounts
               </h3>
             </div>
@@ -132,9 +142,14 @@ export function ProfileSettingsPage() {
                     LinkedIn
                   </p>
                 </div>
-                <button className="text-xs font-bold text-[#181711] dark:text-white hover:underline">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  type="button"
+                  className="px-0 h-auto text-xs font-bold text-[#181711] dark:text-white hover:underline"
+                >
                   Connect
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -147,10 +162,19 @@ export function ProfileSettingsPage() {
             Đừng quên lưu các thay đổi của bạn nhé!
           </p>
           <div className="flex gap-3 w-full sm:w-auto">
-            <button className="flex-1 sm:flex-none px-6 py-2.5 rounded-full font-bold text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] transition-colors">
+            <Button
+              variant="ghost"
+              size="sm"
+              type="button"
+              className="flex-1 sm:flex-none px-6 py-2.5 !h-auto rounded-full font-bold text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918]"
+            >
               Discard
-            </button>
-            <Button className="flex-1 sm:flex-none px-10 py-2.5 !h-auto rounded-full font-black">
+            </Button>
+            <Button
+              size="sm"
+              className="flex-1 sm:flex-none px-10 py-2.5 !h-auto rounded-full font-black"
+              type="submit"
+            >
               Save Changes
             </Button>
           </div>

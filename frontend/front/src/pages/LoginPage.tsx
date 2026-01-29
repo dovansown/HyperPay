@@ -34,15 +34,15 @@ export function LoginPage() {
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full -ml-48 -mb-48" />
             <div className="relative z-10 max-w-lg">
               <div className="mb-10 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-background-dark">
-                  <span className="material-symbols-outlined text-3xl">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-background-dark">
+                  <span className="material-symbols-outlined text-2xl">
                     shield_person
                   </span>
                 </div>
-                <h2 className="text-2xl font-extrabold tracking-tight">Hero Fintech</h2>
+                <h2 className="text-xl font-extrabold tracking-tight">Hero Fintech</h2>
               </div>
               <div
-                className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl mb-12 shadow-2xl shadow-[#6366f1]/20"
+                className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg mb-12 shadow-2xl shadow-[#6366f1]/20"
                 data-alt="Illustration of a friendly superhero managing digital bank accounts"
                 style={{
                   backgroundImage:
@@ -50,15 +50,15 @@ export function LoginPage() {
                 }}
               />
               <div className="space-y-4">
-                <h1 className="text-4xl font-black leading-tight tracking-tight text-[#1d1a0c] dark:text-white">
+                <h1 className="text-3xl font-black leading-tight tracking-tight text-[#1d1a0c] dark:text-white">
                   Chào mừng Hero trở lại! 🚀
                 </h1>
-                <p className="text-lg text-[#5e5a40] dark:text-zinc-400 font-medium leading-relaxed">
+                <p className="text-base text-[#5e5a40] dark:text-zinc-400 font-medium leading-relaxed">
                   Quản lý giao dịch ngân hàng và API thanh toán của bạn một cách dễ dàng
                   với nền tảng bảo mật chuẩn quốc tế.
                 </p>
               </div>
-              <div className="mt-12 flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-white/40">
+              <div className="mt-12 flex items-center gap-4 p-4 rounded-lg bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-white/40">
                 <span className="material-symbols-outlined text-[#6366f1]">
                   verified_user
                 </span>
@@ -71,17 +71,17 @@ export function LoginPage() {
 
           {/* Right form */}
           <div className="flex flex-1 flex-col justify-center items-center px-6 py-12 lg:px-24 bg-background-light dark:bg-background-dark">
-            <div className="lg:hidden flex items-center gap-2 mb-12">
+              <div className="lg:hidden flex items-center gap-2 mb-12">
               <div className="size-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="material-symbols-outlined text-xl text-[#1d1a0c]">
+                <span className="material-symbols-outlined text-base text-[#1d1a0c]">
                   bolt
                 </span>
               </div>
-              <span className="text-xl font-bold">Hero Fintech</span>
+              <span className="text-base font-bold">Hero Fintech</span>
             </div>
             <div className="w-full max-w-[440px]">
               <div className="mb-10 text-left">
-                <h2 className="text-3xl font-bold tracking-tight mb-2">
+                <h2 className="text-2xl font-bold tracking-tight mb-2">
                   Đăng nhập tài khoản
                 </h2>
                 <p className="text-[#5e5a40] dark:text-zinc-400">
