@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Fintech Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                        "mint": "#34D399",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'hero': '0 20px 50px -12px rgba(0, 0, 0, 0.08)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen transition-colors duration-300">
+<!-- Top Navigation Bar -->
+<header class="w-full px-6 lg:px-20 py-5 flex items-center justify-between bg-transparent">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-primary rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-background-dark font-bold">bolt</span>
+</div>
+<h2 class="text-[#1d1a0c] dark:text-white text-xl font-extrabold tracking-tight">Hero Fintech</h2>
+</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-[#1d1a0c] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Product</a>
+<a class="text-[#1d1a0c] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Solutions</a>
+<a class="text-[#1d1a0c] dark:text-gray-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Pricing</a>
+<button class="bg-white dark:bg-zinc-800 border border-[#eae5cd] dark:border-zinc-700 px-6 py-2.5 rounded-full text-sm font-bold shadow-sm hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all">
+                Log In
+            </button>
+</div>
+</header>
+<main class="flex flex-col items-center justify-center px-4 pt-4 pb-20">
+<!-- Progress Indicator -->
+<div class="w-full max-w-[520px] mb-8">
+<div class="flex flex-col gap-3 px-4">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-[#1d1a0c] dark:text-white text-sm font-bold uppercase tracking-widest">Account Creation</p>
+<p class="text-[#1d1a0c] dark:text-white text-sm font-bold">Step 1 of 3</p>
+</div>
+<div class="rounded-full bg-[#eae5cd] dark:bg-zinc-800 h-2 overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 33%;"></div>
+</div>
+</div>
+</div>
+<!-- Headline -->
+<div class="mb-10 text-center max-w-2xl px-4">
+<h1 class="text-[#1d1a0c] dark:text-white tracking-tight text-3xl md:text-4xl font-extrabold leading-tight mb-4">
+                Bắt đầu hành trình Fintech của bạn ngay hôm nay 🎉
+            </h1>
+<p class="text-[#a19345] dark:text-gray-400 text-lg font-medium">
+                Join 10,000+ businesses managing transactions with Hero efficiency.
+            </p>
+</div>
+<!-- Registration Card -->
+<div class="bg-white dark:bg-zinc-900 w-full max-w-[520px] rounded-[2.5rem] shadow-hero p-8 md:p-12 border border-white dark:border-zinc-800">
+<form class="flex flex-col gap-6">
+<!-- Full Name -->
+<div class="flex flex-col gap-2">
+<label class="text-[#1d1a0c] dark:text-gray-200 text-sm font-bold px-4">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">person</span>
+<input class="w-full rounded-full border border-[#eae5cd] dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-800/50 py-4 pl-12 pr-6 text-[#1d1a0c] dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Enter your superhero name" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-2">
+<label class="text-[#1d1a0c] dark:text-gray-200 text-sm font-bold px-4">Work Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">mail</span>
+<input class="w-full rounded-full border border-[#eae5cd] dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-800/50 py-4 pl-12 pr-6 text-[#1d1a0c] dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-2">
+<label class="text-[#1d1a0c] dark:text-gray-200 text-sm font-bold px-4">Create Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">lock</span>
+<input class="w-full rounded-full border border-[#eae5cd] dark:border-zinc-700 bg-gray-50/50 dark:bg-zinc-800/50 py-4 pl-12 pr-14 text-[#1d1a0c] dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="••••••••••••" type="password"/>
+<button class="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Password Requirements Checklist -->
+<div class="bg-gray-50 dark:bg-zinc-800/30 rounded-2xl p-4 flex flex-col gap-3">
+<p class="text-xs font-bold text-[#a19345] dark:text-gray-400 uppercase tracking-widest px-1 mb-1">Security Score</p>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-mint text-lg font-bold">check_circle</span>
+<span class="text-sm font-medium text-[#1d1a0c] dark:text-gray-300">Minimum 8 characters</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-mint text-lg font-bold">check_circle</span>
+<span class="text-sm font-medium text-[#1d1a0c] dark:text-gray-300">At least one number (0-9)</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-300 dark:text-zinc-600 text-lg">circle</span>
+<span class="text-sm font-medium text-gray-400">One special character (!@#)</span>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary hover:bg-[#e6c400] text-background-dark py-5 rounded-full font-extrabold text-lg shadow-lg shadow-primary/20 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4" type="submit">
+<span>Create My Account</span>
+<span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+<!-- Social Sign Up -->
+<div class="flex flex-col gap-4 mt-4">
+<div class="relative flex items-center py-2">
+<div class="flex-grow border-t border-gray-100 dark:border-zinc-800"></div>
+<span class="flex-shrink mx-4 text-xs font-bold text-gray-400 uppercase">Or continue with</span>
+<div class="flex-grow border-t border-gray-100 dark:border-zinc-800"></div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 flex items-center justify-center gap-2 border border-[#eae5cd] dark:border-zinc-700 py-3 rounded-full hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors" type="button">
+<img alt="Google Logo" class="w-5 h-5" data-alt="Google colorful logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmlzAihksW3C7mjKFOVTIetfRnVeVjXRLDZnh2CISa9jb9M5-xa6cmNGOJRh-h9vnE9S57sVMmTZVAYXsWIoehzFHqS2mIGN0b4voiRhECnSaH4FuaB63BW6qWLcGHWRblOwWCgqWNqRnN8wmnRXKrvyMoxkSVL_YYZY51eykOp1xEKtB32dQV4Xn5yGd-arYMY-7UF1SaStjytptxeSPZ9lRxzUjQGyb4BulER8-n94AmKp2sPWpNx0bt0rJ0SrMtBRA6N-MveMNE"/>
+<span class="text-sm font-bold">Google</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-2 border border-[#eae5cd] dark:border-zinc-700 py-3 rounded-full hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors" type="button">
+<span class="material-symbols-outlined text-xl">terminal</span>
+<span class="text-sm font-bold">Github</span>
+</button>
+</div>
+</div>
+</form>
+<footer class="mt-8 text-center flex flex-col gap-4">
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">
+                    Already have an account? 
+                    <a class="text-[#1d1a0c] dark:text-white font-bold underline decoration-primary decoration-4 underline-offset-2" href="#">Log in</a>
+</p>
+<p class="text-[10px] text-gray-400 px-6 leading-relaxed">
+                    By clicking "Create My Account", you agree to Hero Fintech's 
+                    <a class="underline" href="#">Terms of Service</a> and 
+                    <a class="underline" href="#">Privacy Policy</a>.
+                </p>
+</footer>
+</div>
+<!-- Decorative elements -->
+<div class="fixed bottom-10 left-10 hidden xl:block animate-bounce-slow">
+<div class="bg-primary/10 dark:bg-primary/5 p-4 rounded-3xl backdrop-blur-sm border border-primary/20">
+<div class="flex items-center gap-3">
+<div class="size-10 bg-mint rounded-full flex items-center justify-center text-white">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="text-xs font-bold text-[#1d1a0c] dark:text-white">Bank-level security</p>
+<p class="text-[10px] text-[#a19345]">256-bit encryption active</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<style>
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 4s ease-in-out infinite;
+        }
+    </style>
+</body></html>

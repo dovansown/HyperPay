@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Fintech Login</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "secondary-purple": "#6366f1",
+                        "background-light": "#fcfbf8",
+                        "background-dark": "#1d1a0c",
+                        "accent-purple": "#f5f3ff",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "sans": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#1d1a0c] dark:text-[#fcfbf8]">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Main Layout Container -->
+<div class="flex flex-1 flex-col lg:flex-row">
+<!-- Left Side: Visual/Hero Panel (Purple Accents) -->
+<div class="hidden lg:flex lg:w-1/2 flex-col justify-center items-center bg-accent-purple dark:bg-zinc-900 p-12 relative overflow-hidden">
+<!-- Abstract security-themed purple background shapes -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary-purple/10 rounded-full -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full -ml-48 -mb-48"></div>
+<div class="relative z-10 max-w-lg">
+<div class="mb-10 flex items-center gap-3">
+<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-background-dark">
+<span class="material-symbols-outlined text-3xl">shield_person</span>
+</div>
+<h2 class="text-2xl font-extrabold tracking-tight">Hero Fintech</h2>
+</div>
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl mb-12 shadow-2xl shadow-secondary-purple/20" data-alt="Illustration of a friendly superhero managing digital bank accounts" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCH7QWlXi2KQMd64Uj1kg2SLzzzQ7XqBhlAG1B04Wwcn2OQzHzQbV0ru4LT0U_FR4nDNZj81gRsc5MOP_EXFr2wbELALGXlmslCKug_NECmTa4QMp8D3WMj_Kuy5AbEr9dwZzRP2AhktWFeZtlgJfVT8Weci2tFBSHKyzqiqlWbcAyoKD0CmMRs-kAOthstV48Oeb6DTRxkeSKsee20kcu_crFinZaFHHzYlLUHwRBf30aFZscktAnNaqFXiAkFmP-j7EIq_eP5I7Du");'>
+</div>
+<div class="space-y-4">
+<h1 class="text-4xl font-black leading-tight tracking-tight text-[#1d1a0c] dark:text-white">
+                            Chào mừng Hero trở lại! 🚀
+                        </h1>
+<p class="text-lg text-[#5e5a40] dark:text-zinc-400 font-medium leading-relaxed">
+                            Quản lý giao dịch ngân hàng và API thanh toán của bạn một cách dễ dàng với nền tảng bảo mật chuẩn quốc tế.
+                        </p>
+</div>
+<div class="mt-12 flex items-center gap-4 p-4 rounded-xl bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-white/40">
+<span class="material-symbols-outlined text-secondary-purple">verified_user</span>
+<p class="text-sm font-semibold">Dữ liệu của bạn được mã hóa 256-bit chuẩn quân đội</p>
+</div>
+</div>
+</div>
+<!-- Right Side: Login Form Panel -->
+<div class="flex flex-1 flex-col justify-center items-center px-6 py-12 lg:px-24 bg-background-light dark:bg-background-dark">
+<!-- Mobile Header (hidden on desktop) -->
+<div class="lg:hidden flex items-center gap-2 mb-12">
+<div class="size-8 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-xl text-[#1d1a0c]">bolt</span>
+</div>
+<span class="text-xl font-bold">Hero Fintech</span>
+</div>
+<div class="w-full max-w-[440px]">
+<div class="mb-10 text-left">
+<h2 class="text-3xl font-bold tracking-tight mb-2">Đăng nhập tài khoản</h2>
+<p class="text-[#5e5a40] dark:text-zinc-400">Vui lòng nhập thông tin để truy cập bảng điều khiển</p>
+</div>
+<!-- Social Login -->
+<div class="flex gap-4 mb-8">
+<button class="flex-1 flex items-center justify-center gap-2 h-12 border border-[#eae5cd] dark:border-zinc-700 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqqkgU6R6mShT403guZ209s3rxw8BNlmKQ-baVonT5hb55yGvq1NMvYBpcwVqBwlTPCPAU92UK9qFan7-oqhCxISP1b3INguwNayK0E3Eygi_w1ksFWkYEbvxWvne8eMdZeMISDv8cBiOhvgbIQWqSFMwFLb_fRHP0gUHIJgk_5YmSaNeRcFo165qvkuZkMJHqTI9370Rd_vJTxDOXQ8tBOfyp1HDYkTbGXIQOSgK2VjpQ0xI7GRv_SZiSRWFdATUCm8wccRWpJKfx"/>
+<span class="text-sm font-bold">Google</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-2 h-12 border border-[#eae5cd] dark:border-zinc-700 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+<span class="material-symbols-outlined">ios</span>
+<span class="text-sm font-bold">Apple</span>
+</button>
+</div>
+<div class="relative mb-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-[#eae5cd] dark:border-zinc-800"></div>
+</div>
+<div class="relative flex justify-center text-xs uppercase">
+<span class="bg-background-light dark:bg-background-dark px-2 text-[#a19345]">Hoặc đăng nhập với Email</span>
+</div>
+</div>
+<form class="space-y-5">
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#1d1a0c] dark:text-zinc-200 ml-1">Địa chỉ Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#a19345]">mail</span>
+<input class="form-input flex w-full rounded-xl text-[#1d1a0c] dark:text-zinc-100 border border-[#eae5cd] dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:border-primary focus:ring-2 focus:ring-primary/20 h-14 pl-12 pr-4 placeholder:text-[#a19345] transition-all outline-none" placeholder="hero@fintech.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#1d1a0c] dark:text-zinc-200 ml-1">Mật khẩu</label>
+<div class="flex w-full flex-1 items-stretch">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#a19345]">lock</span>
+<input class="form-input flex w-full rounded-xl text-[#1d1a0c] dark:text-zinc-100 border border-[#eae5cd] dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:border-primary focus:ring-2 focus:ring-primary/20 h-14 pl-12 pr-12 placeholder:text-[#a19345] transition-all outline-none" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-[#a19345] hover:text-[#1d1a0c] transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Remember & Forgot -->
+<div class="flex items-center justify-between py-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded-md border-[#eae5cd] text-primary focus:ring-primary h-5 w-5 cursor-pointer" type="checkbox"/>
+<span class="text-sm font-medium text-[#5e5a40] dark:text-zinc-400 group-hover:text-[#1d1a0c] dark:group-hover:text-zinc-200">Ghi nhớ tôi</span>
+</label>
+<a class="text-sm font-bold text-secondary-purple hover:underline" href="#">Quên mật khẩu?</a>
+</div>
+<!-- Login Button -->
+<button class="w-full flex items-center justify-center gap-2 rounded-xl h-14 bg-primary text-[#1d1a0c] text-base font-extrabold shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-[0.98] transition-all">
+<span>Đăng nhập ngay</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Link -->
+<div class="mt-10 text-center">
+<p class="text-[#5e5a40] dark:text-zinc-400 font-medium">
+                            Bạn chưa có tài khoản? 
+                            <a class="text-[#1d1a0c] dark:text-white font-bold hover:text-secondary-purple transition-colors ml-1 underline decoration-primary decoration-4 underline-offset-4" href="#">Đăng ký ngay</a>
+</p>
+</div>
+<!-- Trust Badge -->
+<div class="mt-16 pt-8 border-t border-[#f4f2e6] dark:border-zinc-800 flex justify-center items-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all">
+<img class="h-6" data-alt="Security certification badge 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7GTUSXkSLss3VtAm5oz0UUdd7REBsC2A7-SZqy3DedjXxL65JyiBU9svPgmzWBGv4fbEEyPglw2yeSsV5YWCOkjLu1yxAF4CpkkzjioyeNrsgaETBW-3l34S-oG0jsv39wn5Ru3nNn7AFqOtczAdkco08_ixXck5lYuD18URBN9EyLuARGlNxonOFNBsIbXvmZm0DRt_b5otW_1LUm-EbXT8v9NEiazPiMYVbeg0O8r8J_2BsF0N_ClkZokHrjju_AFx4PiL-vRlH"/>
+<img class="h-6" data-alt="Banking partner logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj-82qHvs0cdPr-HZCZRPnStEWey3UgMXL9LyPsnGnCWYJA6Kwn2ucYmrf7EfggUFQVvPKvd8firXGpyp5U_IkJPSrCNCW-vB0hmHSjSuCJBv2XoIDEaPh2V6EiL-l5y7m8x7BR06DFP-bDYerbmxcIhRhwj4GAVNNue-VbuEjSJqeXlKIruAdA-32GnNmo3Jz4ZZQbxGTx1r2F_hAgYFd9rEttkb1kQrloHrYaRtMAcH5S5m5RJey9P49d06A0fE5IeOoa2rXAkDE"/>
+<img class="h-6" data-alt="PCI DSS compliance logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOsGBdsfO8eTohqLoz6f07OeN-hf0pUwU3KFBlWCIoopDxdsWe7UAhL0sTzMnsoyz3Byz4rRaUL8OZsiWVbd1Hv5giAmnfqY-Dr1GmCtBq0FgYXwWQaCZ_WqiVftnqMzoJRNzwMEMEFgV9XkBZiYH0gKB3vHv6iZOcfCGC-YNZfNMb1Idev_TwW9EkZKCjl1WlwbOwcXDB7Ax92N3u7nBYgNBZ2ae14V50UruD8QM3YqC7uq4EOXFaP7QD0b1YZNG1W8m2dMUDevoY"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

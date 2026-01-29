@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Security Audit Logs | FintechAdmin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "accent-purple": "#7c3aed",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #eae5cd;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#1d1a0c] min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Side Navigation -->
+<aside class="w-72 bg-white dark:bg-[#2d2a15] border-r border-[#eae5cd] dark:border-[#3d3a25] flex flex-col p-6">
+<div class="flex items-center gap-3 mb-10">
+<div class="bg-primary rounded-full size-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#1d1a0c]">account_balance</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#1d1a0c] dark:text-white text-lg font-bold leading-tight">FintechAdmin</h1>
+<p class="text-[#a19345] text-xs font-medium">Enterprise Tier</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-semibold text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">payments</span>
+<span class="font-semibold text-sm">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">vpn_key</span>
+<span class="font-semibold text-sm">API Keys</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary text-[#1d1a0c]" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1">shield_person</span>
+<span class="font-bold text-sm">Security Logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="font-semibold text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4">
+<div class="p-4 bg-accent-purple/10 rounded-xl border border-accent-purple/20">
+<p class="text-xs font-bold text-accent-purple uppercase tracking-wider mb-1">Status</p>
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-sm font-semibold text-[#1d1a0c] dark:text-white">System Secure</span>
+</div>
+</div>
+<button class="w-full flex items-center justify-center h-12 bg-[#1d1a0c] dark:bg-primary text-white dark:text-[#1d1a0c] rounded-full font-bold text-sm gap-2">
+<span class="material-symbols-outlined text-lg">support_agent</span>
+                    Support
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-8">
+<div class="max-w-6xl mx-auto space-y-8">
+<!-- Page Heading -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h2 class="text-4xl font-black tracking-tight text-[#1d1a0c] dark:text-white">Security &amp; Audit Logs</h2>
+<p class="text-[#a19345] mt-2 font-medium">Real-time transparency into your system's critical activities.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 px-6 h-12 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-xl">download</span>
+                            Export Logs
+                        </button>
+<button class="flex items-center justify-center gap-2 px-6 h-12 bg-primary text-[#1d1a0c] rounded-full text-sm font-bold shadow-md">
+<span class="material-symbols-outlined text-xl">refresh</span>
+                            Live Update
+                        </button>
+</div>
+</div>
+<!-- Stats Summary -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-[#2d2a15] p-6 rounded-xl border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="text-[#a19345] text-sm font-bold uppercase tracking-wide">Total Events (24h)</p>
+<span class="material-symbols-outlined text-accent-purple">analytics</span>
+</div>
+<p class="text-3xl font-black text-[#1d1a0c] dark:text-white">1,284</p>
+<p class="text-green-600 text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">trending_up</span> +12.5%
+                        </p>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-6 rounded-xl border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="text-[#a19345] text-sm font-bold uppercase tracking-wide">Failed Logins</p>
+<span class="material-symbols-outlined text-red-500">lock_open</span>
+</div>
+<p class="text-3xl font-black text-[#1d1a0c] dark:text-white">12</p>
+<p class="text-red-500 text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">warning</span> High Risk
+                        </p>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-6 rounded-xl border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<p class="text-[#a19345] text-sm font-bold uppercase tracking-wide">Active API Keys</p>
+<span class="material-symbols-outlined text-primary">key</span>
+</div>
+<p class="text-3xl font-black text-[#1d1a0c] dark:text-white">4</p>
+<p class="text-[#a19345] text-sm font-bold">Consistent with last week</p>
+</div>
+</div>
+<!-- Search and Filters -->
+<div class="flex flex-col gap-4">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#a19345]">search</span>
+<input class="w-full h-14 pl-12 pr-6 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-base" placeholder="Search IP, User, or Event Type..." type="text"/>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-[#1d1a0c] rounded-full text-sm font-bold">
+                            All Events
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold">
+                            Critical Level
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold">
+                            API Actions
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold ml-auto">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+                            Last 7 Days
+                        </button>
+</div>
+</div>
+<!-- Timeline View -->
+<div class="relative timeline-line ml-5">
+<!-- Timeline Item 1: Critical API Change -->
+<div class="relative pl-12 pb-10">
+<div class="absolute left-0 top-0 size-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center border-4 border-background-light dark:border-background-dark z-10">
+<span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings: 'FILL' 1">warning</span>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border-2 border-red-500/20 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-lg text-[#1d1a0c] dark:text-white">Production API Key Rotated</h4>
+<span class="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-black uppercase rounded-full tracking-wider">Critical</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#a19345]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> alex_admin@bank.com</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> San Francisco, US • 192.168.1.1</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#1d1a0c] dark:text-white">2 minutes ago</p>
+<button class="text-accent-purple text-xs font-bold hover:underline mt-1">View JSON Metadata</button>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2: User Login -->
+<div class="relative pl-12 pb-10">
+<div class="absolute left-0 top-0 size-10 rounded-full bg-primary/20 flex items-center justify-center border-4 border-background-light dark:border-background-dark z-10">
+<span class="material-symbols-outlined text-[#1d1a0c] text-xl">login</span>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border border-[#eae5cd] dark:border-[#3d3a25] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-lg text-[#1d1a0c] dark:text-white">New Dashboard Login</h4>
+<span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-black uppercase rounded-full tracking-wider">Success</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#a19345]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> sarah_dev@bank.com</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">laptop_mac</span> London, UK • 84.19.22.102</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#1d1a0c] dark:text-white">14 minutes ago</p>
+<button class="text-accent-purple text-xs font-bold hover:underline mt-1">Audit Trace</button>
+</div>
+</div>
+</div>
+<!-- Timeline Item 3: API Key Created -->
+<div class="relative pl-12 pb-10">
+<div class="absolute left-0 top-0 size-10 rounded-full bg-accent-purple/20 flex items-center justify-center border-4 border-background-light dark:border-background-dark z-10">
+<span class="material-symbols-outlined text-accent-purple text-xl">key</span>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border border-[#eae5cd] dark:border-[#3d3a25] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-lg text-[#1d1a0c] dark:text-white">Test API Key Created</h4>
+<span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase rounded-full tracking-wider">Info</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#a19345]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> systems_bot</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">cloud</span> AWS Instance • i-0f4a...</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#1d1a0c] dark:text-white">45 minutes ago</p>
+<button class="text-accent-purple text-xs font-bold hover:underline mt-1">Config Details</button>
+</div>
+</div>
+</div>
+<!-- Timeline Item 4: Failed Attempt -->
+<div class="relative pl-12">
+<div class="absolute left-0 top-0 size-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center border-4 border-background-light dark:border-background-dark z-10">
+<span class="material-symbols-outlined text-orange-600 text-xl">gpp_maybe</span>
+</div>
+<div class="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border border-[#eae5cd] dark:border-[#3d3a25] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-lg text-[#1d1a0c] dark:text-white">Incorrect Admin Password Attempt</h4>
+<span class="px-3 py-1 bg-orange-100 text-orange-700 text-[10px] font-black uppercase rounded-full tracking-wider">Warning</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#a19345]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> root_admin (Alias)</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">public</span> Unknown Location • 45.1.33.2</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-[#1d1a0c] dark:text-white">1 hour ago</p>
+<button class="text-red-500 text-xs font-bold hover:underline mt-1">Block IP Address</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="flex justify-center pt-4">
+<button class="px-8 py-3 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold hover:bg-[#f4f2e6] transition-colors">
+                        Load Older Activities
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

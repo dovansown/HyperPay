@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Roles &amp; Permissions - FintechSaaS</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-shadow {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#1d1a0c] dark:text-white transition-colors duration-300">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#f4f2e6] dark:border-white/10 bg-white/70 dark:bg-background-dark/70 backdrop-blur-md px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-primary rounded-full flex items-center justify-center text-black">
+<span class="material-symbols-outlined text-xl">account_balance</span>
+</div>
+<h2 class="text-lg font-extrabold leading-tight tracking-[-0.015em]">FintechSaaS</h2>
+</div>
+<label class="flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-full h-full bg-[#f4f2e6] dark:bg-white/5 border-none">
+<div class="text-[#a19345] flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-[#a19345] px-4 pl-2 text-base font-normal" placeholder="Search team members" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Transactions</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">APIs</a>
+<a class="text-sm font-semibold text-primary underline underline-offset-4 decoration-2" href="#">Team</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Settings</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-full h-10 px-5 bg-primary text-black text-sm font-bold shadow-sm hover:scale-105 active:scale-95 transition-transform">
+<span class="truncate">Invite Member</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" data-alt="User avatar placeholder with a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWvR2fDlBoqwexHDSPVSPLPgH5b3gO9A8v0FN5noOanrGFkqiAfj7BY7aF_-StutpbQSTxkw4sQROb5vzT2HfTAe7-QVs6vyc96u0hgFO6UL5dx-01uS3t3qIqfqp9sehQK8PfVf4YxMQt9RN_i_pNVRIB96Hgd38AGDrtUMakUdtgTiUUvuvYWgLIrkEZRYfeBTXTd6hWdsWrJXZ-tRSzo4uVi7MErqvFPPNHX-H-x8DlizcojEpG2_w9dVJe825-B5jerJAr37nT");'></div>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] mx-auto w-full px-6 py-10">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-6 mb-10">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-primary/20 text-[#a19345] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Admin Panel</span>
+</div>
+<h1 class="text-4xl lg:text-5xl font-black leading-tight tracking-[-0.033em]">Team Roles &amp; Permissions</h1>
+<p class="text-[#a19345] dark:text-gray-400 text-lg font-medium">Manage 12 active seats and granular access levels for your banking team.</p>
+</div>
+<div class="flex items-center gap-3 bg-white dark:bg-white/5 p-2 rounded-full border border-[#f4f2e6] dark:border-white/10">
+<button class="flex items-center justify-center rounded-full px-4 py-2 bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold">
+                        Export Audit Log
+                    </button>
+<button class="flex items-center justify-center rounded-full px-4 py-2 bg-primary text-black text-sm font-bold">
+                        Add Custom Role
+                    </button>
+</div>
+</div>
+<!-- Chips / Filters -->
+<div class="flex gap-3 mb-8 flex-wrap overflow-x-auto pb-2">
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-primary px-5 shadow-sm">
+<span class="text-black text-sm font-bold">All Members (12)</span>
+</button>
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-white/5 px-5 border border-[#f4f2e6] dark:border-white/10 hover:bg-[#f4f2e6] transition-colors">
+<span class="text-sm font-semibold">Admins (3)</span>
+</button>
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-white/5 px-5 border border-[#f4f2e6] dark:border-white/10 hover:bg-[#f4f2e6] transition-colors">
+<span class="text-sm font-semibold">Developers (5)</span>
+</button>
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-white/5 px-5 border border-[#f4f2e6] dark:border-white/10 hover:bg-[#f4f2e6] transition-colors">
+<span class="text-sm font-semibold">Viewers (4)</span>
+</button>
+<div class="ml-auto flex items-center gap-2">
+<span class="text-sm text-[#a19345] font-medium italic">Showing 1-8 of 12</span>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-4 px-2">
+<h2 class="text-2xl font-bold tracking-tight">Access Control Cards</h2>
+<div class="flex items-center gap-2 text-[#a19345]">
+<span class="material-symbols-outlined text-xl">info</span>
+<span class="text-sm font-medium">Changes take effect immediately</span>
+</div>
+</div>
+<!-- Team Member Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Admin -->
+<div class="bg-white dark:bg-white/5 border border-[#f4f2e6] dark:border-white/10 rounded-xl p-6 hero-shadow hover:border-primary transition-all">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full border-2 border-primary bg-cover bg-center" data-alt="Avatar of Alex Rivera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALXlO5sj0WgLvxhU_nkKczPQHedfV47ILWvt3VisKWbpXICeQf2YhMNbb9ZKIX0m6611GQoBFl4o13ZtdwozG3WKtmsT-gfpDvS9nkIEcllQCpNr98FW7GYXeR0LxUTqinkr7qh0uHiFE7pSbx0JeL74YyFPZR0vvxuzFm4LXXYcjmYTv_TegclNsmriiF_kf-IAeg8hv1d2syHjBsiqlF-jxRk49f2nuPUIW3fHubcvjbCsZLjGEZ8TK8bXEQg472g9RCCUQvqEml');"></div>
+<div>
+<h3 class="font-bold text-lg">Alex Rivera</h3>
+<p class="text-xs text-[#a19345] font-medium">alex@fintech.so</p>
+</div>
+</div>
+<div class="bg-black text-white text-[10px] font-black uppercase px-2 py-1 rounded-full">Admin</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">All Bank Accounts</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">Manage API Keys</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">Initiate Transfers</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#eae5cd] transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span> Edit Detailed Access
+                    </button>
+</div>
+<!-- Card 2: Developer -->
+<div class="bg-white dark:bg-white/5 border border-[#f4f2e6] dark:border-white/10 rounded-xl p-6 hero-shadow hover:border-primary transition-all">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full border-2 border-gray-200 bg-cover bg-center" data-alt="Avatar of Jordan Lee" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCfi8s46zQPB6DZAfRGdy5wlklZfz0iQ2L9o6MF8t26RvWKkXCv-1Leq2v6FKKZ-P-3TUt0bYxbhyzB_SFnNsUYOXE3oTIN7J4wC8_EYCmEOr4mNu8uPeGPCyHM9PaaMNJNn_BudhzUnBbWVjb_tDa6yetFtA94ljCo9nV36Fi5ZdX_lL9EMcA1WYk_KcTxm9fd-rrg6RuPMfkmqBNQzU6H53vNLFp4cVgKUmpR-AIh4ussrBa1xj5KaPQ40V9W2CHuQCxYrcdBsrjU');"></div>
+<div>
+<h3 class="font-bold text-lg">Jordan Lee</h3>
+<p class="text-xs text-[#a19345] font-medium">jordan@dev.fintech.so</p>
+</div>
+</div>
+<div class="bg-[#f4f2e6] dark:bg-white/20 text-[#1d1a0c] dark:text-white text-[10px] font-black uppercase px-2 py-1 rounded-full">Developer</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">Sandbox Access</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">Read-only Prod Logs</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-gray-400">
+<span class="text-sm font-semibold">Initiate Transfers</span>
+<div class="w-10 h-6 bg-gray-200 dark:bg-white/10 rounded-full relative flex items-center px-1">
+<div class="size-4 bg-white dark:bg-gray-400 rounded-full"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">settings</span> Edit Detailed Access
+                    </button>
+</div>
+<!-- Card 3: Viewer -->
+<div class="bg-white dark:bg-white/5 border border-[#f4f2e6] dark:border-white/10 rounded-xl p-6 hero-shadow hover:border-primary transition-all">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full border-2 border-gray-200 bg-cover bg-center" data-alt="Avatar of Taylor Smith" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH5A6BhxbKu880mk5kY1gFAnJPUBNW3XdwLBE2ywmudrJHyeflUtLHBpBp1E-OIJoZgtulG4LU8nwXsRBWDZF9q2K1H7J0XBmAm4D0G9hstEowWLIzfzhPeiVF0oRvDw90RE0Y0FniJXoBmxhUwPusu4hS8dh0rW_ijXSTDOBB90xNojK0jv1KH7RErMRhV-olNIO3T8AOyt9LzS3ZZyHbm_kVluPjH6lBrwlOs8iGOiXrU918FaoYyzjR-zztCNdm-0K41Uxz6uCI');"></div>
+<div>
+<h3 class="font-bold text-lg">Taylor Smith</h3>
+<p class="text-xs text-[#a19345] font-medium">taylor@finance.fintech.so</p>
+</div>
+</div>
+<div class="bg-[#f4f2e6] dark:bg-white/20 text-[#1d1a0c] dark:text-white text-[10px] font-black uppercase px-2 py-1 rounded-full">Viewer</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold">View Statements</span>
+<div class="w-10 h-6 bg-primary rounded-full relative flex items-center px-1">
+<div class="size-4 bg-black rounded-full ml-auto"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-gray-400">
+<span class="text-sm font-semibold">Manage API Keys</span>
+<div class="w-10 h-6 bg-gray-200 dark:bg-white/10 rounded-full relative flex items-center px-1">
+<div class="size-4 bg-white dark:bg-gray-400 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-gray-400">
+<span class="text-sm font-semibold">Initiate Transfers</span>
+<div class="w-10 h-6 bg-gray-200 dark:bg-white/10 rounded-full relative flex items-center px-1">
+<div class="size-4 bg-white dark:bg-gray-400 rounded-full"></div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-full bg-[#f4f2e6] dark:bg-white/10 text-sm font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">settings</span> Edit Detailed Access
+                    </button>
+</div>
+</div>
+<!-- Table View Section -->
+<div class="mt-16">
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<h2 class="text-2xl font-bold tracking-tight">Detailed Permission Controls</h2>
+<div class="flex items-center gap-2 bg-white dark:bg-white/5 border border-[#f4f2e6] dark:border-white/10 rounded-full px-4 py-2">
+<span class="material-symbols-outlined text-lg text-primary">filter_list</span>
+<select class="bg-transparent border-none text-sm font-semibold focus:ring-0 cursor-pointer">
+<option>Sort by: Name</option>
+<option>Sort by: Role</option>
+<option>Sort by: Recent Activity</option>
+</select>
+</div>
+</div>
+<div class="overflow-hidden rounded-xl border border-[#eae5cd] dark:border-white/10 bg-white dark:bg-white/5 hero-shadow">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-[#fcfbf8] dark:bg-white/5 text-left border-b border-[#eae5cd] dark:border-white/10">
+<th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-[#a19345]">Member</th>
+<th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-[#a19345]">Role</th>
+<th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-[#a19345]">Account Access</th>
+<th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-[#a19345]">Permissions</th>
+<th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-[#a19345] text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#eae5cd] dark:divide-white/10">
+<tr class="hover:bg-[#fcfbf8] dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of Alex Rivera" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA70tNX5_gat8i5ooqA9tcTzVtD66IZ_vUZXzojipyHfYAERRIwKKi3jg8GoJbspkLc3RySt2gtk_Zh4GruLxTEYzZkLCvepbmm8fm74N-yX3DgkrUtPSi6TeUESkl1-DLgGpVol87gnYYUrFRirjFU4Dhu26kkQNQ9QipD4P5cPdNQSkpzYgBSzEhHRLO_rpWLNf4ZaW0e5YWShRkHOIvFyKRkWcMaIdIupE992jQldJw7Cerf7XzxiP2q8WGZXT4KzzzvNrQZ_6i5');"></div>
+<span class="font-bold">Alex Rivera</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-black text-white text-[10px] font-black uppercase px-3 py-1 rounded-full">Admin</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">All Accounts (5/5)</td>
+<td class="px-6 py-5">
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-sm font-bold">Manage All</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-black text-[#a19345] hover:text-black dark:hover:text-white underline underline-offset-4 transition-colors">Edit</button>
+</td>
+</tr>
+<tr class="hover:bg-[#fcfbf8] dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of Jordan Lee" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpb8ECIOckReIZRr-QQPKV5Q9xGNZxi4cfIIYdCBlp_3LfeuiS1XhoPIJ9vKeObhjOMSCTYNh5Wiyf2OdMfYZB5VjW-SbM1qezLzgDJlamCW4ql66k64Ed41SKZORJpt5NOLjH7DLdgKD4lVRzCgaQX4tb_BM5ojSRWuPocrjZGeCJze7YIZ6-4tdvFRV8cm-5yu2Opm4qF5FNDS3Ll8dy5x4GRId_PBoVE80gzthQgq-1CNjUn8qwK6LJ1MDs3VtjyLzjS4eUlXLB');"></div>
+<span class="font-bold">Jordan Lee</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-[#f4f2e6] dark:bg-white/20 text-[10px] font-black uppercase px-3 py-1 rounded-full">Developer</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">3/5 Accounts</td>
+<td class="px-6 py-5">
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-[#a19345] text-sm">vpn_key</span>
+<span class="text-sm font-bold">API Access</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-black text-[#a19345] hover:text-black dark:hover:text-white underline underline-offset-4 transition-colors">Edit</button>
+</td>
+</tr>
+<tr class="hover:bg-[#fcfbf8] dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Avatar of Taylor Smith" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbzO0M6Q9G5VcvgwFvC8ZGwSINWOzd4PGsPsBTgjouc2tXsrEAnyVzgUUiDlkG91LmL8u7nyAQ3vJketHybZsNeJRYzZM-meX4p1cM_NTex-jD-WcCmuuFCNm4UTjxSSEgQGIE4hWypejKJMZLI2xtvzRZMiHjjPd4m8_fSS2S_tQ1bdQFuCpi4YfjcvQ5TudIkT5Rqnt0976XRslGgAwCsn3a1Araut8RwGxR_FzHdcjBdvSy_MdGE_Gvkrpcw2qtm_mswrctVSo0');"></div>
+<span class="font-bold">Taylor Smith</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-[#f4f2e6] dark:bg-white/20 text-[10px] font-black uppercase px-3 py-1 rounded-full">Viewer</span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">1/5 Accounts</td>
+<td class="px-6 py-5">
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-[#a19345] text-sm">visibility</span>
+<span class="text-sm font-bold">View Only</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-sm font-black text-[#a19345] hover:text-black dark:hover:text-white underline underline-offset-4 transition-colors">Edit</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="mt-20 flex flex-col items-center justify-center text-center gap-4 py-10 border-t border-[#f4f2e6] dark:border-white/10">
+<div class="size-12 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">security</span>
+</div>
+<h4 class="font-bold text-lg">Bank-Grade Security Controls</h4>
+<p class="text-[#a19345] dark:text-gray-400 max-w-md mx-auto text-sm">
+                    All permission changes are recorded in the audit trail. Multi-factor authentication is required for Admin role assignments.
+                </p>
+<a class="text-primary font-bold text-sm underline underline-offset-4" href="#">Learn more about API security</a>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Preferences - Fintech SaaS</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9d406",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab {
+            border-bottom: 3px solid #f9d406;
+            color: #181711;
+        }
+        .toggle-checkbox:checked + .toggle-slot {
+            background-color: #f9d406;
+        }
+        .toggle-checkbox:checked + .toggle-slot .toggle-dot {
+            transform: translateX(1.25rem);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
+<div class="flex h-full min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-72 border-r border-[#e6e4db] dark:border-[#3d3a2a] bg-white dark:bg-[#1a180b] hidden lg:flex flex-col sticky top-0 h-screen">
+<div class="p-6 flex flex-col h-full">
+<div class="flex items-center gap-3 mb-10">
+<div class="bg-primary p-2 rounded-full">
+<span class="material-symbols-outlined text-background-dark">account_balance</span>
+</div>
+<div>
+<h1 class="text-[#181711] dark:text-white text-lg font-extrabold leading-none">Fintech SaaS</h1>
+<p class="text-[#8c855f] text-xs font-medium uppercase tracking-wider mt-1">Admin Console</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-bold text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-bold text-sm">Transactions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">code</span>
+<span class="font-bold text-sm">API Keys</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-[#181711] dark:text-primary rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
+<span class="font-bold text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-bold text-sm">Profile</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-[#e6e4db] dark:border-[#3d3a2a]">
+<div class="flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full bg-cover" data-alt="User avatar placeholder with abstract pattern" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDY24dN9r2BsD1QDmLdbPE2geetmKGpbwpXuBgCm0sOkg_px9GgSJH0Yt30GC_t_rkDsBi1RKF8dq-pBLVrq3BFpWbjdqwKGeMfb_dlaufFEPUuDrf3rA-UBDmyJGiShuxA2r-uxr7FkpHB9nscYaT9x9lEeY9bA0YduQ9dHzvNm2XBDVx30A5yoiQCi7CEBdioqhSFjEB-IsEAut3BMR4QyIXS_bdpj73FZoTNHHPrG8Skap8aLxt9IWTNVoKBb9qTBHpIRBbYxXEk')"></div>
+<div>
+<p class="text-sm font-bold text-[#181711] dark:text-white">Alex Morgan</p>
+<p class="text-xs text-[#8c855f]">Enterprise Plan</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+<!-- Breadcrumbs & Header -->
+<header class="p-8 max-w-5xl mx-auto w-full">
+<div class="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
+<a class="hover:text-primary transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-[#181711] dark:text-white">Notifications</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h1 class="text-[#181711] dark:text-white text-4xl md:text-5xl font-black tracking-tight mb-4">Notification Center</h1>
+<p class="text-[#8c855f] dark:text-[#a19b80] text-lg font-medium">Control how your team stays informed about transaction events, security alerts, and system integrations.</p>
+</div>
+<button class="bg-primary text-[#181711] font-bold py-3 px-6 rounded-full flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">notifications_off</span>
+                        Mute All Alerts
+                    </button>
+</div>
+</header>
+<!-- Notification Tabs -->
+<div class="max-w-5xl mx-auto w-full px-8">
+<div class="flex border-b border-[#e6e4db] dark:border-[#3d3a2a] gap-10 mb-8 overflow-x-auto scrollbar-hide">
+<a class="pb-4 border-b-4 border-primary text-[#181711] dark:text-white font-extrabold text-base flex items-center gap-2 whitespace-nowrap" href="#">
+<span class="material-symbols-outlined">webhook</span>
+                        Webhooks
+                    </a>
+<a class="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all" href="#">
+<span class="material-symbols-outlined">mail</span>
+                        Email Alerts
+                    </a>
+<a class="pb-4 border-b-4 border-transparent text-[#8c855f] hover:text-[#181711] dark:hover:text-white font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                        Slack Integration
+                        <span class="bg-[#181711] text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">Pro</span>
+</a>
+</div>
+<!-- Webhook Section -->
+<div class="space-y-8 pb-20">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div>
+<h2 class="text-2xl font-black text-[#181711] dark:text-white">Webhook Configuration</h2>
+<p class="text-[#8c855f] font-medium">Define your endpoints and choose which event triggers should be pushed.</p>
+</div>
+<button class="bg-[#181711] dark:bg-white dark:text-[#181711] text-white font-bold py-2.5 px-6 rounded-full text-sm hover:opacity-90 transition-opacity">
+                            Add Endpoint
+                        </button>
+</div>
+<!-- Event Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Event Item -->
+<div class="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">paid</span>
+</div>
+<div>
+<h4 class="font-extrabold text-[#181711] dark:text-white">New Transaction</h4>
+<p class="text-sm text-[#8c855f]">payment.succeeded</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="toggle-slot w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors">
+<div class="toggle-dot absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full transition-transform"></div>
+</div>
+</label>
+</div>
+<!-- Event Item -->
+<div class="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">sync_problem</span>
+</div>
+<div>
+<h4 class="font-extrabold text-[#181711] dark:text-white">Sync Error</h4>
+<p class="text-sm text-[#8c855f]">bank.sync_failed</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="toggle-slot w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors">
+<div class="toggle-dot absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full transition-transform"></div>
+</div>
+</label>
+</div>
+<!-- Event Item -->
+<div class="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">shield_person</span>
+</div>
+<div>
+<h4 class="font-extrabold text-[#181711] dark:text-white">Account Blocked</h4>
+<p class="text-sm text-[#8c855f]">risk.account_flagged</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="toggle-slot w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors">
+<div class="toggle-dot absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full transition-transform"></div>
+</div>
+</label>
+</div>
+<!-- Event Item -->
+<div class="bg-white dark:bg-[#1f1d10] p-6 rounded-xl border border-[#e6e4db] dark:border-[#3d3a2a] flex items-center justify-between group hover:border-primary transition-colors">
+<div class="flex gap-4 items-center">
+<div class="w-12 h-12 rounded-full bg-background-light dark:bg-[#2c2918] flex items-center justify-center text-[#181711] dark:text-white group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">outbox</span>
+</div>
+<div>
+<h4 class="font-extrabold text-[#181711] dark:text-white">Transfer Created</h4>
+<p class="text-sm text-[#8c855f]">transfer.initiated</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="toggle-slot w-11 h-6 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors">
+<div class="toggle-dot absolute top-[2px] left-[2px] bg-white w-5 h-5 rounded-full transition-transform"></div>
+</div>
+</label>
+</div>
+</div>
+<!-- Security Info -->
+<div class="bg-primary/10 border-2 border-primary/20 rounded-xl p-8 mt-12">
+<div class="flex items-start gap-4">
+<div class="bg-primary p-3 rounded-full">
+<span class="material-symbols-outlined text-[#181711]">vpn_key</span>
+</div>
+<div>
+<h3 class="text-xl font-black text-[#181711] mb-2">Endpoint Security</h3>
+<p class="text-[#181711]/70 font-medium mb-4">All webhooks are signed with a shared secret to ensure payload integrity. You can rotate your keys anytime in the Developer Portal.</p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-[#181711] text-white font-bold py-2 px-5 rounded-full text-sm">Rotate Webhook Secret</button>
+<button class="text-[#181711] font-bold text-sm underline decoration-2 underline-offset-4">View Docs</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Footer Save -->
+<div class="fixed bottom-0 left-0 lg:left-72 right-0 bg-white/80 dark:bg-[#1a180b]/80 backdrop-blur-md border-t border-[#e6e4db] dark:border-[#3d3a2a] p-4 flex justify-center z-50">
+<div class="max-w-5xl w-full flex items-center justify-between">
+<p class="text-[#8c855f] text-sm font-medium hidden sm:block">You have unsaved changes in your Slack configuration.</p>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-6 py-2.5 rounded-full font-bold text-[#8c855f] hover:bg-background-light dark:hover:bg-[#2c2918] transition-colors">Discard</button>
+<button class="flex-1 sm:flex-none px-10 py-2.5 rounded-full font-black bg-primary text-[#181711] shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">Save Changes</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bank Account Connections | FintechSaaS</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#ffd900",
+              "background-light": "#f8f8f5",
+              "background-dark": "#23200f",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#181710] dark:text-[#f8f8f5]">
+<!-- Top Navigation Bar -->
+<div class="w-full bg-white dark:bg-[#1a180b] border-b border-[#e7e5da] dark:border-[#3d3a2a] sticky top-0 z-50">
+<header class="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[#181710]">account_balance_wallet</span>
+</div>
+<h2 class="text-xl font-extrabold tracking-tight">FintechSaaS</h2>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Giao dịch</a>
+<a class="text-sm font-semibold text-primary underline underline-offset-8" href="#">Thanh toán</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Báo cáo</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-[#f5f4f0] dark:bg-[#2d2a1a] rounded-full px-4 py-2 gap-2">
+<span class="material-symbols-outlined text-[#8d865e] text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-40 placeholder-[#8d865e]" placeholder="Tìm kiếm..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-[#e6c400] text-[#181710] font-bold py-2 px-6 rounded-full transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">sync</span>
+<span class="text-sm">Đồng bộ</span>
+</button>
+<div class="size-10 rounded-full border-2 border-primary/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH4JjT2kncnK3t__8gSCfS2n9z72cNlY5ZWiUGxanHIy4cdgejOHc_EDHaXl474btRa_pI7RQMn0LPn1ZlL6MDchQ_pxDjkveGHXWSnjBk816t-JNhyicJvlqTQAar-vBzlK1AGVvmSgvccgrmt5wuL8MrDPCeXxt4Yeavvoi0nxntZbMVHjAH4UxmI3YDn5GT_fSbI2pDIsNNDp_PGifBfO4dXmL7wZVNsxwBp3fnjZ8TsnQoJQ8t4hjNIvHi7SLB-zgplZeynO5J"/>
+</div>
+</div>
+</header>
+</div>
+<!-- Main Content Container -->
+<main class="max-w-[1200px] mx-auto px-6 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-6">
+<a class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">home</span>
+<span class="text-sm font-medium leading-none">Trang chủ</span>
+</a>
+<span class="text-[#8d865e] text-sm">/</span>
+<span class="text-[#181710] dark:text-white text-sm font-bold">Kết nối ngân hàng</span>
+</nav>
+<!-- Page Heading & Stats -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+<div class="max-w-2xl">
+<h1 class="text-4xl lg:text-5xl font-black tracking-tight mb-4">Quản lý kết nối</h1>
+<p class="text-[#8d865e] text-lg max-w-lg">Theo dõi và đồng bộ hóa các tài khoản ngân hàng của bạn trong thời gian thực với bảo mật cấp độ doanh nghiệp.</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
+<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Tổng cộng</span>
+<span class="text-2xl font-black">04</span>
+</div>
+<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
+<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Đang chạy</span>
+<span class="text-2xl font-black text-green-500">03</span>
+</div>
+<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
+<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Cảnh báo</span>
+<span class="text-2xl font-black text-red-500">01</span>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold tracking-tight">Tài khoản đã liên kết</h2>
+<button class="text-sm font-bold text-primary underline underline-offset-4 hover:opacity-80 transition-opacity">Xem tất cả lịch sử</button>
+</div>
+<!-- Bank Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Active Card: Vietcombank -->
+<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm hover:shadow-xl cursor-pointer">
+<div class="flex justify-between items-start mb-6">
+<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
+<img class="w-full h-full object-contain" data-alt="Blue and green financial brand logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMJDhvUABdtiecIWuYz3-x-zIfQQ_ihM-EKp5HNjE-BFEBApsOLLZ82UnjI7xe7RBxUOK_mbjEQt6A8N5VjE-r5aBevzcECcEadw_Hhwjlke5zUFq5xcebiqo29r4eSpsLUja850jQz_24GS82WfDgpuabxwQ3QlPA-yLP7R5XxDe0mnL8a2dRskvvAUU5krKMWOeworIhNKBzxSv2DHj0xiio9xT4mTKpVyZp7JcwFc-CMn3oBH194cA-92GRLi3sp6HBg9kjxGKQ"/>
+</div>
+<div class="flex gap-2">
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
+<span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                            Hoạt động
+                        </span>
+<button class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</div>
+<div class="mb-4">
+<h3 class="text-xl font-bold mb-1">Vietcombank</h3>
+<p class="text-[#8d865e] text-sm font-medium">STK: **** 8892</p>
+</div>
+<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a] flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] text-[#8d865e] font-bold uppercase tracking-tight">Cập nhật lúc</span>
+<span class="text-xs font-semibold">10:45 - Hôm nay</span>
+</div>
+<button class="size-9 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+</div>
+</div>
+<!-- Syncing Card: Techcombank -->
+<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm hover:shadow-xl cursor-pointer">
+<div class="flex justify-between items-start mb-6">
+<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
+<img class="w-full h-full object-contain" data-alt="Red and white modern brand logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVh74-4mO56XHjnM2HqyPeWr6tyuud_Du7XsEyhcZm3xJxN2uBj7NG_x-f564yozBR3zfK17Ka5duBsla0LRpuNcu43_TKtdL6hGHvAbulwSDDub5H5Fy82uYha0Xp11RohewXx___80F2nyrHx43dMUwOO7eS9SCxoZYe-nHiVmVhdNrsfSIRrtK2sbSVq-pyMzLcTuz5dIVDA8qwp9T759jPD2bw_TyYAaTJLzZYe1ErY10VE-vcuLdn2SP9xVc2CaeqUKj7UWUo"/>
+</div>
+<div class="flex gap-2">
+<span class="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
+<span class="size-1.5 bg-blue-500 rounded-full"></span>
+                            Đang đồng bộ
+                        </span>
+<button class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</div>
+<div class="mb-4">
+<h3 class="text-xl font-bold mb-1">Techcombank</h3>
+<p class="text-[#8d865e] text-sm font-medium">STK: **** 4410</p>
+</div>
+<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a] flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] text-[#8d865e] font-bold uppercase tracking-tight">Cập nhật lúc</span>
+<span class="text-xs font-semibold">2 giờ trước</span>
+</div>
+<div class="size-9 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg animate-spin">refresh</span>
+</div>
+</div>
+</div>
+<!-- Action Required: MB Bank -->
+<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-red-200 dark:border-red-900/50 hover:border-red-500 transition-all group shadow-sm hover:shadow-xl cursor-pointer relative">
+<div class="flex justify-between items-start mb-6">
+<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
+<img class="w-full h-full object-contain" data-alt="Abstract vibrant geometric logo pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp3I9e4mSckQVJBwY-brSDcLL4faCHDGSxmcci9srGGEJrILK81JUrGiI-6ljRMSSO3VFPHsXawuh6NNJcM6DKP_jyNQirfcW5dWXehyQbbaHurK-BpFEjsAtC-mPRWC81E3-4NrQwpR6XuclgC-6hj2DvOIGBjKtf5_fLu182HZ1d03n_J3B3BAcoUmv82GFTmz0RVgVbaL2iuBUsgiWYXs0-81oOJOv6K1LrGQVSrNbp1U6xcWi2vxJAvwVJZhB0b6zEnNVg9kyv"/>
+</div>
+<div class="flex gap-2">
+<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+                            Cần xác thực
+                        </span>
+</div>
+</div>
+<div class="mb-4">
+<h3 class="text-xl font-bold mb-1">MB Bank</h3>
+<p class="text-[#8d865e] text-sm font-medium">STK: **** 1123</p>
+</div>
+<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a]">
+<button class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 py-2 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors">
+                        Kết nối lại ngay
+                    </button>
+</div>
+</div>
+<!-- Add New Account Card -->
+<div class="bg-transparent rounded-lg p-6 border-2 border-dashed border-[#e7e5da] dark:border-[#3d3a2a] hover:border-primary hover:bg-white dark:hover:bg-[#1a180b] transition-all flex flex-col items-center justify-center min-h-[220px] text-center cursor-pointer group">
+<div class="size-14 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-2xl group-hover:text-[#181710]">add</span>
+</div>
+<h3 class="text-lg font-bold">Thêm tài khoản mới</h3>
+<p class="text-[#8d865e] text-sm mt-1">Hỗ trợ hơn 30+ ngân hàng tại VN</p>
+</div>
+</div>
+<!-- Sync Now Global CTA (Mobile floating or Bottom highlight) -->
+<div class="mt-12 bg-primary rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20">
+<div class="text-center md:text-left">
+<h2 class="text-[#181710] text-2xl font-black mb-2">Đồng bộ tất cả dữ liệu?</h2>
+<p class="text-[#181710]/70 font-medium">Chúng tôi sẽ cập nhật số dư và lịch sử giao dịch từ tất cả 04 tài khoản.</p>
+</div>
+<button class="bg-[#181710] text-white hover:bg-black px-10 py-4 rounded-full font-black text-lg transition-transform hover:scale-105 flex items-center gap-3">
+<span class="material-symbols-outlined">bolt</span>
+                Đồng bộ ngay
+            </button>
+</div>
+<!-- Footer Info -->
+<div class="mt-12 text-center">
+<p class="text-[#8d865e] text-sm font-medium flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+                Dữ liệu được bảo mật bởi chuẩn mã hóa AES-256.
+            </p>
+</div>
+</main>
+<!-- Support Floating Button -->
+<div class="fixed bottom-8 right-8">
+<button class="size-14 rounded-full bg-white dark:bg-[#1a180b] border border-[#e7e5da] dark:border-[#3d3a2a] shadow-xl flex items-center justify-center text-primary hover:scale-110 transition-transform">
+<span class="material-symbols-outlined font-bold">chat_bubble</span>
+</button>
+</div>
+</body></html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Export &amp; Reports | HeroUI Fintech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#eccb13",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221f10",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#181711] dark:text-white transition-colors duration-300">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#181711]/5 dark:border-white/10 px-6 py-4 md:px-10 lg:px-40 bg-white dark:bg-[#1c1a0e]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#181711] dark:text-primary">
+<div class="size-8">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] dark:text-white">HeroUI Fintech</h2>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium hover:text-primary transition-colors border-b-2 border-primary" href="#">Reports</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Transactions</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<label class="hidden sm:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+<div class="text-[#898361] flex border-none bg-background-light dark:bg-[#2d2a1a] items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-background-light dark:bg-[#2d2a1a] text-[#181711] dark:text-white focus:ring-0 h-full placeholder:text-[#898361] px-4 rounded-r-xl pl-2 text-sm font-normal" placeholder="Search reports..." value=""/>
+</div>
+</label>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" data-alt="User profile avatar circle" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIscJ12EUMX1SjR1n9_oiFSE7t7gE5Ko5NegK3h2FXhKnOee4VfuUmpB3MM30lTbpa5ZQWC9xjKwnAYq-9d0w0tZzrXkfLkZxQBoT0peTdm0dwM5ptCeM7UkmlP22sJm_qe3CAROQo_CCP7SQ6NbAWNtKayRQCWNi9r8ted4omVOc7zi5xhUFZdnTlXxPOZyU85CXzBQ5rbwd4yiJFBntXpR6ePcd81gN3lthcsO3cK_X7NjCFld3rQ9gc_dH5RrZ3P-Zb46EdShJb");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 px-6 lg:px-40">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-3 p-4 mb-6">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-[#181711] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Data Export &amp; Reports</h1>
+<p class="text-[#898361] dark:text-[#a6a086] text-base font-medium">Configure and generate your custom bank transaction reports with ease.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex h-10 items-center justify-center rounded-full border border-[#181711]/10 dark:border-white/10 bg-white dark:bg-[#1c1a0e] px-4 text-sm font-bold">
+<span class="material-symbols-outlined text-lg mr-2">history</span> View History
+                            </button>
+</div>
+</div>
+<!-- Main Export Builder -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left: Config -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Section: Date Range -->
+<div class="bg-white dark:bg-[#1c1a0e] rounded-xl p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+<div class="flex items-center gap-2 mb-6">
+<span class="bg-primary text-black size-8 flex items-center justify-center rounded-full font-bold text-sm">1</span>
+<h2 class="text-xl font-bold">Select Date Range</h2>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-6">
+<div class="flex min-w-72 max-w-[336px] flex-1 flex-col gap-0.5">
+<div class="flex items-center p-1 justify-between">
+<button class="hover:bg-background-light dark:hover:bg-white/10 rounded-full p-2">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<p class="text-base font-bold flex-1 text-center">October 2023</p>
+</div>
+<div class="grid grid-cols-7 text-center">
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">S</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">M</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">T</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">W</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">T</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">F</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">S</div>
+<!-- Fillers and Days -->
+<div class="col-start-4 h-10 flex items-center justify-center">1</div>
+<div class="h-10 flex items-center justify-center">2</div>
+<div class="h-10 flex items-center justify-center">3</div>
+<div class="h-10 flex items-center justify-center">4</div>
+<div class="h-10 flex items-center justify-center bg-primary/20 rounded-l-full">5</div>
+<div class="h-10 flex items-center justify-center bg-primary/20">6</div>
+<div class="h-10 flex items-center justify-center bg-primary/20">7</div>
+<!-- ... -->
+<div class="h-10 flex items-center justify-center bg-primary/20">24</div>
+<div class="h-10 flex items-center justify-center bg-primary/20">25</div>
+<div class="h-10 flex items-center justify-center bg-primary/20 rounded-r-full">26</div>
+<div class="h-10 flex items-center justify-center">27</div>
+</div>
+</div>
+<div class="hidden md:flex min-w-72 max-w-[336px] flex-1 flex-col gap-0.5">
+<div class="flex items-center p-1 justify-between">
+<p class="text-base font-bold flex-1 text-center">November 2023</p>
+<button class="hover:bg-background-light dark:hover:bg-white/10 rounded-full p-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-7 text-center">
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">S</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">M</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">T</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">W</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">T</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">F</div>
+<div class="text-[13px] font-bold h-10 flex items-center justify-center opacity-50">S</div>
+<!-- Sample Days -->
+<div class="col-start-4 h-10 flex items-center justify-center bg-primary text-black font-bold rounded-full">1</div>
+<div class="h-10 flex items-center justify-center">2</div>
+<div class="h-10 flex items-center justify-center">3</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Filters -->
+<div class="bg-white dark:bg-[#1c1a0e] rounded-xl p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+<div class="flex items-center gap-2 mb-6">
+<span class="bg-primary text-black size-8 flex items-center justify-center rounded-full font-bold text-sm">2</span>
+<h2 class="text-xl font-bold">Filter by Bank &amp; Status</h2>
+</div>
+<div class="flex flex-col gap-6">
+<div>
+<p class="text-sm font-bold text-[#898361] mb-3 uppercase tracking-wider">Select Banks</p>
+<div class="flex flex-wrap gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border-2 border-primary bg-primary text-black font-bold text-sm">
+<span class="material-symbols-outlined text-lg">account_balance</span> Chase Bank
+                                            </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 hover:border-primary text-sm font-medium">
+<span class="material-symbols-outlined text-lg">account_balance</span> Wells Fargo
+                                            </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 hover:border-primary text-sm font-medium">
+<span class="material-symbols-outlined text-lg">account_balance</span> Bank of America
+                                            </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 hover:border-primary text-sm font-medium">
+<span class="material-symbols-outlined text-lg">add</span> More
+                                            </button>
+</div>
+</div>
+<div>
+<p class="text-sm font-bold text-[#898361] mb-3 uppercase tracking-wider">Transaction Status</p>
+<div class="flex flex-wrap gap-2">
+<label class="cursor-pointer group">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 peer-checked:bg-green-100 dark:peer-checked:bg-green-900/30 peer-checked:border-green-500 peer-checked:text-green-700 dark:peer-checked:text-green-400 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">check_circle</span> Completed
+                                                </div>
+</label>
+<label class="cursor-pointer group">
+<input checked="" class="hidden peer" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 peer-checked:bg-yellow-100 dark:peer-checked:bg-yellow-900/30 peer-checked:border-yellow-500 peer-checked:text-yellow-700 dark:peer-checked:text-yellow-400 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">schedule</span> Pending
+                                                </div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-[#181711]/10 dark:border-white/10 peer-checked:bg-red-100 dark:peer-checked:bg-red-900/30 peer-checked:border-red-500 peer-checked:text-red-700 dark:peer-checked:text-red-400 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">cancel</span> Failed
+                                                </div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Action & Generation -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Export Format -->
+<div class="bg-white dark:bg-[#1c1a0e] rounded-xl p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+<h3 class="font-bold text-lg mb-4">Export Format</h3>
+<div class="grid grid-cols-2 gap-2 bg-background-light dark:bg-black/20 p-1 rounded-full">
+<button class="py-2 px-4 rounded-full bg-white dark:bg-[#2d2a1a] shadow-sm font-bold text-sm">.CSV</button>
+<button class="py-2 px-4 rounded-full font-medium text-sm text-[#898361]">.XLSX</button>
+</div>
+<div class="mt-6 flex flex-col gap-4">
+<div class="flex items-center justify-between text-sm">
+<span class="text-[#898361]">Rows estimate</span>
+<span class="font-bold">~1,240</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="text-[#898361]">Size estimate</span>
+<span class="font-bold">2.4 MB</span>
+</div>
+</div>
+<button class="w-full mt-6 bg-primary hover:bg-primary/90 text-black font-black py-4 rounded-full shadow-lg transition-transform active:scale-95 text-lg">
+                                    Generate Report
+                                </button>
+</div>
+<!-- Progress Animation (Simulated State) -->
+<div class="bg-[#181711] text-white rounded-xl p-8 flex flex-col items-center text-center">
+<div class="mb-4 relative">
+<div class="size-20 bg-primary/20 rounded-full flex items-center justify-center text-5xl">🍳</div>
+<div class="absolute -top-1 -right-1 size-6 bg-primary text-black rounded-full flex items-center justify-center text-xs font-bold">Hot</div>
+</div>
+<h4 class="text-xl font-black mb-2 text-primary">Báo cáo của bạn đang được "nấu" chín...</h4>
+<p class="text-white/60 text-sm mb-6">Our servers are gathering the ingredients for your data feast.</p>
+<div class="w-full h-4 bg-white/10 rounded-full overflow-hidden relative">
+<div class="h-full bg-primary w-[65%] rounded-full transition-all duration-1000 relative">
+<div class="absolute right-0 top-0 h-full w-2 bg-white/30 animate-pulse"></div>
+</div>
+</div>
+<div class="mt-3 flex justify-between w-full text-[10px] font-bold tracking-widest uppercase opacity-40">
+<span>Preparing</span>
+<span>65%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Reports Table -->
+<div class="mt-12 p-4">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-2xl font-bold">Recent Reports</h2>
+<button class="text-primary font-bold text-sm flex items-center gap-1">
+                                Clear all <span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-[#181711]/5 dark:border-white/10 text-[#898361] text-sm uppercase tracking-wider font-bold">
+<th class="py-4 px-2">File Name</th>
+<th class="py-4 px-2">Date Created</th>
+<th class="py-4 px-2">Type</th>
+<th class="py-4 px-2">Size</th>
+<th class="py-4 px-2 text-right">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-[#181711]/5 dark:border-white/5 hover:bg-white dark:hover:bg-white/5 transition-colors">
+<td class="py-4 px-2 font-bold">Q3_Transaction_Summary.csv</td>
+<td class="py-4 px-2 text-sm opacity-70">Oct 24, 2023, 11:42 AM</td>
+<td class="py-4 px-2"><span class="px-2 py-1 rounded-md bg-background-light dark:bg-white/10 text-xs font-bold">CSV</span></td>
+<td class="py-4 px-2 text-sm">1.2 MB</td>
+<td class="py-4 px-2 text-right">
+<button class="bg-primary size-9 rounded-full flex items-center justify-center text-black shadow-sm hover:scale-110 transition-transform inline-flex">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+</td>
+</tr>
+<tr class="border-b border-[#181711]/5 dark:border-white/5 hover:bg-white dark:hover:bg-white/5 transition-colors">
+<td class="py-4 px-2 font-bold">Chase_Audit_Nov.xlsx</td>
+<td class="py-4 px-2 text-sm opacity-70">Nov 02, 2023, 09:15 AM</td>
+<td class="py-4 px-2"><span class="px-2 py-1 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">XLSX</span></td>
+<td class="py-4 px-2 text-sm">4.8 MB</td>
+<td class="py-4 px-2 text-right">
+<button class="bg-primary size-9 rounded-full flex items-center justify-center text-black shadow-sm hover:scale-110 transition-transform inline-flex">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-white dark:hover:bg-white/5 transition-colors">
+<td class="py-4 px-2 font-bold">Weekly_Payroll_v2.csv</td>
+<td class="py-4 px-2 text-sm opacity-70">Nov 15, 2023, 03:00 PM</td>
+<td class="py-4 px-2"><span class="px-2 py-1 rounded-md bg-background-light dark:bg-white/10 text-xs font-bold">CSV</span></td>
+<td class="py-4 px-2 text-sm">820 KB</td>
+<td class="py-4 px-2 text-right">
+<button class="bg-primary size-9 rounded-full flex items-center justify-center text-black shadow-sm hover:scale-110 transition-transform inline-flex">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Playful Toast Notification -->
+<div class="fixed bottom-10 right-10 flex items-center gap-4 bg-white dark:bg-[#1c1a0e] p-4 rounded-xl shadow-2xl border border-primary/20 animate-bounce">
+<div class="size-12 bg-primary rounded-full flex items-center justify-center text-2xl shadow-inner">
+                    ✨
+                </div>
+<div>
+<p class="font-black text-sm">Report Ready!</p>
+<p class="text-xs text-[#898361]">Your data feast is served.</p>
+</div>
+<button class="ml-4 p-1 hover:bg-background-light dark:hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

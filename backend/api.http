@@ -1,0 +1,115 @@
+### Auth - Đăng ký
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456",
+  "full_name": "Nguyen Van A"
+}
+
+###
+### Auth - Đăng nhập
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456"
+}
+
+###
+### Auth - Quên mật khẩu
+POST http://localhost:8080/api/v1/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+###
+### Tài khoản ngân hàng - Tạo tài khoản (trả về account + API token)
+POST http://localhost:8080/api/v1/accounts
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "bank_name": "VCB",
+  "account_number": "0123456789",
+  "account_holder": "Nguyen Van A"
+}
+
+###
+### Tài khoản ngân hàng - Danh sách tài khoản của user
+GET http://localhost:8080/api/v1/accounts
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Tài khoản ngân hàng - Refresh API token cho 1 account
+POST http://localhost:8080/api/v1/accounts/1/token/refresh
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Giao dịch (internal) - Lấy lịch sử giao dịch qua JWT
+GET http://localhost:8080/api/v1/accounts/1/transactions
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Giao dịch (external) - Lấy lịch sử giao dịch qua account token
+GET http://localhost:8080/api/v1/external/accounts/{{ACCOUNT_TOKEN}}/transactions
+
+###
+### Ngân hàng - Tạo bank
+POST http://localhost:8080/api/v1/banks
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Vietcombank",
+  "code": "VCB",
+  "icon_url": "https://example.com/icons/vcb.png"
+}
+
+###
+### Ngân hàng - Danh sách bank
+GET http://localhost:8080/api/v1/banks
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Gói dịch vụ - Tạo gói
+POST http://localhost:8080/api/v1/plans
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Basic",
+  "price_vnd": 99000,
+  "max_bank_accounts": 5,
+  "max_transactions": 1000,
+  "duration_days": 30,
+  "description": "Gói cơ bản cho cá nhân",
+  "bank_ids": [1, 2]
+}
+
+###
+### Gói dịch vụ - Danh sách gói
+GET http://localhost:8080/api/v1/plans
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Webhook - Lấy cấu hình webhook hiện tại của user
+GET http://localhost:8080/api/v1/webhook
+Authorization: Bearer {{JWT_TOKEN}}
+
+###
+### Webhook - Tạo/cập nhật cấu hình webhook
+POST http://localhost:8080/api/v1/webhook
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "is_active": true
+}
+

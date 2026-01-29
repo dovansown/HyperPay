@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hero Fintech Dashboard Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "hero-purple": "#4C51BF",
+                        "hero-mint": "#34D399",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "1.5rem", // Close to 24px
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#1d1a0c] dark:text-white transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<header class="bg-hero-purple px-6 lg:px-40 py-4 text-white sticky top-0 z-50">
+<div class="max-w-[1200px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg">
+<span class="material-symbols-outlined text-background-dark font-bold">bolt</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tight">HeroUI</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold opacity-100 border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-sm font-medium opacity-80 hover:opacity-100 transition-opacity" href="#">Transactions</a>
+<a class="text-sm font-medium opacity-80 hover:opacity-100 transition-opacity" href="#">APIs</a>
+<a class="text-sm font-medium opacity-80 hover:opacity-100 transition-opacity" href="#">Security</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden sm:flex items-center bg-white/10 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-sm mr-2 opacity-70">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm placeholder:text-white/50 w-32 lg:w-48" placeholder="Search data..." type="text"/>
+</div>
+<button class="bg-primary text-background-dark px-5 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                    Upgrade
+                </button>
+<div class="size-10 rounded-full border-2 border-primary/30 bg-white/20 overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" data-alt="Portrait of a smiling professional user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7erVSUaAcXf05yandVkMKFkvujup8BP8_-3AaJb3q3Wv5qXuU9vxuaqu8vq64HbEzOxNjIQo5azWYOJalj1KiZboy8rvQHpz_L3XvcWEiZE89-m5xlSnmOs7D6C3lj1_i_laEy71tX87EoiDJBZNi2Kjge4Uv8DcVoNOvXnTLjVPqIlskkHwHSvOtwff0Ts3ZhilEKiYdCW44kmIbwlrlfk6AFjt7oFU04dPzHyf6umKFYUHK6Y6AOb82bKJ6PquCen2u8V3JwXTm"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-6 lg:px-10 py-8">
+<!-- System Status Action Panel -->
+<div class="mb-8">
+<div class="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 p-4 rounded-lg hero-card-shadow">
+<div class="flex items-center gap-4 mb-4 md:mb-0">
+<div class="flex items-center justify-center size-10 bg-hero-mint/20 rounded-full">
+<span class="material-symbols-outlined text-hero-mint font-bold">check_circle</span>
+</div>
+<div>
+<p class="text-base font-bold leading-tight">All systems operational 🟢</p>
+<p class="text-zinc-500 text-sm font-normal">Global API status is stable across all 12 regions.</p>
+</div>
+</div>
+<a class="text-sm font-bold flex items-center gap-2 text-hero-purple hover:underline" href="#">
+                    View live status page
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Page Heading -->
+<div class="mb-10">
+<h2 class="text-4xl lg:text-5xl font-black tracking-tight mb-2">Good morning, Hero! 👋</h2>
+<p class="text-zinc-500 dark:text-zinc-400 text-lg">Here's a high-level overview of your bank transactions and API health.</p>
+</div>
+<!-- Stats Overview Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Metric 1: Today's Total -->
+<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 hero-card-shadow hover:border-primary/50 transition-colors group">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-primary/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-background-dark font-bold">payments</span>
+</div>
+<span class="bg-hero-mint/10 text-hero-mint px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">+12.5%</span>
+</div>
+<p class="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">Today's Total 💰</p>
+<p class="text-4xl font-extrabold tracking-tighter">$42,500.00</p>
+<div class="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center justify-between">
+<span class="text-xs font-medium text-zinc-400">Target: $50k</span>
+<div class="h-1.5 w-24 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Metric 2: New Transactions -->
+<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 hero-card-shadow hover:border-hero-purple/50 transition-colors group">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-hero-purple/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-hero-purple font-bold">query_stats</span>
+</div>
+<span class="bg-hero-mint/10 text-hero-mint px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">+8.2%</span>
+</div>
+<p class="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">New Transactions 📈</p>
+<p class="text-4xl font-extrabold tracking-tighter">1,284</p>
+<div class="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800">
+<div class="flex -space-x-2">
+<img alt="user" class="size-6 rounded-full border-2 border-white dark:border-zinc-800" data-alt="Avatar icon of customer 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWtFIKOUvnANIz3U2bolSEDDCmc0Wv0Pnczd8M4kfMuvz3zCjDDjgYjljF2fq-GSRQDlp1QHTDYCygOI4VJzcS2Xw_6yvNVjd5GDA6meByrFCaIYTdhIFSesRJ5F-ZnPVhoV8hmvivQKuJOIpO8ho9rEP9T-1UPle-aX0QhhrU5xVWnj5Sg5Yk9Olwyv6gt5T9fGvEUTNTrB932_e4D_QWOTVdbOLQI-cSbUx5ZYAafOoD2vMkVUzdH3DboNqI2S0R4PJvwop4dHSz"/>
+<img alt="user" class="size-6 rounded-full border-2 border-white dark:border-zinc-800" data-alt="Avatar icon of customer 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2OUG4B-dGWWEY0FhpfY_7czMCPOqfytHRFAmODCnphy-sd7Uow2soRa8UqX0C2Bx9474UWSBtw95B44HslNDbTDjoR1AWaHRbyBgMokL_QZFVZ4kpvRkTZYjbXTIo7i0M2Z6egi3JU-7uz7JN5rPY357tzqoO3uldEzsSvuctpTP2R93ZiYx_8Onw0Qy0ELmLUoOAqup8z5vbSKv8hBJvIq5QKRUb9woumBxBSX-HXvKBPJWUXpDUIc409ZzS4Ala_nhRyxOid_y_"/>
+<img alt="user" class="size-6 rounded-full border-2 border-white dark:border-zinc-800" data-alt="Avatar icon of customer 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1dFUmUJJSBRSVe814ZLeKJS-j4YlaXW5TWG8QnkOVA1CguM7ZKTOKTFaJE5NGIpDGs8I7_Nl-jK-pUGArckj9trmmfWH1L4Q4typ4WF56W-wC5UmUqYsT4qpkpSH1InUntkEUfIaGILeimdOBb5O9rc60LdEicIihhkprzGTUdarTMF4NGwwjj1ewEpIjiSdZjqLaa6ijdJGbFAIevxqqchz2HIMvI4Zk57cXPCmxXmsWEP7rsI53TnDb3voDxwiM6ieBDd-GzrZt"/>
+<div class="size-6 rounded-full border-2 border-white dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-700 flex items-center justify-center text-[8px] font-bold">+24</div>
+</div>
+</div>
+</div>
+<!-- Metric 3: API Uptime -->
+<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 hero-card-shadow hover:border-hero-mint/50 transition-colors group">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-hero-mint/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-hero-mint font-bold">bolt</span>
+</div>
+<span class="text-hero-mint flex items-center gap-1 text-xs font-bold uppercase tracking-wider">
+<span class="size-2 bg-hero-mint rounded-full animate-pulse"></span> Stable
+                    </span>
+</div>
+<p class="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">API Uptime ⚡️</p>
+<p class="text-4xl font-extrabold tracking-tighter">99.99%</p>
+<div class="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center gap-1">
+<div class="h-4 w-full flex items-end gap-0.5">
+<div class="bg-hero-mint w-full h-full rounded-sm opacity-20"></div>
+<div class="bg-hero-mint w-full h-[80%] rounded-sm opacity-40"></div>
+<div class="bg-hero-mint w-full h-full rounded-sm opacity-60"></div>
+<div class="bg-hero-mint w-full h-[90%] rounded-sm"></div>
+<div class="bg-hero-mint w-full h-full rounded-sm"></div>
+<div class="bg-hero-mint w-full h-full rounded-sm"></div>
+<div class="bg-hero-mint w-full h-full rounded-sm"></div>
+<div class="bg-hero-mint w-full h-[95%] rounded-sm"></div>
+<div class="bg-hero-mint w-full h-full rounded-sm"></div>
+<div class="bg-hero-mint w-full h-[85%] rounded-sm opacity-50"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="flex items-center justify-between mb-6 px-2">
+<h3 class="text-2xl font-bold tracking-tight">Recent Activity Overview</h3>
+<button class="text-sm font-bold text-hero-purple bg-hero-purple/10 px-4 py-2 rounded-full hover:bg-hero-purple hover:text-white transition-all">View Full Report</button>
+</div>
+<!-- Activity Table Mockup -->
+<div class="bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden hero-card-shadow">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800">
+<tr>
+<th class="px-6 py-4 text-xs font-bold uppercase text-zinc-500">Transaction</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-zinc-500">Amount</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-zinc-500">Status</th>
+<th class="px-6 py-4 text-xs font-bold uppercase text-zinc-500">Date</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-50 dark:divide-zinc-800">
+<tr class="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg text-zinc-600">shopping_bag</span>
+</div>
+<span class="font-bold">Apple Store, San Francisco</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold">-$1,299.00</td>
+<td class="px-6 py-4">
+<span class="bg-hero-mint/10 text-hero-mint px-3 py-1 rounded-full text-xs font-bold">Completed</span>
+</td>
+<td class="px-6 py-4 text-zinc-500 text-sm">Oct 24, 2023</td>
+</tr>
+<tr class="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg text-zinc-600">account_balance_wallet</span>
+</div>
+<span class="font-bold">Inbound Wire - Stripe Inc.</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-hero-mint">+$14,500.00</td>
+<td class="px-6 py-4">
+<span class="bg-hero-mint/10 text-hero-mint px-3 py-1 rounded-full text-xs font-bold">Completed</span>
+</td>
+<td class="px-6 py-4 text-zinc-500 text-sm">Oct 23, 2023</td>
+</tr>
+<tr class="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-lg text-zinc-600">public</span>
+</div>
+<span class="font-bold">AWS Cloud Services</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold">-$450.12</td>
+<td class="px-6 py-4">
+<span class="bg-primary/20 text-background-dark px-3 py-1 rounded-full text-xs font-bold">Pending</span>
+</td>
+<td class="px-6 py-4 text-zinc-500 text-sm">Oct 22, 2023</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<footer class="mt-20 py-10 border-t border-zinc-200 dark:border-zinc-800 text-center">
+<p class="text-zinc-400 font-bold text-sm tracking-widest uppercase">Built for Heroes ⚡️ HeroUI Fintech</p>
+<div class="mt-4 flex justify-center gap-6 text-zinc-400">
+<a class="hover:text-primary" href="#">Docs</a>
+<a class="hover:text-primary" href="#">Support</a>
+<a class="hover:text-primary" href="#">Privacy</a>
+</div>
+</footer>
+</body></html>
