@@ -60,7 +60,7 @@ function ProfileMenu() {
 
 function AuthenticatedHeader() {
   return (
-    <header className="w-full border-b border-solid border-[#f4f2e6] dark:border-white/10 bg-white/70 dark:bg-background-dark/70 backdrop-blur-md py-3 sticky top-0 z-50">
+    <header className="w-full border-b border-solid border-[#f4f2e6] dark:border-white/10 bg-white/70 dark:bg-background-dark/70 backdrop-blur-md py-3 fixed top-0 left-0 right-0 z-50 ">
       <div className="max-w-[1300px] mx-auto w-full flex items-center justify-between px-6 lg:px-10">
         <div className="flex items-center gap-8">
         <div className="flex items-center gap-4">
@@ -68,7 +68,7 @@ function AuthenticatedHeader() {
           <span className="material-symbols-outlined text-lg">account_balance</span>
         </div>
         <h2 className="text-base font-extrabold leading-tight tracking-[-0.015em]">
-            Hero Fintech
+            HyperPay
           </h2>
         </div>
         <label className="flex flex-col min-w-40 h-10 max-w-64">
@@ -78,7 +78,7 @@ function AuthenticatedHeader() {
             </div>
             <input
               className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-[#a19345] px-4 pl-2 text-sm font-normal"
-              placeholder="Search team members"
+              placeholder="Tìm kiếm gì đó..."
             />
           </div>
         </label>
@@ -93,7 +93,7 @@ function AuthenticatedHeader() {
                 : 'text-sm font-semibold hover:text-primary transition-colors'
             }
           >
-            Dashboard
+            Tổng quan
           </NavLink>
           <NavLink
             to="/banks"
@@ -103,7 +103,7 @@ function AuthenticatedHeader() {
                 : 'text-sm font-semibold hover:text-primary transition-colors'
             }
           >
-            Banks
+            Ngân hàng
           </NavLink>
           <NavLink
             to="/apis"
@@ -115,16 +115,7 @@ function AuthenticatedHeader() {
           >
             APIs
           </NavLink>
-          <NavLink
-            to="/team/roles"
-            className={({ isActive }) =>
-              isActive
-                ? 'text-sm font-semibold text-primary underline underline-offset-4 decoration-2'
-                : 'text-sm font-semibold hover:text-primary transition-colors'
-            }
-          >
-            Team
-          </NavLink>
+          
         </nav>
         <ProfileMenu />
         </div>
@@ -138,17 +129,17 @@ function AuthenticatedFooter() {
     <footer className="mt-20 border-t border-[#f4f2e6] dark:border-white/10">
       <div className="max-w-[1300px] mx-auto w-full py-10 px-6 lg:px-10 text-center">
         <p className="text-[#a19345] dark:text-gray-400 font-bold text-sm tracking-widest uppercase">
-          Built for Heroes ⚡️ HeroUI Fintech
+          HyperPay Fintech
         </p>
         <div className="mt-4 flex justify-center gap-6 text-[#a19345] dark:text-gray-400 text-sm">
           <a className="hover:text-primary transition-colors" href="#">
-            Docs
+            Tài liệu API
           </a>
           <a className="hover:text-primary transition-colors" href="#">
-            Support
+            Hỗ trợ
           </a>
           <a className="hover:text-primary transition-colors" href="#">
-            Privacy
+            Quyền riêng tư
           </a>
         </div>
       </div>
@@ -179,7 +170,7 @@ export function AuthenticatedLayout({
   return (
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-light dark:bg-background-dark font-display text-[#1d1a0c] dark:text-white transition-colors duration-300">
       <AuthenticatedHeader />
-      <main className={`flex-1 ${containerClassName}`}>{children}</main>
+      <main className={`flex-1 pt-[4.5rem] my-[20px] ${containerClassName}`}>{children}</main>
       <AuthenticatedFooter />
     </div>
   )

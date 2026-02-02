@@ -21,3 +21,35 @@ a {
 button {
   font-family: inherit;
 }
+
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+  background-color: red;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #000;
+  border-radius: 10px;
+  cursor: pointer;
+
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8D909A;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8D909A;
+}

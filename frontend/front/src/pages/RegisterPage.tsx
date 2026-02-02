@@ -176,7 +176,7 @@ export function RegisterPage() {
               </Link>
             </p>
             <p className="text-[10px] text-gray-400 px-6 leading-relaxed">
-              By clicking &quot;Create My Account&quot;, you agree to Hero Fintech&apos;s{' '}
+              By clicking &quot;Create My Account&quot;, you agree to HyperPay&apos;s{' '}
               <a className="underline" href="#">
                 Terms of Service
               </a>{' '}

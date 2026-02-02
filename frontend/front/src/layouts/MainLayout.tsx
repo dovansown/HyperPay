@@ -17,7 +17,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                 bolt
               </span>
             </div>
-            <h2 className="text-xl font-extrabold tracking-tight">Hero Fintech</h2>
+            <h2 className="text-xl font-extrabold tracking-tight">HyperPay</h2>
           </Link>
           <nav className="hidden md:flex items-center gap-10 text-sm font-semibold">
             <NavLink to="/" className="hover:text-primary transition-colors">
@@ -61,10 +61,10 @@ export function MainLayout({ children }: MainLayoutProps) {
                 bolt
               </span>
             </div>
-            <h2 className="text-lg font-extrabold tracking-tight">Hero Fintech</h2>
+            <h2 className="text-lg font-extrabold tracking-tight">HyperPay</h2>
           </div>
           <p className="text-sm text-[#9e9147]">
-            © 2024 Hero Fintech. All rights reserved.
+            © 2024 HyperPay. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a className="hover:text-primary transition-colors" href="#">

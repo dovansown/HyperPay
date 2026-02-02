@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Plan &amp; Billing Management | HeroUI Fintech</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Plan &amp; Billing Management | HyperPay Fintech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -31,223 +38,293 @@
             },
         }
     </script>
-<style>
+    <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark text-[#181710] dark:text-white min-h-screen">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e4de] dark:border-[#3d3a2a] px-10 py-3 bg-white dark:bg-[#1a180c]">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-4 text-[#181710] dark:text-primary">
-<div class="size-8">
-<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
-<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] dark:text-white">HeroUI Fintech</h2>
-</div>
-<nav class="hidden md:flex items-center gap-9">
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Transactions</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">API Keys</a>
-<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary" href="#">Settings</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<label class="flex flex-col min-w-40 !h-10 max-w-64">
-<div class="flex w-full flex-1 items-stretch rounded-full h-full bg-[#f5f4f0] dark:bg-[#2d2a1a]">
-<div class="text-[#8d865e] flex items-center justify-center pl-4 rounded-l-full">
-<span class="material-symbols-outlined text-xl">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 h-full placeholder:text-[#8d865e] px-4 pl-2 text-base font-normal" placeholder="Search" value=""/>
-</div>
-</label>
-<button class="flex size-10 items-center justify-center rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] hover:bg-primary transition-all">
-<span class="material-symbols-outlined text-xl">notifications</span>
-</button>
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5SeabBAJmJrIZ6KQcwv7JyortD3iY9a8dLysIKhQz8PGeCJRJrWYCQRCRntjQYv72APioinoN3k6B3dnld-jsePWY3OHBDaikFDQpTvR3owiFyZvcc4kcjrDSUByl3SdGB64mfU6l3HswsEgxp_0UeX3KEm_Rk5CxFT_Hx3PadH_Dm2dfwJMPaa3ilxRc59B1L0Ha-nu69I1WY7V7opCKvr2XzzZn_Nw5B6Z4-j2CtUrtSJmGjUVpzLcWQRRFOMfSVI9Y4feGFOiV");'></div>
-</div>
-</header>
-<main class="flex flex-1 justify-center py-8">
-<div class="layout-content-container flex flex-col max-w-[1024px] flex-1 px-4 md:px-10">
-<!-- Breadcrumbs -->
-<div class="flex flex-wrap gap-2 py-2">
-<a class="text-[#8d865e] text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
-<span class="text-[#8d865e] text-sm font-medium">/</span>
-<span class="text-[#181710] dark:text-white text-sm font-bold">Plan &amp; Billing</span>
-</div>
-<!-- Page Heading -->
-<div class="flex flex-wrap justify-between items-end gap-3 py-6">
-<div class="flex flex-col gap-2">
-<h1 class="text-[#181710] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Plan &amp; Billing</h1>
-<p class="text-[#8d865e] text-base font-normal">Manage your subscription, usage limits, and invoices.</p>
-</div>
-<button class="flex min-w-[140px] cursor-pointer items-center justify-center rounded-full h-12 px-6 bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#181710] dark:text-white text-sm font-bold hover:bg-primary hover:text-white transition-all">
-<span>Manage Subscription</span>
-</button>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-<!-- Main Content Column -->
-<div class="lg:col-span-2 flex flex-col gap-6">
-<!-- Current Plan Card -->
-<div class="flex items-center justify-between gap-6 rounded-lg bg-white dark:bg-[#1a180c] p-8 shadow-sm border border-[#e5e4de] dark:border-[#3d3a2a]">
-<div class="flex flex-col gap-4 flex-1">
-<div class="flex flex-col gap-1">
-<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 text-black dark:text-primary text-[10px] font-bold uppercase tracking-wider w-fit mb-2">Current Plan</span>
-<p class="text-[#181710] dark:text-white text-3xl font-black">Pro Hero Plan</p>
-<p class="text-[#8d865e] text-sm font-medium">Next billing date: <span class="text-[#181710] dark:text-white font-bold">Oct 12, 2023</span></p>
-</div>
-<div class="flex gap-3">
-<button class="flex items-center justify-center rounded-full h-10 px-6 bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#181710] dark:text-white text-sm font-bold border border-transparent hover:border-primary transition-all">
+    <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Top Navigation Bar -->
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e5e4de] dark:border-[#3d3a2a] px-10 py-3 bg-white dark:bg-[#1a180c]">
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-4 text-[#181710] dark:text-primary">
+                        <div class="size-8">
+                            <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path clip-rule="evenodd"
+                                    d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z"
+                                    fill="currentColor" fill-rule="evenodd"></path>
+                                <path clip-rule="evenodd"
+                                    d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z"
+                                    fill="currentColor" fill-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-lg font-bold leading-tight tracking-[-0.015em] dark:text-white">HyperPay Fintech
+                        </h2>
+                    </div>
+                    <nav class="hidden md:flex items-center gap-9">
+                        <a class="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                            href="#">Dashboard</a>
+                        <a class="text-sm font-medium leading-normal hover:text-primary transition-colors"
+                            href="#">Transactions</a>
+                        <a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">API
+                            Keys</a>
+                        <a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary"
+                            href="#">Settings</a>
+                    </nav>
+                </div>
+                <div class="flex items-center gap-4">
+                    <label class="flex flex-col min-w-40 !h-10 max-w-64">
+                        <div
+                            class="flex w-full flex-1 items-stretch rounded-full h-full bg-[#f5f4f0] dark:bg-[#2d2a1a]">
+                            <div class="text-[#8d865e] flex items-center justify-center pl-4 rounded-l-full">
+                                <span class="material-symbols-outlined text-xl">search</span>
+                            </div>
+                            <input
+                                class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:outline-0 focus:ring-0 h-full placeholder:text-[#8d865e] px-4 pl-2 text-base font-normal"
+                                placeholder="Search" value="" />
+                        </div>
+                    </label>
+                    <button
+                        class="flex size-10 items-center justify-center rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] hover:bg-primary transition-all">
+                        <span class="material-symbols-outlined text-xl">notifications</span>
+                    </button>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary"
+                        data-alt="User profile avatar"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5SeabBAJmJrIZ6KQcwv7JyortD3iY9a8dLysIKhQz8PGeCJRJrWYCQRCRntjQYv72APioinoN3k6B3dnld-jsePWY3OHBDaikFDQpTvR3owiFyZvcc4kcjrDSUByl3SdGB64mfU6l3HswsEgxp_0UeX3KEm_Rk5CxFT_Hx3PadH_Dm2dfwJMPaa3ilxRc59B1L0Ha-nu69I1WY7V7opCKvr2XzzZn_Nw5B6Z4-j2CtUrtSJmGjUVpzLcWQRRFOMfSVI9Y4feGFOiV");'>
+                    </div>
+                </div>
+            </header>
+            <main class="flex flex-1 justify-center py-8">
+                <div class="layout-content-container flex flex-col max-w-[1024px] flex-1 px-4 md:px-10">
+                    <!-- Breadcrumbs -->
+                    <div class="flex flex-wrap gap-2 py-2">
+                        <a class="text-[#8d865e] text-sm font-medium hover:text-primary transition-colors"
+                            href="#">Settings</a>
+                        <span class="text-[#8d865e] text-sm font-medium">/</span>
+                        <span class="text-[#181710] dark:text-white text-sm font-bold">Plan &amp; Billing</span>
+                    </div>
+                    <!-- Page Heading -->
+                    <div class="flex flex-wrap justify-between items-end gap-3 py-6">
+                        <div class="flex flex-col gap-2">
+                            <h1
+                                class="text-[#181710] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+                                Plan &amp; Billing</h1>
+                            <p class="text-[#8d865e] text-base font-normal">Manage your subscription, usage limits, and
+                                invoices.</p>
+                        </div>
+                        <button
+                            class="flex min-w-[140px] cursor-pointer items-center justify-center rounded-full h-12 px-6 bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#181710] dark:text-white text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                            <span>Manage Subscription</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Content Column -->
+                        <div class="lg:col-span-2 flex flex-col gap-6">
+                            <!-- Current Plan Card -->
+                            <div
+                                class="flex items-center justify-between gap-6 rounded-lg bg-white dark:bg-[#1a180c] p-8 shadow-sm border border-[#e5e4de] dark:border-[#3d3a2a]">
+                                <div class="flex flex-col gap-4 flex-1">
+                                    <div class="flex flex-col gap-1">
+                                        <span
+                                            class="inline-flex items-center px-3 py-1 rounded-full bg-primary/20 text-black dark:text-primary text-[10px] font-bold uppercase tracking-wider w-fit mb-2">Current
+                                            Plan</span>
+                                        <p class="text-[#181710] dark:text-white text-3xl font-black">Pro Hero Plan</p>
+                                        <p class="text-[#8d865e] text-sm font-medium">Next billing date: <span
+                                                class="text-[#181710] dark:text-white font-bold">Oct 12, 2023</span></p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <button
+                                            class="flex items-center justify-center rounded-full h-10 px-6 bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#181710] dark:text-white text-sm font-bold border border-transparent hover:border-primary transition-all">
                                             Change Plan
                                         </button>
-<button class="flex items-center justify-center rounded-full h-10 px-6 text-[#8d865e] text-sm font-bold hover:text-red-500 transition-all">
+                                        <button
+                                            class="flex items-center justify-center rounded-full h-10 px-6 text-[#8d865e] text-sm font-bold hover:text-red-500 transition-all">
                                             Cancel
                                         </button>
-</div>
-</div>
-<div class="hidden sm:block w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center relative overflow-hidden">
-<div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent"></div>
-<span class="material-symbols-outlined text-6xl text-primary">rocket_launch</span>
-</div>
-</div>
-<!-- Usage Limits Section -->
-<div class="flex flex-col gap-4">
-<h2 class="text-[#181710] dark:text-white text-[22px] font-bold tracking-[-0.015em]">Usage Limits</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<!-- API Requests -->
-<div class="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
-<div class="flex justify-between items-center mb-4">
-<p class="text-sm font-bold text-[#8d865e]">API REQUESTS</p>
-<span class="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">ACTIVE</span>
-</div>
-<p class="text-2xl font-black mb-1">850,000 <span class="text-sm font-normal text-[#8d865e]">/ 1.0M</span></p>
-<div class="w-full bg-[#f5f4f0] dark:bg-[#2d2a1a] h-4 rounded-full overflow-hidden mb-2">
-<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
-</div>
-<p class="text-xs text-[#8d865e] font-medium text-right">85% of monthly limit</p>
-</div>
-<!-- Transactions -->
-<div class="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
-<div class="flex justify-between items-center mb-4">
-<p class="text-sm font-bold text-[#8d865e]">TRANSACTIONS</p>
-<span class="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">ACTIVE</span>
-</div>
-<p class="text-2xl font-black mb-1">12,400 <span class="text-sm font-normal text-[#8d865e]">/ 20k</span></p>
-<div class="w-full bg-[#f5f4f0] dark:bg-[#2d2a1a] h-4 rounded-full overflow-hidden mb-2">
-<div class="bg-[#181710] dark:bg-primary h-full rounded-full" style="width: 62%"></div>
-</div>
-<p class="text-xs text-[#8d865e] font-medium text-right">62% of monthly limit</p>
-</div>
-</div>
-</div>
-<!-- Invoices Table -->
-<div class="flex flex-col gap-4">
-<h2 class="text-[#181710] dark:text-white text-[22px] font-bold tracking-[-0.015em]">Recent Invoices</h2>
-<div class="overflow-hidden rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] bg-white dark:bg-[#1a180c]">
-<table class="w-full text-left">
-<thead class="bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#8d865e] text-xs font-bold uppercase tracking-wider">
-<tr>
-<th class="px-6 py-4">Date</th>
-<th class="px-6 py-4">Invoice ID</th>
-<th class="px-6 py-4">Amount</th>
-<th class="px-6 py-4 text-right">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-[#e5e4de] dark:divide-[#3d3a2a]">
-<tr class="hover:bg-primary/5 transition-colors">
-<td class="px-6 py-4 text-sm font-medium">Sep 12, 2023</td>
-<td class="px-6 py-4 text-sm font-mono text-[#8d865e]">INV-88219-B</td>
-<td class="px-6 py-4 text-sm font-bold">$129.00</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary hover:underline text-sm font-bold">PDF</button>
-</td>
-</tr>
-<tr class="hover:bg-primary/5 transition-colors">
-<td class="px-6 py-4 text-sm font-medium">Aug 12, 2023</td>
-<td class="px-6 py-4 text-sm font-mono text-[#8d865e]">INV-87114-A</td>
-<td class="px-6 py-4 text-sm font-bold">$129.00</td>
-<td class="px-6 py-4 text-right">
-<button class="text-primary hover:underline text-sm font-bold">PDF</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<!-- Sidebar Column -->
-<div class="flex flex-col gap-6">
-<!-- Upgrade Card -->
-<div class="rounded-lg bg-[#181710] text-white p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
-<div class="absolute top-[-20px] right-[-20px] size-40 bg-primary/20 rounded-full blur-3xl"></div>
-<div class="relative z-10">
-<div class="size-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,217,0,0.4)]">
-<span class="material-symbols-outlined text-black text-4xl font-black">diamond</span>
-</div>
-<h3 class="text-2xl font-black mb-3">Go Enterprise</h3>
-<p class="text-[#8d865e] text-sm leading-relaxed mb-6">
-                                        Unlock unlimited API calls, custom SLAs, and dedicated priority support for your entire team.
+                                    </div>
+                                </div>
+                                <div
+                                    class="hidden sm:block w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent">
+                                    </div>
+                                    <span class="material-symbols-outlined text-6xl text-primary">rocket_launch</span>
+                                </div>
+                            </div>
+                            <!-- Usage Limits Section -->
+                            <div class="flex flex-col gap-4">
+                                <h2 class="text-[#181710] dark:text-white text-[22px] font-bold tracking-[-0.015em]">
+                                    Usage Limits</h2>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- API Requests -->
+                                    <div
+                                        class="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <p class="text-sm font-bold text-[#8d865e]">API REQUESTS</p>
+                                            <span
+                                                class="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">ACTIVE</span>
+                                        </div>
+                                        <p class="text-2xl font-black mb-1">850,000 <span
+                                                class="text-sm font-normal text-[#8d865e]">/ 1.0M</span></p>
+                                        <div
+                                            class="w-full bg-[#f5f4f0] dark:bg-[#2d2a1a] h-4 rounded-full overflow-hidden mb-2">
+                                            <div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+                                        </div>
+                                        <p class="text-xs text-[#8d865e] font-medium text-right">85% of monthly limit
+                                        </p>
+                                    </div>
+                                    <!-- Transactions -->
+                                    <div
+                                        class="bg-white dark:bg-[#1a180c] p-6 rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <p class="text-sm font-bold text-[#8d865e]">TRANSACTIONS</p>
+                                            <span
+                                                class="text-xs font-black px-2 py-0.5 rounded-full bg-green-100 text-green-700">ACTIVE</span>
+                                        </div>
+                                        <p class="text-2xl font-black mb-1">12,400 <span
+                                                class="text-sm font-normal text-[#8d865e]">/ 20k</span></p>
+                                        <div
+                                            class="w-full bg-[#f5f4f0] dark:bg-[#2d2a1a] h-4 rounded-full overflow-hidden mb-2">
+                                            <div class="bg-[#181710] dark:bg-primary h-full rounded-full"
+                                                style="width: 62%"></div>
+                                        </div>
+                                        <p class="text-xs text-[#8d865e] font-medium text-right">62% of monthly limit
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Invoices Table -->
+                            <div class="flex flex-col gap-4">
+                                <h2 class="text-[#181710] dark:text-white text-[22px] font-bold tracking-[-0.015em]">
+                                    Recent Invoices</h2>
+                                <div
+                                    class="overflow-hidden rounded-lg border border-[#e5e4de] dark:border-[#3d3a2a] bg-white dark:bg-[#1a180c]">
+                                    <table class="w-full text-left">
+                                        <thead
+                                            class="bg-[#f5f4f0] dark:bg-[#2d2a1a] text-[#8d865e] text-xs font-bold uppercase tracking-wider">
+                                            <tr>
+                                                <th class="px-6 py-4">Date</th>
+                                                <th class="px-6 py-4">Invoice ID</th>
+                                                <th class="px-6 py-4">Amount</th>
+                                                <th class="px-6 py-4 text-right">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-[#e5e4de] dark:divide-[#3d3a2a]">
+                                            <tr class="hover:bg-primary/5 transition-colors">
+                                                <td class="px-6 py-4 text-sm font-medium">Sep 12, 2023</td>
+                                                <td class="px-6 py-4 text-sm font-mono text-[#8d865e]">INV-88219-B</td>
+                                                <td class="px-6 py-4 text-sm font-bold">$129.00</td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <button
+                                                        class="text-primary hover:underline text-sm font-bold">PDF</button>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-primary/5 transition-colors">
+                                                <td class="px-6 py-4 text-sm font-medium">Aug 12, 2023</td>
+                                                <td class="px-6 py-4 text-sm font-mono text-[#8d865e]">INV-87114-A</td>
+                                                <td class="px-6 py-4 text-sm font-bold">$129.00</td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <button
+                                                        class="text-primary hover:underline text-sm font-bold">PDF</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sidebar Column -->
+                        <div class="flex flex-col gap-6">
+                            <!-- Upgrade Card -->
+                            <div
+                                class="rounded-lg bg-[#181710] text-white p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
+                                <div
+                                    class="absolute top-[-20px] right-[-20px] size-40 bg-primary/20 rounded-full blur-3xl">
+                                </div>
+                                <div class="relative z-10">
+                                    <div
+                                        class="size-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,217,0,0.4)]">
+                                        <span
+                                            class="material-symbols-outlined text-black text-4xl font-black">diamond</span>
+                                    </div>
+                                    <h3 class="text-2xl font-black mb-3">Go Enterprise</h3>
+                                    <p class="text-[#8d865e] text-sm leading-relaxed mb-6">
+                                        Unlock unlimited API calls, custom SLAs, and dedicated priority support for your
+                                        entire team.
                                     </p>
-<ul class="flex flex-col gap-3 mb-8">
-<li class="flex items-center gap-2 text-sm">
-<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                    <ul class="flex flex-col gap-3 mb-8">
+                                        <li class="flex items-center gap-2 text-sm">
+                                            <span
+                                                class="material-symbols-outlined text-primary text-lg">check_circle</span>
                                             Unlimited transactions
                                         </li>
-<li class="flex items-center gap-2 text-sm">
-<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                        <li class="flex items-center gap-2 text-sm">
+                                            <span
+                                                class="material-symbols-outlined text-primary text-lg">check_circle</span>
                                             Custom Endpoints
                                         </li>
-<li class="flex items-center gap-2 text-sm">
-<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                        <li class="flex items-center gap-2 text-sm">
+                                            <span
+                                                class="material-symbols-outlined text-primary text-lg">check_circle</span>
                                             99.99% Uptime SLA
                                         </li>
-</ul>
-<button class="w-full py-4 rounded-full bg-primary text-black font-black text-base hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
+                                    </ul>
+                                    <button
+                                        class="w-full py-4 rounded-full bg-primary text-black font-black text-base hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
                                         Upgrade Now
                                     </button>
-</div>
-</div>
-<!-- Payment Methods -->
-<div class="rounded-lg bg-white dark:bg-[#1a180c] p-6 border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
-<h3 class="text-lg font-bold mb-4">Payment Method</h3>
-<div class="flex items-center gap-4 p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4">
-<div class="size-10 bg-[#181710] rounded flex items-center justify-center text-white font-bold text-[10px]">VISA</div>
-<div class="flex flex-col flex-1">
-<p class="text-sm font-bold">•••• 4242</p>
-<p class="text-xs text-[#8d865e]">Expires 12/26</p>
-</div>
-<button class="material-symbols-outlined text-[#8d865e] hover:text-primary transition-colors">edit</button>
-</div>
-<button class="w-full flex items-center justify-center gap-2 h-10 rounded-full border border-dashed border-[#8d865e] text-[#8d865e] text-sm font-bold hover:bg-[#f5f4f0] transition-colors">
-<span class="material-symbols-outlined text-lg">add</span>
+                                </div>
+                            </div>
+                            <!-- Payment Methods -->
+                            <div
+                                class="rounded-lg bg-white dark:bg-[#1a180c] p-6 border border-[#e5e4de] dark:border-[#3d3a2a] shadow-sm">
+                                <h3 class="text-lg font-bold mb-4">Payment Method</h3>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-lg border border-primary/20 bg-primary/5 mb-4">
+                                    <div
+                                        class="size-10 bg-[#181710] rounded flex items-center justify-center text-white font-bold text-[10px]">
+                                        VISA</div>
+                                    <div class="flex flex-col flex-1">
+                                        <p class="text-sm font-bold">•••• 4242</p>
+                                        <p class="text-xs text-[#8d865e]">Expires 12/26</p>
+                                    </div>
+                                    <button
+                                        class="material-symbols-outlined text-[#8d865e] hover:text-primary transition-colors">edit</button>
+                                </div>
+                                <button
+                                    class="w-full flex items-center justify-center gap-2 h-10 rounded-full border border-dashed border-[#8d865e] text-[#8d865e] text-sm font-bold hover:bg-[#f5f4f0] transition-colors">
+                                    <span class="material-symbols-outlined text-lg">add</span>
                                     Add New Method
                                 </button>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer Section -->
-<footer class="mt-auto py-10 px-10 border-t border-[#e5e4de] dark:border-[#3d3a2a] bg-white dark:bg-[#1a180c]">
-<div class="max-w-[1024px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-<p class="text-[#8d865e] text-sm">© 2023 HeroUI Fintech. All rights reserved.</p>
-<div class="flex gap-8">
-<a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
-<a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
-<a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">API Docs</a>
-</div>
-</div>
-</footer>
-</div>
-</div>
-</body></html>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer Section -->
+            <footer
+                class="mt-auto py-10 px-10 border-t border-[#e5e4de] dark:border-[#3d3a2a] bg-white dark:bg-[#1a180c]">
+                <div class="max-w-[1024px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p class="text-[#8d865e] text-sm">© 2023 HyperPay Fintech. All rights reserved.</p>
+                    <div class="flex gap-8">
+                        <a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">Terms of
+                            Service</a>
+                        <a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">Privacy
+                            Policy</a>
+                        <a class="text-[#8d865e] text-sm hover:text-primary transition-colors" href="#">API Docs</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

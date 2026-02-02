@@ -3,7 +3,15 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
 import { useAccountsStore } from '../store/accountsStore'
 import { useBanksStore } from '../store/banksStore'
 import AddBankWizardModal from '../components/banks/AddBankWizardModal'
-
+import BIDV_icon from "../assets/banks/BIDV.webp"
+import ACB_icon from "../assets/banks/ACB.png"
+import ICB_icon from "../assets/banks/ICB.png"
+import MB_icon from "../assets/banks/MB.png"
+import MSB_icon from "../assets/banks/MSB.png"
+import TPB_icon from "../assets/banks/TPB.png"
+import VCB_icon from "../assets/banks/VCB.png"
+import VPB_icon from "../assets/banks/VPB.png"
+type BankOption = { code: string; name: string; icon: string }
 function maskAccountNumber(accountNumber: string) {
   const cleaned = accountNumber ?? ''
   if (cleaned.length <= 4) return cleaned
@@ -24,18 +32,22 @@ export function BanksPage() {
 
   const total = accounts.length
 
-  const bankOptions = useMemo(() => {
+  const bankOptions: BankOption[] = useMemo(() => {
     const fromApi = banks
-      .map((b) => ({ code: b.code, name: b.name }))
-      .filter((x) => x.code && x.name)
+      .map((b) => ({ code: b.code, name: b.name, icon: b.icon_url }))
+      .filter((x) => x.code && x.name && x.icon) as BankOption[]
     if (fromApi.length) return fromApi
     // fallback theo design
     return [
-      { code: 'VCB', name: 'Vietcombank' },
-      { code: 'TCB', name: 'Techcombank' },
-      { code: 'MB', name: 'MB Bank' },
-      { code: 'BIDV', name: 'BIDV' },
-      { code: 'VTB', name: 'Vietinbank' },
+      { code: 'VCB', name: 'Vietcombank', icon: VCB_icon },
+      { code: 'MB', name: 'MB Bank', icon: MB_icon },
+      { code: 'BIDV', name: 'BIDV', icon: BIDV_icon },
+      { code: 'VTB', name: 'Vietinbank', icon: ICB_icon },
+      { code: 'ACB', name: 'ACB', icon: ACB_icon },
+      { code: 'ICB', name: 'ICB', icon: ICB_icon },
+      { code: 'MSB', name: 'MSB', icon: MSB_icon },
+      { code: 'TPB', name: 'TPB', icon: TPB_icon },
+      { code: 'VPB', name: 'VPB', icon: VPB_icon },
     ]
   }, [banks])
 
@@ -161,6 +173,16 @@ export function BanksPage() {
           Đồng bộ ngay
         </button>
       </div>
+
+      {/* Mini Bank List with Icon */}
+      <div className="mt-12 flex items-center justify-center gap-4">
+        {bankOptions.map((bank) => (
+          <div key={bank.code} className="size-24 rounded-full bg-white  p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
+            <img src={bank.icon} alt={bank.name} className="w-full h-full object-contain" />
+          </div>
+        ))}
+      </div>
+        
 
       {/* Footer Info */}
       <div className="mt-12 text-center">

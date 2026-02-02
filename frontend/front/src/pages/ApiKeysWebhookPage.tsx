@@ -30,7 +30,7 @@ export function ApiKeysWebhookPage() {
     clearError: clearWebhookError,
   } = useWebhookStore()
 
-  const [activeAccountId, setActiveAccountId] = useState<number | null>(null)
+  const [activeAccountId, _setActiveAccountId] = useState<number | null>(null)
   const [webhookUrl, setWebhookUrl] = useState('')
   const [secretToken, setSecretToken] = useState('')
   const [isActive, setIsActive] = useState(true)
@@ -57,7 +57,6 @@ export function ApiKeysWebhookPage() {
   }, [accounts, activeAccountId])
 
   const handleGenerate = async () => {
-    // “Generate New Key” theo backend/api.http thực tế là refresh token cho 1 account
     const id = activeAccountId ?? accounts[0]?.id
     if (!id) return
     await refreshAccountToken(id)
@@ -75,35 +74,25 @@ export function ApiKeysWebhookPage() {
       })
       setSaved(true)
     } catch {
-      // error in store
     }
   }
 
   return (
     <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto w-full px-6 py-10">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary w-fit text-xs font-bold uppercase tracking-wider">
-            <span className="material-symbols-outlined text-xs">terminal</span> Developer Mode
-          </div>
-          <h1 className="text-[#181710] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
-            API &amp; Webhook Hub
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-base max-w-2xl font-medium">
-            Manage your credentials, secure your integration, and monitor real-time
-            transaction events across the globe.
-          </p>
-        </div>
-        <Button
-          variant="primary"
-          onClick={handleGenerate}
-          disabled={isLoading}
-          size="sm"
+      {/* Breadcrumbs */}
+      <nav className="flex items-center gap-2 mb-6">
+        <a
+          className="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1"
+          href="#"
         >
-          <span className="material-symbols-outlined text-base mr-2">add_circle</span>
-          <span className="truncate">{isLoading ? 'Generating...' : 'Generate New Key'}</span>
-        </Button>
-      </div>
+          <span className="material-symbols-outlined text-base">home</span>
+          <span className="text-sm font-medium leading-none">Trang chủ</span>
+        </a>
+        <span className="text-[#8d865e] text-sm">/</span>
+        <span className="text-[#181710] dark:text-white text-sm font-bold">
+          APIs
+        </span>
+      </nav>
 
       {/* API Keys Section */}
       <div className="flex flex-col gap-4 mt-10">
@@ -112,7 +101,7 @@ export function ApiKeysWebhookPage() {
             <span className="material-symbols-outlined text-primary">key</span> API Keys
           </h2>
           <span className="text-sm font-medium text-gray-400">
-            {activeKeysCount} Active Keys
+            {activeKeysCount} API Key
           </span>
         </div>
 
@@ -130,14 +119,10 @@ export function ApiKeysWebhookPage() {
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                   <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">
-                    Account Token
+                    API Key
                   </p>
                 </div>
-                <p className="text-base font-extrabold">
-                  {selectedAccount
-                    ? `Account #${selectedAccount.id} (${selectedAccount.bank_name})`
-                    : 'Chọn account để xem key'}
-                </p>
+                
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 font-mono text-sm flex items-center justify-between border border-dashed border-gray-200 dark:border-gray-700">
                   <span className="text-gray-600 dark:text-gray-300">
                     {maskKey(selectedAccount?.api_token)}
@@ -156,20 +141,7 @@ export function ApiKeysWebhookPage() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <select
-                  className="h-10 rounded-full bg-gray-100 dark:bg-gray-800 px-4 text-sm font-bold"
-                  value={activeAccountId ?? ''}
-                  onChange={(e) =>
-                    setActiveAccountId(e.target.value ? Number(e.target.value) : null)
-                  }
-                >
-                  <option value="">Chọn account…</option>
-                  {accounts.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      #{a.id} - {a.bank_name} ({a.account_number})
-                    </option>
-                  ))}
-                </select>
+                
 
                 <Button
                   variant="secondary"
@@ -222,7 +194,7 @@ export function ApiKeysWebhookPage() {
 
               <button className="flex items-center justify-center rounded-full h-10 px-6 bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-sm font-bold gap-2 hover:bg-primary hover:text-black transition-all w-fit">
                 <span className="material-symbols-outlined text-base">description</span>
-                View Docs
+                Xem tài liệu
               </button>
             </div>
             <div
@@ -243,10 +215,9 @@ export function ApiKeysWebhookPage() {
           <div className="flex flex-col gap-1">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">hub</span> Webhook
-              Deliveries
             </h2>
             <p className="text-sm font-medium text-gray-400">
-              Real-time event synchronization status
+              Tình trạng đồng bộ giao dịch thực tế
             </p>
           </div>
           <Button
@@ -261,7 +232,7 @@ export function ApiKeysWebhookPage() {
             <span className="material-symbols-outlined mr-2 text-base">
               settings_input_component
             </span>
-            Add Endpoint
+            Thêm endpoint
           </Button>
         </div>
 
@@ -270,11 +241,11 @@ export function ApiKeysWebhookPage() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-extrabold flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">settings</span>
-              Webhook Config
+              Cấu hình Webhook
             </h3>
             {saved && (
               <span className="inline-flex items-center gap-2 rounded-full bg-[#e6fcf5] px-3 py-1 text-xs font-bold text-[#0ca678]">
-                Saved
+                Đã lưu
               </span>
             )}
           </div>
@@ -285,18 +256,18 @@ export function ApiKeysWebhookPage() {
               placeholder="https://your-system.com/webhooks/hyperpay"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
-              rounded="sm"
+              rounded="md"
             />
             <Input
               label="Secret Token"
               placeholder="your-webhook-secret"
               value={secretToken}
               onChange={(e) => setSecretToken(e.target.value)}
-              rounded="sm"
+              rounded="md"
             />
-            <div className="flex items-center justify-between md:col-span-2 rounded-sm border border-gray-200 dark:border-gray-800 p-4">
+            <div className="flex items-center justify-between md:col-span-2 rounded-[20px] border border-[#eae5cd] dark:border-gray-800 p-4">
               <div className="flex flex-col">
-                <span className="text-sm font-bold">Active</span>
+                <span className="text-sm font-bold">Hoạt động</span>
                 <span className="text-xs text-gray-500 dark:text-gray-400">
                   Bật/tắt webhook gửi sự kiện giao dịch
                 </span>
@@ -305,7 +276,7 @@ export function ApiKeysWebhookPage() {
             </div>
             <div className="md:col-span-2 flex justify-end">
               <Button type="submit" disabled={webhookLoading} size="sm">
-                {webhookLoading ? 'Saving...' : 'Save Config'}
+                {webhookLoading ? 'Đang lưu...' : 'Lưu cấu hình'}
               </Button>
             </div>
           </form>
@@ -315,11 +286,11 @@ export function ApiKeysWebhookPage() {
         <Table className="text-left">
           <Thead className="bg-gray-50 dark:bg-gray-800/50">
             <tr>
-              <Th className="text-gray-500">Event Type</Th>
-              <Th className="text-gray-500">Endpoint</Th>
-              <Th className="text-gray-500">Timestamp</Th>
-              <Th className="text-gray-500">Status Message</Th>
-              <Th className="text-right text-gray-500">Details</Th>
+              <Th className="text-gray-500">Loại sự kiện</Th>
+              <Th className="text-gray-500">Điểm cuối</Th>
+              <Th className="text-gray-500">Thời gian</Th>
+              <Th className="text-gray-500">Trạng thái</Th>
+              <Th className="text-right text-gray-500">Chi tiết</Th>
             </tr>
           </Thead>
           <Tbody className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -342,7 +313,7 @@ export function ApiKeysWebhookPage() {
               </Td>
               <Td className="whitespace-nowrap">
                 <div className="inline-flex items-center gap-2 rounded-full bg-[#e6fcf5] px-3 py-1 text-xs font-bold text-[#0ca678]">
-                  <span>Webhook delivered successfully 🎯</span>
+                  <span>Webhook gửi thành công 🎯</span>
                 </div>
               </Td>
               <Td className="whitespace-nowrap text-right">
@@ -361,7 +332,7 @@ export function ApiKeysWebhookPage() {
           help_center
         </span>
         <div className="absolute right-16 bg-black text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-          Need help with APIs?
+          Cần trợ giúp với APIs?
         </div>
       </button>
     </AuthenticatedLayout>

@@ -39,7 +39,7 @@ export function LoginPage() {
                     shield_person
                   </span>
                 </div>
-                <h2 className="text-xl font-extrabold tracking-tight">Hero Fintech</h2>
+                <h2 className="text-xl font-extrabold tracking-tight">HyperPay</h2>
               </div>
               <div
                 className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg mb-12 shadow-2xl shadow-[#6366f1]/20"
@@ -77,7 +77,7 @@ export function LoginPage() {
                   bolt
                 </span>
               </div>
-              <span className="text-base font-bold">Hero Fintech</span>
+              <span className="text-base font-bold">HyperPay</span>
             </div>
             <div className="w-full max-w-[440px]">
               <div className="mb-10 text-left">

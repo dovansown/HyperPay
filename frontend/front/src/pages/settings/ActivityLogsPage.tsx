@@ -3,33 +3,33 @@ import Input from '../../components/ui/Input'
 
 export function ActivityLogsPage() {
   return (
-    <div className="max-w-[1300px] mx-auto space-y-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div>
-            <h2 className="text-3xl font-black tracking-tight text-[#1d1a0c] dark:text-white">
-              Security &amp; Audit Logs
-            </h2>
-            <p className="text-[#a19345] mt-2 font-medium">
-              Real-time transparency into your system&apos;s critical activities.
+    <div className="">
+        <header className="p-8 max-w-[1300px] mx-auto w-full">
+        <div className="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
+          <span className="hover:text-primary transition-colors cursor-default">
+            Tài khoản
+          </span>
+          <span className="material-symbols-outlined text-xs">chevron_right</span>
+          <span className="text-[#181711] dark:text-white">Nhật kí hoạt động</span>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <h1 className="text-[#181711] dark:text-white text-base font-bold tracking-tight mb-4">
+              Nhật kí hoạt động
+            </h1>
+            <p className="text-[#8c855f] dark:text-[#a19b80] text-sm font-medium">
+              Hiển thị hoạt động quan trọng của hệ thống
             </p>
           </div>
-          <div className="flex gap-3">
-            <button className="flex items-center justify-center gap-2 px-6 h-12 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold shadow-sm">
-              <span className="material-symbols-outlined text-base">download</span>
-              Export Logs
-            </button>
-            <button className="flex items-center justify-center gap-2 px-6 h-12 bg-primary text-[#1d1a0c] rounded-full text-sm font-bold shadow-md">
-              <span className="material-symbols-outlined text-base">refresh</span>
-              Live Update
-            </button>
-          </div>
         </div>
+      </header>
+      <div className="max-w-[1300px] mx-auto space-y-8 px-8">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg flex flex-col gap-2">
             <div className="flex justify-between items-start">
               <p className="text-[#a19345] text-sm font-bold uppercase tracking-wide">
-                Total Events (24h)
+                Tổng sự kiện (24h)
               </p>
               <span className="material-symbols-outlined text-[#7c3aed]">analytics</span>
             </div>
@@ -38,10 +38,10 @@ export function ActivityLogsPage() {
               <span className="material-symbols-outlined text-xs">trending_up</span> +12.5%
             </p>
           </div>
-          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg flex flex-col gap-2">
             <div className="flex justify-between items-start">
               <p className="text-[#a19345] text-sm font-bold uppercase tracking-wide">
-                Failed Logins
+                Đăng nhập thất bại
               </p>
               <span className="material-symbols-outlined text-red-500">lock_open</span>
             </div>
@@ -50,10 +50,10 @@ export function ActivityLogsPage() {
               <span className="material-symbols-outlined text-xs">warning</span> High Risk
             </p>
           </div>
-          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg border border-[#eae5cd] dark:border-[#3d3a25] flex flex-col gap-2">
+          <div className="bg-white dark:bg-[#2d2a15] p-6 rounded-lg flex flex-col gap-2">
             <div className="flex justify-between items-start">
               <p className="text-[#a19345] text-sm font-bold uppercase tracking-wide">
-                Active API Keys
+                API Keys hoạt động
               </p>
               <span className="material-symbols-outlined text-primary">key</span>
             </div>
@@ -68,26 +68,26 @@ export function ActivityLogsPage() {
               search
             </span>
             <Input
-              className="h-14 pl-12"
-              placeholder="Search IP, User, or Event Type..."
+              rounded="md"
+              placeholder="Tìm kiếm IP, người dùng, hoặc loại sự kiện..."
             />
           </div>
           <div className="flex flex-wrap gap-3">
             <button className="flex items-center gap-2 px-4 py-2 bg-primary text-[#1d1a0c] rounded-full text-sm font-bold">
-              All Events
+              Tất cả sự kiện
               <span className="material-symbols-outlined text-sm">keyboard_arrow_down</span>
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold">
-              Critical Level
+              Mức độ quan trọng
               <span className="material-symbols-outlined text-sm">keyboard_arrow_down</span>
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold">
-              API Actions
+              Hành động API
               <span className="material-symbols-outlined text-sm">keyboard_arrow_down</span>
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-[#2d2a15] border border-[#eae5cd] dark:border-[#3d3a25] rounded-full text-sm font-bold ml-auto">
               <span className="material-symbols-outlined text-sm">calendar_month</span>
-              Last 7 Days
+              7 ngày trước
             </button>
           </div>
         </div>
@@ -215,9 +215,10 @@ export function ActivityLogsPage() {
 
         <div className="flex justify-center pt-4">
           <Button variant="secondary" size="md">
-            Load Older Activities
+            Tải thêm hoạt động
           </Button>
         </div>
+    </div>
     </div>
   )
 }

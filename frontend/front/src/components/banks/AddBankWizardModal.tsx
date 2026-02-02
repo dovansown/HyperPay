@@ -4,7 +4,7 @@ import Button from '../ui/Button'
 import Input from '../ui/Input'
 import Modal from '../ui/Modal'
 
-type BankOption = { code: string; name: string }
+type BankOption = { code: string; name: string; icon: string }
 
 interface AddBankWizardModalProps {
   isOpen: boolean
@@ -83,7 +83,7 @@ export function AddBankWizardModal({
     <Modal
       isOpen={isOpen}
       onClose={handleCancel}
-      maxWidthClassName="max-w-[900px]"
+      maxWidthClassName="max-w-[1000px]"
       viewportPaddingClassName="p-6"
     >
       <div className="flex flex-col">
@@ -91,10 +91,10 @@ export function AddBankWizardModal({
         <div className="flex flex-col gap-3 p-8 border-b border-[#f5f4f0] dark:border-[#3a3622]">
           <div className="flex gap-6 justify-between items-center">
             <p className="text-[#181710] dark:text-white text-base font-bold leading-normal">
-              Link New Bank Account
+              Thêm tài khoản ngân hàng mới
             </p>
             <p className="text-primary text-sm font-bold leading-normal bg-black dark:bg-primary dark:text-black px-3 py-1 rounded-full">
-              Step {step} of 3
+              Bước {step} / 3
             </p>
           </div>
           <div className="rounded-full bg-[#e7e5da] dark:bg-[#3a3622] h-3">
@@ -102,7 +102,7 @@ export function AddBankWizardModal({
           </div>
           <p className="text-[#8d865e] text-sm font-medium leading-normal flex items-center gap-2">
             <span className="material-symbols-outlined text-sm">lock</span>
-            Choose your institution to connect securely
+            Chọn ngân hàng để kết nối an toàn
           </p>
         </div>
 
@@ -114,7 +114,8 @@ export function AddBankWizardModal({
               {/* Search */}
               <div className="mb-10 max-w-xl mx-auto">
               <Input
-                placeholder='Search for your bank (e.g. VCB, TCB...)'
+                rounded="md"
+                placeholder='Tìm kiếm ngân hàng (ví dụ: VCB, TCB...)'
                       iconLeft={<span className="material-symbols-outlined">search</span>}
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
@@ -122,7 +123,7 @@ export function AddBankWizardModal({
               </div>
 
               {/* Bank grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-2">
                 {filtered.map((b) => {
                   const selected = selectedBank?.code === b.code
                   return (
@@ -130,15 +131,13 @@ export function AddBankWizardModal({
                       key={b.code}
                       type="button"
                       className={[
-                        'bank-card flex flex-col items-center justify-center p-6 bg-[#f8f8f5] dark:bg-[#2a2715] rounded-lg border-2 group transition-all',
+                        'bank-card flex flex-col items-center justify-center p-4 bg-[#f8f8f5] dark:bg-[#2a2715] rounded-lg border-2 group transition-all',
                         selected ? 'border-primary' : 'border-transparent hover:border-primary',
                       ].join(' ')}
                       onClick={() => setSelectedBank(b)}
                     >
-                      <div className="size-12 rounded-full bg-blue-600 flex items-center justify-center text-white mb-3 shadow-lg">
-                        <span className="material-symbols-outlined text-xl">
-                          account_balance
-                        </span>
+                      <div className="size-20 rounded-[20px] flex items-center justify-center text-white mb-3 bg-white">
+                        <img src={b.icon} alt={b.name} className="w-full h-full object-contain" />
                       </div>
                       <span className="font-bold text-[#181710] dark:text-white">
                         {b.code}
@@ -157,7 +156,7 @@ export function AddBankWizardModal({
                     <span className="material-symbols-outlined text-xl">more_horiz</span>
                   </div>
                   <span className="font-bold text-[#181710] dark:text-white">
-                    Other Banks
+                    Ngân hàng khác
                   </span>
                 </button>
               </div>
@@ -169,7 +168,7 @@ export function AddBankWizardModal({
             <>
               <div className="text-center mb-8">
                 <h1 className="text-[#181710] dark:text-white tracking-tight text-[28px] font-extrabold leading-tight mb-2">
-                  Enter account details
+                  Nhập thông tin tài khoản
                 </h1>
                 <p className="text-[#8d865e] text-base font-normal max-w-lg mx-auto">
                   Bank: <span className="font-bold">{selectedBank?.name}</span> (
@@ -179,12 +178,14 @@ export function AddBankWizardModal({
               <form className="max-w-xl mx-auto space-y-4" onSubmit={handleContinue}>
                 <Input
                   label="Số tài khoản"
+                  rounded="md"
                   placeholder="0123456789"
                   value={accountNumber}
                   onChange={(e) => setAccountNumber(e.target.value)}
                 />
                 <Input
                   label="Chủ tài khoản"
+                  rounded="md"
                   placeholder="Nguyen Van A"
                   value={accountHolder}
                   onChange={(e) => setAccountHolder(e.target.value)}
@@ -206,10 +207,10 @@ export function AddBankWizardModal({
                 </span>
               </div>
               <h1 className="text-[#181710] dark:text-white tracking-tight text-[28px] font-extrabold leading-tight mb-2">
-                Connected!
+                Đã kết nối!
               </h1>
               <p className="text-[#8d865e] text-base font-normal max-w-lg mx-auto">
-                Your bank account has been linked successfully.
+                Tài khoản ngân hàng của bạn đã được kết nối thành công.
               </p>
             </div>
           )}
@@ -221,19 +222,19 @@ export function AddBankWizardModal({
                 <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
-                256-bit AES
+                Chuẩn mã hóa AES-256
               </div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
                 <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
-                FCA Regulated
+                Được quản lý bởi FCA
               </div>
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
                 <span className="material-symbols-outlined text-green-500 text-base">
                   verified_user
                 </span>
-                End-to-end Encrypted
+                Chuẩn mã hóa AES-256
               </div>
             </div>
 
@@ -245,7 +246,7 @@ export function AddBankWizardModal({
                 variant="outline"
                 onClick={handleCancel}
               >
-                Hủy bỏ
+                Hủy
               </Button>
               <Button
                 className='w-full'
@@ -255,12 +256,12 @@ export function AddBankWizardModal({
                 disabled={Boolean(isSubmitting) || (step === 1 && !selectedBank)}
               >
                 {step === 1
-                  ? 'Continue'
+                  ? 'Tiếp tục'
                   : step === 2
                     ? isSubmitting
-                      ? 'Linking...'
-                      : 'Link Bank'
-                    : 'Done'}
+                      ? 'Đang kết nối...'
+                      : 'Kết nối ngân hàng'
+                    : 'Hoàn thành'}
               </Button>
             </div>
           </div>
@@ -270,7 +271,7 @@ export function AddBankWizardModal({
         <div className="bg-primary/10 dark:bg-primary/5 p-6 flex items-center justify-center gap-4 overflow-hidden relative">
           <div className="flex flex-col text-center">
             <p className="text-sm font-bold text-[#8d865e] dark:text-[#a19a7c]">
-              Don&apos;t see your bank? We&apos;re adding new ones every day!
+              Không thấy ngân hàng của bạn? Chúng tôi đang thêm ngân hàng mới hàng ngày!
             </p>
           </div>
           <div className="absolute -right-8 -bottom-8 size-24 bg-primary rounded-full blur-2xl opacity-20" />

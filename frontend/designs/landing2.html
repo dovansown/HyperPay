@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Hero Landing: Trust &amp; Pricing</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hero Landing: Trust &amp; Pricing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -31,307 +38,383 @@
             },
         }
     </script>
-<style>
+    <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
         .pro-highlight {
             box-shadow: 0 20px 25px -5px rgba(242, 208, 13, 0.1), 0 10px 10px -5px rgba(242, 208, 13, 0.04);
         }
     </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark text-[#1c1a0d] dark:text-white transition-colors duration-300">
-<div class="layout-container flex h-full grow flex-col">
-<!-- Header -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-10 py-5 max-w-[1200px] mx-auto w-full">
-<div class="flex items-center gap-4 text-[#1c1a0d] dark:text-white">
-<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-white">bolt</span>
-</div>
-<h2 class="text-xl font-extrabold leading-tight tracking-[-0.015em]">Hero Fintech</h2>
-</div>
-<div class="flex flex-1 justify-end gap-8 items-center">
-<nav class="hidden md:flex items-center gap-9">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Product</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Integrations</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Pricing</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Community</a>
-</nav>
-<div class="flex gap-3">
-<button class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-full h-11 px-5 bg-primary text-black text-sm font-bold hover:brightness-105 transition-all">
+    <div class="layout-container flex h-full grow flex-col">
+        <!-- Header -->
+        <header
+            class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-10 py-5 max-w-[1200px] mx-auto w-full">
+            <div class="flex items-center gap-4 text-[#1c1a0d] dark:text-white">
+                <div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white">bolt</span>
+                </div>
+                <h2 class="text-xl font-extrabold leading-tight tracking-[-0.015em]">HyperPay</h2>
+            </div>
+            <div class="flex flex-1 justify-end gap-8 items-center">
+                <nav class="hidden md:flex items-center gap-9">
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Product</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Integrations</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Pricing</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Community</a>
+                </nav>
+                <div class="flex gap-3">
+                    <button
+                        class="flex min-w-[100px] cursor-pointer items-center justify-center rounded-full h-11 px-5 bg-primary text-black text-sm font-bold hover:brightness-105 transition-all">
                         Get Started
                     </button>
-</div>
-</div>
-</header>
-<main class="flex flex-col items-center">
-<!-- Section 11: Testimonials (Hero Stories) -->
-<section class="w-full max-w-[1200px] py-20 px-4 md:px-10">
-<div class="flex flex-col items-center mb-12 text-center">
-<span class="bg-primary/20 text-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">Success Stories</span>
-<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Hero Stories</h2>
-<p class="mt-4 text-gray-500 dark:text-gray-400 max-w-2xl">Join thousands of high-growth companies that use Hero to power their financial infrastructure.</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Review 1 -->
-<div class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
-<div class="flex gap-1 text-primary">
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-</div>
-<p class="text-lg leading-relaxed font-medium italic">"Hero transformed our financial workflow overnight. The speed is unmatched, and the API is a dream to work with."</p>
-<div class="flex items-center gap-4 mt-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Portrait of Alex Rivers, smiling professionally" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCsLl-Q57r7XByObIyqE2ObpyOxryJXQmbgK9urgIJAE42auT7BIplchiCJPrs3oBG0mCcTEi4P_sEbcDtbEZyqT0jaZpgP4Ze48gqq05DfQ_Th_weGFnb61dwznzhrO2HJCjYLMw1vizvCBbENisGxo0Nq6SuVM42BXl_0xmp_jVAXj_-5evmMtmxKXVSOdJOXNNYFeW3e6zy9NzTbS3SwL3Ub_ldL4TlY1wqf4MxiQ3xlAwjALRLcmisfxSe2upZwHWCeqG14xNI_");'></div>
-<div>
-<p class="font-bold">Alex Rivers</p>
-<p class="text-sm text-gray-500 dark:text-gray-400">CTO, Streamline Global</p>
-</div>
-</div>
-</div>
-<!-- Review 2 -->
-<div class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
-<div class="flex gap-1 text-primary">
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-</div>
-<p class="text-lg leading-relaxed font-medium italic">"Integrating with our existing stack took minutes. High energy and high impact. The best SaaS tool we've used this year."</p>
-<div class="flex items-center gap-4 mt-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Portrait of Sam Nguyen, creative professional" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuACZWP09g5F1if3JXsN-YqMZttaiW3x2xPtgBoUJN6zGpG0ej_kCIsATEUpr8uOctyxYMa1eux8iPnoYIaLj6uKVE14oTKq9HTceKnmChTEgvSx_zdczJWbiVpvprKAW6eti5v0t1CJoHgc6boUDiUfBjQaWnyx3hlK1iPERFf0dMwkmxyJNIiJSLkL-pC4JQNvyM80RJAhPGd4yzO-yKwXrNgtjbNkA_EkDl_UQwfjzebd1nSXJ5tVtj00lr5KOTM5DdgcL_Gs4KeI");'></div>
-<div>
-<p class="font-bold">Sam Nguyen</p>
-<p class="text-sm text-gray-500 dark:text-gray-400">Founder, NexaPay</p>
-</div>
-</div>
-</div>
-<!-- Review 3 -->
-<div class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
-<div class="flex gap-1 text-primary">
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-<span class="material-symbols-outlined">star</span>
-</div>
-<p class="text-lg leading-relaxed font-medium italic">"The Pro Hero plan is a game changer for scaling teams. Our reconciliation time dropped by 80% in the first month."</p>
-<div class="flex items-center gap-4 mt-4">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Portrait of Jordan Lee, operations manager" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxFZPIP0gkoElgRZfu1ONOpLUtvA88heNokSIktWaVC4LaUPgoEBS822irrLBTeQkzDlGx0L1F6RfP1YKy9lGf_F2sbj6QPEVYEdpLbmHZQzYAdjR0MVXyaJarK582TDIqOcfZOo7ZOvKJypocGzhIF8agYZ-iz45U6xa1DUcfx8ZWT-NMGgmG2p2GmW5kJ_ifsX6gFgvcgF9zlswsQ_UWWUkiNyOu_eh-DsmtkNkM44dgxTSUC548LgzlqoOsrW_9Zz3Pxkj7Ds--");'></div>
-<div>
-<p class="font-bold">Jordan Lee</p>
-<p class="text-sm text-gray-500 dark:text-gray-400">Head of Ops, VentureFlow</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 12: Integration Ecosystem -->
-<section class="w-full bg-white dark:bg-[#1e1c0d] py-20">
-<div class="max-w-[1200px] mx-auto px-4 md:px-10">
-<div class="flex flex-col items-center mb-12 text-center">
-<h2 class="text-3xl font-extrabold tracking-tight mb-4">Seamless Integrations</h2>
-<p class="text-gray-500 dark:text-gray-400 max-w-xl">Hero connects with the tools you already love and the banks you trust.</p>
-</div>
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">forum</span>
-<span class="font-bold">Slack</span>
-</div>
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">send</span>
-<span class="font-bold">Telegram</span>
-</div>
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">mail</span>
-<span class="font-bold">Gmail</span>
-</div>
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">account_balance</span>
-<span class="font-bold">Chase</span>
-</div>
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">payments</span>
-<span class="font-bold">HSBC</span>
-</div>
-<div class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
-<span class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">terminal</span>
-<span class="font-bold">Stripe</span>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 13: Pricing Table -->
-<section class="w-full max-w-[1200px] py-24 px-4 md:px-10">
-<div class="flex flex-col items-center mb-16 text-center">
-<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Choose Your Power</h2>
-<div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-full mt-4">
-<button class="px-6 py-2 rounded-full text-sm font-bold bg-white dark:bg-[#2d2a1a] shadow-sm">Monthly</button>
-<button class="px-6 py-2 rounded-full text-sm font-bold text-gray-500">Yearly (Save 20%)</button>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-<!-- Starter -->
-<div class="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
-<h3 class="text-xl font-bold mb-2">Starter</h3>
-<p class="text-gray-500 dark:text-gray-400 mb-6">For solo founders and enthusiasts.</p>
-<div class="flex items-baseline gap-1 mb-8">
-<span class="text-4xl font-extrabold">$0</span>
-<span class="text-gray-500">/mo</span>
-</div>
-<ul class="flex flex-col gap-4 mb-10 flex-grow">
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-<span>Up to 100 transactions</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-<span>3 Bank integrations</span>
-</li>
-<li class="flex items-center gap-3 text-gray-400 line-through">
-<span class="material-symbols-outlined text-sm">check_circle</span>
-<span>Priority support</span>
-</li>
-</ul>
-<button class="w-full py-4 rounded-full border border-primary text-primary font-bold hover:bg-primary/5 transition-colors">Start for Free</button>
-</div>
-<!-- Pro Hero -->
-<div class="relative bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border-4 border-primary pro-highlight flex flex-col h-full scale-105 z-10">
-<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-black px-4 py-1 rounded-full uppercase tracking-widest">Most Popular</div>
-<h3 class="text-xl font-bold mb-2">Pro Hero</h3>
-<p class="text-gray-500 dark:text-gray-400 mb-6">For growing teams and startups.</p>
-<div class="flex items-baseline gap-1 mb-8">
-<span class="text-4xl font-extrabold">$29</span>
-<span class="text-gray-500">/mo</span>
-</div>
-<ul class="flex flex-col gap-4 mb-10 flex-grow font-medium">
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-<span>Unlimited transactions</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-<span>Unlimited integrations</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-<span>Team collaboration</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-<span>Custom webhooks</span>
-</li>
-</ul>
-<button class="w-full py-4 rounded-full bg-primary text-black font-extrabold hover:brightness-105 transition-all shadow-lg">Go Pro Hero</button>
-</div>
-<!-- Enterprise -->
-<div class="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
-<h3 class="text-xl font-bold mb-2">Enterprise</h3>
-<p class="text-gray-500 dark:text-gray-400 mb-6">For global corporations.</p>
-<div class="flex items-baseline gap-1 mb-8">
-<span class="text-4xl font-extrabold">Custom</span>
-</div>
-<ul class="flex flex-col gap-4 mb-10 flex-grow">
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-<span>Dedicated account manager</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-<span>Custom SLA &amp; Security</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
-<span>On-premise options</span>
-</li>
-</ul>
-<button class="w-full py-4 rounded-full border border-gray-200 dark:border-gray-700 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Contact Sales</button>
-</div>
-</div>
-</section>
-<!-- Section 14: FAQ Section -->
-<section class="w-full bg-[#fcfbf8] dark:bg-[#221f10] py-24 px-4 md:px-10 border-y border-primary/10">
-<div class="max-w-[800px] mx-auto">
-<h2 class="text-3xl font-extrabold text-center mb-12">Frequently Asked Questions</h2>
-<div class="flex flex-col gap-4">
-<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
-<div class="flex justify-between items-center">
-<h4 class="font-bold text-lg">How secure is Hero Fintech?</h4>
-<span class="material-symbols-outlined text-primary transition-transform group-hover:rotate-45">add</span>
-</div>
-<div class="mt-4 text-gray-500 dark:text-gray-400 hidden group-hover:block transition-all">
-                                We use bank-grade AES-256 encryption and are SOC2 Type II compliant. Your data security is our top priority.
+                </div>
+            </div>
+        </header>
+        <main class="flex flex-col items-center">
+            <!-- Section 11: Testimonials (Hero Stories) -->
+            <section class="w-full max-w-[1200px] py-20 px-4 md:px-10">
+                <div class="flex flex-col items-center mb-12 text-center">
+                    <span
+                        class="bg-primary/20 text-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4">Success
+                        Stories</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Hero Stories</h2>
+                    <p class="mt-4 text-gray-500 dark:text-gray-400 max-w-2xl">Join thousands of high-growth companies
+                        that use Hero to power their financial infrastructure.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Review 1 -->
+                    <div
+                        class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                        </div>
+                        <p class="text-lg leading-relaxed font-medium italic">"Hero transformed our financial workflow
+                            overnight. The speed is unmatched, and the API is a dream to work with."</p>
+                        <div class="flex items-center gap-4 mt-4">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                data-alt="Portrait of Alex Rivers, smiling professionally"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCsLl-Q57r7XByObIyqE2ObpyOxryJXQmbgK9urgIJAE42auT7BIplchiCJPrs3oBG0mCcTEi4P_sEbcDtbEZyqT0jaZpgP4Ze48gqq05DfQ_Th_weGFnb61dwznzhrO2HJCjYLMw1vizvCBbENisGxo0Nq6SuVM42BXl_0xmp_jVAXj_-5evmMtmxKXVSOdJOXNNYFeW3e6zy9NzTbS3SwL3Ub_ldL4TlY1wqf4MxiQ3xlAwjALRLcmisfxSe2upZwHWCeqG14xNI_");'>
                             </div>
-</div>
-<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
-<div class="flex justify-between items-center">
-<h4 class="font-bold text-lg">Can I migrate from legacy platforms?</h4>
-<span class="material-symbols-outlined text-primary">add</span>
-</div>
-</div>
-<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
-<div class="flex justify-between items-center">
-<h4 class="font-bold text-lg">Do you offer 24/7 technical support?</h4>
-<span class="material-symbols-outlined text-primary">add</span>
-</div>
-</div>
-<div class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
-<div class="flex justify-between items-center">
-<h4 class="font-bold text-lg">What are the API rate limits for Pro?</h4>
-<span class="material-symbols-outlined text-primary">add</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Section 15: Team/Culture snippet -->
-<section class="w-full max-w-[1200px] py-24 px-4 md:px-10">
-<div class="bg-primary/10 dark:bg-primary/5 rounded-lg p-10 md:p-20 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
-<div class="flex-1 z-10">
-<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight">Học hỏi và phát triển cùng cộng đồng</h2>
-<p class="text-xl text-gray-700 dark:text-gray-300 mb-10 max-w-lg">Learn and grow with our vibrant community of over 50,000 developers and financial experts.</p>
-<div class="flex flex-wrap gap-4">
-<button class="bg-primary text-black font-extrabold px-8 py-4 rounded-full hover:brightness-105 transition-all">Join Discord</button>
-<button class="bg-white dark:bg-[#2d2a1a] text-black dark:text-white font-bold px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 transition-all">View Our Culture</button>
-</div>
-</div>
-<div class="flex-1 flex gap-4 relative">
-<div class="flex flex-col gap-4 mt-12">
-<div class="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover" data-alt="Team members collaborating in a modern office" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOS2WreKRH2bVRaHGsF8ww1l2IztE7yYamatIH0oh6pWjHvPJTMG24eWg3Pq8_XmXLjkr_jZa6nlFtzMtRFQYNwTaDIsIL-V1LYmV0nebQeoWI79xo3OMOxf2_BgrbFGeferFjwUgAcC0ghqM69VRiX5oBhLMKm4Dzey2cuUtWMwV3kkmFBetQmRsRJM8mHGlnr5cL0DXRCSju6ryC0N1R9zfvXkB8bAw4GzeadxbGmXQ7e8NIqw2hVbvINYrijanGxXxScY2tDdtg');"></div>
-<div class="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover" data-alt="Hero Fintech company team retreat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3wK_qupZUZVxgBJYhIIcfMK6e4EluSkAkiygT41PCS_XcjTaYDqQ4dhHxQrQ0deARMm8NAcHxd6fc0Eg5cPcqo2Z9B1g8PBXSweX72L5IO3THTnd-0EViXPjsptQxF4LGsqvjx-x5Tz2UnRQ9_PVn_xGf8rYCs0u1E9X4iqI0rZv2uNcsK2xN5qz3H7Kw_LurLG_G6e5PiQvO9-cnazjIDoIED71K3W3AlkYd7csX2gWHHBGCSaBiinvAL53ewvOypTJYL-6CS5cu');"></div>
-</div>
-<div class="flex flex-col gap-4">
-<div class="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover" data-alt="Developer coding on Hero Fintech platform" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARbcBbKAjcnuXVWFXl0SE6vflHpM3vKgYcRzsuLBeCfzMnnRz1ZyeqDz85KgetjGCko-fXn5owB1foAAJekyC3jb4vjUKnvsQj_FHSU593A02T5wVGJyxx4xxVe2W22lOptnxrO6QzQJFhDQuKNa_2oOk6U0-B6TZQJPXZPYX05QUgwPgDwbPvwyssaPvBrViJto0KmbscriIriQZ2wQfvVPzmGfcEt5xgxLj_JU4UJ-FuRMl5aqlgzR8JAi0qMhHzuOl1Zn-xT6IL');"></div>
-<div class="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover" data-alt="Team celebrating a milestone together" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCstabPzgTOjdKvukMkSmnFHPRRvoRj3iedl9ymE9zcATYNZHFU_E3DaRphqDEhdSB7KqvMK-iyNWg-Ej_obYixMdFbaZXZAxAqJfYmy63NvqsEcd2fDeph9-IIX3Qwcq2uKL9wPj56M_YPrz3rvhNypjq216vGs1kM3BVRHjE7efLTsobl-_oxMPT2yAxSra3pnPdFl39XYIOGZa8rTb2b3sAhtIUGFEbFJJsR4BYJ2ROqAzQ0_7ojHz9MY8xWCw9az2snoEmdwCjh');"></div>
-</div>
-</div>
-<!-- Decorative Element -->
-<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="w-full bg-white dark:bg-[#1e1c0d] border-t border-primary/10 py-12 px-10">
-<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-6 bg-primary rounded flex items-center justify-center">
-<span class="material-symbols-outlined text-white text-xs">bolt</span>
-</div>
-<span class="font-bold">Hero Fintech</span>
-</div>
-<p class="text-sm text-gray-500">© 2024 Hero Fintech. Powering the next generation of finance.</p>
-<div class="flex gap-6">
-<a class="text-gray-400 hover:text-primary transition-colors" href="#">Twitter</a>
-<a class="text-gray-400 hover:text-primary transition-colors" href="#">LinkedIn</a>
-<a class="text-gray-400 hover:text-primary transition-colors" href="#">GitHub</a>
-</div>
-</div>
-</footer>
-</div>
-</body></html>
+                            <div>
+                                <p class="font-bold">Alex Rivers</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">CTO, Streamline Global</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 2 -->
+                    <div
+                        class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                        </div>
+                        <p class="text-lg leading-relaxed font-medium italic">"Integrating with our existing stack took
+                            minutes. High energy and high impact. The best SaaS tool we've used this year."</p>
+                        <div class="flex items-center gap-4 mt-4">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                data-alt="Portrait of Sam Nguyen, creative professional"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuACZWP09g5F1if3JXsN-YqMZttaiW3x2xPtgBoUJN6zGpG0ej_kCIsATEUpr8uOctyxYMa1eux8iPnoYIaLj6uKVE14oTKq9HTceKnmChTEgvSx_zdczJWbiVpvprKAW6eti5v0t1CJoHgc6boUDiUfBjQaWnyx3hlK1iPERFf0dMwkmxyJNIiJSLkL-pC4JQNvyM80RJAhPGd4yzO-yKwXrNgtjbNkA_EkDl_UQwfjzebd1nSXJ5tVtj00lr5KOTM5DdgcL_Gs4KeI");'>
+                            </div>
+                            <div>
+                                <p class="font-bold">Sam Nguyen</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Founder, NexaPay</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 3 -->
+                    <div
+                        class="flex flex-col gap-6 bg-white dark:bg-[#2d2a1a] p-8 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                        </div>
+                        <p class="text-lg leading-relaxed font-medium italic">"The Pro Hero plan is a game changer for
+                            scaling teams. Our reconciliation time dropped by 80% in the first month."</p>
+                        <div class="flex items-center gap-4 mt-4">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12"
+                                data-alt="Portrait of Jordan Lee, operations manager"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxFZPIP0gkoElgRZfu1ONOpLUtvA88heNokSIktWaVC4LaUPgoEBS822irrLBTeQkzDlGx0L1F6RfP1YKy9lGf_F2sbj6QPEVYEdpLbmHZQzYAdjR0MVXyaJarK582TDIqOcfZOo7ZOvKJypocGzhIF8agYZ-iz45U6xa1DUcfx8ZWT-NMGgmG2p2GmW5kJ_ifsX6gFgvcgF9zlswsQ_UWWUkiNyOu_eh-DsmtkNkM44dgxTSUC548LgzlqoOsrW_9Zz3Pxkj7Ds--");'>
+                            </div>
+                            <div>
+                                <p class="font-bold">Jordan Lee</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Head of Ops, VentureFlow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Section 12: Integration Ecosystem -->
+            <section class="w-full bg-white dark:bg-[#1e1c0d] py-20">
+                <div class="max-w-[1200px] mx-auto px-4 md:px-10">
+                    <div class="flex flex-col items-center mb-12 text-center">
+                        <h2 class="text-3xl font-extrabold tracking-tight mb-4">Seamless Integrations</h2>
+                        <p class="text-gray-500 dark:text-gray-400 max-w-xl">Hero connects with the tools you already
+                            love and the banks you trust.</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">forum</span>
+                            <span class="font-bold">Slack</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">send</span>
+                            <span class="font-bold">Telegram</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">mail</span>
+                            <span class="font-bold">Gmail</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">account_balance</span>
+                            <span class="font-bold">Chase</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">payments</span>
+                            <span class="font-bold">HSBC</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-6 rounded-lg border border-gray-100 dark:border-gray-800 hover:border-primary transition-all group">
+                            <span
+                                class="material-symbols-outlined text-4xl mb-3 group-hover:scale-110 transition-transform">terminal</span>
+                            <span class="font-bold">Stripe</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Section 13: Pricing Table -->
+            <section class="w-full max-w-[1200px] py-24 px-4 md:px-10">
+                <div class="flex flex-col items-center mb-16 text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Choose Your Power</h2>
+                    <div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-full mt-4">
+                        <button
+                            class="px-6 py-2 rounded-full text-sm font-bold bg-white dark:bg-[#2d2a1a] shadow-sm">Monthly</button>
+                        <button class="px-6 py-2 rounded-full text-sm font-bold text-gray-500">Yearly (Save
+                            20%)</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                    <!-- Starter -->
+                    <div
+                        class="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
+                        <h3 class="text-xl font-bold mb-2">Starter</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">For solo founders and enthusiasts.</p>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-4xl font-extrabold">$0</span>
+                            <span class="text-gray-500">/mo</span>
+                        </div>
+                        <ul class="flex flex-col gap-4 mb-10 flex-grow">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Up to 100 transactions</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>3 Bank integrations</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-400 line-through">
+                                <span class="material-symbols-outlined text-sm">check_circle</span>
+                                <span>Priority support</span>
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 rounded-full border border-primary text-primary font-bold hover:bg-primary/5 transition-colors">Start
+                            for Free</button>
+                    </div>
+                    <!-- Pro Hero -->
+                    <div
+                        class="relative bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border-4 border-primary pro-highlight flex flex-col h-full scale-105 z-10">
+                        <div
+                            class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-black px-4 py-1 rounded-full uppercase tracking-widest">
+                            Most Popular</div>
+                        <h3 class="text-xl font-bold mb-2">Pro Hero</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">For growing teams and startups.</p>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-4xl font-extrabold">$29</span>
+                            <span class="text-gray-500">/mo</span>
+                        </div>
+                        <ul class="flex flex-col gap-4 mb-10 flex-grow font-medium">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                <span>Unlimited transactions</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                <span>Unlimited integrations</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                <span>Team collaboration</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                <span>Custom webhooks</span>
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 rounded-full bg-primary text-black font-extrabold hover:brightness-105 transition-all shadow-lg">Go
+                            Pro Hero</button>
+                    </div>
+                    <!-- Enterprise -->
+                    <div
+                        class="bg-white dark:bg-[#2d2a1a] p-10 rounded-lg border border-gray-100 dark:border-gray-800 flex flex-col h-full">
+                        <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mb-6">For global corporations.</p>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-4xl font-extrabold">Custom</span>
+                        </div>
+                        <ul class="flex flex-col gap-4 mb-10 flex-grow">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Dedicated account manager</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>Custom SLA &amp; Security</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+                                <span>On-premise options</span>
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 rounded-full border border-gray-200 dark:border-gray-700 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Contact
+                            Sales</button>
+                    </div>
+                </div>
+            </section>
+            <!-- Section 14: FAQ Section -->
+            <section class="w-full bg-[#fcfbf8] dark:bg-[#221f10] py-24 px-4 md:px-10 border-y border-primary/10">
+                <div class="max-w-[800px] mx-auto">
+                    <h2 class="text-3xl font-extrabold text-center mb-12">Frequently Asked Questions</h2>
+                    <div class="flex flex-col gap-4">
+                        <div
+                            class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-lg">How secure is HyperPay?</h4>
+                                <span
+                                    class="material-symbols-outlined text-primary transition-transform group-hover:rotate-45">add</span>
+                            </div>
+                            <div class="mt-4 text-gray-500 dark:text-gray-400 hidden group-hover:block transition-all">
+                                We use bank-grade AES-256 encryption and are SOC2 Type II compliant. Your data security
+                                is our top priority.
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-lg">Can I migrate from legacy platforms?</h4>
+                                <span class="material-symbols-outlined text-primary">add</span>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-lg">Do you offer 24/7 technical support?</h4>
+                                <span class="material-symbols-outlined text-primary">add</span>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-lg">What are the API rate limits for Pro?</h4>
+                                <span class="material-symbols-outlined text-primary">add</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Section 15: Team/Culture snippet -->
+            <section class="w-full max-w-[1200px] py-24 px-4 md:px-10">
+                <div
+                    class="bg-primary/10 dark:bg-primary/5 rounded-lg p-10 md:p-20 flex flex-col md:flex-row items-center gap-12 overflow-hidden relative">
+                    <div class="flex-1 z-10">
+                        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight">Học hỏi và
+                            phát triển cùng cộng đồng</h2>
+                        <p class="text-xl text-gray-700 dark:text-gray-300 mb-10 max-w-lg">Learn and grow with our
+                            vibrant community of over 50,000 developers and financial experts.</p>
+                        <div class="flex flex-wrap gap-4">
+                            <button
+                                class="bg-primary text-black font-extrabold px-8 py-4 rounded-full hover:brightness-105 transition-all">Join
+                                Discord</button>
+                            <button
+                                class="bg-white dark:bg-[#2d2a1a] text-black dark:text-white font-bold px-8 py-4 rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-50 transition-all">View
+                                Our Culture</button>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex gap-4 relative">
+                        <div class="flex flex-col gap-4 mt-12">
+                            <div class="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover"
+                                data-alt="Team members collaborating in a modern office"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOS2WreKRH2bVRaHGsF8ww1l2IztE7yYamatIH0oh6pWjHvPJTMG24eWg3Pq8_XmXLjkr_jZa6nlFtzMtRFQYNwTaDIsIL-V1LYmV0nebQeoWI79xo3OMOxf2_BgrbFGeferFjwUgAcC0ghqM69VRiX5oBhLMKm4Dzey2cuUtWMwV3kkmFBetQmRsRJM8mHGlnr5cL0DXRCSju6ryC0N1R9zfvXkB8bAw4GzeadxbGmXQ7e8NIqw2hVbvINYrijanGxXxScY2tDdtg');">
+                            </div>
+                            <div class="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
+                                data-alt="HyperPay company team retreat"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3wK_qupZUZVxgBJYhIIcfMK6e4EluSkAkiygT41PCS_XcjTaYDqQ4dhHxQrQ0deARMm8NAcHxd6fc0Eg5cPcqo2Z9B1g8PBXSweX72L5IO3THTnd-0EViXPjsptQxF4LGsqvjx-x5Tz2UnRQ9_PVn_xGf8rYCs0u1E9X4iqI0rZv2uNcsK2xN5qz3H7Kw_LurLG_G6e5PiQvO9-cnazjIDoIED71K3W3AlkYd7csX2gWHHBGCSaBiinvAL53ewvOypTJYL-6CS5cu');">
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <div class="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
+                                data-alt="Developer coding on HyperPay platform"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARbcBbKAjcnuXVWFXl0SE6vflHpM3vKgYcRzsuLBeCfzMnnRz1ZyeqDz85KgetjGCko-fXn5owB1foAAJekyC3jb4vjUKnvsQj_FHSU593A02T5wVGJyxx4xxVe2W22lOptnxrO6QzQJFhDQuKNa_2oOk6U0-B6TZQJPXZPYX05QUgwPgDwbPvwyssaPvBrViJto0KmbscriIriQZ2wQfvVPzmGfcEt5xgxLj_JU4UJ-FuRMl5aqlgzR8JAi0qMhHzuOl1Zn-xT6IL');">
+                            </div>
+                            <div class="w-32 md:w-48 h-48 md:h-64 rounded-lg bg-center bg-cover"
+                                data-alt="Team celebrating a milestone together"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCstabPzgTOjdKvukMkSmnFHPRRvoRj3iedl9ymE9zcATYNZHFU_E3DaRphqDEhdSB7KqvMK-iyNWg-Ej_obYixMdFbaZXZAxAqJfYmy63NvqsEcd2fDeph9-IIX3Qwcq2uKL9wPj56M_YPrz3rvhNypjq216vGs1kM3BVRHjE7efLTsobl-_oxMPT2yAxSra3pnPdFl39XYIOGZa8rTb2b3sAhtIUGFEbFJJsR4BYJ2ROqAzQ0_7ojHz9MY8xWCw9az2snoEmdwCjh');">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative Element -->
+                    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer class="w-full bg-white dark:bg-[#1e1c0d] border-t border-primary/10 py-12 px-10">
+            <div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="size-6 bg-primary rounded flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white text-xs">bolt</span>
+                    </div>
+                    <span class="font-bold">HyperPay</span>
+                </div>
+                <p class="text-sm text-gray-500">© 2024 HyperPay. Powering the next generation of finance.</p>
+                <div class="flex gap-6">
+                    <a class="text-gray-400 hover:text-primary transition-colors" href="#">Twitter</a>
+                    <a class="text-gray-400 hover:text-primary transition-colors" href="#">LinkedIn</a>
+                    <a class="text-gray-400 hover:text-primary transition-colors" href="#">GitHub</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

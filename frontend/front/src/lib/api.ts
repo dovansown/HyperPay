@@ -107,7 +107,7 @@ export const accountApi = {
   }) {
     return apiClient.post<BankAccount>('/accounts', data)
   },
-    listAccounts() {
+  listAccounts() {
     return apiClient.get<ResponsePagination<BankAccount>>('/accounts')
   },
   refreshToken(accountId: number) {
@@ -120,7 +120,7 @@ export const accountApi = {
 
 export const planApi = {
   listPlans() {
-    return apiClient.get<Plan[]>('/plans')
+    return apiClient.get<ResponsePagination<Plan>>('/plans')
   },
 }
 

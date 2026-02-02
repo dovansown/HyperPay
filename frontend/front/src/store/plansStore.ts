@@ -17,7 +17,7 @@ export const usePlansStore = create<PlansState>((set) => ({
     set({ isLoading: true, error: null })
     try {
       const res = await planApi.listPlans()
-      set({ plans: res.data ?? [], isLoading: false })
+      set({ plans: res.data?.data ?? [], isLoading: false })
     } catch (err) {
       console.error('fetchPlans error', err)
       set({ isLoading: false, error: 'Không tải được danh sách gói.' })

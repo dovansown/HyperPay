@@ -476,7 +476,7 @@ export function LandingPage() {
           <div className="flex flex-col gap-4">
             <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-6 border border-gray-100 dark:border-gray-800 cursor-pointer group">
               <div className="flex justify-between items-center">
-            <h4 className="font-bold text-base">How secure is Hero Fintech?</h4>
+            <h4 className="font-bold text-base">How secure is HyperPay?</h4>
                 <span className="material-symbols-outlined text-primary transition-transform group-hover:rotate-45">
                   add
                 </span>
@@ -546,7 +546,7 @@ export function LandingPage() {
               />
               <div
                 className="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
-                data-alt="Hero Fintech company team retreat"
+                data-alt="HyperPay company team retreat"
                 style={{
                   backgroundImage:
                     "url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3wK_qupZUZVxgBJYhIIcfMK6e4EluSkAkiygT41PCS_XcjTaYDqQ4dhHxQrQ0deARMm8NAcHxd6fc0Eg5cPcqo2Z9B1g8PBXSweX72L5IO3THTnd-0EViXPjsptQxF4LGsqvjx-x5Tz2UnRQ9_PVn_xGf8rYCs0u1E9X4iqI0rZv2uNcsK2xN5qz3H7Kw_LurLG_G6e5PiQvO9-cnazjIDoIED71K3W3AlkYd7csX2gWHHBGCSaBiinvAL53ewvOypTJYL-6CS5cu')",
@@ -556,7 +556,7 @@ export function LandingPage() {
             <div className="flex flex-col gap-4">
               <div
                 className="w-32 md:w-48 h-32 md:h-48 rounded-lg bg-center bg-cover"
-                data-alt="Developer coding on Hero Fintech platform"
+                data-alt="Developer coding on HyperPay platform"
                 style={{
                   backgroundImage:
                     "url('https://lh3.googleusercontent.com/aida-public/AB6AXuARbcBbKAjcnuXVWFXl0SE6vflHpM3vKgYcRzsuLBeCfzMnnRz1ZyeqDz85KgetjGCko-fXn5owB1foAAJekyC3jb4vjUKnvsQj_FHSU593A02T5wVGJyxx4xxVe2W22lOptnxrO6QzQJFhDQuKNa_2oOk6U0-B6TZQJPXZPYX05QUgwPgDwbPvwyssaPvBrViJto0KmbscriIriQZ2wQfvVPzmGfcEt5xgxLj_JU4UJ-FuRMl5aqlgzR8JAi0qMhHzuOl1Zn-xT6IL')",

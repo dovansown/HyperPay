@@ -3,9 +3,25 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
 export function DashboardPage() {
   return (
     <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto w-full px-6 lg:px-10 py-8">
+
+      {/* Breadcrumbs */}
+      <nav className="flex items-center gap-2 mb-6">
+        <a
+          className="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1"
+          href="#"
+        >
+          <span className="material-symbols-outlined text-base">home</span>
+          <span className="text-sm font-medium leading-none">Trang chủ</span>
+        </a>
+        <span className="text-[#8d865e] text-sm">/</span>
+        <span className="text-[#181710] dark:text-white text-sm font-bold">
+          Tổng quan
+        </span>
+      </nav>
+
       {/* System Status Action Panel */}
       <div className="mb-8">
-        <div className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 p-4 md:p-5 rounded-lg">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-white dark:bg-background-dark  p-4 md:p-5 rounded-lg">
           <div className="flex items-center gap-4 mb-4 md:mb-0 md:flex-1">
             <div className="flex items-center justify-center size-10 bg-[#34D399]/20 rounded-full">
               <span className="material-symbols-outlined text-[#34D399] font-bold">
@@ -14,36 +30,26 @@ export function DashboardPage() {
             </div>
             <div>
               <p className="text-sm font-bold leading-tight">
-                All systems operational 🟢
+                Tất cả hệ thống đang hoạt động 🟢
               </p>
               <p className="text-zinc-500 text-sm font-normal">
-                Global API status is stable across all 12 regions.
+                Tình trạng API ổn định trên toàn bộ hệ thống.
               </p>
             </div>
           </div>
           <a className="text-sm font-bold flex items-center gap-2 text-[#4C51BF] hover:underline md:ml-6" href="#">
-            View live status page
+            Xem trang trạng thái hoạt động
             <span className="material-symbols-outlined text-base">arrow_forward</span>
           </a>
         </div>
       </div>
 
-      {/* Page Heading */}
-      <div className="mb-10">
-        <h2 className="text-3xl lg:text-4xl font-black tracking-tight mb-2">
-          Good morning, Hero! 👋
-        </h2>
-        <p className="text-zinc-500 dark:text-zinc-400 text-base">
-          Here's a high-level overview of your bank transactions and API health.
-        </p>
-      </div>
-
       {/* Stats Overview Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05),0_8px_10px_-6px_rgba(0,0,0,0.05)] hover:border-primary/50 transition-colors group">
+        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-4 border border-zinc-100 dark:border-zinc-800 hover:border-primary/50 transition-colors group">
           <div className="flex justify-between items-start mb-6">
-            <div className="bg-primary/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-background-dark font-bold">
+            <div className="size-10 bg-primary/20 p-3 rounded-lg group-hover:scale-110 transition-transform flex items-center justify-center">
+              <span className="material-symbols-outlined text-background-dark font-bold text-xl">
                 payments
               </span>
             </div>
@@ -52,21 +58,21 @@ export function DashboardPage() {
             </span>
           </div>
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
-            Today's Total 💰
+            Tổng số tiền hôm nay 💰
           </p>
           <p className="text-3xl font-extrabold tracking-tighter">$42,500.00</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center justify-between">
-            <span className="text-xs font-medium text-zinc-400">Target: $50k</span>
+            <span className="text-xs font-medium text-zinc-400">Mục tiêu: $50k</span>
             <div className="h-1.5 w-24 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
               <div className="bg-primary h-full w-[85%] rounded-full" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05),0_8px_10px_-6px_rgba(0,0,0,0.05)] hover:border-[#4C51BF]/50 transition-colors group">
+        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 hover:border-[#4C51BF]/50 transition-colors group">
           <div className="flex justify-between items-start mb-6">
-            <div className="bg-[#4C51BF]/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-[#4C51BF] font-bold">
+            <div className="size-10 bg-[#4C51BF]/20 p-3 rounded-lg group-hover:scale-110 transition-transform flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#4C51BF] font-bold text-xl">
                 query_stats
               </span>
             </div>
@@ -75,7 +81,7 @@ export function DashboardPage() {
             </span>
           </div>
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
-            New Transactions 📈
+            Giao dịch mới 📈
           </p>
           <p className="text-3xl font-extrabold tracking-tighter">1,284</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800">
@@ -102,10 +108,10 @@ export function DashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05),0_8px_10px_-6px_rgba(0,0,0,0.05)] hover:border-[#34D399]/50 transition-colors group">
+        <div className="bg-white dark:bg-[#2d2a1a] rounded-lg p-8 border border-zinc-100 dark:border-zinc-800 hover:border-[#34D399]/50 transition-colors group">
           <div className="flex justify-between items-start mb-6">
-            <div className="bg-[#34D399]/20 p-3 rounded-lg group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-[#34D399] font-bold">
+            <div className="size-10 bg-[#34D399]/20 p-3 rounded-lg group-hover:scale-110 transition-transform flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#34D399] font-bold text-xl">
                 bolt
               </span>
             </div>
@@ -114,7 +120,7 @@ export function DashboardPage() {
             </span>
           </div>
           <p className="text-zinc-500 dark:text-zinc-400 font-bold text-sm uppercase tracking-widest mb-1">
-            API Uptime ⚡️
+            Tình trạng API ⚡️
           </p>
           <p className="text-3xl font-extrabold tracking-tighter">99.99%</p>
           <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 flex items-center gap-1">
@@ -136,29 +142,29 @@ export function DashboardPage() {
 
       {/* Section Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold tracking-tight">Recent Activity Overview</h3>
+        <h3 className="text-xl font-bold tracking-tight">Tổng quan hoạt động gần đây</h3>
         <button className="text-sm font-bold text-[#4C51BF] bg-[#4C51BF]/10 px-4 py-2 rounded-full hover:bg-[#4C51BF] hover:text-white transition-all">
-          View Full Report
+          Xem báo cáo đầy đủ
         </button>
       </div>
 
       {/* Activity Table Mockup */}
-      <div className="bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05),0_8px_10px_-6px_rgba(0,0,0,0.05)]">
+      <div className="bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead className="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800">
               <tr>
                 <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Transaction
+                  Giao dịch
                 </th>
                 <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Amount
+                  Số tiền
                 </th>
                 <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Status
+                  Trạng thái
                 </th>
                 <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Date
+                  Ngày
                 </th>
               </tr>
             </thead>
@@ -171,13 +177,13 @@ export function DashboardPage() {
                         shopping_bag
                       </span>
                     </div>
-                    <span className="font-bold">Apple Store, San Francisco</span>
+                    <span className="font-bold">Cửa hàng Apple, San Francisco</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 font-bold">-$1,299.00</td>
                 <td className="px-6 py-4">
                   <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
-                    Completed
+                    Hoàn thành
                   </span>
                 </td>
                 <td className="px-6 py-4 text-zinc-500 text-sm">Oct 24, 2023</td>
@@ -190,13 +196,13 @@ export function DashboardPage() {
                         account_balance_wallet
                       </span>
                     </div>
-                    <span className="font-bold">Inbound Wire - Stripe Inc.</span>
+                    <span className="font-bold">Chuyển tiền vào - Stripe Inc.</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 font-bold text-[#34D399]">+$14,500.00</td>
                 <td className="px-6 py-4">
                   <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
-                    Completed
+                    Hoàn thành
                   </span>
                 </td>
                 <td className="px-6 py-4 text-zinc-500 text-sm">Oct 23, 2023</td>
@@ -209,13 +215,13 @@ export function DashboardPage() {
                         public
                       </span>
                     </div>
-                    <span className="font-bold">AWS Cloud Services</span>
+                    <span className="font-bold">Dịch vụ Cloud AWS</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 font-bold">-$450.12</td>
                 <td className="px-6 py-4">
                   <span className="bg-primary/20 text-background-dark px-3 py-1 rounded-full text-xs font-bold">
-                    Pending
+                    Chờ xử lý
                   </span>
                 </td>
                 <td className="px-6 py-4 text-zinc-500 text-sm">Oct 22, 2023</td>

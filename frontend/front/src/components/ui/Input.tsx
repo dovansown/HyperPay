@@ -18,7 +18,7 @@ export function Input({
   ...props
 }: InputProps) {
   const roundedClass =
-    rounded === 'full' ? 'rounded-full h-14' : rounded === 'md' ? 'rounded-lg h-12' : 'rounded-sm h-10 text-sm'
+    rounded === 'full' ? 'rounded-full h-14' : rounded === 'md' ? 'rounded-[20px] h-12 text-sm' : 'rounded-sm h-10 text-sm'
 
   return (
     <div className="flex flex-col gap-2">
