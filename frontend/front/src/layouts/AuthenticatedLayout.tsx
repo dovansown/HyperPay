@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 
 function ProfileMenu() {
@@ -59,10 +59,17 @@ function ProfileMenu() {
 }
 
 function AuthenticatedHeader() {
+
+  // scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
   return (
     <header className="w-full border-b border-solid border-[#f4f2e6] dark:border-white/10 bg-white/70 dark:bg-background-dark/70 backdrop-blur-md py-3 fixed top-0 left-0 right-0 z-50 ">
       <div className="max-w-[1300px] mx-auto w-full flex items-center justify-between px-6 lg:px-10">
         <div className="flex items-center gap-8">
+        <Link to="/dashboard" className="flex items-center gap-2">
         <div className="flex items-center gap-4">
           <div className="size-8 bg-primary rounded-full flex items-center justify-center text-black">
           <span className="material-symbols-outlined text-lg">account_balance</span>
@@ -70,7 +77,7 @@ function AuthenticatedHeader() {
         <h2 className="text-base font-extrabold leading-tight tracking-[-0.015em]">
             HyperPay
           </h2>
-        </div>
+        </div></Link>
         <label className="flex flex-col min-w-40 h-10 max-w-64">
           <div className="flex w-full flex-1 items-stretch rounded-full h-full bg-[#f4f2e6] dark:bg-white/5 border-none">
             <div className="text-[#a19345] flex items-center justify-center pl-4">
@@ -126,7 +133,7 @@ function AuthenticatedHeader() {
 
 function AuthenticatedFooter() {
   return (
-    <footer className="mt-20 border-t border-[#f4f2e6] dark:border-white/10">
+    <footer className="border-t border-[#f4f2e6] dark:border-white/10">
       <div className="max-w-[1300px] mx-auto w-full py-10 px-6 lg:px-10 text-center">
         <p className="text-[#a19345] dark:text-gray-400 font-bold text-sm tracking-widest uppercase">
           HyperPay Fintech

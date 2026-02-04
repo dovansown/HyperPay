@@ -12,7 +12,7 @@ export function PlanBillingPage() {
 
   return (
     <div className="max-w-[1300px] mx-auto">
-      <header className="p-8 max-w-[1300px] mx-auto w-full">
+      <header className="px-8 max-w-[1300px] mx-auto w-full">
         <div className="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
           <span className="hover:text-primary transition-colors cursor-default">
             Tài khoản
@@ -20,11 +20,8 @@ export function PlanBillingPage() {
           <span className="material-symbols-outlined text-xs">chevron_right</span>
           <span className="text-[#181711] dark:text-white">Quản lý gói dịch vụ</span>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
           <div className="max-w-2xl">
-            <h1 className="text-[#181711] dark:text-white text-base font-bold tracking-tight mb-4">
-              Quản lý gói dịch vụ
-            </h1>
             <p className="text-[#8c855f] dark:text-[#a19b80] text-sm font-medium">
               Quản lý gói dịch vụ của bạn
             </p>

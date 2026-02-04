@@ -1,4 +1,5 @@
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
+import { Table, Thead, Tbody, Th, Td } from '../components/ui/Table'
 
 export function DashboardPage() {
   return (
@@ -84,7 +85,7 @@ export function DashboardPage() {
             Giao dịch mới 📈
           </p>
           <p className="text-3xl font-extrabold tracking-tighter">1,284</p>
-          <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800">
+          <div className="mt-4 pt-6 border-t border-zinc-50 dark:border-zinc-800">
             <div className="flex -space-x-2">
               <img
                 alt="user"
@@ -148,87 +149,77 @@ export function DashboardPage() {
         </button>
       </div>
 
-      {/* Activity Table Mockup */}
-      <div className="bg-white dark:bg-background-dark border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800">
-              <tr>
-                <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Giao dịch
-                </th>
-                <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Số tiền
-                </th>
-                <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Trạng thái
-                </th>
-                <th className="px-6 py-4 text-xs font-bold uppercase text-zinc-500">
-                  Ngày
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
-              <tr className="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-lg text-zinc-600">
-                        shopping_bag
-                      </span>
-                    </div>
-                    <span className="font-bold">Cửa hàng Apple, San Francisco</span>
+      {/* Activity Table */}
+      <div className="overflow-x-auto">
+        <Table className="w-full text-left">
+          <Thead>
+            <tr>
+              <Th>Giao dịch</Th>
+              <Th>Số tiền</Th>
+              <Th>Trạng thái</Th>
+              <Th>Ngày</Th>
+            </tr>
+          </Thead>
+          <Tbody>
+            <tr className="hover:bg-primary/5 transition-colors">
+              <Td>
+                <div className="flex items-center gap-3">
+                  <div className="size-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-lg text-zinc-600 dark:text-zinc-400">
+                      shopping_bag
+                    </span>
                   </div>
-                </td>
-                <td className="px-6 py-4 font-bold">-$1,299.00</td>
-                <td className="px-6 py-4">
-                  <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
-                    Hoàn thành
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-zinc-500 text-sm">Oct 24, 2023</td>
-              </tr>
-              <tr className="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-lg text-zinc-600">
-                        account_balance_wallet
-                      </span>
-                    </div>
-                    <span className="font-bold">Chuyển tiền vào - Stripe Inc.</span>
+                  <span className="font-bold">Cửa hàng Apple, San Francisco</span>
+                </div>
+              </Td>
+              <Td className="font-bold">-$1,299.00</Td>
+              <Td>
+                <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
+                  Hoàn thành
+                </span>
+              </Td>
+              <Td className="text-sm opacity-70">Oct 24, 2023</Td>
+            </tr>
+            <tr className="hover:bg-primary/5 transition-colors">
+              <Td>
+                <div className="flex items-center gap-3">
+                  <div className="size-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-lg text-zinc-600 dark:text-zinc-400">
+                      account_balance_wallet
+                    </span>
                   </div>
-                </td>
-                <td className="px-6 py-4 font-bold text-[#34D399]">+$14,500.00</td>
-                <td className="px-6 py-4">
-                  <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
-                    Hoàn thành
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-zinc-500 text-sm">Oct 23, 2023</td>
-              </tr>
-              <tr className="hover:bg-zinc-50/50 dark:hover:bg-white/5 transition-colors">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-zinc-100 flex items-center justify-center">
-                      <span className="material-symbols-outlined text-lg text-zinc-600">
-                        public
-                      </span>
-                    </div>
-                    <span className="font-bold">Dịch vụ Cloud AWS</span>
+                  <span className="font-bold">Chuyển tiền vào - Stripe Inc.</span>
+                </div>
+              </Td>
+              <Td className="font-bold text-[#34D399]">+$14,500.00</Td>
+              <Td>
+                <span className="bg-[#34D399]/10 text-[#34D399] px-3 py-1 rounded-full text-xs font-bold">
+                  Hoàn thành
+                </span>
+              </Td>
+              <Td className="text-sm opacity-70">Oct 23, 2023</Td>
+            </tr>
+            <tr className="hover:bg-primary/5 transition-colors">
+              <Td>
+                <div className="flex items-center gap-3">
+                  <div className="size-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-lg text-zinc-600 dark:text-zinc-400">
+                      public
+                    </span>
                   </div>
-                </td>
-                <td className="px-6 py-4 font-bold">-$450.12</td>
-                <td className="px-6 py-4">
-                  <span className="bg-primary/20 text-background-dark px-3 py-1 rounded-full text-xs font-bold">
-                    Chờ xử lý
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-zinc-500 text-sm">Oct 22, 2023</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <span className="font-bold">Dịch vụ Cloud AWS</span>
+                </div>
+              </Td>
+              <Td className="font-bold">-$450.12</Td>
+              <Td>
+                <span className="bg-primary/20 text-background-dark dark:text-primary px-3 py-1 rounded-full text-xs font-bold">
+                  Chờ xử lý
+                </span>
+              </Td>
+              <Td className="text-sm opacity-70">Oct 22, 2023</Td>
+            </tr>
+          </Tbody>
+        </Table>
       </div>
     </AuthenticatedLayout>
   )
