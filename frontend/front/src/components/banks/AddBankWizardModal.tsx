@@ -139,9 +139,6 @@ export function AddBankWizardModal({
                       <div className="size-20 rounded-[20px] flex items-center justify-center text-white mb-3 bg-white">
                         <img src={b.icon} alt={b.name} className="w-full h-full object-contain" />
                       </div>
-                      <span className="font-bold text-[#181710] dark:text-white">
-                        {b.code}
-                      </span>
                       <span className="text-[10px] text-[#8d865e] font-bold uppercase tracking-wider mt-1">
                         {b.name}
                       </span>

@@ -42,12 +42,11 @@ export function BanksPage() {
       { code: 'VCB', name: 'Vietcombank', icon: VCB_icon },
       { code: 'MB', name: 'MB Bank', icon: MB_icon },
       { code: 'BIDV', name: 'BIDV', icon: BIDV_icon },
-      { code: 'VTB', name: 'Vietinbank', icon: ICB_icon },
       { code: 'ACB', name: 'ACB', icon: ACB_icon },
-      { code: 'ICB', name: 'ICB', icon: ICB_icon },
+      { code: 'VTB', name: 'VIETINBANK', icon: ICB_icon },
       { code: 'MSB', name: 'MSB', icon: MSB_icon },
-      { code: 'TPB', name: 'TPB', icon: TPB_icon },
-      { code: 'VPB', name: 'VPB', icon: VPB_icon },
+      { code: 'TPB', name: 'TPBANK', icon: TPB_icon },
+      { code: 'VPB', name: 'VPBANK', icon: VPB_icon },
     ]
   }, [banks])
 
@@ -97,7 +96,7 @@ export function BanksPage() {
         {accounts.map((acc) => (
           <div
             key={acc.id}
-            className="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm hover:shadow-xl cursor-pointer"
+            className="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm  cursor-pointer"
           >
             <div className="flex justify-between items-start mb-6">
               <div className="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">

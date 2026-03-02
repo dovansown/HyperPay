@@ -1,47 +1,60 @@
 import { useState } from 'react'
 import Button from '../../components/ui/Button'
 import { banks } from '../../mocks/data'
+import { Table, Thead, Tbody, Th, Td } from '../../components/ui/Table'
+import DateRangePicker from '../../components/ui/DateRangePicker'
 
 export function ExportDataPage() {
   const [format, setFormat] = useState<'csv' | 'xlsx'>('csv')
   const [selectedBanks, setSelectedBanks] = useState<string[]>([
     'VCB', "BIDV"
   ])
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
 
   return (
-    <div className="max-w-[1300px] mx-auto">
-      <div className="flex flex-wrap justify-between items-end gap-3 p-4 mb-6">
-        <div className="flex min-w-72 flex-col gap-2">
-          <h1 className="text-[#181711] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
-            Xuất dữ liệu &amp; Báo cáo
-          </h1>
-          <p className="text-[#898361] dark:text-[#a6a086] text-sm font-medium">
+
+    <>
+    <header className="px-8 max-w-[1300px] mx-auto w-full">
+        <div className="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
+          <span className="hover:text-primary transition-colors cursor-default">
+            Tài khoản
+          </span>
+          <span className="material-symbols-outlined text-xs">chevron_right</span>
+          <span className="text-[#181711] dark:text-white">Xuất dữ liệu &amp; Báo cáo</span>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
+          <div className="max-w-2xl">
+            
+            <p className="text-[#8c855f] dark:text-[#a19b80] text-sm font-medium">
             Cấu hình và tạo báo cáo giao dịch ngân hàng của bạn một cách dễ dàng.
-          </p>
+            </p>
+          </div>
         </div>
-        <div className="flex gap-3">
-          <button className="flex h-10 items-center justify-center rounded-full  dark:border-white/10 bg-white dark:bg-[#1c1a0e] px-4 text-sm font-bold">
-            <span className="material-symbols-outlined text-base mr-2">history</span> 
-            Lịch sử
-          </button>
-        </div>
-      </div>
+      </header>
+    <div className="max-w-[1300px] mx-auto px-8">
+      
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 flex flex-col gap-8">
-          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6 dark:border-white/5">
             <div className="flex items-center gap-2 mb-6">
               <span className="bg-primary text-black size-8 flex items-center justify-center rounded-full font-bold text-sm">
                 1
               </span>
               <h2 className="text-base font-bold">Chọn khoảng thời gian</h2>
             </div>
-            <div className="text-sm text-[#898361]">
-              Calendar theo giao diện (demo). Bạn có thể tích hợp date picker sau.
-            </div>
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onChange={(start, end) => {
+                setStartDate(start)
+                setEndDate(end)
+              }}
+            />
           </div>
 
-          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6 dark:border-white/5">
             <div className="flex items-center gap-2 mb-6">
               <span className="bg-primary text-black size-8 flex items-center justify-center rounded-full font-bold text-sm">
                 2
@@ -83,7 +96,7 @@ export function ExportDataPage() {
         </div>
 
         <div className="lg:col-span-4 flex flex-col gap-8">
-          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6 shadow-sm border border-[#181711]/5 dark:border-white/5">
+          <div className="bg-white dark:bg-[#1c1a0e] rounded-lg p-6  dark:border-white/5">
             <h3 className="font-bold text-base mb-4">Định dạng xuất</h3>
             <div className="grid grid-cols-2 gap-2 bg-background-light dark:bg-black/20 p-1 rounded-full">
               <button
@@ -152,44 +165,39 @@ export function ExportDataPage() {
         </div>
       </div>
 
-      <div className="mt-12 p-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">Báo cáo gần đây</h2>
-          <button className="text-primary font-bold text-sm flex items-center gap-1">
-            Clear all <span className="material-symbols-outlined text-sm">delete</span>
-          </button>
-        </div>
+      <div className="mt-12 p-4 rounded-lg">
+        
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-[#181711]/5 dark:border-white/10 text-[#898361] text-sm uppercase tracking-wider font-bold">
-                <th className="py-4 px-2">Tên file</th>
-                <th className="py-4 px-2">Ngày tạo</th>
-                <th className="py-4 px-2">Loại</th>
-                <th className="py-4 px-2">Kích thước</th>
-                <th className="py-4 px-2 text-right">Hành động</th>
+          <Table className="w-full text-left">
+            <Thead>
+              <tr>
+                <Th>Tên file</Th>
+                <Th>Ngày tạo</Th>
+                <Th>Loại</Th>
+                <Th>Kích thước</Th>
+                <Th className="text-right">Hành động</Th>
               </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-[#181711]/5 dark:border-white/5 hover:bg-white dark:hover:bg-white/5 transition-colors">
-                <td className="py-4 px-2 font-bold">Q3_Transaction_Summary.csv</td>
-                <td className="py-4 px-2 text-sm opacity-70">
+            </Thead>
+            <Tbody>
+              <tr className="hover:bg-primary/5 transition-colors">
+                <Td className="font-bold">Q3_Transaction_Summary.csv</Td>
+                <Td className="text-sm opacity-70">
                   24/10/2023, 11:42 AM
-                </td>
-                <td className="py-4 px-2">
+                </Td>
+                <Td>
                   <span className="px-2 py-1 rounded-md bg-background-light dark:bg-white/10 text-xs font-bold">
                     CSV
                   </span>
-                </td>
-                <td className="py-4 px-2 text-sm">1.2 MB</td>
-                <td className="py-4 px-2 text-right">
-                  <button className="bg-primary size-9 rounded-full flex items-center justify-center text-black shadow-sm hover:scale-110 transition-transform inline-flex">
-                    <span className="material-symbols-outlined text-xl">download</span>
+                </Td>
+                <Td className="text-sm">2.4 MB</Td>
+                <Td className="text-right">
+                  <button className="text-primary hover:underline text-sm font-bold">
+                    Tải xuống
                   </button>
-                </td>
+                </Td>
               </tr>
-            </tbody>
-          </table>
+            </Tbody>
+          </Table>
         </div>
       </div>
 
@@ -206,6 +214,7 @@ export function ExportDataPage() {
         </button>
       </div>
     </div>
+    </>
   )
 }
 

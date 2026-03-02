@@ -4,7 +4,7 @@ import Input from '../../components/ui/Input'
 export function ActivityLogsPage() {
   return (
     <div className="">
-        <header className="p-8 max-w-[1300px] mx-auto w-full">
+        <header className="px-8 max-w-[1300px] mx-auto w-full">
         <div className="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
           <span className="hover:text-primary transition-colors cursor-default">
             Tài khoản
@@ -12,13 +12,10 @@ export function ActivityLogsPage() {
           <span className="material-symbols-outlined text-xs">chevron_right</span>
           <span className="text-[#181711] dark:text-white">Nhật kí hoạt động</span>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
           <div className="max-w-2xl">
-            <h1 className="text-[#181711] dark:text-white text-base font-bold tracking-tight mb-4">
-              Nhật kí hoạt động
-            </h1>
             <p className="text-[#8c855f] dark:text-[#a19b80] text-sm font-medium">
-              Hiển thị hoạt động quan trọng của hệ thống
+            Hiển thị hoạt động quan trọng của hệ thống
             </p>
           </div>
         </div>
@@ -102,7 +99,7 @@ export function ActivityLogsPage() {
                 warning
               </span>
             </div>
-            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border-2 border-red-500/20 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border-2 border-red-500/20  flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <h4 className="font-bold text-base text-[#1d1a0c] dark:text-white">
@@ -141,7 +138,7 @@ export function ActivityLogsPage() {
                 login
               </span>
             </div>
-            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border border-[#eae5cd] dark:border-[#3d3a25] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl  flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <h4 className="font-bold text-base text-[#1d1a0c] dark:text-white">
@@ -180,7 +177,7 @@ export function ActivityLogsPage() {
                 gpp_maybe
               </span>
             </div>
-            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl border border-[#eae5cd] dark:border-[#3d3a25] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-white dark:bg-[#2d2a15] p-5 rounded-2xl  flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <h4 className="font-bold text-base text-[#1d1a0c] dark:text-white">

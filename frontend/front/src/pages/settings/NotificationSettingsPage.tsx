@@ -10,7 +10,7 @@ export function NotificationSettingsPage() {
 
   return (
     <div className="max-w-[1300px] mx-auto">
-      <header className="p-8 max-w-[1300px] mx-auto w-full">
+      <header className="px-8 max-w-[1300px] mx-auto w-full">
         <div className="flex items-center gap-2 mb-4 text-[#8c855f] text-sm font-bold">
           <span className="hover:text-primary transition-colors cursor-default">
             Settings
