@@ -1,0 +1,128 @@
+@baseUrl = http://localhost:8080/api/v1
+@token = REPLACE_WITH_JWT_TOKEN
+@accountId = 1
+@externalToken = REPLACE_WITH_ACCOUNT_TOKEN
+
+### Health - Kiểm tra service sống
+GET {{baseUrl}}/health
+
+###
+### Auth - Đăng ký
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456",
+  "full_name": "Nguyen Van A"
+}
+
+###
+### Auth - Đăng nhập
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "123456"
+}
+
+###
+### Auth - Quên mật khẩu
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+###
+### Users - Lấy thông tin profile hiện tại
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+
+###
+### Accounts - Tạo tài khoản ngân hàng (trả account + token)
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "bank_name": "VCB",
+  "account_number": "0123456789",
+  "account_holder": "Nguyen Van A"
+}
+
+###
+### Accounts - Danh sách tài khoản của user
+GET {{baseUrl}}/accounts
+Authorization: Bearer {{token}}
+
+###
+### Accounts - Refresh API token cho 1 account
+POST {{baseUrl}}/accounts/{{accountId}}/token/refresh
+Authorization: Bearer {{token}}
+
+###
+### Transactions (internal) - Lịch sử giao dịch theo account qua JWT
+GET {{baseUrl}}/accounts/{{accountId}}/transactions
+Authorization: Bearer {{token}}
+
+###
+### Transactions (external) - Lịch sử giao dịch theo account token
+GET {{baseUrl}}/external/accounts/{{externalToken}}/transactions
+
+###
+### Banks - Tạo ngân hàng
+POST {{baseUrl}}/banks
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Vietcombank",
+  "code": "VCB",
+  "icon_url": "https://example.com/icons/vcb.png"
+}
+
+###
+### Banks - Danh sách ngân hàng
+GET {{baseUrl}}/banks
+Authorization: Bearer {{token}}
+
+###
+### Plans - Tạo gói dịch vụ
+POST {{baseUrl}}/plans
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Basic",
+  "price_vnd": 99000,
+  "max_bank_accounts": 5,
+  "max_transactions": 1000,
+  "duration_days": 30,
+  "description": "Goi co ban cho ca nhan",
+  "bank_ids": [1, 2]
+}
+
+###
+### Plans - Danh sách gói dịch vụ
+GET {{baseUrl}}/plans
+Authorization: Bearer {{token}}
+
+###
+### Webhook - Lấy cấu hình webhook hiện tại
+GET {{baseUrl}}/webhook
+Authorization: Bearer {{token}}
+
+###
+### Webhook - Tạo/cập nhật cấu hình webhook
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "is_active": true
+}

@@ -27,16 +27,19 @@ export interface AuthUser {
 }
 
 export interface ResponsePagination<T> {
-  data?: T[],
-  success: boolean,
-  message: string,
-  code: string
+  success: boolean
+  data: T
+  meta?: Record<string, unknown>
+  requestId: string
 }
 
 export interface AuthResponse {
+  success: boolean
   data: {
     token: string
+    user: AuthUser
   }
+  requestId: string
 }
 
 export interface RegisterPayload {
@@ -59,7 +62,16 @@ export interface BankAccount {
   bank_name: string
   account_number: string
   account_holder: string
-  api_token?: string
+  api_token_suffix?: string
+}
+
+export interface CreateAccountResponse {
+  account: BankAccount
+  token: string
+}
+
+export interface RefreshTokenResponse {
+  token: string
 }
 
 export interface Plan {
@@ -105,13 +117,15 @@ export const accountApi = {
     account_number: string
     account_holder: string
   }) {
-    return apiClient.post<BankAccount>('/accounts', data)
+    return apiClient.post<ResponsePagination<CreateAccountResponse>>('/accounts', data)
   },
   listAccounts() {
-    return apiClient.get<ResponsePagination<BankAccount>>('/accounts')
+    return apiClient.get<ResponsePagination<BankAccount[]>>('/accounts')
   },
   refreshToken(accountId: number) {
-    return apiClient.post<BankAccount>(`/accounts/${accountId}/token/refresh`)
+    return apiClient.post<ResponsePagination<RefreshTokenResponse>>(
+      `/accounts/${accountId}/token/refresh`,
+    )
   },
   listTransactions(accountId: number) {
     return apiClient.get(`/accounts/${accountId}/transactions`)
@@ -120,25 +134,25 @@ export const accountApi = {
 
 export const planApi = {
   listPlans() {
-    return apiClient.get<ResponsePagination<Plan>>('/plans')
+    return apiClient.get<ResponsePagination<Plan[]>>('/plans')
   },
 }
 
 export const bankApi = {
   listBanks() {
-    return apiClient.get<ResponsePagination<Bank>>('/banks')
+    return apiClient.get<ResponsePagination<Bank[]>>('/banks')
   },
   createBank(data: { name: string; code: string; icon_url?: string }) {
-    return apiClient.post<Bank>('/banks', data)
+    return apiClient.post<ResponsePagination<Bank>>('/banks', data)
   },
 }
 
 export const webhookApi = {
   getConfig() {
-    return apiClient.get<WebhookConfig>('/webhook')
+    return apiClient.get<ResponsePagination<WebhookConfig | null>>('/webhook')
   },
   upsertConfig(data: WebhookConfig) {
-    return apiClient.post<WebhookConfig>('/webhook', data)
+    return apiClient.post<ResponsePagination<WebhookConfig>>('/webhook', data)
   },
 }
 

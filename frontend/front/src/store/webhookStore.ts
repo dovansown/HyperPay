@@ -19,7 +19,7 @@ export const useWebhookStore = create<WebhookState>((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const res = await webhookApi.getConfig()
-      set({ config: res.data ?? null, isLoading: false })
+      set({ config: res.data.data ?? null, isLoading: false })
     } catch (err) {
       console.error('fetchConfig error', err)
       // backend có thể trả 404 nếu chưa cấu hình: coi như null
@@ -31,7 +31,7 @@ export const useWebhookStore = create<WebhookState>((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const res = await webhookApi.upsertConfig(payload)
-      set({ config: res.data ?? payload, isLoading: false })
+      set({ config: res.data.data ?? payload, isLoading: false })
     } catch (err) {
       console.error('upsertConfig error', err)
       set({ isLoading: false, error: 'Lưu cấu hình webhook thất bại.' })

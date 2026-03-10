@@ -23,26 +23,28 @@ function ProfileMenu() {
     <div className="relative" ref={rootRef}>
       <button
         type="button"
-        className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 border border-primary/80 cursor-pointer shadow-sm"
+        className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
         aria-label="Profile menu"
         onClick={() => setOpen((v) => !v)}
-      />
+      >
+        <span className="material-symbols-outlined text-[20px]">account_circle</span>
+      </button>
       {open && (
-        <div className="absolute right-0 top-[48px] w-60 rounded-lg border border-[#e7e5da] dark:border-[#3a3622] bg-white dark:bg-[#1a180b] shadow-xl overflow-hidden py-1">
+        <div className="absolute right-0 top-[48px] w-64 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-700 dark:bg-slate-900">
           <button
             type="button"
-            className="w-full px-4 py-2.5 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-3"
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800"
             onClick={() => {
               setOpen(false)
               navigate('/settings/profile')
             }}
           >
-          <span className="material-symbols-outlined text-base">settings</span>
-          <span className="truncate">Cài đặt tài khoản</span>
+            <span className="material-symbols-outlined text-base">settings</span>
+            <span className="truncate">Cai dat tai khoan</span>
           </button>
           <button
             type="button"
-            className="w-full px-4 py-2.5 text-left text-sm font-bold hover:bg-background-light dark:hover:bg-[#2c2918] flex items-center gap-3 text-red-600 dark:text-red-400 border-t border-black/5 dark:border-white/5"
+            className="flex w-full items-center gap-3 border-t border-slate-100 px-4 py-2.5 text-left text-sm font-semibold text-red-600 hover:bg-slate-50 dark:border-slate-800 dark:text-red-400 dark:hover:bg-slate-800"
             onClick={() => {
               setOpen(false)
               logout()
@@ -59,98 +61,100 @@ function ProfileMenu() {
 }
 
 function AuthenticatedHeader() {
-
-  // scroll to top when route changes
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+  const settingsClassName = ({ isActive }: { isActive: boolean }) =>
+    isActive
+      ? 'text-primary text-sm font-semibold border-b-2 border-primary pb-1'
+      : 'text-slate-600 text-sm font-medium hover:text-primary transition-colors'
 
   return (
-    <header className="w-full border-b border-solid border-[#f4f2e6] dark:border-white/10 bg-white/70 dark:bg-background-dark/70 backdrop-blur-md py-3 fixed top-0 left-0 right-0 z-50 ">
-      <div className="max-w-[1300px] mx-auto w-full flex items-center justify-between px-6 lg:px-10">
-        <div className="flex items-center gap-8">
-        <Link to="/dashboard" className="flex items-center gap-2">
-        <div className="flex items-center gap-4">
-          <div className="size-8 bg-primary rounded-full flex items-center justify-center text-black">
-          <span className="material-symbols-outlined text-lg">account_balance</span>
-        </div>
-        <h2 className="text-base font-extrabold leading-tight tracking-[-0.015em]">
-            HyperPay
-          </h2>
-        </div></Link>
-        <label className="flex flex-col min-w-40 h-10 max-w-64">
-          <div className="flex w-full flex-1 items-stretch rounded-full h-full bg-[#f4f2e6] dark:bg-white/5 border-none">
-            <div className="text-[#a19345] flex items-center justify-center pl-4">
-              <span className="material-symbols-outlined text-xl">search</span>
-            </div>
-            <input
-              className="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 h-full placeholder:text-[#a19345] px-4 pl-2 text-sm font-normal"
-              placeholder="Tìm kiếm gì đó..."
-            />
+    <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-slate-200 bg-white px-6 py-3 dark:border-slate-800 dark:bg-slate-900 lg:px-10">
+      <div className="flex items-center gap-4 text-primary">
+        <Link to="/dashboard" className="flex items-center gap-3">
+          <div className="size-6">
+            <svg
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-primary"
+            >
+              <path
+                d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
+                fill="currentColor"
+              />
+            </svg>
           </div>
-        </label>
-        </div>
-        <div className="flex flex-1 justify-end gap-8">
-        <nav className="hidden lg:flex items-center gap-9">
+          <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-slate-100">HyperPay</h2>
+        </Link>
+      </div>
+      <div className="flex flex-1 justify-end gap-8">
+        <nav className="hidden items-center gap-7 md:flex">
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
               isActive
-                ? 'text-sm font-semibold text-primary underline underline-offset-4 decoration-2'
-                : 'text-sm font-semibold hover:text-primary transition-colors'
+                ? 'text-primary text-sm font-semibold border-b-2 border-primary pb-1'
+                : 'text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors'
             }
           >
-            Tổng quan
+            Dashboard
           </NavLink>
           <NavLink
             to="/banks"
             className={({ isActive }) =>
               isActive
-                ? 'text-sm font-semibold text-primary underline underline-offset-4 decoration-2'
-                : 'text-sm font-semibold hover:text-primary transition-colors'
+                ? 'text-primary text-sm font-semibold border-b-2 border-primary pb-1'
+                : 'text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors'
             }
           >
-            Ngân hàng
+            Payments
+          </NavLink>
+          <NavLink
+            to="/team/roles"
+            className={({ isActive }) =>
+              isActive
+                ? 'text-primary text-sm font-semibold border-b-2 border-primary pb-1'
+                : 'text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors'
+            }
+          >
+            Customers
           </NavLink>
           <NavLink
             to="/apis"
             className={({ isActive }) =>
               isActive
-                ? 'text-sm font-semibold text-primary underline underline-offset-4 decoration-2'
-                : 'text-sm font-semibold hover:text-primary transition-colors'
+                ? 'text-primary text-sm font-semibold border-b-2 border-primary pb-1'
+                : 'text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors'
             }
           >
-            APIs
+            Reports
           </NavLink>
-          
+          <NavLink
+            to="/settings/profile"
+            className={settingsClassName}
+          >
+            Settings
+          </NavLink>
+          <NavLink
+            to="/settings/logs"
+            className={settingsClassName}
+          >
+            Logs
+          </NavLink>
+          <NavLink
+            to="/settings/plan"
+            className={settingsClassName}
+          >
+            Billing
+          </NavLink>
         </nav>
-        <ProfileMenu />
+        <div className="flex items-center gap-2">
+          <button className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300">
+            <span className="material-symbols-outlined text-[20px]">notifications</span>
+          </button>
+          <ProfileMenu />
         </div>
       </div>
     </header>
-  )
-}
-
-function AuthenticatedFooter() {
-  return (
-    <footer className="border-t border-[#f4f2e6] dark:border-white/10">
-      <div className="max-w-[1300px] mx-auto w-full py-10 px-6 lg:px-10 text-center">
-        <p className="text-[#a19345] dark:text-gray-400 font-bold text-sm tracking-widest uppercase">
-          HyperPay Fintech
-        </p>
-        <div className="mt-4 flex justify-center gap-6 text-[#a19345] dark:text-gray-400 text-sm">
-          <a className="hover:text-primary transition-colors" href="#">
-            Tài liệu API
-          </a>
-          <a className="hover:text-primary transition-colors" href="#">
-            Hỗ trợ
-          </a>
-          <a className="hover:text-primary transition-colors" href="#">
-            Quyền riêng tư
-          </a>
-        </div>
-      </div>
-    </footer>
   )
 }
 
@@ -161,7 +165,7 @@ interface AuthenticatedLayoutProps {
 
 export function AuthenticatedLayout({
   children,
-  containerClassName = 'max-w-[1300px] mx-auto w-full px-6 py-10',
+  containerClassName = 'mx-auto w-full max-w-[1200px] px-4 py-8 lg:px-10',
 }: AuthenticatedLayoutProps) {
   const navigate = useNavigate()
   const { token } = useAuthStore()
@@ -175,10 +179,9 @@ export function AuthenticatedLayout({
   if (!token) return null
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-light dark:bg-background-dark font-display text-[#1d1a0c] dark:text-white transition-colors duration-300">
+    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-light font-display text-slate-900 transition-colors duration-300 dark:bg-background-dark dark:text-slate-100">
       <AuthenticatedHeader />
-      <main className={`flex-1 pt-[4.5rem] my-[20px] ${containerClassName}`}>{children}</main>
-      <AuthenticatedFooter />
+      <main className={`flex-1 pt-18 ${containerClassName}`}>{children}</main>
     </div>
   )
 }

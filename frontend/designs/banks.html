@@ -1,228 +1,256 @@
 <!DOCTYPE html>
 
-<html class="light" lang="vi"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Bank Account Connections | FintechSaaS</title>
-<!-- Tailwind CSS -->
+<title>HyperPay | Bank Accounts</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#ffd900",
-              "background-light": "#f8f8f5",
-              "background-dark": "#23200f",
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
             },
-            fontFamily: {
-              "display": ["Plus Jakarta Sans", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
-          },
-        },
-      }
-    </script>
-<style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-    </style>
+    </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark min-h-screen text-[#181710] dark:text-[#f8f8f5]">
-<!-- Top Navigation Bar -->
-<div class="w-full bg-white dark:bg-[#1a180b] border-b border-[#e7e5da] dark:border-[#3d3a2a] sticky top-0 z-50">
-<header class="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
-<div class="flex items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined text-[#181710]">account_balance_wallet</span>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">payments</span>
 </div>
-<h2 class="text-xl font-extrabold tracking-tight">FintechSaaS</h2>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">HyperPay</h1>
 </div>
-<div class="hidden md:flex items-center gap-6">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Dashboard</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Giao dịch</a>
-<a class="text-sm font-semibold text-primary underline underline-offset-8" href="#">Thanh toán</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Báo cáo</a>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="text-sm font-medium">Balances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="text-sm font-medium">Bank accounts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Customers</span>
+</a>
+<div class="pt-4 pb-2">
+<p class="px-3 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Configuration</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+<img alt="User avatar" data-alt="Close up of professional profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpp0hPPu3CMBb13PAUXcizApCbO2IGtjFEqCzVjjxqivqhtRji39zprEh5qV39P1l0Euex5OJF0hPFOaGVrCnz4rPYLceahJsq8e3StdNlhw5M1G95X4xA5QoPQItjId70HH1XKtdkL5ZaqdhYvoOmgXml0McH--Mae21u-8N_nUk-BUsdH7cW7nb2xosAncaVpAW2w8VfAs0xjlYHxEA_Z-D4HhYFxHXPCG--y15IcvNuiHNfZxG5XO5TUsTz-qVHD36z59bNu54"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">Alex Rivera</p>
+<p class="text-xs text-slate-500 truncate">HyperPay Inc.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto flex flex-col">
+<!-- Top Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Search accounts or transactions..." type="text"/>
 </div>
 </div>
 <div class="flex items-center gap-4">
-<div class="hidden lg:flex items-center bg-[#f5f4f0] dark:bg-[#2d2a1a] rounded-full px-4 py-2 gap-2">
-<span class="material-symbols-outlined text-[#8d865e] text-xl">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-40 placeholder-[#8d865e]" placeholder="Tìm kiếm..." type="text"/>
-</div>
-<button class="bg-primary hover:bg-[#e6c400] text-[#181710] font-bold py-2 px-6 rounded-full transition-all flex items-center gap-2">
-<span class="material-symbols-outlined text-lg">sync</span>
-<span class="text-sm">Đồng bộ</span>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
 </button>
-<div class="size-10 rounded-full border-2 border-primary/20 overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="User profile avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH4JjT2kncnK3t__8gSCfS2n9z72cNlY5ZWiUGxanHIy4cdgejOHc_EDHaXl474btRa_pI7RQMn0LPn1ZlL6MDchQ_pxDjkveGHXWSnjBk816t-JNhyicJvlqTQAar-vBzlK1AGVvmSgvccgrmt5wuL8MrDPCeXxt4Yeavvoi0nxntZbMVHjAH4UxmI3YDn5GT_fSbI2pDIsNNDp_PGifBfO4dXmL7wZVNsxwBp3fnjZ8TsnQoJQ8t4hjNIvHi7SLB-zgplZeynO5J"/>
-</div>
-</div>
-</header>
-</div>
-<!-- Main Content Container -->
-<main class="max-w-[1200px] mx-auto px-6 py-8">
-<!-- Breadcrumbs -->
-<nav class="flex items-center gap-2 mb-6">
-<a class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1" href="#">
-<span class="material-symbols-outlined text-lg">home</span>
-<span class="text-sm font-medium leading-none">Trang chủ</span>
-</a>
-<span class="text-[#8d865e] text-sm">/</span>
-<span class="text-[#181710] dark:text-white text-sm font-bold">Kết nối ngân hàng</span>
-</nav>
-<!-- Page Heading & Stats -->
-<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-<div class="max-w-2xl">
-<h1 class="text-4xl lg:text-5xl font-black tracking-tight mb-4">Quản lý kết nối</h1>
-<p class="text-[#8d865e] text-lg max-w-lg">Theo dõi và đồng bộ hóa các tài khoản ngân hàng của bạn trong thời gian thực với bảo mật cấp độ doanh nghiệp.</p>
-</div>
-<div class="flex flex-wrap gap-3">
-<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Tổng cộng</span>
-<span class="text-2xl font-black">04</span>
-</div>
-<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Đang chạy</span>
-<span class="text-2xl font-black text-green-500">03</span>
-</div>
-<div class="bg-white dark:bg-[#1a180b] p-4 px-6 rounded-2xl border border-[#e7e5da] dark:border-[#3d3a2a] flex flex-col min-w-[140px]">
-<span class="text-xs font-bold text-[#8d865e] uppercase tracking-wider mb-1">Cảnh báo</span>
-<span class="text-2xl font-black text-red-500">01</span>
-</div>
-</div>
-</div>
-<!-- Section Header -->
-<div class="flex items-center justify-between mb-6">
-<h2 class="text-2xl font-bold tracking-tight">Tài khoản đã liên kết</h2>
-<button class="text-sm font-bold text-primary underline underline-offset-4 hover:opacity-80 transition-opacity">Xem tất cả lịch sử</button>
-</div>
-<!-- Bank Cards Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-<!-- Active Card: Vietcombank -->
-<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm hover:shadow-xl cursor-pointer">
-<div class="flex justify-between items-start mb-6">
-<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
-<img class="w-full h-full object-contain" data-alt="Blue and green financial brand logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMJDhvUABdtiecIWuYz3-x-zIfQQ_ihM-EKp5HNjE-BFEBApsOLLZ82UnjI7xe7RBxUOK_mbjEQt6A8N5VjE-r5aBevzcECcEadw_Hhwjlke5zUFq5xcebiqo29r4eSpsLUja850jQz_24GS82WfDgpuabxwQ3QlPA-yLP7R5XxDe0mnL8a2dRskvvAUU5krKMWOeworIhNKBzxSv2DHj0xiio9xT4mTKpVyZp7JcwFc-CMn3oBH194cA-92GRLi3sp6HBg9kjxGKQ"/>
-</div>
-<div class="flex gap-2">
-<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
-<span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                            Hoạt động
-                        </span>
-<button class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</div>
-</div>
-<div class="mb-4">
-<h3 class="text-xl font-bold mb-1">Vietcombank</h3>
-<p class="text-[#8d865e] text-sm font-medium">STK: **** 8892</p>
-</div>
-<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a] flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-[10px] text-[#8d865e] font-bold uppercase tracking-tight">Cập nhật lúc</span>
-<span class="text-xs font-semibold">10:45 - Hôm nay</span>
-</div>
-<button class="size-9 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center">
-<span class="material-symbols-outlined text-lg">sync</span>
-</button>
-</div>
-</div>
-<!-- Syncing Card: Techcombank -->
-<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm hover:shadow-xl cursor-pointer">
-<div class="flex justify-between items-start mb-6">
-<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
-<img class="w-full h-full object-contain" data-alt="Red and white modern brand logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVh74-4mO56XHjnM2HqyPeWr6tyuud_Du7XsEyhcZm3xJxN2uBj7NG_x-f564yozBR3zfK17Ka5duBsla0LRpuNcu43_TKtdL6hGHvAbulwSDDub5H5Fy82uYha0Xp11RohewXx___80F2nyrHx43dMUwOO7eS9SCxoZYe-nHiVmVhdNrsfSIRrtK2sbSVq-pyMzLcTuz5dIVDA8qwp9T759jPD2bw_TyYAaTJLzZYe1ErY10VE-vcuLdn2SP9xVc2CaeqUKj7UWUo"/>
-</div>
-<div class="flex gap-2">
-<span class="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
-<span class="size-1.5 bg-blue-500 rounded-full"></span>
-                            Đang đồng bộ
-                        </span>
-<button class="text-[#8d865e] hover:text-[#181710] dark:hover:text-white">
-<span class="material-symbols-outlined text-xl">more_vert</span>
-</button>
-</div>
-</div>
-<div class="mb-4">
-<h3 class="text-xl font-bold mb-1">Techcombank</h3>
-<p class="text-[#8d865e] text-sm font-medium">STK: **** 4410</p>
-</div>
-<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a] flex items-center justify-between">
-<div class="flex flex-col">
-<span class="text-[10px] text-[#8d865e] font-bold uppercase tracking-tight">Cập nhật lúc</span>
-<span class="text-xs font-semibold">2 giờ trước</span>
-</div>
-<div class="size-9 rounded-full bg-primary/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-lg animate-spin">refresh</span>
-</div>
-</div>
-</div>
-<!-- Action Required: MB Bank -->
-<div class="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-red-200 dark:border-red-900/50 hover:border-red-500 transition-all group shadow-sm hover:shadow-xl cursor-pointer relative">
-<div class="flex justify-between items-start mb-6">
-<div class="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
-<img class="w-full h-full object-contain" data-alt="Abstract vibrant geometric logo pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp3I9e4mSckQVJBwY-brSDcLL4faCHDGSxmcci9srGGEJrILK81JUrGiI-6ljRMSSO3VFPHsXawuh6NNJcM6DKP_jyNQirfcW5dWXehyQbbaHurK-BpFEjsAtC-mPRWC81E3-4NrQwpR6XuclgC-6hj2DvOIGBjKtf5_fLu182HZ1d03n_J3B3BAcoUmv82GFTmz0RVgVbaL2iuBUsgiWYXs0-81oOJOv6K1LrGQVSrNbp1U6xcWi2vxJAvwVJZhB0b6zEnNVg9kyv"/>
-</div>
-<div class="flex gap-2">
-<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
-<span class="material-symbols-outlined text-[12px]">warning</span>
-                            Cần xác thực
-                        </span>
-</div>
-</div>
-<div class="mb-4">
-<h3 class="text-xl font-bold mb-1">MB Bank</h3>
-<p class="text-[#8d865e] text-sm font-medium">STK: **** 1123</p>
-</div>
-<div class="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a]">
-<button class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 py-2 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors">
-                        Kết nối lại ngay
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-2 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                        Create payment
                     </button>
 </div>
+</header>
+<div class="flex-1 p-8 max-w-6xl mx-auto w-full">
+<!-- Page Title Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<nav class="flex gap-2 text-xs font-medium text-slate-400 dark:text-slate-500 mb-2">
+<a class="hover:text-primary" href="#">Settings</a>
+<span>/</span>
+<span class="text-slate-900 dark:text-slate-200">Bank accounts</span>
+</nav>
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Bank accounts</h2>
+<p class="text-slate-500 dark:text-slate-400 max-w-lg">Add and manage the bank accounts used to receive payouts and pay for HyperPay services.</p>
 </div>
-<!-- Add New Account Card -->
-<div class="bg-transparent rounded-lg p-6 border-2 border-dashed border-[#e7e5da] dark:border-[#3d3a2a] hover:border-primary hover:bg-white dark:hover:bg-[#1a180b] transition-all flex flex-col items-center justify-center min-h-[220px] text-center cursor-pointer group">
-<div class="size-14 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center mb-4">
-<span class="material-symbols-outlined text-2xl group-hover:text-[#181710]">add</span>
+<button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-4 py-2.5 rounded-lg flex items-center gap-2 font-semibold text-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-lg">account_balance</span>
+                        Add bank account
+                    </button>
 </div>
-<h3 class="text-lg font-bold">Thêm tài khoản mới</h3>
-<p class="text-[#8d865e] text-sm mt-1">Hỗ trợ hơn 30+ ngân hàng tại VN</p>
+<!-- Tabs Navigation -->
+<div class="border-b border-slate-200 dark:border-slate-800 mb-6">
+<div class="flex gap-8">
+<button class="border-b-2 border-primary text-primary px-1 pb-4 text-sm font-semibold">Active accounts</button>
+<button class="border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 px-1 pb-4 text-sm font-medium">Verification history</button>
+<button class="border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 px-1 pb-4 text-sm font-medium">Settings</button>
 </div>
 </div>
-<!-- Sync Now Global CTA (Mobile floating or Bottom highlight) -->
-<div class="mt-12 bg-primary rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20">
-<div class="text-center md:text-left">
-<h2 class="text-[#181710] text-2xl font-black mb-2">Đồng bộ tất cả dữ liệu?</h2>
-<p class="text-[#181710]/70 font-medium">Chúng tôi sẽ cập nhật số dư và lịch sử giao dịch từ tất cả 04 tài khoản.</p>
+<!-- Accounts Table -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto @container">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bank Name</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Account number</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Type</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-lg">account_balance</span>
 </div>
-<button class="bg-[#181710] text-white hover:bg-black px-10 py-4 rounded-full font-black text-lg transition-transform hover:scale-105 flex items-center gap-3">
-<span class="material-symbols-outlined">bolt</span>
-                Đồng bộ ngay
-            </button>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">JPMorgan Chase</span>
 </div>
-<!-- Footer Info -->
-<div class="mt-12 text-center">
-<p class="text-[#8d865e] text-sm font-medium flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-lg">verified_user</span>
-                Dữ liệu được bảo mật bởi chuẩn mã hóa AES-256.
-            </p>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-mono text-slate-500 dark:text-slate-400 tracking-wider">•••• 4242</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Checking</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-lg">account_balance</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Bank of America</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-mono text-slate-500 dark:text-slate-400 tracking-wider">•••• 8899</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Savings</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+<span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Pending</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined text-lg">account_balance</span>
+</div>
+<span class="text-sm font-medium text-slate-900 dark:text-slate-100">Wells Fargo</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="text-sm font-mono text-slate-500 dark:text-slate-400 tracking-wider">•••• 1122</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Checking</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Active</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Empty State Suggestion (Subtle) -->
+<div class="mt-8 p-6 bg-primary/5 rounded-xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex gap-4 items-start">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white">Verify new accounts instantly</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Connect your bank via Plaid for instant verification without micro-deposits.</p>
+</div>
+</div>
+<button class="text-primary text-sm font-semibold hover:underline">Learn more →</button>
+</div>
+<!-- Info Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+<h4 class="text-sm font-semibold mb-3">About payouts</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">HyperPay sends payouts to your active bank accounts on a rolling 2-day schedule. You can manage your payout schedule in Payout Settings.</p>
+</div>
+<div class="p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+<h4 class="text-sm font-semibold mb-3">Security &amp; Compliance</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">All bank data is encrypted and stored according to PCI-DSS standards. We never store your full bank account numbers on our servers.</p>
+</div>
+</div>
 </div>
 </main>
-<!-- Support Floating Button -->
-<div class="fixed bottom-8 right-8">
-<button class="size-14 rounded-full bg-white dark:bg-[#1a180b] border border-[#e7e5da] dark:border-[#3d3a2a] shadow-xl flex items-center justify-center text-primary hover:scale-110 transition-transform">
-<span class="material-symbols-outlined font-bold">chat_bubble</span>
-</button>
 </div>
 </body></html>

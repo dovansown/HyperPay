@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Billing Settings - HyperPay</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 py-3 bg-white dark:bg-slate-900/50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">HyperPay</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Payments</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Customers</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary py-1" href="#">Billing</a>
+</nav>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden border border-primary/20">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-4 md:px-10">
+<div class="layout-content-container flex flex-col max-w-[1024px] flex-1 gap-8">
+<!-- Page Header -->
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl font-black tracking-tight">Billing Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base">Manage your subscription, view invoices, and update payment details.</p>
+</div>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Current Plan -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white dark:bg-slate-900/40 rounded-xl border border-primary/10 p-6 shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 mb-2">
+                                            ACTIVE
+                                        </div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Pro Plan</h3>
+<p class="text-slate-500 dark:text-slate-400">$49.00 billed monthly</p>
+</div>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">
+                                        Change plan
+                                    </button>
+</div>
+<div class="bg-primary/5 dark:bg-primary/10 rounded-lg p-4 flex items-center justify-between border border-primary/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="text-sm text-slate-700 dark:text-slate-300">Your next renewal date is October 24, 2023.</p>
+</div>
+<a class="text-sm font-medium text-primary hover:underline" href="#">Manage auto-renew</a>
+</div>
+</div>
+<!-- Payment Method -->
+<div class="bg-white dark:bg-slate-900/40 rounded-xl border border-primary/10 p-6 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Payment Method</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">add</span> Add New
+                                    </button>
+</div>
+<div class="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-800 rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 bg-slate-100 dark:bg-slate-800 rounded flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">credit_card</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 dark:text-white">Visa ending in 4242</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Expires 12/26 • Default</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-slate-400 hover:text-red-500 transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Info -->
+<div class="flex flex-col gap-6">
+<!-- Upcoming Invoice -->
+<div class="bg-white dark:bg-slate-900/40 rounded-xl border border-primary/10 p-6 shadow-sm">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Upcoming Invoice</h3>
+<div class="space-y-3">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500 dark:text-slate-400">Date</span>
+<span class="text-slate-900 dark:text-white font-medium">Oct 24, 2023</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500 dark:text-slate-400">Pro Subscription</span>
+<span class="text-slate-900 dark:text-white font-medium">$49.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500 dark:text-slate-400">Tax (0%)</span>
+<span class="text-slate-900 dark:text-white font-medium">$0.00</span>
+</div>
+<hr class="border-slate-100 dark:border-slate-800 my-2"/>
+<div class="flex justify-between text-base font-bold">
+<span class="text-slate-900 dark:text-white">Total Amount</span>
+<span class="text-primary text-xl">$49.00</span>
+</div>
+</div>
+</div>
+<!-- Quick Help -->
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20 p-6">
+<h4 class="text-primary font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">support_agent</span> Need help?
+                                </h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">Have questions about your billing or want to cancel? Contact our support team.</p>
+<button class="w-full py-2 bg-transparent border border-primary text-primary rounded-lg text-sm font-bold hover:bg-primary hover:text-white transition-all">
+                                    Contact Support
+                                </button>
+</div>
+</div>
+</div>
+<!-- Billing History Table -->
+<div class="flex flex-col gap-4 mt-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Billing History</h3>
+<button class="text-sm font-medium text-primary hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-base">download</span> Export all
+                            </button>
+</div>
+<div class="overflow-x-auto bg-white dark:bg-slate-900/40 border border-primary/10 rounded-xl shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-primary/10 bg-slate-50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Invoice ID</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">Receipt</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/5">
+<tr>
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">INV-2023-009</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Sep 24, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-900 dark:text-white font-semibold">$49.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">download</span></button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">INV-2023-008</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Aug 24, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-900 dark:text-white font-semibold">$49.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">download</span></button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">INV-2023-007</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Jul 24, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-900 dark:text-white font-semibold">$49.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">download</span></button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">INV-2023-006</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Jun 24, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-900 dark:text-white font-semibold">$49.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">Failed</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">download</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto border-t border-primary/10 py-8 px-6 text-center text-slate-500 dark:text-slate-400 text-sm">
+<div class="flex justify-center gap-6 mb-4">
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Status</a>
+</div>
+<p>© 2023 HyperPay Inc. All rights reserved.</p>
+</footer>
+</div>
+</div>
+</body></html>

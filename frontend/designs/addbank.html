@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.8rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<!-- Main Background Page (Bank Accounts Screen) -->
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 py-4 lg:px-40">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Bank Accounts</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<button class="flex items-center justify-center rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-4 font-semibold text-sm">
+<span class="material-symbols-outlined mr-2">add</span> Add Account
+                    </button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-100 shadow-sm" data-alt="User profile avatar close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJg4LhHvqiTxa7g3BBKh3WvOTorw_Kb4hf0whhidP2yhpzkFhsdtXlZj_cCLtOe4XHt8N1MofE-UFnkxSPMV0t-iOkt7JSXVJ1CJhZzaRy077HsbK50PoQAI8nTj5N8l4Q0zjeV37C2KjUcCogHFsRevPCztPysUrWLru8oJQ6qFJJ8LfQz7XffkeIl5AuRwAPM34_D69FmkYTk_F3NtjV1ufhsJ3zBzz8IQ1ZoytNmLQYDbnAId9wOUMewUtFlW-8FJC4aEEHdbY");'></div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto px-6 py-8 lg:px-40">
+<div class="max-w-4xl mx-auto space-y-6">
+<div class="flex items-center justify-between p-5 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-5">
+<div class="size-14 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700 overflow-hidden">
+<img alt="Chase Logo" class="w-10 h-10 object-contain" data-alt="JPMorgan Chase bank corporate logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFpCzWBVg9cVt8rZ3cXNJW9JiICEjhJMa70F16KNBkaAzeGeE2jeHqhrjJruI5lDYDqQvGsW5YUl9k9q01c0E0MKA5Qk8SVtF5JhWg7xgySxx7M5ALSNbein2qaSty00CunNi5Z6LF2TVrL9ZAYKB0JvYiRj_hvkwRXLhlq8aH5T4VNNDm-vjOLtusGZNxc4l-FZTTG5CLjOcVUTkq7PCg-i2ZbHKdPwr3jYOYz3V7nQC-r6lHwD7fYIG1QlWHNY0Knl75RMdo_X8"/>
+</div>
+<div>
+<p class="text-lg font-semibold">JPMorgan Chase</p>
+<p class="text-slate-500 text-sm">Checking •••• 1234</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">check_circle</span> Linked
+                        </div>
+</div>
+<div class="flex items-center justify-between p-5 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-5">
+<div class="size-14 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700 overflow-hidden">
+<img alt="BofA Logo" class="w-10 h-10 object-contain" data-alt="Bank of America corporate logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBucgRgbLoEf3yyNQtuu-FxSKCCnLobvVZi7ZPUfjxEZGMOw5okojHB2wEvRDDNUPYw82cW1xYz-UKJ8AsGUau4vt2Fjh4e9YSKTebA5T3XWcHYishIU6cviQObcHZgFWKHI9A1VpcX9sQdtjqXV7V0R8pSI6xt_0A1OIEgsa6LYrmxUeEJCxLAV_cdTWLpqK3OxMjqV3AIRu1fe_k0FbeaC59lkJGVLqnJWH7fYe4SZWF7GaC5r4IhIrabONQPpU5z3qOAIrfdN2g"/>
+</div>
+<div>
+<p class="text-lg font-semibold">Bank of America</p>
+<p class="text-slate-500 text-sm">Savings •••• 5678</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs font-bold">
+<span class="material-symbols-outlined text-sm">check_circle</span> Linked
+                        </div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay Backdrop -->
+<div class="absolute inset-0 z-40 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+<!-- Modal Content -->
+<div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Add bank account</h3>
+<p class="text-sm text-slate-500">Securely link your bank to HyperPay</p>
+</div>
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Multi-step Indicator -->
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center justify-between max-w-sm mx-auto">
+<div class="flex flex-col items-center gap-1">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-primary/20">1</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary">Select</span>
+</div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-2 -mt-4"></div>
+<div class="flex flex-col items-center gap-1">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 flex items-center justify-center text-sm font-bold">2</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Details</span>
+</div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-2 -mt-4"></div>
+<div class="flex flex-col items-center gap-1">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 flex items-center justify-center text-sm font-bold">3</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Secure Link</span>
+</div>
+</div>
+</div>
+<!-- Step 1: Select Bank (Active) -->
+<div class="px-6 py-6 space-y-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search for your bank..." type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<!-- Bank Card 1 -->
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 transition-all group">
+<div class="size-12 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<img alt="Chase" class="w-8 h-8 object-contain" data-alt="Chase bank logo small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1jA9m45bF7Xx3Cp15S3j8-Qys5GrwEA20q45zCBFnMwN2wUjM5DF1POzKMweAM72hgI-sZdG6YLscgOSWOWI-ZrNRTTwr7XClhEBb5pIdAznTBTWlj_cHhCHiiZUar9HR-oSJ36MXgcq3DX4P9rYrx0-bpk7cuA1suCD0GVMUlR_fWdor2WeK4TRRJqrPGgzrOGf9d_eBV7uPVbmj9s-quxjoyApk8baY6cw0gIt7y-qxb0w0hQX9QwubDBT9yKrz_BU0m9upWqY"/>
+</div>
+<span class="text-sm font-semibold">Chase</span>
+</button>
+<!-- Bank Card 2 -->
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-primary bg-primary/5 transition-all group relative">
+<div class="absolute top-2 right-2 text-primary">
+<span class="material-symbols-outlined text-base">check_circle</span>
+</div>
+<div class="size-12 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center mb-3 shadow-sm group-hover:scale-110 transition-transform">
+<img alt="Wells Fargo" class="w-8 h-8 object-contain" data-alt="Wells Fargo bank logo small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbUQAxYE8rIIRwTmwHLieroWOxGxsJ-9dObwXJqRy4910ItYbbgj4pcVo88Pfix30cTK-Cnmy5X8lwXC_n7sGR1GA1pcHWiKUfV98FnBC8CRW_5PzbdftZ4DNG1ygYtVoTlK4ngtrQeIUNiYpVzFVT9vyMPcK4VWMqEIUkLRrPhpUNEcDoPB_OPG9o2zs4fmlSn7PAPLmZjpsmz5rWLA55fSyBtZR0wOUF5--igA3_X7RUhaMQS2Jn6Ld0_7XNBWiMnqMxTRI92So"/>
+</div>
+<span class="text-sm font-semibold">Wells Fargo</span>
+</button>
+<!-- Bank Card 3 -->
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 transition-all group">
+<div class="size-12 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<img alt="Citi" class="w-8 h-8 object-contain" data-alt="Citi bank logo small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMCyZZb48uWjm8yYoLLdCJAeEOfoupFcB-t5DLRHHBWW7GNKtg1wuw6txRg3dXAtiIjbHQmPqigvF3N97z0b69ShUpNIWrBRse8XZ6wwSQtPpmzbe_8fFdbSEWQdihZmGgktfiXNMBO5QqyhbCIarDetmPA9MVfKznVKr9dh1ycB-eTIf-gyaWQq4CmKEEqMwD3p2fXEaq0hDR16v_RqJ-djHWHCUK98ChaOjflS0gdUW3ttQ5bLNBm75pMr0X2SmyKUUIQnzycE"/>
+</div>
+<span class="text-sm font-semibold">Citibank</span>
+</button>
+<!-- Bank Card 4 -->
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-primary/5 transition-all group">
+<div class="size-12 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<img alt="Capital One" class="w-8 h-8 object-contain" data-alt="Capital One bank logo small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-cYfmXmd_Bj6T4__EBIeAHEUYMiN-AGd7ime93-HFPPFxZIXZzjCOlOK5nYUHBMGdb_CBnqLDgoZXw49ECXWCrj99ggqDMfAjbnBY69uXxCC_o0nKh0VQBK821RjWm47CoaIRZkVX0xVazf0tGO6jkPixKv1Z3NaZPOn_bq4iXpGNAdlHCq54aISB3Du__9uHoaDVgx0THiCX6wQbc7JsMSm1NvurLtzblQKaPh8-Vpti6WVjL8hca3FgxPynEdktB4vQ9IXwWYA"/>
+</div>
+<span class="text-sm font-semibold">Capital One</span>
+</button>
+</div>
+<div class="pt-4 space-y-4">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Account Number</label>
+<input class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary outline-none" placeholder="Enter account number" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Routing Number</label>
+<input class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary outline-none" placeholder="Enter 9-digit routing number" type="text"/>
+</div>
+</div>
+</div>
+<!-- Step 3 Overlay Simulation (Optional visual) -->
+<!-- This section is just to show how step 3 might look if the modal transitioned -->
+<!-- 
+                <div class="px-6 py-6 space-y-6">
+                    <div class="flex flex-col items-center text-center space-y-2">
+                        <div class="size-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-2">
+                            <span class="material-symbols-outlined text-4xl">shield_with_heart</span>
+                        </div>
+                        <h4 class="text-lg font-bold">Secure Plaid Connection</h4>
+                        <p class="text-sm text-slate-500">Log in to Wells Fargo to verify your identity</p>
+                    </div>
+                    <div class="space-y-4">
+                        <input type="text" placeholder="Bank Username" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        <input type="password" placeholder="Bank Password" class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    </div>
+                </div>
+                -->
+<!-- Modal Footer -->
+<div class="px-6 py-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
+<button class="flex-1 px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold text-sm hover:bg-slate-50 transition-colors">
+                        Cancel
+                    </button>
+<button class="flex-1 px-4 py-3 rounded-lg bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                        Continue to Link
+                    </button>
+</div>
+<!-- Footer Security Note -->
+<div class="px-6 pb-6 pt-0 flex items-center justify-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<p class="text-[10px] uppercase font-bold tracking-[0.1em]">Bank-grade 256-bit encryption</p>
+</div>
+</div>
+</div>
+</div>
+</body></html>

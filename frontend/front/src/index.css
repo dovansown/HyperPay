@@ -1,3 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #635bff;
+  --color-background-light: #f6f9fc;
+  --color-background-dark: #0a2540;
+}
+
 *,
 *::before,
 *::after {
@@ -22,34 +30,19 @@ button {
   font-family: inherit;
 }
 
-::-webkit-scrollbar:horizontal {
-  height: 5px;
-  background-color: red;
-  cursor: pointer;
-}
-
-::-webkit-scrollbar-thumb:horizontal {
-  background: #000;
-  border-radius: 10px;
-  cursor: pointer;
-
-}
-
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 6px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: #fff;
+  background: transparent;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8D909A;
+  background: #cbd5e1;
+  border-radius: 999px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #8D909A;
+  background: #94a3b8;
 }

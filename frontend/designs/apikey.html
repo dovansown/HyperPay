@@ -1,265 +1,268 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>API &amp; Webhook Developer Hub</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#ffd900",
-                        "background-light": "#f8f8f5",
-                        "background-dark": "#23200f",
-                        "mint": "#e6fcf5",
-                        "mint-text": "#0ca678",
-                    },
-                    fontFamily: {
-                        "display": ["Plus Jakarta Sans"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
-                        "full": "9999px"
-                    },
-                },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#645cff",
+              "background-light": "#f5f5f8",
+              "background-dark": "#100f23",
             },
-        }
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
     </script>
-<style>
-        body {
-            font-family: "Plus Jakarta Sans", sans-serif;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    </style>
+<title>HyperPay API Keys Settings</title>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-[#181710] dark:text-white transition-colors duration-300">
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark px-10 py-3 sticky top-0 z-50">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 sticky top-0 z-50">
 <div class="flex items-center gap-8">
-<div class="flex items-center gap-3">
-<div class="size-10 bg-primary rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-black font-bold">account_balance_wallet</span>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">token</span>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">HyperPay</h2>
 </div>
-<h2 class="text-[#181710] dark:text-white text-lg font-black leading-tight tracking-[-0.015em]">FintechFlow</h2>
+<div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 gap-2 w-64 border border-transparent focus-within:border-primary">
+<span class="material-symbols-outlined text-slate-500 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500" placeholder="Search keys or logs..." type="text"/>
 </div>
-<nav class="hidden md:flex items-center gap-6">
-<a class="text-sm font-bold leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors text-gray-500 dark:text-gray-400" href="#">Transactions</a>
-<a class="text-sm font-bold leading-normal text-primary" href="#">Developer Hub</a>
-<a class="text-sm font-medium leading-normal hover:text-primary transition-colors text-gray-500 dark:text-gray-400" href="#">Settings</a>
-</nav>
 </div>
-<div class="flex flex-1 justify-end gap-4 items-center">
-<label class="flex flex-col min-w-40 h-10 max-w-64">
-<div class="flex w-full flex-1 items-stretch rounded-full h-full bg-gray-100 dark:bg-gray-800">
-<div class="flex items-center justify-center pl-4 text-gray-400">
-<span class="material-symbols-outlined text-[20px]">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-sm font-normal placeholder:text-gray-400 px-2" placeholder="Search docs..." value=""/>
-</div>
-</label>
-<div class="flex items-center gap-2">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" data-alt="User profile avatar portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3zccpvc1q2ympWqAUE2kuKRnTe0JKHKoM_ccXjHWBBn7vtWxPu029tGtAnqy7QgrxkS8xuD57TU44LHI70rAIJQ063G9r1FBH5zF_PGiyH61TcaAkn1NIsjtdgHh26GT939AxO2JCkTnTgidK5S_8kIjBvEUyLRggGwXupHdW4UfhYWrEtbFdMO_xL7w7BqUq0Rz4eOoftHHCWiG-nOPQRltYEOuKoPkp9KJBQYrM1iNJS8BQ5b21mtUYrbfjZdoMwHMXhs6Es473");'></div>
-</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs" data-alt="User profile avatar placeholder">
+                JD
+            </div>
 </div>
 </header>
-<main class="flex flex-1 flex-col items-center">
-<div class="layout-content-container flex flex-col max-w-[1200px] w-full px-6 py-10 gap-8">
-<!-- Page Heading -->
-<div class="flex flex-wrap items-end justify-between gap-4">
-<div class="flex flex-col gap-2">
-<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary w-fit text-xs font-bold uppercase tracking-wider">
-<span class="material-symbols-outlined text-xs">terminal</span> Developer Mode
-                        </div>
-<h1 class="text-[#181710] dark:text-white text-5xl font-black leading-tight tracking-[-0.033em]">API &amp; Webhook Hub</h1>
-<p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl font-medium">Manage your credentials, secure your integration, and monitor real-time transaction events across the globe.</p>
-</div>
-<button class="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-black text-base font-black hover:scale-105 transition-transform shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined mr-2">add_circle</span>
-                        Generate New Key
-                    </button>
-</div>
-<!-- API Keys Section -->
-<div class="flex flex-col gap-4">
-<div class="flex items-center justify-between px-2">
-<h2 class="text-2xl font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">key</span> API Keys
-                        </h2>
-<span class="text-sm font-medium text-gray-400">2 Active Keys</span>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-<!-- Card 1: Production -->
-<div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-lg bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
-<div class="flex flex-col justify-between gap-6 flex-1">
-<div class="flex flex-col gap-2">
-<div class="flex items-center gap-2">
-<span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-<p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Production Environment</p>
-</div>
-<p class="text-xl font-extrabold">Live Merchant Key</p>
-<div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 font-mono text-sm flex items-center justify-between border border-dashed border-gray-200 dark:border-gray-700">
-<span class="text-gray-600 dark:text-gray-300">pk_live_••••••••••••4k2s</span>
-<button class="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
-<span class="material-symbols-outlined text-lg">visibility</span>
-</button>
-</div>
-</div>
-<button class="flex items-center justify-center rounded-full h-10 px-6 bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-sm font-bold gap-2 hover:bg-primary hover:text-black transition-all w-fit">
-<span class="material-symbols-outlined text-lg">content_copy</span>
-                                    Copy Key
-                                </button>
-</div>
-<div class="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Abstract colorful purple and yellow security pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDlza3TZOwpXAiPfUVskO5v27ktJAjI9viPvj00Yb-VtabMIrt7q77hx1slyPsd9zc48bfEDuDnvBrHClcv9S_otk5jul6dG60eHLb8tHPbTbbcR-lpd5rtgGWHi89zPDjz_DrVZmTT2X-2T7cDY8uM5W_1pewBnMyLWV8QNVwjZ3biKkUPas9WkPx1qc5eJbkoOfSdIAdtequyL7Yt50TQ968Zc3rSqLnwnjkA9VWG3uVvsEb_EDOqQDV8rYzppVAPutjmcnzqGFjx");'></div>
-</div>
-<!-- Card 2: Sandbox -->
-<div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-lg bg-white dark:bg-gray-900 p-6 shadow-sm border border-gray-100 dark:border-gray-800">
-<div class="flex flex-col justify-between gap-6 flex-1">
-<div class="flex flex-col gap-2">
-<div class="flex items-center gap-2">
-<span class="h-2 w-2 rounded-full bg-blue-500"></span>
-<p class="text-gray-400 text-xs font-bold uppercase tracking-widest">Testing Environment</p>
-</div>
-<p class="text-xl font-extrabold">Sandbox Debug Key</p>
-<div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 font-mono text-sm flex items-center justify-between border border-dashed border-gray-200 dark:border-gray-700">
-<span class="text-gray-600 dark:text-gray-300">pk_test_••••••••••••9z1r</span>
-<button class="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
-<span class="material-symbols-outlined text-lg">visibility</span>
-</button>
-</div>
-</div>
-<button class="flex items-center justify-center rounded-full h-10 px-6 bg-gray-100 dark:bg-gray-800 text-black dark:text-white text-sm font-bold gap-2 hover:bg-primary hover:text-black transition-all w-fit">
-<span class="material-symbols-outlined text-lg">content_copy</span>
-                                    Copy Key
-                                </button>
-</div>
-<div class="w-full md:w-48 bg-center bg-no-repeat aspect-square bg-cover rounded-lg" data-alt="Abstract blue and yellow code grid pattern" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLRGKGfv0Ws-BXET0iOSelKkdzacEymANX2911gLA4VxdmASL9_lwARDQnV_sr5DTfF6IH48Dcg5FgCfNR8Uh-7fc9RxnJGJ5XhXud57MTSFRMqfHW2IwczZCcvzpgEHTaBLXbDNoOtsEvAyq1dhx1s62Z43bP8KR5h42eAElH5lcd0QUP_KfEXC9DzGFaEgMFxm_t_tblejfJAzWs-w7AR-AZzOEAQgIf16T5WjLibCYRNFB_WtEd_Db7yphbxroRL3XPhUqWhzZT");'></div>
-</div>
-</div>
-</div>
-<!-- Webhook Logs Section -->
-<div class="flex flex-col gap-6">
-<div class="flex items-center justify-between px-2">
+<div class="flex flex-1">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden lg:flex flex-col p-4 gap-6">
 <div class="flex flex-col gap-1">
-<h2 class="text-2xl font-bold flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">hub</span> Webhook Deliveries
-                            </h2>
-<p class="text-sm font-medium text-gray-400">Real-time event synchronization status</p>
+<p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-3 mb-2">Main Menu</p>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Customers</span>
+</a>
 </div>
-<button class="flex items-center justify-center rounded-full h-10 px-5 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold hover:border-primary transition-colors">
-<span class="material-symbols-outlined mr-2 text-lg">settings_input_component</span> Add Endpoint
+<div class="flex flex-col gap-1">
+<p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-3 mb-2">Developers</p>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">code</span>
+<span class="text-sm font-semibold">API keys</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">webhook</span>
+<span class="text-sm font-medium">Webhooks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-medium">Logs</span>
+</a>
+</div>
+<div class="mt-auto p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-2 w-2 rounded-full bg-emerald-500"></div>
+<span class="text-xs font-bold uppercase text-slate-600 dark:text-slate-300">Live Mode</span>
+</div>
+<p class="text-[11px] text-slate-500">All requests are live and will charge real money.</p>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto">
+<div class="max-w-5xl mx-auto px-6 py-8">
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">API keys</h1>
+<p class="text-slate-500 mt-2">Use these keys to authenticate your requests with HyperPay.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                            Help docs
                         </button>
 </div>
-<div class="overflow-hidden rounded-lg bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
-<div class="overflow-x-auto">
+</div>
+<!-- Tabs -->
+<div class="border-b border-slate-200 dark:border-slate-800 mb-8 overflow-x-auto whitespace-nowrap">
+<div class="flex gap-8">
+<a class="pb-4 border-b-2 border-primary text-primary text-sm font-bold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">key</span> API keys
+                        </a>
+<a class="pb-4 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-sm font-bold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">webhook</span> Webhooks
+                        </a>
+<a class="pb-4 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-sm font-bold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">data_object</span> Logs
+                        </a>
+<a class="pb-4 border-b-2 border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-sm font-bold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">event_note</span> Events
+                        </a>
+</div>
+</div>
+<!-- Warning Banner -->
+<div class="mb-8 p-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-xl flex items-start gap-4">
+<div class="text-amber-600 dark:text-amber-500 shrink-0">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold text-amber-900 dark:text-amber-100">Keep your secret keys safe</p>
+<p class="text-sm text-amber-800 dark:text-amber-400 mt-1">
+                            Secret keys can be used to make any API request on your behalf. Never share these keys or expose them in client-side code (browsers, mobile apps). 
+                            <a class="font-bold underline" href="#">Learn more about API security</a>.
+                        </p>
+</div>
+</div>
+<!-- Standard Keys Section -->
+<div class="mb-12">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Standard keys</h3>
+<span class="text-xs text-slate-500">Last rotation: 4 months ago</span>
+</div>
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+<!-- Publishable Key -->
+<div class="grid grid-cols-1 md:grid-cols-12 border-b border-slate-100 dark:border-slate-800 p-4 items-center">
+<div class="md:col-span-3">
+<span class="text-sm font-semibold text-slate-500">Publishable key</span>
+</div>
+<div class="md:col-span-7 py-2 md:py-0">
+<div class="flex items-center bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+<code class="text-xs text-slate-700 dark:text-slate-300 font-mono truncate select-all">pk_live_51MxtH0C9z...L45K</code>
+</div>
+</div>
+<div class="md:col-span-2 flex justify-end">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Secret Key -->
+<div class="grid grid-cols-1 md:grid-cols-12 p-4 items-center">
+<div class="md:col-span-3">
+<span class="text-sm font-semibold text-slate-500">Secret key</span>
+</div>
+<div class="md:col-span-7 py-2 md:py-0">
+<div class="flex items-center bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+<code class="text-xs text-slate-400 dark:text-slate-500 font-mono tracking-widest italic">••••••••••••••••••••••••••••••••</code>
+</div>
+</div>
+<div class="md:col-span-2 flex justify-end gap-2">
+<button class="px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-colors">
+                                    Reveal
+                                </button>
+<button class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Restricted Keys Table Section -->
+<div class="mb-12">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Restricted keys</h3>
+<span class="material-symbols-outlined text-slate-400 text-[18px]" title="Restricted keys limit access to specific resources">info</span>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-bold hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            Create restricted key
+                        </button>
+</div>
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden overflow-x-auto">
 <table class="w-full text-left">
-<thead class="bg-gray-50 dark:bg-gray-800/50">
+<thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
 <tr>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">Event Type</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">Endpoint</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">Timestamp</th>
-<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">Status Message</th>
-<th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-gray-500">Details</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase">Name</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase">Key</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase">Permissions</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase">Last used</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase">Created</th>
+<th class="px-6 py-3 text-xs font-bold text-slate-500 uppercase text-right">Action</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-<!-- Log Row 1 -->
-<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-gray-900 dark:text-white">payment.succeeded</span>
-<span class="text-[10px] text-gray-400 font-mono">ID: evt_92k8...</span>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr>
+<td class="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-200">Mobile Checkout Key</td>
+<td class="px-6 py-4">
+<code class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded font-mono">rk_live_88...A2W</code>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1 flex-wrap">
+<span class="bg-slate-100 dark:bg-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full text-slate-600 dark:text-slate-400">Payments (Read)</span>
 </div>
 </td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">api.mystore.com/hooks</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400">2 mins ago</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="inline-flex items-center gap-2 rounded-full bg-mint px-3 py-1 text-xs font-bold text-mint-text">
-<span>Webhook delivered successfully 🎯</span>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap text-right">
-<button class="text-gray-400 hover:text-primary"><span class="material-symbols-outlined">data_object</span></button>
+<td class="px-6 py-4 text-sm text-slate-500">2 mins ago</td>
+<td class="px-6 py-4 text-sm text-slate-500">Jun 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">more_horiz</span></button>
 </td>
 </tr>
-<!-- Log Row 2 -->
-<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-gray-900 dark:text-white">transfer.created</span>
-<span class="text-[10px] text-gray-400 font-mono">ID: evt_11p3...</span>
+<tr>
+<td class="px-6 py-4 text-sm font-bold text-slate-700 dark:text-slate-200">Analytics Export</td>
+<td class="px-6 py-4">
+<code class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded font-mono">rk_live_44...77Q</code>
+</td>
+<td class="px-6 py-4">
+<div class="flex gap-1 flex-wrap">
+<span class="bg-slate-100 dark:bg-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full text-slate-600 dark:text-slate-400">Logs (Read)</span>
+<span class="bg-slate-100 dark:bg-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full text-slate-600 dark:text-slate-400">Events (Read)</span>
 </div>
 </td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">api.mystore.com/hooks</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400">12 mins ago</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="inline-flex items-center gap-2 rounded-full bg-mint px-3 py-1 text-xs font-bold text-mint-text">
-<span>Webhook delivered successfully 🎯</span>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap text-right">
-<button class="text-gray-400 hover:text-primary"><span class="material-symbols-outlined">data_object</span></button>
-</td>
-</tr>
-<!-- Log Row 3 -->
-<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="flex flex-col">
-<span class="text-sm font-bold text-gray-900 dark:text-white">subscription.updated</span>
-<span class="text-[10px] text-gray-400 font-mono">ID: evt_00m1...</span>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">webhooks.internal.io</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<span class="text-sm text-gray-600 dark:text-gray-400">45 mins ago</span>
-</td>
-<td class="px-6 py-4 whitespace-nowrap">
-<div class="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600">
-<span>Connection timeout ⏳ Retrying...</span>
-</div>
-</td>
-<td class="px-6 py-4 whitespace-nowrap text-right">
-<button class="text-gray-400 hover:text-primary"><span class="material-symbols-outlined">data_object</span></button>
+<td class="px-6 py-4 text-sm text-slate-500">Dec 1, 2023</td>
+<td class="px-6 py-4 text-sm text-slate-500">Nov 15, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">more_horiz</span></button>
 </td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800/50 px-6 py-4">
-<span class="text-xs font-medium text-gray-500">Showing last 10 activities</span>
-<div class="flex items-center gap-4">
-<button class="text-xs font-bold hover:text-primary disabled:opacity-50" disabled="">Previous</button>
-<button class="text-xs font-bold hover:text-primary">Next</button>
+<div class="p-4 bg-slate-50/50 dark:bg-slate-800/30 flex justify-center">
+<button class="text-sm font-bold text-primary hover:underline">View all restricted keys</button>
 </div>
 </div>
 </div>
+<!-- Footer Security Card -->
+<div class="p-6 bg-slate-900 text-white rounded-2xl flex flex-col md:flex-row items-center gap-6" data-alt="Dark abstract secure pattern background">
+<div class="h-16 w-16 bg-primary/20 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl">verified_user</span>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h4 class="text-xl font-bold">Two-step authentication is active</h4>
+<p class="text-slate-400 mt-1">Your account is protected by two-step authentication. A verification code is required when sensitive operations are performed.</p>
+</div>
+<button class="px-6 py-2 bg-white text-slate-900 font-bold rounded-lg hover:bg-slate-200 transition-colors whitespace-nowrap">
+                        Security Settings
+                    </button>
 </div>
 </div>
 </main>
-<!-- Help Floating Action Button -->
-<button class="fixed bottom-8 right-8 size-14 bg-black dark:bg-primary text-white dark:text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group">
-<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">help_center</span>
-<div class="absolute right-16 bg-black text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Need help with APIs?</div>
-</button>
+</div>
 </div>
 </body></html>

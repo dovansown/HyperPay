@@ -1,207 +1,168 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout'
 import { useAccountsStore } from '../store/accountsStore'
-import { useBanksStore } from '../store/banksStore'
-import AddBankWizardModal from '../components/banks/AddBankWizardModal'
-import BIDV_icon from "../assets/banks/BIDV.webp"
-import ACB_icon from "../assets/banks/ACB.png"
-import ICB_icon from "../assets/banks/ICB.png"
-import MB_icon from "../assets/banks/MB.png"
-import MSB_icon from "../assets/banks/MSB.png"
-import TPB_icon from "../assets/banks/TPB.png"
-import VCB_icon from "../assets/banks/VCB.png"
-import VPB_icon from "../assets/banks/VPB.png"
-type BankOption = { code: string; name: string; icon: string }
-function maskAccountNumber(accountNumber: string) {
-  const cleaned = accountNumber ?? ''
-  if (cleaned.length <= 4) return cleaned
-  return `**** ${cleaned.slice(-4)}`
+
+function maskAccount(accountNumber: string) {
+  if (accountNumber.length <= 4) return accountNumber
+  return `•••• ${accountNumber.slice(-4)}`
 }
 
-export function BanksPage() {
-  const { accounts, fetchAccounts, createAccount, isLoading, error, clearError } =
-    useAccountsStore()
-  const { banks, fetchBanks } = useBanksStore()
-
-  const [isAddOpen, setIsAddOpen] = useState(false)
+function BanksPage() {
+  const { accounts, isLoading, error, fetchAccounts, createAccount, clearError } = useAccountsStore()
+  const [openModal, setOpenModal] = useState(false)
+  const [bankName, setBankName] = useState('')
+  const [holderName, setHolderName] = useState('')
+  const [accountNumber, setAccountNumber] = useState('')
 
   useEffect(() => {
-    fetchAccounts()
-    fetchBanks()
-  }, [fetchAccounts, fetchBanks])
+    void fetchAccounts()
+  }, [fetchAccounts])
 
-  const total = accounts.length
-
-  const bankOptions: BankOption[] = useMemo(() => {
-    const fromApi = banks
-      .map((b) => ({ code: b.code, name: b.name, icon: b.icon_url }))
-      .filter((x) => x.code && x.name && x.icon) as BankOption[]
-    if (fromApi.length) return fromApi
-    // fallback theo design
+  const accountRows = useMemo(() => {
+    if (accounts.length > 0) {
+      return accounts.map((account) => ({
+        id: account.id,
+        bank: account.bank_name,
+        type: 'Checking',
+        number: maskAccount(account.account_number),
+        status: 'Active',
+      }))
+    }
     return [
-      { code: 'VCB', name: 'Vietcombank', icon: VCB_icon },
-      { code: 'MB', name: 'MB Bank', icon: MB_icon },
-      { code: 'BIDV', name: 'BIDV', icon: BIDV_icon },
-      { code: 'ACB', name: 'ACB', icon: ACB_icon },
-      { code: 'VTB', name: 'VIETINBANK', icon: ICB_icon },
-      { code: 'MSB', name: 'MSB', icon: MSB_icon },
-      { code: 'TPB', name: 'TPBANK', icon: TPB_icon },
-      { code: 'VPB', name: 'VPBANK', icon: VPB_icon },
+      { id: 1, bank: 'JPMorgan Chase', type: 'Checking', number: '•••• 4242', status: 'Active' },
+      { id: 2, bank: 'Bank of America', type: 'Savings', number: '•••• 8899', status: 'Pending' },
     ]
-  }, [banks])
+  }, [accounts])
 
-  const handleSubmit = async (payload: {
-    bank_name: string
-    account_number: string
-    account_holder: string
-  }) => {
+  const onCreateBankAccount = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     clearError()
     try {
-      await createAccount(payload)
-      setIsAddOpen(false)
+      await createAccount({
+        bank_name: bankName,
+        account_holder: holderName,
+        account_number: accountNumber,
+      })
+      setOpenModal(false)
+      setBankName('')
+      setHolderName('')
+      setAccountNumber('')
     } catch {
-      // error trong store
+      // lỗi hiển thị từ store
     }
   }
 
   return (
-    <AuthenticatedLayout containerClassName="max-w-[1300px] mx-auto w-full px-6 lg:px-10 py-8">
-      {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 mb-6">
-        <a
-          className="text-[#8d865e] hover:text-[#181710] dark:hover:text-white transition-colors flex items-center gap-1"
-          href="#"
-        >
-          <span className="material-symbols-outlined text-base">home</span>
-          <span className="text-sm font-medium leading-none">Trang chủ</span>
-        </a>
-        <span className="text-[#8d865e] text-sm">/</span>
-        <span className="text-[#181710] dark:text-white text-sm font-bold">
-          Kết nối ngân hàng
-        </span>
-      </nav>
+    <AuthenticatedLayout>
+      <div className="space-y-8">
+        <div className="flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <h1 className="text-3xl font-black tracking-tight">Bank accounts</h1>
+            <p className="mt-2 max-w-2xl text-slate-500">Add and manage the bank accounts used to receive payouts and pay for HyperPay services.</p>
+          </div>
+          <button
+            onClick={() => setOpenModal(true)}
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold shadow-sm hover:bg-slate-50"
+          >
+            <span className="material-symbols-outlined text-lg">account_balance</span>
+            Add bank account
+          </button>
+        </div>
 
-      {/* Section Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold tracking-tight">Tài khoản đã liên kết</h2>
-        <button className="text-sm font-bold text-primary underline underline-offset-4 hover:opacity-80 transition-opacity">
-          Xem tất cả lịch sử
-        </button>
+        {error && <p className="rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-600">{error}</p>}
+
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50/70">
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Bank Name</th>
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Account number</th>
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Type</th>
+                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {accountRows.map((row) => (
+                  <tr key={row.id} className="hover:bg-slate-50/70">
+                    <td className="px-6 py-4 text-sm font-medium">{row.bank}</td>
+                    <td className="px-6 py-4 text-sm font-mono text-slate-600">{row.number}</td>
+                    <td className="px-6 py-4 text-sm text-slate-600">{row.type}</td>
+                    <td className="px-6 py-4 text-sm font-semibold">{row.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      {error && <p className="text-sm text-red-500 font-medium mb-4">{error}</p>}
-
-      {/* Bank Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {accounts.map((acc) => (
-          <div
-            key={acc.id}
-            className="bg-white dark:bg-[#1a180b] rounded-lg p-6 border-2 border-transparent hover:border-primary transition-all group shadow-sm  cursor-pointer"
-          >
-            <div className="flex justify-between items-start mb-6">
-              <div className="size-14 rounded-2xl bg-white shadow-md p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
-                <span className="material-symbols-outlined text-[#181710]">account_balance</span>
+      {openModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+            <div className="flex items-start justify-between border-b border-slate-100 px-6 py-5">
+              <div>
+                <h3 className="text-xl font-bold">Add bank account</h3>
+                <p className="text-sm text-slate-500">Securely link your bank to HyperPay</p>
               </div>
-              <div className="flex gap-2">
-                <span className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-extrabold uppercase px-2 py-1 rounded-full flex items-center gap-1">
-                  <span className="size-1.5 bg-green-500 rounded-full animate-pulse" />
-                  Hoạt động
-                </span>
-                <button className="text-[#8d865e] hover:text-[#181710] dark:hover:text-white">
-                  <span className="material-symbols-outlined text-xl">more_vert</span>
-                </button>
-              </div>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-xl font-bold mb-1">{acc.bank_name}</h3>
-              <p className="text-[#8d865e] text-sm font-medium">
-                STK: {maskAccountNumber(acc.account_number)}
-              </p>
-            </div>
-            <div className="pt-4 border-t border-[#f5f4f0] dark:border-[#2d2a1a] flex items-center justify-between">
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[#8d865e] font-bold uppercase tracking-tight">
-                  Cập nhật lúc
-                </span>
-                <span className="text-xs font-semibold">—</span>
-              </div>
-              <button
-                className="size-9 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center"
-                onClick={(e) => {
-                  e.preventDefault()
-                  fetchAccounts()
-                }}
-              >
-                <span className="material-symbols-outlined text-base">sync</span>
+              <button onClick={() => setOpenModal(false)} className="text-slate-400 hover:text-slate-600">
+                <span className="material-symbols-outlined">close</span>
               </button>
             </div>
+            <form onSubmit={onCreateBankAccount} className="space-y-4 px-6 py-6">
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold text-slate-700">Bank name</span>
+                <input
+                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none ring-primary/20 transition focus:border-primary focus:ring-4"
+                  placeholder="VD: Vietcombank"
+                  value={bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                  required
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold text-slate-700">Account holder</span>
+                <input
+                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none ring-primary/20 transition focus:border-primary focus:ring-4"
+                  placeholder="VD: Nguyen Van A"
+                  value={holderName}
+                  onChange={(e) => setHolderName(e.target.value)}
+                  required
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-semibold text-slate-700">Account number</span>
+                <input
+                  className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none ring-primary/20 transition focus:border-primary focus:ring-4"
+                  placeholder="Nhập số tài khoản"
+                  value={accountNumber}
+                  onChange={(e) => setAccountNumber(e.target.value)}
+                  required
+                />
+              </label>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setOpenModal(false)}
+                  className="flex-1 rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="flex-1 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-60"
+                >
+                  {isLoading ? 'Đang lưu...' : 'Continue to Link'}
+                </button>
+              </div>
+            </form>
           </div>
-        ))}
-
-        {/* Add New Account Card */}
-        <button
-          className="bg-transparent rounded-lg p-6 border-2 border-dashed border-[#e7e5da] dark:border-[#3d3a2a] hover:border-primary hover:bg-white dark:hover:bg-[#1a180b] transition-all flex flex-col items-center justify-center min-h-[220px] text-center cursor-pointer group"
-          onClick={() => setIsAddOpen(true)}
-        >
-          <div className="size-14 rounded-full bg-[#f5f4f0] dark:bg-[#2d2a1a] group-hover:bg-primary transition-colors flex items-center justify-center mb-4">
-            <span className="material-symbols-outlined text-xl group-hover:text-[#181710]">
-              add
-            </span>
-          </div>
-          <h3 className="text-base font-bold">Thêm tài khoản mới</h3>
-          <p className="text-[#8d865e] text-sm mt-1">Hỗ trợ hơn 30+ ngân hàng tại VN</p>
-        </button>
-      </div>
-
-      {/* Sync Now Global CTA */}
-      <div className="mt-12 bg-primary rounded-lg p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20">
-        <div className="text-center md:text-left">
-          <h2 className="text-[#181710] text-xl font-black mb-2">
-            Đồng bộ tất cả dữ liệu?
-          </h2>
-          <p className="text-[#181710]/70 font-medium">
-            Chúng tôi sẽ cập nhật số dư và lịch sử giao dịch từ tất cả{' '}
-            {String(total).padStart(2, '0')} tài khoản.
-          </p>
         </div>
-        <button
-          className="bg-[#181710] text-white hover:bg-black px-10 py-4 rounded-full font-black text-base transition-transform hover:scale-105 flex items-center gap-3"
-          onClick={() => fetchAccounts()}
-        >
-          <span className="material-symbols-outlined">bolt</span>
-          Đồng bộ ngay
-        </button>
-      </div>
-
-      {/* Mini Bank List with Icon */}
-      <div className="mt-12 flex items-center justify-center gap-4">
-        {bankOptions.map((bank) => (
-          <div key={bank.code} className="size-24 rounded-full bg-white  p-2 flex items-center justify-center overflow-hidden border border-[#f0efea]">
-            <img src={bank.icon} alt={bank.name} className="w-full h-full object-contain" />
-          </div>
-        ))}
-      </div>
-        
-
-      {/* Footer Info */}
-      <div className="mt-12 text-center">
-        <p className="text-[#8d865e] text-sm font-medium flex items-center justify-center gap-2">
-          <span className="material-symbols-outlined text-base">verified_user</span>
-          Dữ liệu được bảo mật bởi chuẩn mã hóa AES-256.
-        </p>
-      </div>
-
-      <AddBankWizardModal
-        isOpen={isAddOpen}
-        bankOptions={bankOptions}
-        isSubmitting={isLoading}
-        error={error}
-        onClose={() => setIsAddOpen(false)}
-        onSubmit={handleSubmit}
-      />
+      )}
     </AuthenticatedLayout>
   )
 }
 
 export default BanksPage
-

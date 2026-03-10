@@ -19,7 +19,7 @@ export const useBanksStore = create<BanksState>((set, get) => ({
     set({ isLoading: true, error: null })
     try {
       const res = await bankApi.listBanks()
-      set({ banks: res.data?.data ?? [], isLoading: false })
+      set({ banks: res.data.data ?? [], isLoading: false })
     } catch (err) {
       console.error('fetchBanks error', err)
       set({ isLoading: false, error: 'Không tải được danh sách ngân hàng.' })

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tax Settings | HyperPay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em]">HyperPay</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Payments</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Customers</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">Reports</a>
+<a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Settings</a>
+</nav>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 px-10 py-8 lg:px-40">
+<div class="flex flex-col lg:flex-row gap-10">
+<!-- Sidebar Navigation -->
+<aside class="w-full lg:w-64 flex flex-col gap-2">
+<div class="flex items-center gap-3 px-3 py-4 mb-4">
+<div class="bg-primary/10 rounded-lg p-2">
+<span class="material-symbols-outlined text-primary">settings</span>
+</div>
+<div>
+<h1 class="text-slate-900 dark:text-slate-100 text-sm font-bold">Settings</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Account preferences</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="text-sm font-medium">General</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<span class="text-sm font-medium">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">percent</span>
+<span class="text-sm font-bold">Tax</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="text-sm font-medium">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm font-medium">Team</span>
+</a>
+</aside>
+<!-- Main Content Section -->
+<div class="flex-1 max-w-4xl flex flex-col gap-8">
+<!-- Section Header -->
+<div class="flex flex-col gap-2">
+<h2 class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Tax settings</h2>
+<p class="text-slate-500 dark:text-slate-400">Manage tax registrations and how taxes are calculated across your business.</p>
+</div>
+<!-- Export & Reports -->
+<div class="flex flex-wrap gap-4 items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Tax Reports</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Download data for your tax filings.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-bold hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                    Export CSV
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                                    Generate 1099
+                                </button>
+</div>
+</div>
+<!-- Calculation Settings -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calculate</span>
+                                Tax calculation settings
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="relative flex cursor-pointer rounded-xl border-2 border-primary bg-primary/5 p-4 focus:outline-none">
+<input checked="" class="sr-only" name="tax_calc" type="radio" value="auto"/>
+<div class="flex flex-1">
+<div class="flex flex-col">
+<span class="block text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">Automatic</span>
+<span class="mt-1 flex items-center text-sm text-slate-500 dark:text-slate-400">
+                                                HyperPay automatically calculates tax based on customer location.
+                                            </span>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</label>
+<label class="relative flex cursor-pointer rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 focus:outline-none hover:border-slate-300 dark:hover:border-slate-700">
+<input class="sr-only" name="tax_calc" type="radio" value="manual"/>
+<div class="flex flex-1">
+<div class="flex flex-col">
+<span class="block text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Manual</span>
+<span class="mt-1 flex items-center text-sm text-slate-500 dark:text-slate-400">
+                                                Set fixed tax rates manually for each region and product.
+                                            </span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-700">circle</span>
+</label>
+</div>
+</div>
+<!-- Tax Registration Numbers -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Tax registration numbers</h3>
+<button class="text-primary text-sm font-bold hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                    Add registration
+                                </button>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Country/Region</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tax ID</th>
+<th class="px-6 py-3 text-left text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+<th class="px-6 py-3 text-right text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-slate-100">United States</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400 font-mono">12-3456789</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400">
+                                                    Active
+                                                </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold">
+<button class="text-primary hover:text-primary/80">Edit</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-slate-100">European Union</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400 font-mono">EU123456789</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400">
+                                                    Active
+                                                </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold">
+<button class="text-primary hover:text-primary/80">Edit</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-slate-100">United Kingdom</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400 font-mono">GB987654321</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                                                    Pending
+                                                </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold">
+<button class="text-primary hover:text-primary/80">Complete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="border-t border-slate-200 dark:border-slate-800 pt-6 flex justify-end gap-3">
+<button class="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 transition-colors">Discard changes</button>
+<button class="px-6 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">Save changes</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
