@@ -1,0 +1,3 @@
+chỉ lấy content,ko lấy sidebar và header
+phải dùng i18n cho toàn bộ văn bản
+thêm router và đấu api 
