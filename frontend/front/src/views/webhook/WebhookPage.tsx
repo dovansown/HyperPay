@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchWebhookConfig, saveWebhookConfig } from '../../store/webhookSlice'
@@ -10,6 +11,7 @@ import { Button } from '../../components/ui/Button'
 
 export const WebhookPage: React.FC = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { config, status, error } = useAppSelector((s) => s.webhook)
 
@@ -66,7 +68,7 @@ export const WebhookPage: React.FC = () => {
           </span>
         </nav>
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-black text-slate-900 mb-2">
               {t('webhook.title', 'Webhooks')}
@@ -83,6 +85,15 @@ export const WebhookPage: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-3">
+            <Button
+              type="button"
+              variant="ghost"
+              size="md"
+              className="text-slate-600 hover:text-slate-900"
+              onClick={() => navigate('/webhooks')}
+            >
+              {t('webhook.actions.backToList', 'Back to list')}
+            </Button>
             <Button
               type="button"
               variant="secondary"

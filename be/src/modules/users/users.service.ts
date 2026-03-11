@@ -10,7 +10,8 @@ export class UsersService {
     return {
       id: user.id,
       email: user.email,
-      full_name: user.fullName ?? ""
+      full_name: user.fullName ?? "",
+      role: user.role
     };
   }
 }

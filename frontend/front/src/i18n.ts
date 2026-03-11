@@ -64,11 +64,293 @@ const resources = {
           banking: 'Banking',
           billing: 'Billing',
           webhooks: 'Webhooks',
+          docs: 'Docs',
         },
         user: {
           signedInAs: 'Signed in as',
           profile: 'Profile',
           logout: 'Sign out',
+        },
+      },
+      docs: {
+        hero: {
+          title: 'Documentation',
+          subtitle:
+            "Everything you need to integrate HyperPay into your application. From basic setup to advanced API features, we've got you covered.",
+        },
+        tabs: {
+          gettingStarted: 'Getting Started',
+          api: 'API Reference',
+          sdks: 'SDKs',
+          resources: 'Resources',
+        },
+        common: {
+          viewAll: 'View all',
+        },
+        gettingStarted: {
+          title: 'Getting Started',
+          cards: {
+            quickstart: {
+              title: 'Quickstart Guide',
+              description: 'Set up your first payment in under 10 minutes with our step-by-step tutorial.',
+              cta: 'Read guide',
+            },
+            methods: {
+              title: 'Payment Methods',
+              description:
+                'Learn about supported payment methods including Cards, Apple Pay, and local variants.',
+              cta: 'Browse methods',
+            },
+            auth: {
+              title: 'Authentication',
+              description: 'Secure your API calls using API keys and OAuth2 authentication workflows.',
+              cta: 'Learn more',
+            },
+          },
+        },
+        apiSdks: {
+          title: 'API & SDKs',
+          coreApi: {
+            title: 'Core API Reference',
+            description:
+              'Detailed technical documentation for every endpoint, parameter, and response object.',
+            cta: 'Explore API',
+          },
+          cards: {
+            node: {
+              title: 'Node.js SDK',
+              description:
+                'Integrate HyperPay into your backend with our official Node.js library.',
+              updated: 'Updated 2d ago',
+            },
+            mobile: {
+              title: 'iOS & Android SDKs',
+              description:
+                'Native mobile components for seamless checkout experiences in your apps.',
+              updated: 'Updated 1w ago',
+            },
+          },
+        },
+        help: {
+          title: 'Need help?',
+          subtitle:
+            "Whether you're troubleshooting a technical issue or exploring how to scale your business, our team and community are here to support you.",
+          items: {
+            support: {
+              title: '24/7 Priority Support',
+              subtitle: 'Live chat for Enterprise users',
+            },
+            forum: {
+              title: 'Community Forum',
+              subtitle: 'Join 5,000+ developers',
+            },
+          },
+          contact: 'Contact Support',
+          pdf: 'Documentation PDF',
+        },
+        footer: {
+          brand: 'HyperPay Docs © 2024',
+          privacy: 'Privacy Policy',
+          terms: 'Terms of Service',
+          status: 'Status',
+          twitter: 'Twitter',
+          language: 'English',
+        },
+      },
+      public: {
+        nav: {
+          docs: 'Docs',
+          help: 'Help',
+          blog: 'Blog',
+        },
+        actions: {
+          login: 'Log in',
+          signup: 'Sign up',
+        },
+        footer: {
+          tagline: 'Simplified payments for the next generation of digital commerce.',
+          cols: {
+            product: 'Product',
+            resources: 'Resources',
+            company: 'Company',
+            legal: 'Legal',
+          },
+          links: {
+            checkout: 'Checkout',
+            elements: 'Elements',
+            invoicing: 'Invoicing',
+            subscriptions: 'Subscriptions',
+            documentation: 'Documentation',
+            api: 'API Reference',
+            community: 'Community',
+            helpCenter: 'Help Center',
+            about: 'About Us',
+            careers: 'Careers',
+            blog: 'Blog',
+            contact: 'Contact',
+            privacy: 'Privacy Policy',
+            terms: 'Terms of Service',
+            cookies: 'Cookie Settings',
+          },
+          copyright: '© 2024 HyperPay Inc. All rights reserved.',
+          locale: 'English (United States)',
+        },
+      },
+      help: {
+        hero: {
+          title: 'How can we help?',
+          subtitle:
+            'Search our help center for quick answers to your questions or browse popular topics below.',
+          searchPlaceholder: 'Search for payments, API, or billing...',
+          searchButton: 'Search',
+          searchAria: 'Search',
+          popular: 'Popular:',
+          popular1: 'Reset password',
+          popular2: 'API documentation',
+          popular3: 'Payout schedule',
+        },
+        topics: {
+          title: 'Common help topics',
+          subtitle: 'Everything you need to manage your account and payments',
+          viewAll: 'View all topics',
+          account: {
+            title: 'Account',
+            description:
+              'Manage your user profile, security settings, and team permissions for your organization.',
+            link1: 'Changing your password',
+            link2: 'Enabling 2FA security',
+            link3: 'Adding team members',
+          },
+          payments: {
+            title: 'Payments',
+            description:
+              'Understand transaction cycles, dispute resolution, and international currency settlements.',
+            link1: 'Transaction processing',
+            link2: 'Managing refunds',
+            link3: 'Payout schedules',
+          },
+          billing: {
+            title: 'Billing',
+            description: 'Manage your subscription plans, download invoices, and update payment methods.',
+            link1: 'Pricing and fees',
+            link2: 'Subscription management',
+            link3: 'Tax documentation',
+          },
+        },
+        support: {
+          title: 'Still need help?',
+          subtitle:
+            "If you couldn't find what you were looking for, our team and community are here to support you 24/7.",
+          contactTitle: 'Contact Support',
+          contactSubtitle:
+            'Chat with our experts or send us a message. We typically respond within 2 hours during business hours.',
+          contactCta: 'Get in touch',
+          forumTitle: 'Community Forum',
+          forumSubtitle:
+            "Join thousands of developers and entrepreneurs. Share solutions and learn from others' experiences.",
+          forumCta: 'Visit the community',
+        },
+        dev: {
+          badge: 'For Developers',
+          title: 'Ready to start integrating?',
+          subtitle:
+            'Dive into our technical documentation, explore API references, and use our SDKs to build your custom payment solution.',
+          docs: 'Read Docs',
+          api: 'API Reference',
+        },
+      },
+      blog: {
+        title: 'Blog',
+        subtitle: 'Insights on payments, security, and the future of global commerce.',
+        newsletter: {
+          title: 'Stay ahead of the curve',
+          subtitle:
+            'Get the latest insights on global payments, security, and the future of commerce delivered to your inbox.',
+          placeholder: 'Your work email',
+          cta: 'Subscribe',
+          note: 'No spam, just quality insights. Unsubscribe at any time.',
+        },
+        badges: {
+          'future-of-digital-payments-2024': 'Industry Trends',
+          'optimizing-checkout-conversion': 'Growth',
+          'subscription-economy': 'Business',
+        },
+        posts: {
+          'future-of-digital-payments-2024': {
+            title: 'The Future of Global Digital Payments in 2024',
+            excerpt:
+              'Instant settlement, embedded finance, and the API economy are reshaping cross-border commerce.',
+          },
+          'optimizing-checkout-conversion': {
+            title: 'Optimizing Checkout Conversion Rates',
+            excerpt: 'Practical tactics to reduce friction and increase successful payments.',
+          },
+          'subscription-economy': {
+            title: 'The Rise of Subscription Economy',
+            excerpt: 'How subscription billing is evolving and what teams should build next.',
+          },
+        },
+      },
+      blogPost: {
+        title: 'The Future of Global Digital Payments in 2024',
+        badge: 'Industry Trends',
+        highlight: 'Digital Payments',
+        author: 'Alex Rivers',
+        role: 'Head of Product Strategy',
+        meta: {
+          date: 'May 24, 2024',
+          readTime: '8 min read',
+        },
+        share: 'Share',
+        lead:
+          'In an increasingly interconnected world, the infrastructure of commerce is undergoing a profound transformation.',
+        sections: {
+          s1: {
+            title: 'The Shift Toward Instant Settlement',
+            p1:
+              'Traditionally, cross-border payments have been plagued by delays, high fees, and a lack of transparency.',
+            p2:
+              "This isn't just a convenience for consumers; it's a vital liquidity management tool for businesses.",
+          },
+          s2: {
+            title: 'Security in a Borderless World',
+            p1:
+              'As payment methods evolve, so do the threats. Modern gateways must balance UX with robust fraud prevention.',
+          },
+          s3: {
+            title: 'Embedded Finance and the API Economy',
+            p1:
+              'The future of payments is invisible. We are moving toward a world where every software platform is a fintech platform.',
+          },
+        },
+        quote:
+          '"The next decade of fintech won’t be about adding new layers of complexity, but about removing the existing friction that costs global commerce billions every year."',
+        insight: {
+          label: 'DATA INSIGHT',
+          value: 'Global digital wallet adoption is projected to grow by 45% by 2026.',
+        },
+        tags: {
+          title: 'Tags',
+          Fintech: 'Fintech',
+          Payments: 'Payments',
+          'Global Commerce': 'Global Commerce',
+          API: 'API',
+        },
+        back: 'Back to blog',
+        related: {
+          title: 'Related Articles',
+          'optimizing-checkout-conversion': { title: 'Optimizing Checkout Conversion Rates', meta: 'Jun 02, 2024 · 5 min read' },
+          'subscription-economy': { title: 'The Rise of Subscription Economy', meta: 'May 15, 2024 · 12 min read' },
+          viewAll: 'View All Articles',
+        },
+        newsletter: {
+          title: 'Stay ahead of the curve',
+          subtitle:
+            'Get the latest insights on global payments, security, and the future of commerce delivered to your inbox.',
+          cta: 'Subscribe',
+        },
+        debug: {
+          slug: 'Slug',
         },
       },
       landing: {
@@ -398,6 +680,7 @@ const resources = {
         learnMore: 'Learn more about webhooks',
         actions: {
           test: 'Test event',
+          backToList: 'Back to list',
         },
         tabs: {
           settings: 'Endpoint',
@@ -429,6 +712,32 @@ const resources = {
           localDescription:
             'Test your webhooks locally with our CLI tool. Forward events directly to your local server.',
           installCli: 'Install CLI',
+        },
+        list: {
+          addEndpoint: 'Add endpoint',
+          createdAt: 'Created Oct 24, 2023',
+          tabs: {
+            endpoints: 'Endpoints',
+            logs: 'Event Logs',
+          },
+          activeEndpoints: 'Active Endpoints',
+          table: {
+            url: 'Endpoint URL',
+            status: 'Status',
+            events: 'Events',
+            action: 'Action',
+          },
+          loading: 'Loading endpoints...',
+          empty:
+            'No endpoints configured yet. Click “Add endpoint” to create your first webhook endpoint.',
+          recentLogs: 'Recent Logs',
+          live: 'LIVE',
+          viewer: {
+            response: 'Response',
+            payload: 'Payload',
+            metadata: 'Metadata',
+            eventId: 'Event ID',
+          },
         },
         billing: {
           title: 'Billing Settings',
@@ -617,11 +926,96 @@ const resources = {
           banking: 'Ngân hàng',
           billing: 'Thanh toán',
           webhooks: 'Webhook',
+          docs: 'Tài liệu',
         },
         user: {
           signedInAs: 'Đăng nhập dưới tài khoản',
           profile: 'Thông tin cá nhân',
           logout: 'Đăng xuất',
+        },
+      },
+      docs: {
+        hero: {
+          title: 'Tài liệu',
+          subtitle:
+            'Mọi thứ bạn cần để tích hợp HyperPay vào ứng dụng. Từ thiết lập cơ bản đến các tính năng API nâng cao, chúng tôi đều có hướng dẫn.',
+        },
+        tabs: {
+          gettingStarted: 'Bắt đầu',
+          api: 'API Reference',
+          sdks: 'SDKs',
+          resources: 'Tài nguyên',
+        },
+        common: {
+          viewAll: 'Xem tất cả',
+        },
+        gettingStarted: {
+          title: 'Bắt đầu',
+          cards: {
+            quickstart: {
+              title: 'Hướng dẫn nhanh',
+              description: 'Thiết lập thanh toán đầu tiên dưới 10 phút với hướng dẫn từng bước.',
+              cta: 'Đọc hướng dẫn',
+            },
+            methods: {
+              title: 'Phương thức thanh toán',
+              description:
+                'Tìm hiểu các phương thức được hỗ trợ như thẻ, Apple Pay và các biến thể địa phương.',
+              cta: 'Xem phương thức',
+            },
+            auth: {
+              title: 'Xác thực',
+              description: 'Bảo mật API bằng API keys và quy trình xác thực OAuth2.',
+              cta: 'Tìm hiểu thêm',
+            },
+          },
+        },
+        apiSdks: {
+          title: 'API & SDKs',
+          coreApi: {
+            title: 'Core API Reference',
+            description:
+              'Tài liệu kỹ thuật chi tiết cho mọi endpoint, tham số và đối tượng response.',
+            cta: 'Khám phá API',
+          },
+          cards: {
+            node: {
+              title: 'Node.js SDK',
+              description:
+                'Tích hợp HyperPay vào backend với thư viện Node.js chính thức của chúng tôi.',
+              updated: 'Cập nhật 2 ngày trước',
+            },
+            mobile: {
+              title: 'iOS & Android SDKs',
+              description: 'Component mobile native cho trải nghiệm checkout mượt mà.',
+              updated: 'Cập nhật 1 tuần trước',
+            },
+          },
+        },
+        help: {
+          title: 'Cần hỗ trợ?',
+          subtitle:
+            'Dù bạn đang xử lý sự cố kỹ thuật hay tìm cách mở rộng, đội ngũ và cộng đồng luôn sẵn sàng hỗ trợ.',
+          items: {
+            support: {
+              title: 'Hỗ trợ ưu tiên 24/7',
+              subtitle: 'Live chat cho người dùng Enterprise',
+            },
+            forum: {
+              title: 'Diễn đàn cộng đồng',
+              subtitle: 'Tham gia cùng 5.000+ developers',
+            },
+          },
+          contact: 'Liên hệ hỗ trợ',
+          pdf: 'Tài liệu PDF',
+        },
+        footer: {
+          brand: 'HyperPay Docs © 2024',
+          privacy: 'Chính sách bảo mật',
+          terms: 'Điều khoản dịch vụ',
+          status: 'Trạng thái',
+          twitter: 'Twitter',
+          language: 'Tiếng Việt',
         },
       },
       billing: {
@@ -745,6 +1139,207 @@ const resources = {
           mfaStatus: 'Ứng dụng xác thực',
           mfaStatusOff: 'Chưa cấu hình',
           mfaSetup: 'Thiết lập',
+        },
+      },
+      public: {
+        nav: {
+          docs: 'Tài liệu',
+          help: 'Trợ giúp',
+          blog: 'Blog',
+        },
+        actions: {
+          login: 'Đăng nhập',
+          signup: 'Đăng ký',
+        },
+        footer: {
+          tagline: 'Thanh toán đơn giản cho thế hệ thương mại số tiếp theo.',
+          cols: {
+            product: 'Sản phẩm',
+            resources: 'Tài nguyên',
+            company: 'Công ty',
+            legal: 'Pháp lý',
+          },
+          links: {
+            checkout: 'Checkout',
+            elements: 'Elements',
+            invoicing: 'Invoicing',
+            subscriptions: 'Subscriptions',
+            documentation: 'Tài liệu',
+            api: 'API Reference',
+            community: 'Cộng đồng',
+            helpCenter: 'Trung tâm trợ giúp',
+            about: 'Về chúng tôi',
+            careers: 'Tuyển dụng',
+            blog: 'Blog',
+            contact: 'Liên hệ',
+            privacy: 'Chính sách bảo mật',
+            terms: 'Điều khoản dịch vụ',
+            cookies: 'Cài đặt cookie',
+          },
+          copyright: '© 2024 HyperPay Inc. Bảo lưu mọi quyền.',
+          locale: 'Tiếng Việt',
+        },
+      },
+      help: {
+        hero: {
+          title: 'Chúng tôi có thể giúp gì cho bạn?',
+          subtitle:
+            'Tìm kiếm câu trả lời nhanh trong trung tâm trợ giúp hoặc xem các chủ đề phổ biến bên dưới.',
+          searchPlaceholder: 'Tìm kiếm về thanh toán, API hoặc billing...',
+          searchButton: 'Tìm kiếm',
+          searchAria: 'Tìm kiếm',
+          popular: 'Phổ biến:',
+          popular1: 'Đặt lại mật khẩu',
+          popular2: 'Tài liệu API',
+          popular3: 'Lịch chi trả',
+        },
+        topics: {
+          title: 'Chủ đề trợ giúp phổ biến',
+          subtitle: 'Mọi thứ bạn cần để quản lý tài khoản và thanh toán',
+          viewAll: 'Xem tất cả chủ đề',
+          account: {
+            title: 'Tài khoản',
+            description:
+              'Quản lý hồ sơ người dùng, cài đặt bảo mật và quyền của nhóm trong tổ chức của bạn.',
+            link1: 'Đổi mật khẩu',
+            link2: 'Bật bảo mật 2 lớp (2FA)',
+            link3: 'Thêm thành viên nhóm',
+          },
+          payments: {
+            title: 'Thanh toán',
+            description:
+              'Hiểu vòng đời giao dịch, xử lý tranh chấp và quyết toán đa tiền tệ quốc tế.',
+            link1: 'Xử lý giao dịch',
+            link2: 'Quản lý hoàn tiền',
+            link3: 'Lịch chi trả',
+          },
+          billing: {
+            title: 'Thanh toán (Billing)',
+            description: 'Quản lý gói, tải hóa đơn và cập nhật phương thức thanh toán.',
+            link1: 'Bảng giá và phí',
+            link2: 'Quản lý subscription',
+            link3: 'Tài liệu thuế',
+          },
+        },
+        support: {
+          title: 'Vẫn cần hỗ trợ?',
+          subtitle:
+            'Nếu bạn chưa tìm thấy điều cần thiết, đội ngũ và cộng đồng của chúng tôi luôn sẵn sàng hỗ trợ 24/7.',
+          contactTitle: 'Liên hệ hỗ trợ',
+          contactSubtitle:
+            'Chat với chuyên gia hoặc gửi tin nhắn. Chúng tôi thường phản hồi trong 2 giờ trong giờ làm việc.',
+          contactCta: 'Liên hệ',
+          forumTitle: 'Diễn đàn cộng đồng',
+          forumSubtitle:
+            'Tham gia cùng hàng nghìn developers và doanh nghiệp. Chia sẻ giải pháp và học hỏi kinh nghiệm.',
+          forumCta: 'Vào cộng đồng',
+        },
+        dev: {
+          badge: 'Dành cho Developer',
+          title: 'Sẵn sàng tích hợp?',
+          subtitle:
+            'Khám phá tài liệu kỹ thuật, API references và dùng SDKs để xây giải pháp thanh toán tùy biến.',
+          docs: 'Đọc tài liệu',
+          api: 'API Reference',
+        },
+      },
+      blog: {
+        title: 'Blog',
+        subtitle: 'Góc nhìn về thanh toán, bảo mật và tương lai thương mại toàn cầu.',
+        newsletter: {
+          title: 'Luôn đi trước xu hướng',
+          subtitle:
+            'Nhận các bài viết mới nhất về thanh toán toàn cầu, bảo mật và tương lai thương mại qua email.',
+          placeholder: 'Email công việc của bạn',
+          cta: 'Đăng ký',
+          note: 'Không spam, chỉ nội dung chất lượng. Bạn có thể hủy đăng ký bất cứ lúc nào.',
+        },
+        badges: {
+          'future-of-digital-payments-2024': 'Xu hướng ngành',
+          'optimizing-checkout-conversion': 'Tăng trưởng',
+          'subscription-economy': 'Kinh doanh',
+        },
+        posts: {
+          'future-of-digital-payments-2024': {
+            title: 'Tương lai của thanh toán số toàn cầu năm 2024',
+            excerpt:
+              'Thanh toán tức thời, embedded finance và API economy đang định hình lại thương mại xuyên biên giới.',
+          },
+          'optimizing-checkout-conversion': {
+            title: 'Tối ưu tỉ lệ chuyển đổi checkout',
+            excerpt: 'Các chiến thuật thực tiễn để giảm ma sát và tăng giao dịch thành công.',
+          },
+          'subscription-economy': {
+            title: 'Sự trỗi dậy của nền kinh tế subscription',
+            excerpt: 'Billing subscription đang thay đổi như thế nào và đội ngũ nên xây gì tiếp theo.',
+          },
+        },
+      },
+      blogPost: {
+        title: 'Tương lai của thanh toán số toàn cầu năm 2024',
+        badge: 'Xu hướng ngành',
+        highlight: 'Thanh toán số',
+        author: 'Alex Rivers',
+        role: 'Trưởng bộ phận chiến lược sản phẩm',
+        meta: {
+          date: '24 Tháng 5, 2024',
+          readTime: '8 phút đọc',
+        },
+        share: 'Chia sẻ',
+        lead:
+          'Trong một thế giới ngày càng kết nối, hạ tầng thương mại đang trải qua một sự chuyển đổi sâu sắc.',
+        sections: {
+          s1: {
+            title: 'Dịch chuyển sang quyết toán tức thời',
+            p1: 'Trước đây, thanh toán xuyên biên giới thường chậm, phí cao và thiếu minh bạch.',
+            p2:
+              'Điều này không chỉ tiện cho người dùng; đây còn là công cụ quản trị thanh khoản quan trọng cho doanh nghiệp.',
+          },
+          s2: {
+            title: 'Bảo mật trong một thế giới không biên giới',
+            p1:
+              'Khi phương thức thanh toán tiến hóa, rủi ro cũng tăng. Cổng thanh toán cần cân bằng trải nghiệm và chống gian lận mạnh mẽ.',
+          },
+          s3: {
+            title: 'Embedded finance và nền kinh tế API',
+            p1:
+              'Tương lai của thanh toán là “vô hình”. Mọi nền tảng phần mềm đều có thể trở thành nền tảng fintech.',
+          },
+        },
+        quote:
+          '"Thập kỷ tới của fintech không phải thêm lớp phức tạp mới, mà là gỡ bỏ ma sát hiện tại đang khiến thương mại toàn cầu tốn hàng tỷ USD mỗi năm."',
+        insight: {
+          label: 'DATA INSIGHT',
+          value: 'Tỷ lệ chấp nhận ví điện tử toàn cầu dự kiến tăng 45% vào năm 2026.',
+        },
+        tags: {
+          title: 'Thẻ',
+          Fintech: 'Fintech',
+          Payments: 'Thanh toán',
+          'Global Commerce': 'Thương mại toàn cầu',
+          API: 'API',
+        },
+        back: 'Quay lại blog',
+        related: {
+          title: 'Bài viết liên quan',
+          'optimizing-checkout-conversion': {
+            title: 'Tối ưu tỉ lệ chuyển đổi checkout',
+            meta: '02 Tháng 6, 2024 · 5 phút đọc',
+          },
+          'subscription-economy': {
+            title: 'Sự trỗi dậy của nền kinh tế subscription',
+            meta: '15 Tháng 5, 2024 · 12 phút đọc',
+          },
+          viewAll: 'Xem tất cả bài viết',
+        },
+        newsletter: {
+          title: 'Luôn đi trước xu hướng',
+          subtitle:
+            'Nhận các bài viết mới nhất về thanh toán toàn cầu, bảo mật và tương lai thương mại qua email.',
+          cta: 'Đăng ký',
+        },
+        debug: {
+          slug: 'Slug',
         },
       },
       landing: {
@@ -1073,6 +1668,7 @@ const resources = {
         learnMore: 'Tìm hiểu thêm về webhooks',
         actions: {
           test: 'Gửi sự kiện thử',
+          backToList: 'Quay lại danh sách',
         },
         tabs: {
           settings: 'Endpoint',
@@ -1104,6 +1700,32 @@ const resources = {
           localDescription:
             'Test webhook ngay trên máy local với CLI. Forward sự kiện trực tiếp tới server của bạn.',
           installCli: 'Cài đặt CLI',
+        },
+        list: {
+          addEndpoint: 'Thêm endpoint',
+          createdAt: 'Tạo ngày 24/10/2023',
+          tabs: {
+            endpoints: 'Endpoints',
+            logs: 'Nhật ký sự kiện',
+          },
+          activeEndpoints: 'Endpoints đang hoạt động',
+          table: {
+            url: 'URL endpoint',
+            status: 'Trạng thái',
+            events: 'Sự kiện',
+            action: 'Thao tác',
+          },
+          loading: 'Đang tải endpoints...',
+          empty:
+            'Chưa có endpoint nào. Nhấn “Thêm endpoint” để tạo webhook endpoint đầu tiên.',
+          recentLogs: 'Nhật ký gần đây',
+          live: 'LIVE',
+          viewer: {
+            response: 'Response',
+            payload: 'Payload',
+            metadata: 'Metadata',
+            eventId: 'Mã sự kiện',
+          },
         },
       },
     },

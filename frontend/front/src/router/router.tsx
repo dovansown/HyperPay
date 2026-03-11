@@ -9,14 +9,20 @@ import { NotFoundPage } from '../views/errors/NotFoundPage'
 import { withAuth } from '../views/layout/withAuth'
 import { BanksPage } from '../views/banks/BanksPage'
 import { WebhookPage } from '../views/webhook/WebhookPage'
+import { WebhookListPage } from '../views/webhook/WebhookListPage'
 import { BillingPage } from '../views/billing/BillingPage'
 import { ProfileSettingsPage } from '../views/settings/ProfileSettingsPage'
 import { NotificationSettingsPage } from '../views/settings/NotificationSettingsPage'
 import { SecuritySettingsPage } from '../views/settings/SecuritySettingsPage'
+import { DocsPage } from '../views/docs/DocsPage'
+import { HelpPage } from '../views/help/HelpPage'
+import { BlogPage } from '../views/blog/BlogPage'
+import { BlogPostPage } from '../views/blog/BlogPostPage'
 
 const ProtectedDashboard = withAuth(DashboardPage)
 const ProtectedBanks = withAuth(BanksPage)
 const ProtectedWebhook = withAuth(WebhookPage)
+const ProtectedWebhookList = withAuth(WebhookListPage)
 const ProtectedBilling = withAuth(BillingPage)
 const ProtectedSettingsProfile = withAuth(ProfileSettingsPage)
 const ProtectedSettingsNotifications = withAuth(NotificationSettingsPage)
@@ -44,6 +50,22 @@ export const router = createBrowserRouter([
     element: <VerifyPage />,
   },
   {
+    path: '/docs',
+    element: <DocsPage />,
+  },
+  {
+    path: '/help',
+    element: <HelpPage />,
+  },
+  {
+    path: '/blog',
+    element: <BlogPage />,
+  },
+  {
+    path: '/blog/:slug',
+    element: <BlogPostPage />,
+  },
+  {
     path: '/dashboard',
     element: <ProtectedDashboard />,
   },
@@ -57,6 +79,10 @@ export const router = createBrowserRouter([
   },
   {
     path: '/webhooks',
+    element: <ProtectedWebhookList />,
+  },
+  {
+    path: '/webhooks/new',
     element: <ProtectedWebhook />,
   },
   {

@@ -15,6 +15,7 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
     const payload = verifyAccessToken(token);
     req.user = {
       ...payload,
+      role: payload.role ?? "USER",
       userId: Number(payload.sub)
     };
     next();

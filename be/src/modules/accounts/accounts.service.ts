@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
 import { cacheService } from "../cache/cache.service.js";
+import { packagesService } from "../packages/packages.service.js";
 import { accountsRepository } from "./accounts.repository.js";
 import type { CreateAccountInput } from "./accounts.schema.js";
 
@@ -10,9 +11,18 @@ export class AccountsService {
   }
 
   async create(userId: number, input: CreateAccountInput) {
+    const normalizedBankCode = await packagesService.assertBankAllowedAndSyncUsage(
+      userId,
+      input.bank_name
+    );
     const token = this.generateApiToken();
     const suffix = token.slice(-8);
-    const account = await accountsRepository.create(userId, input, token, suffix);
+    const account = await accountsRepository.create(
+      userId,
+      { ...input, bank_name: normalizedBankCode },
+      token,
+      suffix
+    );
     await cacheService.del(this.cacheKey(userId));
     return {
       account: this.mapAccount(account),

@@ -47,6 +47,7 @@ export const AppHeader: React.FC = () => {
             { to: '/bank-accounts', label: t('app.nav.banking', 'Banking') },
             { to: '/billing', label: t('app.nav.billing', 'Billing') },
             { to: '/webhooks', label: t('app.nav.webhooks', 'Webhooks') },
+            { to: '/docs', label: t('app.nav.docs', 'Docs') },
           ].map((item) => (
             <NavLink
               key={item.to}

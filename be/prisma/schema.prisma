@@ -12,13 +12,17 @@ model User {
   email     String    @unique @db.VarChar(255)
   password  String    @db.VarChar(255)
   fullName  String?   @map("full_name") @db.VarChar(255)
+  role      UserRole  @default(USER)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
   bankAccounts BankAccount[]
   userPlans    UserPlan[]
+  userPackages UserPackage[]
   webhooks     UserWebhook[]
+  contents     Content[]
+  editedRevisions ContentRevision[] @relation("content_revision_editor")
 
   @@map("users")
 }
@@ -33,6 +37,7 @@ model Bank {
   deletedAt DateTime? @map("deleted_at")
 
   planBanks PlanBank[]
+  packageBanks PackageBank[]
 
   @@map("banks")
 }
@@ -51,6 +56,7 @@ model BankAccount {
 
   user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions BankTransaction[]
+  webhookLinks UserWebhookAccount[]
 
   @@index([userId])
   @@map("bank_accounts")
@@ -63,6 +69,7 @@ model BankTransaction {
   amount        BigInt
   type          String    @db.VarChar(20)
   description   String?   @db.VarChar(512)
+  paymentCode   String?   @map("payment_code") @db.VarChar(64)
   balance       BigInt?
   occurredAt    DateTime  @map("occurred_at")
   createdAt     DateTime  @default(now()) @map("created_at")
@@ -91,6 +98,35 @@ model Plan {
   userPlans UserPlan[]
 
   @@map("plans")
+}
+
+model Package {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique @db.VarChar(255)
+  status               PackageStatus @default(ACTIVE)
+  isDefault            Boolean   @default(false) @map("is_default")
+  defaultStartAt       DateTime? @map("default_start_at")
+  defaultEndAt         DateTime? @map("default_end_at")
+  priceVnd             BigInt    @map("price_vnd")
+  maxTransactions      Int       @map("max_transactions")
+  maxWebhookDeliveries Int       @map("max_webhook_deliveries")
+  maxBankTypes         Int       @map("max_bank_types")
+  durationDays         Int       @map("duration_days")
+  description          String?   @db.VarChar(512)
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+  deletedAt            DateTime? @map("deleted_at")
+
+  userPackages UserPackage[]
+  packageBanks PackageBank[]
+
+  @@map("packages")
+}
+
+enum PackageStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
 }
 
 model PlanBank {
@@ -131,18 +167,247 @@ model UserPlan {
   @@map("user_plans")
 }
 
+model UserPackage {
+  id                    Int       @id @default(autoincrement())
+  userId                Int       @map("user_id")
+  packageId             Int       @map("package_id")
+  startAt               DateTime  @map("start_at")
+  endAt                 DateTime  @map("end_at")
+  usedTransactions      Int       @default(0) @map("used_transactions")
+  usedWebhookDeliveries Int       @default(0) @map("used_webhook_deliveries")
+  usedBankTypes         Int       @default(0) @map("used_bank_types")
+  status                String    @default("active") @db.VarChar(20)
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  deletedAt             DateTime? @map("deleted_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package Package @relation(fields: [packageId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@index([packageId])
+  @@map("user_packages")
+}
+
+model PackageBank {
+  id        Int       @id @default(autoincrement())
+  packageId Int       @map("package_id")
+  bankId    Int       @map("bank_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  bank    Bank    @relation(fields: [bankId], references: [id], onDelete: Restrict)
+
+  @@index([packageId])
+  @@index([bankId])
+  @@unique([packageId, bankId])
+  @@map("package_banks")
+}
+
 model UserWebhook {
   id          Int       @id @default(autoincrement())
   userId      Int       @map("user_id")
   url         String    @db.VarChar(512)
   secretToken String    @map("secret_token") @db.VarChar(255)
+  contentType WebhookContentType @default(JSON) @map("content_type")
+  authType    WebhookAuthType @default(NONE) @map("auth_type")
+  authHeaderName String? @map("auth_header_name") @db.VarChar(100)
+  authHeaderValue String? @map("auth_header_value") @db.VarChar(512)
+  authBearerToken String? @map("auth_bearer_token") @db.VarChar(512)
+  authUsername String? @map("auth_username") @db.VarChar(255)
+  authPassword String? @map("auth_password") @db.VarChar(255)
+  retryOnNon2xx Boolean @default(true) @map("retry_on_non_2xx")
+  maxRetryAttempts Int @default(3) @map("max_retry_attempts")
+  transactionDirection TransactionDirectionFilter @default(BOTH) @map("transaction_direction")
+  requirePaymentCode Boolean @default(false) @map("require_payment_code")
+  paymentCodeRuleEnabled Boolean @default(false) @map("payment_code_rule_enabled")
+  paymentCodePrefix String? @map("payment_code_prefix") @db.VarChar(5)
+  paymentCodeSuffixMinLength Int? @map("payment_code_suffix_min_length")
+  paymentCodeSuffixMaxLength Int? @map("payment_code_suffix_max_length")
+  paymentCodeSuffixCharset PaymentCodeCharset? @map("payment_code_suffix_charset")
   isActive    Boolean   @default(true) @map("is_active")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  selectedAccounts UserWebhookAccount[]
 
   @@index([userId])
   @@map("user_webhooks")
+}
+
+model UserWebhookAccount {
+  id           Int       @id @default(autoincrement())
+  userWebhookId Int      @map("user_webhook_id")
+  bankAccountId Int      @map("bank_account_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  userWebhook UserWebhook @relation(fields: [userWebhookId], references: [id], onDelete: Cascade)
+  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+
+  @@index([userWebhookId])
+  @@index([bankAccountId])
+  @@unique([userWebhookId, bankAccountId])
+  @@map("user_webhook_accounts")
+}
+
+enum WebhookContentType {
+  JSON
+  FORM_URLENCODED
+}
+
+enum WebhookAuthType {
+  NONE
+  BEARER
+  BASIC
+  HEADER
+}
+
+enum TransactionDirectionFilter {
+  IN
+  OUT
+  BOTH
+}
+
+enum PaymentCodeCharset {
+  NUMERIC
+  ALPHA
+  ALPHANUMERIC
+}
+
+enum ContentType {
+  BLOG_POST
+  DOC_PAGE
+  HELP_ARTICLE
+}
+
+enum ContentStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum UserRole {
+  USER
+  AUTHOR
+  EDITOR
+  ADMIN
+}
+
+model Content {
+  id          Int           @id @default(autoincrement())
+  type        ContentType
+  status      ContentStatus @default(DRAFT)
+  title       String        @db.VarChar(255)
+  slug        String        @unique @db.VarChar(255)
+  excerpt     String?       @db.VarChar(512)
+  content     String        @db.Text
+  coverImage  String?       @map("cover_image") @db.VarChar(512)
+  seoTitle    String?       @map("seo_title") @db.VarChar(255)
+  seoDescription String?    @map("seo_description") @db.VarChar(512)
+  seoKeywords String?       @map("seo_keywords") @db.VarChar(512)
+  scheduledPublishAt DateTime? @map("scheduled_publish_at")
+  previewTokenHash String?  @map("preview_token_hash") @db.VarChar(255)
+  previewTokenExpiredAt DateTime? @map("preview_token_expired_at")
+  authorId    Int?          @map("author_id")
+  publishedAt DateTime?     @map("published_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  deletedAt   DateTime?     @map("deleted_at")
+
+  author     User?                     @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  categories ContentCategoryOnContent[]
+  tags       ContentTagOnContent[]
+  revisions  ContentRevision[]
+
+  @@index([type])
+  @@index([status])
+  @@index([publishedAt])
+  @@index([scheduledPublishAt])
+  @@map("contents")
+}
+
+model ContentRevision {
+  id               Int           @id @default(autoincrement())
+  contentId        Int           @map("content_id")
+  version          Int
+  title            String        @db.VarChar(255)
+  excerpt          String?       @db.VarChar(512)
+  contentBody      String        @map("content_body") @db.Text
+  coverImage       String?       @map("cover_image") @db.VarChar(512)
+  status           ContentStatus
+  seoTitle         String?       @map("seo_title") @db.VarChar(255)
+  seoDescription   String?       @map("seo_description") @db.VarChar(512)
+  seoKeywords      String?       @map("seo_keywords") @db.VarChar(512)
+  categorySlugs    Json?         @map("category_slugs")
+  tagSlugs         Json?         @map("tag_slugs")
+  editedById       Int?          @map("edited_by_id")
+  createdAt        DateTime      @default(now()) @map("created_at")
+
+  content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  editedBy User?  @relation("content_revision_editor", fields: [editedById], references: [id], onDelete: SetNull)
+
+  @@unique([contentId, version])
+  @@index([contentId])
+  @@map("content_revisions")
+}
+
+model ContentCategory {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(120)
+  slug        String    @unique @db.VarChar(120)
+  description String?   @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  contents ContentCategoryOnContent[]
+
+  @@map("content_categories")
+}
+
+model ContentTag {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(120)
+  slug        String    @unique @db.VarChar(120)
+  description String?   @db.VarChar(255)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  contents ContentTagOnContent[]
+
+  @@map("content_tags")
+}
+
+model ContentCategoryOnContent {
+  contentId  Int      @map("content_id")
+  categoryId Int      @map("category_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  content  Content         @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  category ContentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([contentId, categoryId])
+  @@index([categoryId])
+  @@map("content_category_on_content")
+}
+
+model ContentTagOnContent {
+  contentId Int      @map("content_id")
+  tagId     Int      @map("tag_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  content Content    @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  tag     ContentTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([contentId, tagId])
+  @@index([tagId])
+  @@map("content_tag_on_content")
 }

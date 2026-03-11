@@ -12,6 +12,11 @@ export class TransactionsController {
     const data = await transactionsService.listByToken(String(req.params.token));
     return sendSuccess(res, data);
   }
+
+  async createByToken(req: Request, res: Response) {
+    const data = await transactionsService.createByToken(String(req.params.token), req.body);
+    return sendSuccess(res, data, 201);
+  }
 }
 
 export const transactionsController = new TransactionsController();

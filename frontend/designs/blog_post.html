@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .prose p { margin-bottom: 1.5rem; line-height: 1.75; }
+        .prose h2 { font-weight: 700; font-size: 1.875rem; margin-top: 2.5rem; margin-bottom: 1.25rem; color: #0f172a; }
+        .prose blockquote { border-left: 4px solid #645cff; padding-left: 1.5rem; font-style: italic; color: #475569; margin: 2rem 0; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-50 px-6 lg:px-20 py-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-extrabold leading-tight tracking-tight">HyperPay</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Solutions</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Developers</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Resources</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-semibold hover:text-primary transition-colors" href="#">Pricing</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="flex min-w-[100px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+<span>Sign in</span>
+</button>
+</div>
+</header>
+<main class="flex-1">
+<!-- Hero Header Section -->
+<div class="max-w-4xl mx-auto px-6 pt-16 pb-8 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+<span class="material-symbols-outlined text-sm">payments</span>
+                    Industry Trends
+                </div>
+<h1 class="text-slate-900 dark:text-white text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.15] mb-8 tracking-tight">
+                    The Future of Global <span class="text-primary">Digital Payments</span> in 2024
+                </h1>
+<div class="flex flex-col items-center gap-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 rounded-full border-2 border-white dark:border-slate-800 shadow-md overflow-hidden bg-slate-200" data-alt="Professional portrait of Alex Rivers smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC--MxhrT-XCR8bbnABgPJL1BAKU0n06qKQTfYqdVqJcxgWPCsef95hWpxXUkr00B6HW7ZioRREQYfa-I6Qh0oPY4YrUcW-TUeUbNBR8n0SZQLZkAXwoST8dugyU_cDw8enD2vD4Nc2U10ZH96NWEzeBf-XwGBFLkuE7JbodqYfbzJcTMzaXBvcnU5GxQjxqa2tI1AKnkLvXcXkN85UqdBWu_QsFI5XI4zRqMrgafMYx0OxM9dIUbOVbnUn_4hYWcK9sB1XDfIEMKY')">
+</div>
+<div class="text-left">
+<p class="text-slate-900 dark:text-white font-bold text-base">Alex Rivers</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Head of Product Strategy</p>
+</div>
+</div>
+<div class="flex items-center gap-3 text-slate-400 text-sm font-medium">
+<span>May 24, 2024</span>
+<span class="w-1 h-1 rounded-full bg-slate-300"></span>
+<span>8 min read</span>
+</div>
+</div>
+</div>
+<!-- Main Large Image -->
+<div class="max-w-6xl mx-auto px-6 py-8">
+<div class="w-full aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl relative">
+<img alt="Modern digital payment terminal and credit card" class="w-full h-full object-cover" data-alt="High-tech payment terminal glowing in modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJVm2HXUt63mTe75x1m_VQTTNBI-Ci8BrWg0Uxx1hKIykvBrtIeBYFTkxcdT6GXhyvpeZmtZkaRyH0uoNZrplB7RG9SywOvmJHqBxqgTX9IMQj2T8suCYZhSP1grxnLV_g_fuoWOeTlGqlqz29TyscQDxdKvOG8cjvXZz8h1rp-A92klaXXyGojRm_foRJ8CpF4WNUP5yfBwsUcoiUHWt60q-MBsGBE2lIWe7Xd4AKnhSlMM9IQmzz6BUvLQ5yvttNFONt0l6cLXE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+</div>
+<!-- Content Layout -->
+<div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-12 py-12">
+<!-- Social Sidebar -->
+<aside class="lg:w-20 flex lg:flex-col items-center gap-6 lg:sticky lg:top-32 h-fit">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest vertical-text hidden lg:block">Share</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-primary hover:border-primary transition-all">
+<svg class="w-5 h-5 fill-currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-primary hover:border-primary transition-all">
+<svg class="w-5 h-5 fill-currentColor" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-primary hover:border-primary transition-all">
+<span class="material-symbols-outlined">link</span>
+</button>
+</aside>
+<!-- Long form text content -->
+<article class="flex-1 max-w-2xl mx-auto prose dark:prose-invert">
+<p class="text-xl text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-10">
+                        In an increasingly interconnected world, the infrastructure of commerce is undergoing a profound transformation. As businesses expand across borders, the need for seamless, secure, and instantaneous payment processing has never been more critical. At HyperPay, we are building the tools to navigate this complexity.
+                    </p>
+<h2>The Shift Toward Instant Settlement</h2>
+<p>
+                        Traditionally, cross-border payments have been plagued by delays, high fees, and a lack of transparency. The multi-hop journey of a transaction through various correspondent banks could take days. Today, we're seeing a shift toward real-time rails that enable instant settlement across currencies.
+                    </p>
+<p>
+                        This isn't just a convenience for consumers; it's a vital liquidity management tool for businesses. When funds move instantly, capital is freed up for reinvestment, and the risk of currency fluctuation between the time of transaction and the time of settlement is virtually eliminated.
+                    </p>
+<blockquote>
+                        "The next decade of fintech won't be about adding new layers of complexity, but about removing the existing friction that costs global commerce billions every year."
+                    </blockquote>
+<h2>Security in a Borderless World</h2>
+<p>
+                        As payment methods evolve, so do the threats. Modern payment gateways must balance a frictionless user experience with robust fraud prevention. We are leveraging machine learning models that analyze hundreds of data points in milliseconds to distinguish between a legitimate customer in Tokyo and a malicious actor.
+                    </p>
+<div class="my-10 rounded-xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800">
+<div class="h-64 bg-slate-100 relative" style="background-image: linear-gradient(135deg, #645cff22 0%, #645cff05 100%)">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-6xl opacity-20">analytics</span>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-background-dark/90 p-4 rounded-lg backdrop-blur-sm border border-slate-100 dark:border-slate-800">
+<p class="text-xs font-bold text-primary mb-1">DATA INSIGHT</p>
+<p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Global digital wallet adoption is projected to grow by 45% by 2026.</p>
+</div>
+</div>
+</div>
+<h2>Embedded Finance and the API Economy</h2>
+<p>
+                        The future of payments is invisible. We're moving toward a world where every software platform is a fintech platform. Whether it's a fitness app offering insurance or a vertical SaaS for construction companies handling payroll, payments are being embedded directly into the workflow.
+                    </p>
+<p>
+                        At HyperPay, our API-first approach ensures that developers can integrate complex global payment flows with just a few lines of code. This democratization of financial infrastructure allows smaller players to compete on a global scale, offering the same world-class checkout experience as the giants.
+                    </p>
+<div class="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold mb-4">Tags</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-md">Fintech</span>
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-md">Payments</span>
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-md">Global Commerce</span>
+<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold rounded-md">API</span>
+</div>
+</div>
+</article>
+<!-- Sidebar / Recommendations -->
+<aside class="lg:w-80 hidden xl:block">
+<div class="bg-white dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+<h3 class="text-slate-900 dark:text-white font-bold text-lg mb-6">Related Articles</h3>
+<div class="space-y-8">
+<a class="group block" href="#">
+<div class="w-full aspect-video rounded-lg overflow-hidden bg-slate-100 mb-3" data-alt="Abstract blue gradient pattern">
+<div class="w-full h-full bg-gradient-to-br from-blue-500/20 to-purple-500/20"></div>
+</div>
+<h4 class="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover:text-primary transition-colors">Optimizing Checkout Conversion Rates</h4>
+<p class="text-slate-500 text-xs mt-2">Jun 02, 2024 · 5 min read</p>
+</a>
+<a class="group block" href="#">
+<div class="w-full aspect-video rounded-lg overflow-hidden bg-slate-100 mb-3" data-alt="Abstract green gradient pattern">
+<div class="w-full h-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20"></div>
+</div>
+<h4 class="text-slate-900 dark:text-white font-bold text-sm leading-snug group-hover:text-primary transition-colors">The Rise of Subscription Economy</h4>
+<p class="text-slate-500 text-xs mt-2">May 15, 2024 · 12 min read</p>
+</a>
+</div>
+<button class="w-full mt-8 py-3 text-primary text-sm font-bold border-2 border-primary/10 rounded-lg hover:bg-primary/5 transition-colors">
+                            View All Articles
+                        </button>
+</div>
+</aside>
+</div>
+</main>
+<!-- Newsletter / CTA -->
+<section class="bg-slate-900 dark:bg-black py-20 px-6 mt-20">
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="text-white text-3xl font-extrabold mb-4">Stay ahead of the curve</h2>
+<p class="text-slate-400 text-lg mb-8">Get the latest insights on global payments, security, and the future of commerce delivered to your inbox.</p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+<input class="flex-1 rounded-lg bg-slate-800 border-none text-white focus:ring-2 focus:ring-primary px-4 py-3" placeholder="Your work email" type="email"/>
+<button class="bg-primary text-white font-bold px-6 py-3 rounded-lg hover:bg-primary/90 transition-all">Subscribe</button>
+</form>
+<p class="text-slate-500 text-xs mt-6 italic">No spam, just quality insights. Unsubscribe at any time.</p>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-12 px-10 md:px-20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<div class="size-5">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="text-slate-900 dark:text-white font-bold">HyperPay</span>
+</div>
+<div class="flex gap-8 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Cookies</a>
+</div>
+<p class="text-slate-400 text-sm">© 2024 HyperPay Inc. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

@@ -1,4 +1,5 @@
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
+import { packagesService } from "../packages/packages.service.js";
 import { hashPassword, verifyPassword } from "../../shared/utils/password.js";
 import { signAccessToken } from "../../shared/utils/jwt.js";
 import { authRepository } from "./auth.repository.js";
@@ -17,15 +18,18 @@ export class AuthService {
       password: passwordHash,
       fullName: input.full_name
     });
+    const defaultPackage = await packagesService.assignDefaultPackageForUser(user.id);
 
-    const token = signAccessToken({ sub: String(user.id), email: user.email });
+    const token = signAccessToken({ sub: String(user.id), email: user.email, role: user.role });
     return {
       token,
       user: {
         id: user.id,
         email: user.email,
-        full_name: user.fullName ?? ""
-      }
+        full_name: user.fullName ?? "",
+        role: user.role
+      },
+      package: defaultPackage
     };
   }
 
@@ -40,13 +44,14 @@ export class AuthService {
       throw new AppError(401, ErrorCodes.UNAUTHORIZED, "Invalid email or password");
     }
 
-    const token = signAccessToken({ sub: String(user.id), email: user.email });
+    const token = signAccessToken({ sub: String(user.id), email: user.email, role: user.role });
     return {
       token,
       user: {
         id: user.id,
         email: user.email,
-        full_name: user.fullName ?? ""
+        full_name: user.fullName ?? "",
+        role: user.role
       }
     };
   }

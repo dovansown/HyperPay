@@ -43,6 +43,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Accounts - Tạo tài khoản ngân hàng (trả account + token)
+### Lưu ý: sẽ bị chặn nếu bank không thuộc package hiện tại hoặc vượt limit bank types
 POST {{baseUrl}}/accounts
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -71,6 +72,20 @@ Authorization: Bearer {{token}}
 ###
 ### Transactions (external) - Lịch sử giao dịch theo account token
 GET {{baseUrl}}/external/accounts/{{externalToken}}/transactions
+
+###
+### Transactions (external) - Tạo giao dịch (consume quota package + trigger webhook nếu cấu hình)
+POST {{baseUrl}}/external/accounts/{{externalToken}}/transactions
+Content-Type: application/json
+
+{
+  "amount": 250000,
+  "type": "credit",
+  "description": "Nap tien vi",
+  "payment_code": "HPY12345678",
+  "balance": 1000000,
+  "occurred_at": "2026-03-11T09:30:00.000Z"
+}
 
 ###
 ### Banks - Tạo ngân hàng
@@ -111,6 +126,61 @@ GET {{baseUrl}}/plans
 Authorization: Bearer {{token}}
 
 ###
+### Packages - Tạo package (Admin only)
+POST {{baseUrl}}/packages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Starter Package",
+  "status": "ACTIVE",
+  "is_default": true,
+  "default_start_at": "2026-03-11T00:00:00.000Z",
+  "default_end_at": "2026-12-31T23:59:59.000Z",
+  "price_vnd": 149000,
+  "max_transactions": 5000,
+  "max_webhook_deliveries": 10000,
+  "max_bank_types": 3,
+  "duration_days": 30,
+  "description": "Goi cho merchant nho",
+  "bank_ids": [1, 2, 3]
+}
+
+###
+### Packages - Danh sách package khả dụng
+GET {{baseUrl}}/packages
+Authorization: Bearer {{token}}
+
+###
+### Packages - Ví dụ package unlimited (0 = không giới hạn)
+POST {{baseUrl}}/packages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Unlimited Package",
+  "status": "ACTIVE",
+  "is_default": false,
+  "price_vnd": 999000,
+  "max_transactions": 0,
+  "max_webhook_deliveries": 0,
+  "max_bank_types": 0,
+  "duration_days": 30,
+  "description": "Goi khong gioi han toan bo",
+  "bank_ids": []
+}
+
+###
+### Packages - User mua package
+POST {{baseUrl}}/packages/1/purchase
+Authorization: Bearer {{token}}
+
+###
+### Packages - Gói active hiện tại của user
+GET {{baseUrl}}/packages/me/active
+Authorization: Bearer {{token}}
+
+###
 ### Webhook - Lấy cấu hình webhook hiện tại
 GET {{baseUrl}}/webhook
 Authorization: Bearer {{token}}
@@ -124,5 +194,132 @@ Authorization: Bearer {{token}}
 {
   "url": "https://your-system.com/webhooks/hyperpay",
   "secret_token": "your-webhook-secret",
+  "account_ids": [1, 2],
+  "transaction_direction": "IN",
+  "retry_on_non_2xx": true,
+  "max_retry_attempts": 3,
+  "content_type": "JSON",
+  "auth_type": "BEARER",
+  "auth_bearer_token": "token-from-target-system",
+  "require_payment_code": true,
+  "payment_code_rule_enabled": true,
+  "payment_code_prefix": "HPY",
+  "payment_code_suffix_min_length": 8,
+  "payment_code_suffix_max_length": 12,
+  "payment_code_suffix_charset": "NUMERIC",
   "is_active": true
 }
+
+###
+### Content Public - Danh sách bài viết/docs/help đã publish
+GET {{baseUrl}}/public/content?type=BLOG_POST&limit=10&offset=0
+
+###
+### Content Public - Filter theo category + tag + search
+GET {{baseUrl}}/public/content?type=DOC_PAGE&category=api-reference&tag=payments&q=webhook
+
+###
+### Content Public - Chi tiết theo slug
+GET {{baseUrl}}/public/content/getting-started-with-hyperpay
+
+###
+### Content Public - Danh sách categories
+GET {{baseUrl}}/public/content/categories
+
+###
+### Content Public - Danh sách tags
+GET {{baseUrl}}/public/content/tags
+
+###
+### Content Admin - Tạo/Cập nhật Category
+POST {{baseUrl}}/content/categories
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "API Reference",
+  "slug": "api-reference",
+  "description": "Tai lieu ky thuat API"
+}
+
+###
+### Content Admin - Tạo/Cập nhật Tag
+POST {{baseUrl}}/content/tags
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Payments",
+  "slug": "payments",
+  "description": "Noi dung lien quan thanh toan"
+}
+
+###
+### Content Admin - Tạo bài/blog/docs/help (draft)
+POST {{baseUrl}}/content
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "type": "BLOG_POST",
+  "title": "HyperPay webhook best practices",
+  "slug": "hyperpay-webhook-best-practices",
+  "excerpt": "Huong dan trien khai webhook an toan",
+  "content": "Noi dung markdown/html tai day...",
+  "cover_image": "https://example.com/cover/webhook.png",
+  "seo_title": "HyperPay webhook best practices",
+  "seo_description": "Checklist webhook production cho HyperPay",
+  "seo_keywords": "hyperpay, webhook, security",
+  "scheduled_publish_at": "2026-03-12T10:00:00.000Z",
+  "category_slugs": ["api-reference", "integration"],
+  "tag_slugs": ["payments", "webhook", "security"]
+}
+
+###
+### Content Admin - Cập nhật + publish + taxonomy
+PATCH {{baseUrl}}/content/hyperpay-webhook-best-practices
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "SCHEDULED",
+  "title": "HyperPay webhook best practices (updated)",
+  "seo_keywords": "hyperpay, webhook",
+  "scheduled_publish_at": "2026-03-13T10:00:00.000Z",
+  "category_slugs": ["api-reference"],
+  "tag_slugs": ["payments", "webhook"]
+}
+
+###
+### Content Admin - Danh sách quản trị (filter type/status/taxonomy/search)
+GET {{baseUrl}}/content?type=BLOG_POST&status=DRAFT&category=api-reference&tag=webhook&q=hyperpay&limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Tạo preview token cho draft/scheduled
+POST {{baseUrl}}/content/hyperpay-webhook-best-practices/preview-token
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "expires_in_minutes": 30
+}
+
+###
+### Content Public - Xem preview bằng token
+GET {{baseUrl}}/public/content/preview/REPLACE_WITH_PREVIEW_TOKEN
+
+###
+### Content Admin - Lấy danh sách revision của 1 bài
+GET {{baseUrl}}/content/hyperpay-webhook-best-practices/revisions
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Restore 1 revision
+POST {{baseUrl}}/content/hyperpay-webhook-best-practices/revisions/1/restore
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Soft delete theo slug
+DELETE {{baseUrl}}/content/hyperpay-webhook-best-practices
+Authorization: Bearer {{token}}
