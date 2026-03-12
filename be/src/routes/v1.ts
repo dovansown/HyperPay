@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { accountsRoutes } from "../modules/accounts/accounts.routes.js";
+import { adminRoutes } from "../modules/admin/admin.routes.js";
 import { authRoutes } from "../modules/auth/auth.routes.js";
 import { banksRoutes } from "../modules/banks/banks.routes.js";
 import { healthRoutes } from "../modules/health/health.routes.js";
@@ -22,4 +23,5 @@ v1Routes.use("/accounts", accountsRoutes);
 v1Routes.use("/webhook", webhooksRoutes);
 v1Routes.use("/public/content", publicContentRoutes);
 v1Routes.use("/content", contentRoutes);
+v1Routes.use("/admin", adminRoutes);
 v1Routes.use("/", transactionsRoutes);

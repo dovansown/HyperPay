@@ -2,6 +2,10 @@
 @token = REPLACE_WITH_JWT_TOKEN
 @accountId = 1
 @externalToken = REPLACE_WITH_ACCOUNT_TOKEN
+@packageId = 1
+@adminUserId = 1
+@contentSlug = getting-started-with-hyperpay
+@previewToken = REPLACE_WITH_PREVIEW_TOKEN
 
 ### Health - Kiểm tra service sống
 GET {{baseUrl}}/health
@@ -127,6 +131,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Packages - Tạo package (Admin only)
+### Lưu ý: endpoint này yêu cầu role ADMIN (403 nếu không đủ quyền)
 POST {{baseUrl}}/packages
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -172,7 +177,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Packages - User mua package
-POST {{baseUrl}}/packages/1/purchase
+POST {{baseUrl}}/packages/{{packageId}}/purchase
 Authorization: Bearer {{token}}
 
 ###
@@ -186,7 +191,7 @@ GET {{baseUrl}}/webhook
 Authorization: Bearer {{token}}
 
 ###
-### Webhook - Tạo/cập nhật cấu hình webhook
+### Webhook - Tạo/cập nhật cấu hình webhook (upsert 1 webhook của user)
 POST {{baseUrl}}/webhook
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -211,6 +216,36 @@ Authorization: Bearer {{token}}
 }
 
 ###
+### Webhook - Ví dụ auth BASIC
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "auth_type": "BASIC",
+  "auth_username": "webhook_user",
+  "auth_password": "webhook_password",
+  "is_active": true
+}
+
+###
+### Webhook - Ví dụ auth HEADER
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "auth_type": "HEADER",
+  "auth_header_name": "X-HYPERPAY-TOKEN",
+  "auth_header_value": "token-from-target-system",
+  "is_active": true
+}
+
+###
 ### Content Public - Danh sách bài viết/docs/help đã publish
 GET {{baseUrl}}/public/content?type=BLOG_POST&limit=10&offset=0
 
@@ -220,7 +255,7 @@ GET {{baseUrl}}/public/content?type=DOC_PAGE&category=api-reference&tag=payments
 
 ###
 ### Content Public - Chi tiết theo slug
-GET {{baseUrl}}/public/content/getting-started-with-hyperpay
+GET {{baseUrl}}/public/content/{{contentSlug}}
 
 ###
 ### Content Public - Danh sách categories
@@ -232,6 +267,7 @@ GET {{baseUrl}}/public/content/tags
 
 ###
 ### Content Admin - Tạo/Cập nhật Category
+### Lưu ý: yêu cầu role EDITOR/ADMIN (403 nếu không đủ quyền)
 POST {{baseUrl}}/content/categories
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -244,6 +280,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Content Admin - Tạo/Cập nhật Tag
+### Lưu ý: yêu cầu role EDITOR/ADMIN (403 nếu không đủ quyền)
 POST {{baseUrl}}/content/tags
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -255,7 +292,52 @@ Authorization: Bearer {{token}}
 }
 
 ###
+### Content Admin - Danh sách Category cho quản trị
+GET {{baseUrl}}/content/categories
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Cập nhật Category theo slug
+PATCH {{baseUrl}}/content/categories/api-reference
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "API Reference Updated",
+  "slug": "api-reference",
+  "description": "Tai lieu ky thuat API va webhook"
+}
+
+###
+### Content Admin - Xóa mềm Category theo slug
+DELETE {{baseUrl}}/content/categories/api-reference
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Danh sách Tag cho quản trị
+GET {{baseUrl}}/content/tags
+Authorization: Bearer {{token}}
+
+###
+### Content Admin - Cập nhật Tag theo slug
+PATCH {{baseUrl}}/content/tags/payments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Payments Updated",
+  "slug": "payments",
+  "description": "Tag cho noi dung thanh toan"
+}
+
+###
+### Content Admin - Xóa mềm Tag theo slug
+DELETE {{baseUrl}}/content/tags/payments
+Authorization: Bearer {{token}}
+
+###
 ### Content Admin - Tạo bài/blog/docs/help (draft)
+### Lưu ý: yêu cầu role EDITOR/ADMIN (403 nếu không đủ quyền)
 POST {{baseUrl}}/content
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -277,7 +359,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Content Admin - Cập nhật + publish + taxonomy
-PATCH {{baseUrl}}/content/hyperpay-webhook-best-practices
+PATCH {{baseUrl}}/content/{{contentSlug}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -297,7 +379,7 @@ Authorization: Bearer {{token}}
 
 ###
 ### Content Admin - Tạo preview token cho draft/scheduled
-POST {{baseUrl}}/content/hyperpay-webhook-best-practices/preview-token
+POST {{baseUrl}}/content/{{contentSlug}}/preview-token
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -307,19 +389,185 @@ Authorization: Bearer {{token}}
 
 ###
 ### Content Public - Xem preview bằng token
-GET {{baseUrl}}/public/content/preview/REPLACE_WITH_PREVIEW_TOKEN
+GET {{baseUrl}}/public/content/preview/{{previewToken}}
 
 ###
 ### Content Admin - Lấy danh sách revision của 1 bài
-GET {{baseUrl}}/content/hyperpay-webhook-best-practices/revisions
+GET {{baseUrl}}/content/{{contentSlug}}/revisions
 Authorization: Bearer {{token}}
 
 ###
 ### Content Admin - Restore 1 revision
-POST {{baseUrl}}/content/hyperpay-webhook-best-practices/revisions/1/restore
+POST {{baseUrl}}/content/{{contentSlug}}/revisions/1/restore
 Authorization: Bearer {{token}}
 
 ###
 ### Content Admin - Soft delete theo slug
-DELETE {{baseUrl}}/content/hyperpay-webhook-best-practices
+DELETE {{baseUrl}}/content/{{contentSlug}}
+Authorization: Bearer {{token}}
+
+###
+### Negative test - Webhook BEARER thiếu auth_bearer_token (expected 400)
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "auth_type": "BEARER"
+}
+
+###
+### Negative test - Webhook HEADER thiếu auth_header_value (expected 400)
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "auth_type": "HEADER",
+  "auth_header_name": "X-HYPERPAY-TOKEN"
+}
+
+###
+### Negative test - Payment code rule sai min/max (expected 400)
+POST {{baseUrl}}/webhook
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "url": "https://your-system.com/webhooks/hyperpay",
+  "secret_token": "your-webhook-secret",
+  "payment_code_rule_enabled": true,
+  "payment_code_prefix": "HPY",
+  "payment_code_suffix_min_length": 12,
+  "payment_code_suffix_max_length": 8,
+  "payment_code_suffix_charset": "NUMERIC"
+}
+
+###
+### Negative test - Content preview token quá nhỏ (expected 400)
+POST {{baseUrl}}/content/{{contentSlug}}/preview-token
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "expires_in_minutes": 1
+}
+
+###
+### =========================
+### ADMIN APIs (ADMIN only)
+### =========================
+
+###
+### Admin - Users list
+GET {{baseUrl}}/admin/users?q=user&limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Update user role
+PATCH {{baseUrl}}/admin/users/{{adminUserId}}/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "role": "EDITOR"
+}
+
+###
+### Admin - Plans list
+GET {{baseUrl}}/admin/plans?limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Create plan
+POST {{baseUrl}}/admin/plans
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Admin Plan",
+  "price_vnd": 199000,
+  "max_bank_accounts": 5,
+  "max_transactions": 2000,
+  "duration_days": 30,
+  "description": "Plan created from admin API"
+}
+
+###
+### Admin - Update plan
+PATCH {{baseUrl}}/admin/plans/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "max_transactions": 2500
+}
+
+###
+### Admin - Banks list
+GET {{baseUrl}}/admin/banks?limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Create bank
+POST {{baseUrl}}/admin/banks
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Example Bank",
+  "code": "EXB",
+  "icon_url": "https://example.com/exb.png"
+}
+
+###
+### Admin - Update bank
+PATCH {{baseUrl}}/admin/banks/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Example Bank Updated"
+}
+
+###
+### Admin - User packages list
+GET {{baseUrl}}/admin/user-packages?limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Assign package for user
+POST {{baseUrl}}/admin/user-packages/assign
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": {{adminUserId}},
+  "package_id": {{packageId}},
+  "duration_days": 30,
+  "status": "active"
+}
+
+###
+### Admin - Update user package status
+PATCH {{baseUrl}}/admin/user-packages/1/status
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "suspended"
+}
+
+###
+### Admin - Webhooks list (global)
+GET {{baseUrl}}/admin/webhooks?limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Transactions list (global)
+GET {{baseUrl}}/admin/transactions?limit=20&offset=0
 Authorization: Bearer {{token}}

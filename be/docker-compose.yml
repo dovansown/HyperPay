@@ -51,6 +51,23 @@ services:
       timeout: 5s
       retries: 5
 
+  captcha-service:
+    build:
+      context: ../captcha-service
+      dockerfile: Dockerfile
+    container_name: hyperpay-captcha-service
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    environment:
+      MODEL_PATH: /app/model/best_captcha_model.pth
+      CAPTCHA_API_KEY: ${CAPTCHA_SERVICE_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/health').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   redis_data:

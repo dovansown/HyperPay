@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiFetch } from '../lib/apiClient'
+import { apiFetch, unwrapApiData, type ApiEnvelope } from '../lib/apiClient'
 import type { RootState } from './store'
 
 type Account = {
@@ -10,8 +10,8 @@ type Account = {
 type Transaction = {
   id?: number | string
   amount?: number
-  status?: string
-  created_at?: string
+  type?: string
+  occurred_at?: string
   description?: string
 }
 
@@ -42,20 +42,25 @@ export const fetchDashboardData = createAsyncThunk<
   const token = state.auth.token ?? undefined
 
   const [accounts, plans, banks] = await Promise.all([
-    apiFetch<Account[]>('/accounts', { method: 'GET', token }),
-    apiFetch<unknown[]>('/plans', { method: 'GET', token }),
-    apiFetch<unknown[]>('/banks', { method: 'GET', token }),
+    apiFetch<Account[] | ApiEnvelope<Account[]>>('/accounts', { method: 'GET', token }),
+    apiFetch<unknown[] | ApiEnvelope<unknown[]>>('/plans', { method: 'GET', token }),
+    apiFetch<unknown[] | ApiEnvelope<unknown[]>>('/banks', { method: 'GET', token }),
   ])
 
+  const accountList = unwrapApiData<Account[]>(accounts)
+  const planList = unwrapApiData<unknown[]>(plans)
+  const bankList = unwrapApiData<unknown[]>(banks)
+
   let recentTransactions: Transaction[] = []
-  if (accounts.length > 0) {
-    const firstAccountId = accounts[0]?.id
+  if (accountList.length > 0) {
+    const firstAccountId = accountList[0]?.id
     if (firstAccountId != null) {
       try {
-        recentTransactions = await apiFetch<Transaction[]>(
+        const txResponse = await apiFetch<Transaction[] | ApiEnvelope<Transaction[]>>(
           `/accounts/${firstAccountId}/transactions`,
           { method: 'GET', token },
         )
+        recentTransactions = unwrapApiData<Transaction[]>(txResponse)
       } catch {
         recentTransactions = []
       }
@@ -63,9 +68,9 @@ export const fetchDashboardData = createAsyncThunk<
   }
 
   return {
-    totalAccounts: accounts.length,
-    totalPlans: plans.length,
-    totalBanks: banks.length,
+    totalAccounts: accountList.length,
+    totalPlans: planList.length,
+    totalBanks: bankList.length,
     recentTransactions,
     status: 'succeeded',
     error: null,

@@ -481,11 +481,27 @@ export const contentRepository = {
     });
   },
 
+  async listCategoriesAdmin() {
+    return prisma.contentCategory.findMany({
+      where: { deletedAt: null },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, slug: true, description: true, createdAt: true, updatedAt: true }
+    });
+  },
+
   async listTagsPublic() {
     return prisma.contentTag.findMany({
       where: { deletedAt: null },
       orderBy: { name: "asc" },
       select: { name: true, slug: true, description: true }
+    });
+  },
+
+  async listTagsAdmin() {
+    return prisma.contentTag.findMany({
+      where: { deletedAt: null },
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, slug: true, description: true, createdAt: true, updatedAt: true }
     });
   },
 
@@ -505,6 +521,37 @@ export const contentRepository = {
     });
   },
 
+  async updateCategoryBySlug(
+    slug: string,
+    data: { name?: string; slug?: string; description?: string | null }
+  ) {
+    const found = await prisma.contentCategory.findFirst({
+      where: { slug, deletedAt: null },
+      select: { id: true }
+    });
+    if (!found) return null;
+    return prisma.contentCategory.update({
+      where: { id: found.id },
+      data: {
+        ...(data.name !== undefined ? { name: data.name } : {}),
+        ...(data.slug !== undefined ? { slug: data.slug } : {}),
+        ...(data.description !== undefined ? { description: data.description } : {})
+      }
+    });
+  },
+
+  async deleteCategoryBySlug(slug: string) {
+    const found = await prisma.contentCategory.findFirst({
+      where: { slug, deletedAt: null },
+      select: { id: true }
+    });
+    if (!found) return null;
+    return prisma.contentCategory.update({
+      where: { id: found.id },
+      data: { deletedAt: new Date() }
+    });
+  },
+
   async upsertTag(data: { name: string; slug: string; description?: string }) {
     return prisma.contentTag.upsert({
       where: { slug: data.slug },
@@ -518,6 +565,37 @@ export const contentRepository = {
         slug: data.slug,
         description: data.description
       }
+    });
+  },
+
+  async updateTagBySlug(
+    slug: string,
+    data: { name?: string; slug?: string; description?: string | null }
+  ) {
+    const found = await prisma.contentTag.findFirst({
+      where: { slug, deletedAt: null },
+      select: { id: true }
+    });
+    if (!found) return null;
+    return prisma.contentTag.update({
+      where: { id: found.id },
+      data: {
+        ...(data.name !== undefined ? { name: data.name } : {}),
+        ...(data.slug !== undefined ? { slug: data.slug } : {}),
+        ...(data.description !== undefined ? { description: data.description } : {})
+      }
+    });
+  },
+
+  async deleteTagBySlug(slug: string) {
+    const found = await prisma.contentTag.findFirst({
+      where: { slug, deletedAt: null },
+      select: { id: true }
+    });
+    if (!found) return null;
+    return prisma.contentTag.update({
+      where: { id: found.id },
+      data: { deletedAt: new Date() }
     });
   }
 };

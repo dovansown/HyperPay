@@ -3,6 +3,8 @@ import { authReducer } from './authSlice'
 import { dashboardReducer } from './dashboardSlice'
 import { accountsReducer } from './accountsSlice'
 import { webhookReducer } from './webhookSlice'
+import { transactionsReducer } from './transactionsSlice'
+import { billingReducer } from './billingSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     accounts: accountsReducer,
     webhook: webhookReducer,
+    transactions: transactionsReducer,
+    billing: billingReducer,
   },
 })
 

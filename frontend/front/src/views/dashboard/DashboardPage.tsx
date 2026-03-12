@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchDashboardData } from '../../store/dashboardSlice'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
@@ -9,6 +10,7 @@ import { Table } from '../../components/ui/Table'
 
 export const DashboardPage: React.FC = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { totalAccounts, totalPlans, recentTransactions, status } = useAppSelector((s) => s.dashboard)
 
@@ -182,7 +184,12 @@ export const DashboardPage: React.FC = () => {
             <h3 className="text-lg font-bold text-slate-900">
               {t('dashboard.table.title', 'Latest Transactions')}
             </h3>
-            <Button variant="ghost" size="sm" className="text-primary hover:underline px-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-primary hover:underline px-0"
+              onClick={() => navigate('/transactions')}
+            >
               {t('dashboard.table.viewAll', 'View all')}
             </Button>
           </CardHeader>
@@ -210,11 +217,11 @@ export const DashboardPage: React.FC = () => {
                       {tx.id ?? t('dashboard.table.unknownId', '#Unknown')}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600">
-                      {tx.created_at ?? '—'}
+                      {tx.occurred_at ? new Date(tx.occurred_at).toLocaleString() : '—'}
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
-                        {tx.status ?? t('dashboard.table.unknownStatus', 'Unknown')}
+                        {tx.type ?? t('dashboard.table.unknownStatus', 'Unknown')}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm font-bold text-slate-900 text-right">

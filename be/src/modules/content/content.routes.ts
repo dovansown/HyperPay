@@ -13,8 +13,11 @@ import {
   previewTokenParamsSchema,
   revisionParamsSchema,
   slugParamsSchema,
+  taxonomySlugParamsSchema,
   upsertCategoryBodySchema,
   upsertTagBodySchema,
+  updateCategoryBodySchema,
+  updateTagBodySchema,
   updateContentBodySchema
 } from "./content.schema.js";
 
@@ -39,11 +42,43 @@ publicContentRoutes.get(
 
 export const contentRoutes = Router();
 contentRoutes.use(authMiddleware);
-contentRoutes.use(requireRole([UserRole.AUTHOR, UserRole.EDITOR, UserRole.ADMIN]));
+contentRoutes.use(requireRole([UserRole.EDITOR, UserRole.ADMIN]));
 contentRoutes.get(
   "/",
   validate({ query: listAdminContentQuerySchema }),
   asyncHandler(contentController.listAdmin)
+);
+contentRoutes.post(
+  "/categories",
+  validate({ body: upsertCategoryBodySchema }),
+  asyncHandler(contentController.upsertCategory)
+);
+contentRoutes.get("/categories", asyncHandler(contentController.listCategoriesAdmin));
+contentRoutes.patch(
+  "/categories/:slug",
+  validate({ params: taxonomySlugParamsSchema, body: updateCategoryBodySchema }),
+  asyncHandler(contentController.updateCategoryBySlug)
+);
+contentRoutes.delete(
+  "/categories/:slug",
+  validate({ params: taxonomySlugParamsSchema }),
+  asyncHandler(contentController.deleteCategoryBySlug)
+);
+contentRoutes.post(
+  "/tags",
+  validate({ body: upsertTagBodySchema }),
+  asyncHandler(contentController.upsertTag)
+);
+contentRoutes.get("/tags", asyncHandler(contentController.listTagsAdmin));
+contentRoutes.patch(
+  "/tags/:slug",
+  validate({ params: taxonomySlugParamsSchema, body: updateTagBodySchema }),
+  asyncHandler(contentController.updateTagBySlug)
+);
+contentRoutes.delete(
+  "/tags/:slug",
+  validate({ params: taxonomySlugParamsSchema }),
+  asyncHandler(contentController.deleteTagBySlug)
 );
 contentRoutes.post(
   "/",
@@ -74,15 +109,5 @@ contentRoutes.delete(
   "/:slug",
   validate({ params: slugParamsSchema }),
   asyncHandler(contentController.deleteBySlug)
-);
-contentRoutes.post(
-  "/categories",
-  validate({ body: upsertCategoryBodySchema }),
-  asyncHandler(contentController.upsertCategory)
-);
-contentRoutes.post(
-  "/tags",
-  validate({ body: upsertTagBodySchema }),
-  asyncHandler(contentController.upsertTag)
 );
 

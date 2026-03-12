@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Card, CardBody } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { PublicLayout } from '../public/PublicLayout'
+import { listPublicContent, type PublicContentItem } from '../../lib/contentApi'
 
 type DocsTab = 'getting-started' | 'api' | 'sdks' | 'resources'
 
@@ -11,6 +12,20 @@ export const DocsPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [tab, setTab] = useState<DocsTab>('getting-started')
+  const [docPages, setDocPages] = useState<PublicContentItem[]>([])
+  const [docError, setDocError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const docs = await listPublicContent({ type: 'DOC_PAGE', limit: 12, offset: 0 })
+        setDocPages(docs)
+      } catch (e) {
+        setDocError(e instanceof Error ? e.message : t('docs.cms.errorLoad', 'Failed to load docs'))
+      }
+    }
+    void load()
+  }, [])
 
   const gettingStartedCards = useMemo(
     () => [
@@ -132,6 +147,37 @@ export const DocsPage: React.FC = () => {
         </div>
 
         <div className="space-y-16">
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-slate-900">
+                {t('docs.cms.title', 'Docs from CMS')}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {docPages.map((doc) => (
+                <Card key={doc.id} className="hover:border-primary/50 hover:shadow-lg transition-all">
+                  <CardBody>
+                    <h3 className="text-lg font-bold mb-2">{doc.title}</h3>
+                    <p className="text-sm text-slate-600 mb-3">
+                      {doc.excerpt ?? t('docs.cms.noExcerpt', 'No excerpt available.')}
+                    </p>
+                    <button
+                      type="button"
+                      className="text-primary text-sm font-semibold hover:underline"
+                      onClick={() => navigate(`/blog/${doc.slug}`)}
+                    >
+                      {t('docs.cms.open', 'Open')}
+                    </button>
+                  </CardBody>
+                </Card>
+              ))}
+              {docPages.length === 0 && !docError && (
+                <p className="text-sm text-slate-500">{t('docs.cms.empty', 'No docs found from API.')}</p>
+              )}
+            </div>
+            {docError && <p className="text-xs text-red-600 mt-2">{docError}</p>}
+          </section>
+
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-slate-900">

@@ -69,10 +69,26 @@ export const upsertCategoryBodySchema = z.object({
   description: z.string().trim().max(255).optional()
 });
 
+export const updateCategoryBodySchema = z.object({
+  name: z.string().trim().min(1).max(120).optional(),
+  slug: z.string().trim().min(1).max(120).optional(),
+  description: z.string().trim().max(255).optional().nullable()
+});
+
 export const upsertTagBodySchema = z.object({
   name: z.string().trim().min(1).max(120),
   slug: z.string().trim().min(1).max(120),
   description: z.string().trim().max(255).optional()
+});
+
+export const updateTagBodySchema = z.object({
+  name: z.string().trim().min(1).max(120).optional(),
+  slug: z.string().trim().min(1).max(120).optional(),
+  description: z.string().trim().max(255).optional().nullable()
+});
+
+export const taxonomySlugParamsSchema = z.object({
+  slug: z.string().trim().min(1).max(120)
 });
 
 export const createPreviewTokenBodySchema = z.object({

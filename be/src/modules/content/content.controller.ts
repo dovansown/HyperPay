@@ -61,6 +61,16 @@ export const contentController = {
     return sendSuccess(res, items);
   },
 
+  async listCategoriesAdmin(_req: Request, res: Response) {
+    const items = await contentRepository.listCategoriesAdmin();
+    return sendSuccess(res, items);
+  },
+
+  async listTagsAdmin(_req: Request, res: Response) {
+    const items = await contentRepository.listTagsAdmin();
+    return sendSuccess(res, items);
+  },
+
   async getPublicBySlug(req: Request, res: Response) {
     const { slug } = req.params as unknown as { slug: string };
     const item = await contentRepository.getPublicBySlug(slug);
@@ -290,10 +300,48 @@ export const contentController = {
     return sendSuccess(res, item, 201);
   },
 
+  async updateCategoryBySlug(req: Request, res: Response) {
+    const { slug } = req.params as unknown as { slug: string };
+    const body = req.body as { name?: string; slug?: string; description?: string | null };
+    const item = await contentRepository.updateCategoryBySlug(slug, body);
+    if (!item) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "Category not found");
+    }
+    return sendSuccess(res, item);
+  },
+
+  async deleteCategoryBySlug(req: Request, res: Response) {
+    const { slug } = req.params as unknown as { slug: string };
+    const item = await contentRepository.deleteCategoryBySlug(slug);
+    if (!item) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "Category not found");
+    }
+    return sendSuccess(res, { slug, deleted: true });
+  },
+
   async upsertTag(req: Request, res: Response) {
     const body = req.body as { name: string; slug: string; description?: string };
     const item = await contentRepository.upsertTag(body);
     return sendSuccess(res, item, 201);
+  },
+
+  async updateTagBySlug(req: Request, res: Response) {
+    const { slug } = req.params as unknown as { slug: string };
+    const body = req.body as { name?: string; slug?: string; description?: string | null };
+    const item = await contentRepository.updateTagBySlug(slug, body);
+    if (!item) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "Tag not found");
+    }
+    return sendSuccess(res, item);
+  },
+
+  async deleteTagBySlug(req: Request, res: Response) {
+    const { slug } = req.params as unknown as { slug: string };
+    const item = await contentRepository.deleteTagBySlug(slug);
+    if (!item) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "Tag not found");
+    }
+    return sendSuccess(res, { slug, deleted: true });
   }
 };
 

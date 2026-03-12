@@ -4,6 +4,7 @@ import { apiFetch } from '../lib/apiClient'
 type AuthUser = {
   email: string
   fullName?: string
+  role?: 'USER' | 'AUTHOR' | 'EDITOR' | 'ADMIN'
 }
 
 type AuthState = {
@@ -24,11 +25,16 @@ function loadAuthFromStorage(): Pick<AuthState, 'token' | 'user'> {
     const token = typeof parsed.token === 'string' ? parsed.token : null
     const user =
       parsed.user && typeof parsed.user === 'object'
-        ? (parsed.user as { email?: unknown; fullName?: unknown })
+        ? (parsed.user as { email?: unknown; fullName?: unknown; role?: unknown })
         : null
     const email = typeof user?.email === 'string' ? user.email : null
     const fullName = typeof user?.fullName === 'string' ? user.fullName : undefined
-    return { token, user: email ? { email, fullName } : null }
+    const role =
+      typeof user?.role === 'string' &&
+      ['USER', 'AUTHOR', 'EDITOR', 'ADMIN'].includes(user.role)
+        ? (user.role as AuthUser['role'])
+        : undefined
+    return { token, user: email ? { email, fullName, role } : null }
   } catch {
     return { token: null, user: null }
   }
@@ -85,6 +91,7 @@ type AuthResponse = {
     user?: {
       email?: string
       full_name?: string
+      role?: 'USER' | 'AUTHOR' | 'EDITOR' | 'ADMIN'
       id?: number
     }
   }
@@ -94,6 +101,7 @@ type AuthResponse = {
   user?: {
     email?: string
     full_name?: string
+    role?: 'USER' | 'AUTHOR' | 'EDITOR' | 'ADMIN'
     id?: number
   }
 }
@@ -173,6 +181,7 @@ const authSlice = createSlice({
           state.user = {
             email: user.email,
             fullName: user.full_name,
+            role: user.role,
           }
         }
         if (state.token) {
@@ -196,6 +205,7 @@ const authSlice = createSlice({
           state.user = {
             email: user.email,
             fullName: user.full_name,
+            role: user.role,
           }
         }
         if (state.token) {

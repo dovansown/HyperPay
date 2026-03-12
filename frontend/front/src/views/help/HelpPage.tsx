@@ -1,14 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PublicLayout } from '../public/PublicLayout'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
 import { Card, CardBody } from '../../components/ui/Card'
+import { listPublicContent, type PublicContentItem } from '../../lib/contentApi'
 
 export const HelpPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [articles, setArticles] = useState<PublicContentItem[]>([])
+  const [articleError, setArticleError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const result = await listPublicContent({ type: 'HELP_ARTICLE', limit: 9, offset: 0 })
+        setArticles(result)
+      } catch (e) {
+        setArticleError(
+          e instanceof Error ? e.message : t('help.cms.errorLoad', 'Failed to load help articles'),
+        )
+      }
+    }
+    void load()
+  }, [])
 
   const topics = [
     {
@@ -148,6 +165,33 @@ export const HelpPage: React.FC = () => {
               </CardBody>
             </Card>
           ))}
+        </div>
+
+        <div className="mt-12">
+          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+            {t('help.cms.title', 'Help articles from CMS')}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {articles.map((article) => (
+              <Card key={article.id}>
+                <CardBody>
+                  <h4 className="font-semibold text-slate-900 mb-2">{article.title}</h4>
+                  <p className="text-sm text-slate-600 mb-3">
+                    {article.excerpt ?? t('help.cms.noExcerpt', 'No excerpt available.')}
+                  </p>
+                  <Link className="text-primary text-sm font-semibold hover:underline" to={`/blog/${article.slug}`}>
+                    {t('help.cms.openArticle', 'Open article')}
+                  </Link>
+                </CardBody>
+              </Card>
+            ))}
+            {articles.length === 0 && !articleError && (
+              <p className="text-sm text-slate-500">
+                {t('help.cms.empty', 'No help articles found from API.')}
+              </p>
+            )}
+          </div>
+          {articleError && <p className="text-xs text-red-600 mt-3">{articleError}</p>}
         </div>
       </section>
 

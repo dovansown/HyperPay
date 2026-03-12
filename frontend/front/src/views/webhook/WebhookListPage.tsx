@@ -16,12 +16,6 @@ type LogItem = {
   timeAgo: string
 }
 
-const mockLogs: LogItem[] = [
-  { eventType: 'payment_intent.succeeded', statusCode: '200 OK', statusTone: 'ok', entityId: 'pi_3Mv2...Y7p', timeAgo: '2 min ago' },
-  { eventType: 'customer.created', statusCode: '200 OK', statusTone: 'ok', entityId: 'cus_Og9...w1', timeAgo: '14 min ago' },
-  { eventType: 'charge.failed', statusCode: '500 ERR', statusTone: 'err', entityId: 'ch_8JkL...v4m', timeAgo: '1 hour ago' },
-]
-
 export const WebhookListPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -47,6 +41,33 @@ export const WebhookListPage: React.FC = () => {
       },
     ]
   }, [config, t])
+
+  const mockLogs = useMemo<LogItem[]>(
+    () => [
+      {
+        eventType: 'payment_intent.succeeded',
+        statusCode: '200 OK',
+        statusTone: 'ok',
+        entityId: 'pi_3Mv2...Y7p',
+        timeAgo: t('webhook.list.logs.timeAgo2m', '2 min ago'),
+      },
+      {
+        eventType: 'customer.created',
+        statusCode: '200 OK',
+        statusTone: 'ok',
+        entityId: 'cus_Og9...w1',
+        timeAgo: t('webhook.list.logs.timeAgo14m', '14 min ago'),
+      },
+      {
+        eventType: 'charge.failed',
+        statusCode: '500 ERR',
+        statusTone: 'err',
+        entityId: 'ch_8JkL...v4m',
+        timeAgo: t('webhook.list.logs.timeAgo1h', '1 hour ago'),
+      },
+    ],
+    [t],
+  )
 
   const [selectedLogIdx, setSelectedLogIdx] = useState(0)
   const selectedLog = mockLogs[selectedLogIdx]
@@ -276,7 +297,7 @@ export const WebhookListPage: React.FC = () => {
               <div className="flex-1 p-6 overflow-auto">
                 <pre className="text-xs font-mono text-slate-300 leading-relaxed">
 {`{
-  "type": "${selectedLog?.eventType ?? 'event'}",
+  "type": "${selectedLog?.eventType ?? t('webhook.list.logs.defaultEventType', 'event')}",
   "id": "evt_...",
   "status": "${selectedLog?.statusCode ?? '200 OK'}"
 }`}
@@ -289,11 +310,11 @@ export const WebhookListPage: React.FC = () => {
                 <div className="flex items-center gap-4">
                   <span className="text-[10px] text-slate-400 flex items-center gap-1">
                     <span className="material-symbols-outlined text-[12px]">schedule</span>
-                    12:44:19 PM
+                    {t('webhook.list.logs.sampleTime', '12:44:19 PM')}
                   </span>
                   <span className="text-[10px] text-slate-400 flex items-center gap-1">
                     <span className="material-symbols-outlined text-[12px]">speed</span>
-                    142ms
+                    {t('webhook.list.logs.sampleLatency', '142ms')}
                   </span>
                 </div>
               </div>

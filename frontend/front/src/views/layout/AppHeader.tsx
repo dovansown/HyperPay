@@ -45,10 +45,18 @@ export const AppHeader: React.FC = () => {
           {[
             { to: '/dashboard', label: t('app.nav.dashboard', 'Dashboard') },
             { to: '/bank-accounts', label: t('app.nav.banking', 'Banking') },
+            { to: '/transactions', label: t('app.nav.transactions', 'Transactions') },
             { to: '/billing', label: t('app.nav.billing', 'Billing') },
             { to: '/webhooks', label: t('app.nav.webhooks', 'Webhooks') },
+            {
+              to: '/admin',
+              label: t('app.nav.admin', 'Admin'),
+              visible: ['EDITOR', 'ADMIN'].includes(user?.role ?? ''),
+            },
             { to: '/docs', label: t('app.nav.docs', 'Docs') },
-          ].map((item) => (
+          ]
+            .filter((item) => item.visible ?? true)
+            .map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -64,7 +72,7 @@ export const AppHeader: React.FC = () => {
             >
               {item.label}
             </NavLink>
-          ))}
+            ))}
         </nav>
         <div className="hidden sm:flex items-center rounded-full border border-slate-200 bg-white px-1 py-0.5 text-[11px]">
           <button
@@ -126,7 +134,7 @@ export const AppHeader: React.FC = () => {
                 }}
               >
                 <span className="material-symbols-outlined text-[18px]">person</span>
-                <span>{t('app.user.profile', 'Cài đặt')}</span>
+                <span>{t('app.user.profile', 'Profile')}</span>
               </button>
               <button
                 type="button"

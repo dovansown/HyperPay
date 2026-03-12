@@ -1,9 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 type FooterColumn = {
   title: string
-  links: string[]
+  links: Array<{ label: string; to?: string }>
 }
 
 export const PublicFooter: React.FC = () => {
@@ -13,36 +14,36 @@ export const PublicFooter: React.FC = () => {
     {
       title: t('public.footer.cols.product', 'Product'),
       links: [
-        t('public.footer.links.checkout', 'Checkout'),
-        t('public.footer.links.elements', 'Elements'),
-        t('public.footer.links.invoicing', 'Invoicing'),
-        t('public.footer.links.subscriptions', 'Subscriptions'),
+        { label: t('public.footer.links.checkout', 'Checkout') },
+        { label: t('public.footer.links.elements', 'Elements') },
+        { label: t('public.footer.links.invoicing', 'Invoicing') },
+        { label: t('public.footer.links.subscriptions', 'Subscriptions') },
       ],
     },
     {
       title: t('public.footer.cols.resources', 'Resources'),
       links: [
-        t('public.footer.links.documentation', 'Documentation'),
-        t('public.footer.links.api', 'API Reference'),
-        t('public.footer.links.community', 'Community'),
-        t('public.footer.links.helpCenter', 'Help Center'),
+        { label: t('public.footer.links.documentation', 'Documentation'), to: '/docs' },
+        { label: t('public.footer.links.api', 'API Reference'), to: '/docs' },
+        { label: t('public.footer.links.community', 'Community') },
+        { label: t('public.footer.links.helpCenter', 'Help Center'), to: '/help' },
       ],
     },
     {
       title: t('public.footer.cols.company', 'Company'),
       links: [
-        t('public.footer.links.about', 'About Us'),
-        t('public.footer.links.careers', 'Careers'),
-        t('public.footer.links.blog', 'Blog'),
-        t('public.footer.links.contact', 'Contact'),
+        { label: t('public.footer.links.about', 'About Us') },
+        { label: t('public.footer.links.careers', 'Careers') },
+        { label: t('public.footer.links.blog', 'Blog'), to: '/blog' },
+        { label: t('public.footer.links.contact', 'Contact') },
       ],
     },
     {
       title: t('public.footer.cols.legal', 'Legal'),
       links: [
-        t('public.footer.links.privacy', 'Privacy Policy'),
-        t('public.footer.links.terms', 'Terms of Service'),
-        t('public.footer.links.cookies', 'Cookie Settings'),
+        { label: t('public.footer.links.privacy', 'Privacy Policy') },
+        { label: t('public.footer.links.terms', 'Terms of Service') },
+        { label: t('public.footer.links.cookies', 'Cookie Settings') },
       ],
     },
   ]
@@ -67,9 +68,9 @@ export const PublicFooter: React.FC = () => {
           </p>
           <div className="flex gap-4">
             {['public', 'share', 'alternate_email'].map((i) => (
-              <a key={i} className="text-slate-400 hover:text-primary" href="#">
+              <span key={i} className="text-slate-400">
                 <span className="material-symbols-outlined">{i}</span>
-              </a>
+              </span>
             ))}
           </div>
         </div>
@@ -79,10 +80,14 @@ export const PublicFooter: React.FC = () => {
             <h4 className="font-bold text-slate-900 mb-6">{c.title}</h4>
             <ul className="space-y-4 text-sm text-slate-600">
               {c.links.map((l) => (
-                <li key={l}>
-                  <a className="hover:text-primary" href="#">
-                    {l}
-                  </a>
+                <li key={l.label}>
+                  {l.to ? (
+                    <Link className="hover:text-primary" to={l.to}>
+                      {l.label}
+                    </Link>
+                  ) : (
+                    <span className="text-slate-500">{l.label}</span>
+                  )}
                 </li>
               ))}
             </ul>

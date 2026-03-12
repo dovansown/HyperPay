@@ -16,6 +16,7 @@ Service sau khi bat:
 - Redis: `localhost:6379`
 - RabbitMQ AMQP: `localhost:5672`
 - RabbitMQ UI: `http://localhost:15672` (`guest/guest`)
+- Captcha service: `http://localhost:8090`
 
 ## 2) Cai dat backend
 
@@ -33,3 +34,18 @@ npm run dev
 - `npm run infra:ps`: xem trang thai container
 - `npm run infra:logs`: xem logs realtime
 - `npm run infra:down`: tat toan bo ha tang
+
+## 4) Captcha service cho banking login
+
+Backend co san client de goi captcha service tai `src/shared/clients/captcha-client.ts`.
+
+- Ham `solveCaptchaFromBase64(imageBase64)` dung khi anh captcha da o dang base64.
+- Ham `solveCaptchaFromImageBuffer(buffer)` dung khi anh captcha dang la binary.
+
+Can cau hinh them env:
+
+- `CAPTCHA_SERVICE_URL`
+- `CAPTCHA_SERVICE_API_KEY`
+- `CAPTCHA_SERVICE_TIMEOUT_MS`
+
+

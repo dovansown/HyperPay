@@ -1,50 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { PublicLayout } from '../public/PublicLayout'
 import { Card, CardBody } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/Input'
-
-type BlogPost = {
-  slug: string
-  badge: string
-  title: string
-  excerpt: string
-  date: string
-  readTime: string
-}
-
-const posts: BlogPost[] = [
-  {
-    slug: 'future-of-digital-payments-2024',
-    badge: 'Industry Trends',
-    title: 'The Future of Global Digital Payments in 2024',
-    excerpt:
-      'Instant settlement, embedded finance, and the API economy are reshaping cross-border commerce.',
-    date: 'May 24, 2024',
-    readTime: '8 min read',
-  },
-  {
-    slug: 'optimizing-checkout-conversion',
-    badge: 'Growth',
-    title: 'Optimizing Checkout Conversion Rates',
-    excerpt: 'Practical tactics to reduce friction and increase successful payments.',
-    date: 'Jun 02, 2024',
-    readTime: '5 min read',
-  },
-  {
-    slug: 'subscription-economy',
-    badge: 'Business',
-    title: 'The Rise of Subscription Economy',
-    excerpt: 'How subscription billing is evolving and what teams should build next.',
-    date: 'May 15, 2024',
-    readTime: '12 min read',
-  },
-]
+import { listPublicCategories, listPublicContent, type PublicContentItem } from '../../lib/contentApi'
 
 export const BlogPage: React.FC = () => {
   const { t } = useTranslation()
+  const [items, setItems] = useState<PublicContentItem[]>([])
+  const [categories, setCategories] = useState<Array<{ id: number; name: string; slug: string }>>([])
+  const [query, setQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const [posts, cats] = await Promise.all([
+          listPublicContent({
+            type: 'BLOG_POST',
+            q: query || undefined,
+            category: selectedCategory || undefined,
+            limit: 30,
+            offset: 0,
+          }),
+          listPublicCategories(),
+        ])
+        setItems(posts)
+        setCategories(cats)
+      } catch (e) {
+        setError(e instanceof Error ? e.message : t('blog.filters.errorLoad', 'Failed to load blog posts'))
+      } finally {
+        setLoading(false)
+      }
+    }
+    void load()
+  }, [query, selectedCategory])
 
   return (
     <PublicLayout>
@@ -56,34 +52,77 @@ export const BlogPage: React.FC = () => {
           <p className="text-slate-600 max-w-2xl mx-auto">
             {t(
               'blog.subtitle',
-              'Insights on payments, security, and the future of global commerce.',
+              'Insights on payments, security, and the future of global commerce from CMS data.',
             )}
           </p>
         </header>
 
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t('blog.filters.search', 'Search blog posts')}
+          />
+          <select
+            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">{t('blog.filters.allCategories', 'All categories')}</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.slug}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <Button variant="secondary" onClick={() => {
+            setQuery('')
+            setSelectedCategory('')
+          }}>
+            {t('blog.filters.reset', 'Reset filters')}
+          </Button>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((p) => (
+          {!loading && items.map((p) => (
             <Link key={p.slug} to={`/blog/${p.slug}`} className="block">
               <Card className="hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer">
                 <CardBody>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider mb-4">
                     <span className="material-symbols-outlined text-sm">payments</span>
-                    {t(`blog.badges.${p.slug}`, p.badge)}
+                    {p.categories[0]?.name ?? t('blog.badgeDefault', 'Blog')}
                   </div>
-                  <h3 className="text-lg font-bold mb-2">{t(`blog.posts.${p.slug}.title`, p.title)}</h3>
+                  <h3 className="text-lg font-bold mb-2">{p.title}</h3>
                   <p className="text-sm text-slate-600 mb-4">
-                    {t(`blog.posts.${p.slug}.excerpt`, p.excerpt)}
+                    {p.excerpt ?? t('blog.noExcerpt', 'No excerpt available.')}
                   </p>
                   <div className="flex items-center gap-3 text-slate-400 text-xs font-medium">
-                    <span>{p.date}</span>
+                    <span>
+                      {p.published_at
+                        ? new Date(p.published_at).toLocaleDateString()
+                        : t('blog.draft', 'Draft')}
+                    </span>
                     <span className="w-1 h-1 rounded-full bg-slate-300" />
-                    <span>{p.readTime}</span>
+                    <span>{t('blog.tagCount', '{{count}} tags', { count: p.tags.length })}</span>
                   </div>
                 </CardBody>
               </Card>
             </Link>
           ))}
+          {loading && (
+            <p className="text-sm text-slate-500">{t('blog.loading', 'Loading blog posts...')}</p>
+          )}
+          {!loading && items.length === 0 && (
+            <p className="text-sm text-slate-500">
+              {t('blog.empty', 'No blog posts matched your filters.')}
+            </p>
+          )}
         </div>
+        {error && (
+          <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2 mt-4">
+            {error}
+          </div>
+        )}
       </section>
 
       <section className="bg-slate-900 py-20 px-6 mt-12">

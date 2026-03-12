@@ -3,16 +3,32 @@ import { useTranslation } from 'react-i18next'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchAccounts } from '../../store/accountsSlice'
+import { apiFetch, unwrapApiData, type ApiEnvelope } from '../../lib/apiClient'
 import { AddBankModal } from './AddBankModal'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { Table } from '../../components/ui/Table'
 
+type SupportedBank = {
+  id: number
+  name: string
+  code: string
+  icon_url?: string
+}
+
 export const BanksPage: React.FC = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
+  const token = useAppSelector((s) => s.auth.token)
   const { items, status } = useAppSelector((s) => s.accounts)
   const [showAdd, setShowAdd] = useState(false)
+  const [banks, setBanks] = useState<SupportedBank[]>([])
+  const [bankStatus, setBankStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle')
+  const [bankError, setBankError] = useState<string | null>(null)
+  const [newBankName, setNewBankName] = useState('')
+  const [newBankCode, setNewBankCode] = useState('')
+  const [newBankIconUrl, setNewBankIconUrl] = useState('')
+  const [savingBank, setSavingBank] = useState(false)
 
   useEffect(() => {
     if (status === 'idle') {
@@ -20,7 +36,62 @@ export const BanksPage: React.FC = () => {
     }
   }, [dispatch, status])
 
+  const loadBanks = async () => {
+    setBankStatus('loading')
+    setBankError(null)
+    try {
+      const res = await apiFetch<SupportedBank[] | ApiEnvelope<SupportedBank[]>>('/banks', {
+        method: 'GET',
+        token: token ?? undefined,
+      })
+      setBanks(unwrapApiData(res))
+      setBankStatus('succeeded')
+    } catch (e) {
+      setBankStatus('failed')
+      setBankError(e instanceof Error ? e.message : t('banks.supported.errorLoad', 'Failed to load banks'))
+    }
+  }
+
+  useEffect(() => {
+    if (bankStatus === 'idle') {
+      void loadBanks()
+    }
+  }, [bankStatus])
+
   const loading = status === 'loading'
+
+  const resolveBank = (bankNameOrCode: string) => {
+    const normalized = bankNameOrCode.trim().toLowerCase()
+    return (
+      banks.find((b) => b.code.toLowerCase() === normalized) ??
+      banks.find((b) => b.name.toLowerCase() === normalized) ??
+      null
+    )
+  }
+
+  const handleCreateBank = async () => {
+    setSavingBank(true)
+    setBankError(null)
+    try {
+      await apiFetch('/banks', {
+        method: 'POST',
+        token: token ?? undefined,
+        body: {
+          name: newBankName.trim(),
+          code: newBankCode.trim().toUpperCase(),
+          icon_url: newBankIconUrl.trim() || undefined,
+        },
+      })
+      setNewBankName('')
+      setNewBankCode('')
+      setNewBankIconUrl('')
+      await loadBanks()
+    } catch (e) {
+      setBankError(e instanceof Error ? e.message : t('banks.supported.errorCreate', 'Failed to create bank'))
+    } finally {
+      setSavingBank(false)
+    }
+  }
 
   return (
     <AuthenticatedLayout>
@@ -114,13 +185,24 @@ export const BanksPage: React.FC = () => {
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded bg-slate-100 flex items-center justify-center text-slate-400">
-                          <span className="material-symbols-outlined text-lg">
-                            account_balance
-                          </span>
-                        </div>
+                        {resolveBank(acc.bank_name)?.icon_url ? (
+                          <img
+                            src={resolveBank(acc.bank_name)?.icon_url}
+                            alt={acc.bank_name}
+                            className="w-8 h-8 rounded object-cover border border-slate-200"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded bg-slate-100 flex items-center justify-center text-slate-400">
+                            <span className="material-symbols-outlined text-lg">
+                              account_balance
+                            </span>
+                          </div>
+                        )}
                         <span className="text-sm font-medium text-slate-900">
-                          {acc.bank_name}
+                          {resolveBank(acc.bank_name)?.name ?? acc.bank_name}
+                        </span>
+                        <span className="text-[10px] text-slate-400 uppercase">
+                          {resolveBank(acc.bank_name)?.code ?? acc.bank_name}
                         </span>
                       </div>
                     </td>
@@ -194,6 +276,96 @@ export const BanksPage: React.FC = () => {
             </div>
           </Card>
         </div>
+
+        <section className="mt-12 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-slate-900">
+              {t('banks.supported.title', 'Supported banks')}
+            </h3>
+            <Button variant="secondary" size="sm" onClick={() => void loadBanks()}>
+              {t('banks.supported.refresh', 'Refresh')}
+            </Button>
+          </div>
+
+          <Card className="overflow-hidden">
+            <Table>
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
+                    {t('banks.supported.columns.code', 'Code')}
+                  </th>
+                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
+                    {t('banks.supported.columns.name', 'Name')}
+                  </th>
+                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
+                    {t('banks.supported.columns.icon', 'Icon')}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {bankStatus === 'loading' && (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-6 text-sm text-slate-500 text-center">
+                      {t('banks.supported.loading', 'Loading banks...')}
+                    </td>
+                  </tr>
+                )}
+                {bankStatus !== 'loading' &&
+                  banks.map((bank) => (
+                    <tr key={bank.id}>
+                      <td className="px-6 py-4 text-sm font-mono">{bank.code}</td>
+                      <td className="px-6 py-4 text-sm text-slate-700">{bank.name}</td>
+                      <td className="px-6 py-4 text-sm">
+                        {bank.icon_url ? (
+                          <a href={bank.icon_url} target="_blank" rel="noreferrer" className="text-primary underline">
+                            {bank.icon_url}
+                          </a>
+                        ) : (
+                          '-'
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Card>
+
+          <Card>
+            <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+              <input
+                value={newBankCode}
+                onChange={(e) => setNewBankCode(e.target.value)}
+                placeholder={t('banks.supported.create.codePlaceholder', 'Code (e.g. VCB)')}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              />
+              <input
+                value={newBankName}
+                onChange={(e) => setNewBankName(e.target.value)}
+                placeholder={t('banks.supported.create.namePlaceholder', 'Bank name')}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              />
+              <input
+                value={newBankIconUrl}
+                onChange={(e) => setNewBankIconUrl(e.target.value)}
+                placeholder={t('banks.supported.create.iconPlaceholder', 'Icon URL (optional)')}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
+              />
+              <Button
+                onClick={handleCreateBank}
+                loading={savingBank}
+                disabled={!newBankCode.trim() || !newBankName.trim()}
+              >
+                {t('banks.supported.create.submit', 'Create bank')}
+              </Button>
+            </div>
+          </Card>
+
+          {bankError && (
+            <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2">
+              {bankError}
+            </div>
+          )}
+        </section>
       </section>
 
       {showAdd && (

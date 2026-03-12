@@ -13,7 +13,10 @@ const envSchema = z.object({
   RABBITMQ_WEBHOOK_QUEUE: z.string().default("webhook.dispatch"),
   RABBITMQ_WEBHOOK_DLX: z.string().default("webhook.dispatch.dlx"),
   RABBITMQ_WEBHOOK_DLQ: z.string().default("webhook.dispatch.dlq"),
-  CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(120)
+  CACHE_TTL_SECONDS: z.coerce.number().int().positive().default(120),
+  CAPTCHA_SERVICE_URL: z.string().url().default("http://localhost:8090"),
+  CAPTCHA_SERVICE_API_KEY: z.string().default(""),
+  CAPTCHA_SERVICE_TIMEOUT_MS: z.coerce.number().int().positive().default(8000)
 });
 
 const parsed = envSchema.safeParse(process.env);
