@@ -1204,11 +1204,18 @@ const resources = {
           },
         },
         verify: {
-          title: 'Verify your identity',
+          title: 'Verify your email',
           description:
-            "We've sent a verification link to your email. Please check your inbox and follow the instructions to continue.",
-          primaryCta: 'Open email app',
+            "We've sent a 6-digit verification code to your email. Enter it below or use the link in your inbox to continue.",
+          primaryCta: 'Verify email',
           resend: "Didn't receive anything? Resend email",
+          resendOrChange: "Didn't receive anything? Resend email or change email",
+          changeEmailInline: "Didn't receive anything? Resend email or change email.",
+          changeEmailAction: 'Change email',
+          changeEmailModalTitle: 'Change email address',
+          changeEmailModalSubtitle:
+            'Enter a new email address. We will send a new verification email to this address.',
+          changeEmailSaving: 'Updating...',
           otherMethod: 'Use another verification method',
           secure: 'Secure Encryption Enabled',
         },
@@ -1678,11 +1685,18 @@ const resources = {
         },
       },
       verify: {
-        title: 'Xác minh danh tính',
+        title: 'Xác minh email',
         description:
-          'Chúng tôi đã gửi một email xác minh tới hộp thư của bạn. Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.',
-        primaryCta: 'Mở ứng dụng email',
+          'Chúng tôi đã gửi mã xác minh 6 chữ số tới email của bạn. Nhập mã bên dưới hoặc dùng liên kết trong email để tiếp tục.',
+        primaryCta: 'Xác minh email',
         resend: 'Không nhận được? Gửi lại email',
+        resendOrChange: 'Không nhận được? Gửi lại email hoặc thay đổi email',
+        changeEmailInline: 'Không nhận được? Gửi lại email hoặc thay đổi email.',
+        changeEmailAction: 'Thay đổi email',
+        changeEmailModalTitle: 'Thay đổi địa chỉ email',
+        changeEmailModalSubtitle:
+          'Nhập địa chỉ email mới. Chúng tôi sẽ gửi một email xác minh mới tới địa chỉ này.',
+        changeEmailSaving: 'Đang cập nhật...',
         otherMethod: 'Sử dụng phương thức xác minh khác',
         secure: 'Đã bật mã hóa an toàn',
       },

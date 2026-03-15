@@ -27,14 +27,16 @@ export const RegisterPage: React.FC = () => {
     e.preventDefault()
     if (!acceptedTerms || loading) return
     try {
-      await dispatch(registerThunk({ email, password, fullName })).unwrap()
-      // Sau khi đăng ký, token đã được lưu -> fetch profile để sync state
-      try {
-        await dispatch(fetchCurrentUser()).unwrap()
-      } catch {
-        // ignore, trang verify sẽ tiếp tục dùng token
+      const res = await dispatch(registerThunk({ email, password, fullName })).unwrap()
+      const raw = res as { data?: { verification_id?: string }; verification_id?: string }
+      const verificationId = raw.data?.verification_id ?? raw.verification_id
+      if (verificationId) {
+        // Cho phép user nhập mã code từ email ngay trong app (không cần bấm link)
+        navigate(`/verify?verification_id=${verificationId}&type=email`)
+      } else {
+        // Fallback: nếu vì lý do gì không có verification_id, quay về login
+        navigate('/login')
       }
-      navigate('/verify')
     } catch {
       // error handled via slice
     }

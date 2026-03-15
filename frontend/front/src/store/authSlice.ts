@@ -94,6 +94,8 @@ type AuthResponse = {
       role?: 'USER' | 'AUTHOR' | 'EDITOR' | 'ADMIN'
       id?: number
     }
+    verification_id?: string
+    expires_at?: string
   }
   token?: string
   access_token?: string
@@ -103,7 +105,9 @@ type AuthResponse = {
     full_name?: string
     role?: 'USER' | 'AUTHOR' | 'EDITOR' | 'ADMIN'
     id?: number
-  }
+    }
+  verification_id?: string
+  expires_at?: string
 }
 
 function extractToken(payload: AuthResponse): string | undefined {

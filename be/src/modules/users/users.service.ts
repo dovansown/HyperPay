@@ -127,7 +127,7 @@ export class UsersService {
       userId,
       VerificationCodeType.EMAIL_VERIFY
     );
-    const verifyLink = `${env.FRONTEND_ORIGIN}/verify?verification_id=${verificationId}&type=email`;
+    const verifyLink = `${env.FRONTEND_ORIGIN}/verify?verification_id=${verificationId}&type=email&code=${code}`;
     await enqueueEmail({
       to: user.email,
       subject: "Verify your email - HyperPay",

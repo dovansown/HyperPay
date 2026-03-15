@@ -41,7 +41,7 @@ export class AuthService {
       user.id,
       VerificationCodeType.EMAIL_VERIFY
     );
-    const verifyLink = `${env.FRONTEND_ORIGIN}/verify?verification_id=${verificationId}&type=email`;
+    const verifyLink = `${env.FRONTEND_ORIGIN}/verify?verification_id=${verificationId}&type=email&code=${code}`;
     await enqueueEmail({
       to: user.email,
       subject: "Verify your email - HyperPay",
@@ -65,6 +65,8 @@ export class AuthService {
         email_verified: false,
       },
       package: defaultPackage,
+      verification_id: verificationId,
+      expires_at: expiresAt,
     };
   }
 
@@ -84,6 +86,38 @@ export class AuthService {
     }
 
     rateLimitService.resetLoginAttempts(input.email);
+
+    // Nếu email chưa được xác minh: vẫn cấp token nhưng bắt user đi qua bước xác minh email
+    if (!user.emailVerified) {
+      const token = signAccessToken({ sub: String(user.id), email: user.email, role: user.role });
+
+      await rateLimitService.checkEmailRateLimit(user.id);
+      const { code, verificationId } = await verificationService.createCode(
+        user.id,
+        VerificationCodeType.EMAIL_VERIFY
+      );
+      const verifyLink = `${env.FRONTEND_ORIGIN}/verify?verification_id=${verificationId}&type=email&code=${code}`;
+      await enqueueEmail({
+        to: user.email,
+        subject: "Verify your email - HyperPay",
+        template: "code_verify_email",
+        data: { code, verifyLink, expiresMinutes: "15" },
+        userId: user.id,
+      });
+
+      return {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          full_name: user.fullName ?? "",
+          role: user.role,
+          email_verified: false,
+        },
+        needs_email_verify: true,
+        verification_id: verificationId,
+      };
+    }
 
     const uaHash = hashUserAgent(meta.userAgent ?? "");
     const knownDevice = await authRepository.hasKnownUserAgent(user.id, uaHash);

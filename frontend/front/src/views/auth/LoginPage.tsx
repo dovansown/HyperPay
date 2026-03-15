@@ -30,16 +30,29 @@ export const LoginPage: React.FC = () => {
     e.preventDefault()
     if (loading) return
     try {
-      const result = await dispatch(loginThunk({ email, password })).unwrap() as {
-        data?: { token?: string; needs_2fa?: boolean; temp_token?: string; needs_login_verify?: boolean; verification_id?: string }
+      const result = await dispatch(loginThunk({ email, password })).unwrap()
+      type LoginResult = {
+        token?: string
+        needs_2fa?: boolean
+        temp_token?: string
+        needs_login_verify?: boolean
+        needs_email_verify?: boolean
+        verification_id?: string
       }
-      const data = result?.data ?? result
+      const envelope = result as { data?: LoginResult }
+      const data: LoginResult = envelope.data ?? (result as LoginResult)
       if (data?.needs_2fa === true && data?.temp_token) {
         navigate(`/verify?temp_token=${encodeURIComponent(data.temp_token)}`, { replace: true })
         return
       }
       if (data?.needs_login_verify === true && data?.verification_id) {
         navigate(`/verify?verification_id=${data.verification_id}&type=login`, { replace: true })
+        return
+      }
+      if (data?.needs_email_verify === true) {
+        const vid = data.verification_id
+        const qs = vid ? `?verification_id=${vid}&type=email` : '?type=email'
+        navigate(`/verify${qs}`, { replace: true })
         return
       }
       // login thành công bình thường -> load user từ /users/me
