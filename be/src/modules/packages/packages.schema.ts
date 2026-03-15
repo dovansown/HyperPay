@@ -13,7 +13,7 @@ export const createPackageSchema = z.object({
   max_bank_types: z.number().int().min(0),
   duration_days: z.number().int().min(1),
   description: z.string().trim().max(512).optional(),
-  bank_ids: z.array(z.number().int().positive()).optional().default([])
+  bank_ids: z.array(z.string().uuid()).optional().default([])
 }).superRefine((value, ctx) => {
   const uniqueBankIds = new Set(value.bank_ids);
   if (uniqueBankIds.size !== value.bank_ids.length) {
@@ -47,7 +47,12 @@ export const createPackageSchema = z.object({
 });
 
 export const purchasePackageParamsSchema = z.object({
-  packageId: z.coerce.number().int().positive()
+  packageId: z.string().uuid()
 });
 
+export const purchasePackageBodySchema = z.object({
+  duration_id: z.string().uuid()
+});
+
+export type PurchasePackageBody = z.infer<typeof purchasePackageBodySchema>;
 export type CreatePackageInput = z.infer<typeof createPackageSchema>;

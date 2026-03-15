@@ -9,7 +9,7 @@ import {
 export const upsertWebhookSchema = z.object({
   url: z.string().url(),
   secret_token: z.string().min(1),
-  account_ids: z.array(z.number().int().positive()).optional().default([]),
+  account_ids: z.array(z.string().uuid()).optional().default([]),
   transaction_direction: z
     .nativeEnum(TransactionDirectionFilter)
     .optional()
@@ -99,3 +99,9 @@ export const upsertWebhookSchema = z.object({
 });
 
 export type UpsertWebhookInput = z.infer<typeof upsertWebhookSchema>;
+
+export const webhookIdParamSchema = z.object({ id: z.string().uuid() });
+export type WebhookIdParam = z.infer<typeof webhookIdParamSchema>;
+
+export const sendTestBodySchema = z.object({ webhook_id: z.string().uuid().optional() }).optional().default({});
+export type SendTestBody = z.infer<typeof sendTestBodySchema>;

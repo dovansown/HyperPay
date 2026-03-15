@@ -179,15 +179,32 @@ Authorization: Bearer {{token}}
 ### Packages - User mua package
 POST {{baseUrl}}/packages/{{packageId}}/purchase
 Authorization: Bearer {{token}}
+Content-Type: application/json
 
+{
+  "duration_id": 1
+}
+
+# duration_id: ID mốc thời gian (từ GET /durations). Giá và số ngày lấy từ bảng package_duration_prices + durations.
 ###
 ### Packages - Gói active hiện tại của user
 GET {{baseUrl}}/packages/me/active
 Authorization: Bearer {{token}}
 
 ###
+### Durations - Danh sách mốc thời gian mua (dùng cho modal mua gói)
+GET {{baseUrl}}/durations
+Authorization: Bearer {{token}}
+
+# Response: [{ "id", "name", "months", "days", "sort_order" }]
+
+###
 ### Webhook - Lấy cấu hình webhook hiện tại
 GET {{baseUrl}}/webhook
+Authorization: Bearer {{token}}
+
+### Webhook - Xóa cấu hình webhook (soft delete)
+DELETE {{baseUrl}}/webhook
 Authorization: Bearer {{token}}
 
 ###
@@ -506,6 +523,83 @@ Authorization: Bearer {{token}}
 {
   "max_transactions": 2500
 }
+
+###
+### Admin - Packages list (có pricing theo từng duration)
+GET {{baseUrl}}/admin/packages?limit=20&offset=0
+Authorization: Bearer {{token}}
+
+###
+### Admin - Create package (không còn duration_days; bắt buộc pricing theo duration)
+POST {{baseUrl}}/admin/packages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Starter Package",
+  "status": "ACTIVE",
+  "price_vnd": 149000,
+  "max_transactions": 5000,
+  "max_webhook_deliveries": 10000,
+  "description": "Goi cho merchant nho",
+  "banks": [
+    { "bank_id": 1, "account_limit": 2 },
+    { "bank_id": 2, "account_limit": 1 }
+  ],
+  "pricing": [
+    { "duration_id": 1, "price_vnd": 149000 },
+    { "duration_id": 2, "price_vnd": 400000 },
+    { "duration_id": 3, "price_vnd": 750000 },
+    { "duration_id": 4, "price_vnd": 1400000 }
+  ]
+}
+
+###
+### Admin - Update package (pricing: thay thế toàn bộ nếu gửi lên)
+PATCH {{baseUrl}}/admin/packages/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "pricing": [
+    { "duration_id": 1, "price_vnd": 159000 },
+    { "duration_id": 2, "price_vnd": 420000 }
+  ]
+}
+
+###
+### Admin - Durations list
+GET {{baseUrl}}/admin/durations
+Authorization: Bearer {{token}}
+
+###
+### Admin - Create duration (mốc thời gian: 1 tháng, 3 tháng, ...)
+POST {{baseUrl}}/admin/durations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "1 tháng",
+  "months": 1,
+  "days": 30,
+  "sort_order": 1
+}
+
+###
+### Admin - Update duration
+PATCH {{baseUrl}}/admin/durations/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "1 tháng (ưu đãi)",
+  "days": 31
+}
+
+###
+### Admin - Delete duration (soft delete)
+DELETE {{baseUrl}}/admin/durations/1
+Authorization: Bearer {{token}}
 
 ###
 ### Admin - Banks list

@@ -14,7 +14,21 @@ export class AccountsController {
   }
 
   async refreshToken(req: Request, res: Response) {
-    const data = await accountsService.refreshToken(req.user!.userId, Number(req.params.accountId));
+    const data = await accountsService.refreshToken(req.user!.userId, req.params.accountId);
+    return sendSuccess(res, data);
+  }
+
+  async update(req: Request, res: Response) {
+    const data = await accountsService.update(
+      req.user!.userId,
+      req.params.accountId,
+      req.body
+    );
+    return sendSuccess(res, data);
+  }
+
+  async remove(req: Request, res: Response) {
+    const data = await accountsService.remove(req.user!.userId, req.params.accountId);
     return sendSuccess(res, data);
   }
 }

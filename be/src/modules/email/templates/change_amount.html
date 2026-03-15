@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Balance notification - HyperPay</title>
+  <style>body{font-family:Inter,sans-serif;margin:0;padding:24px;background:#f5f5f8}.box{max-width:580px;margin:0 auto;background:#fff;border-radius:12px;padding:32px;border:1px solid #e2e8f0}.amount{font-size:36px;font-weight:800;color:#0f172a}.btn{display:inline-block;background:#645cff;color:#fff!important;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:16px}</style>
+</head>
+<body>
+  <div class="box">
+    <h2 style="font-size:22px;color:#0f172a;margin:0 0 8px">Your payout has been initiated</h2>
+    <p style="color:#64748b;margin:0">{{description}}</p>
+    <p class="amount">{{amount}}</p>
+    <p style="color:#64748b;font-size:14px">{{detail}}</p>
+    <p style="color:#64748b;font-size:14px;margin:16px 0">Current available balance: <strong>{{balance}}</strong></p>
+    <a href="{{dashboardLink}}" class="btn">View in Dashboard</a>
+  </div>
+</body>
+</html>

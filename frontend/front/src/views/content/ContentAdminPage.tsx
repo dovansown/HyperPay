@@ -13,7 +13,7 @@ type ContentType = 'BLOG_POST' | 'DOC_PAGE' | 'HELP_ARTICLE'
 type ContentStatus = 'DRAFT' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED'
 
 type AdminContentItem = {
-  id: number
+  id: string
   type: ContentType
   status: ContentStatus
   title: string
@@ -24,7 +24,7 @@ type AdminContentItem = {
 }
 
 type RevisionItem = {
-  id: number
+  id: string
   version: number
   title: string
   status: ContentStatus
@@ -32,7 +32,7 @@ type RevisionItem = {
 }
 
 type TaxonomyItem = {
-  id: number
+  id: string
   name: string
   slug: string
   description?: string | null

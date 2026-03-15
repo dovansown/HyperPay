@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchAccounts } from '../../store/accountsSlice'
+import {
+  fetchAccounts,
+  refreshAccountToken,
+  updateAccount,
+  deleteAccount,
+  clearAccountsError,
+  type BankAccount,
+} from '../../store/accountsSlice'
 import { apiFetch, unwrapApiData, type ApiEnvelope } from '../../lib/apiClient'
 import { AddBankModal } from './AddBankModal'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { Table } from '../../components/ui/Table'
+import { EditBankAccountModal } from './EditBankAccountModal'
+import { DeleteBankAccountModal } from './DeleteBankAccountModal'
+import { TokenDisplayModal } from './TokenDisplayModal'
 
 type SupportedBank = {
-  id: number
+  id: string
   name: string
   code: string
   icon_url?: string
@@ -20,15 +31,16 @@ export const BanksPage: React.FC = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const token = useAppSelector((s) => s.auth.token)
-  const { items, status } = useAppSelector((s) => s.accounts)
+  const { items, status, error } = useAppSelector((s) => s.accounts)
   const [showAdd, setShowAdd] = useState(false)
   const [banks, setBanks] = useState<SupportedBank[]>([])
   const [bankStatus, setBankStatus] = useState<'idle' | 'loading' | 'succeeded' | 'failed'>('idle')
-  const [bankError, setBankError] = useState<string | null>(null)
-  const [newBankName, setNewBankName] = useState('')
-  const [newBankCode, setNewBankCode] = useState('')
-  const [newBankIconUrl, setNewBankIconUrl] = useState('')
-  const [savingBank, setSavingBank] = useState(false)
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [menuAnchor, setMenuAnchor] = useState<DOMRect | null>(null)
+  const [editingAccount, setEditingAccount] = useState<BankAccount | null>(null)
+  const [deletingAccount, setDeletingAccount] = useState<BankAccount | null>(null)
+  const [tokenToShow, setTokenToShow] = useState<string | null>(null)
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     if (status === 'idle') {
@@ -36,9 +48,43 @@ export const BanksPage: React.FC = () => {
     }
   }, [dispatch, status])
 
+  useEffect(() => {
+    if (openMenuId === null) {
+      setMenuAnchor(null)
+      return
+    }
+    const rect = menuTriggerRef.current?.getBoundingClientRect()
+    setMenuAnchor(rect ?? null)
+  }, [openMenuId])
+
+  useEffect(() => {
+    if (openMenuId === null) return
+    const onDocClick = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (menuTriggerRef.current?.contains(target)) return
+      const menuEl = document.getElementById('bank-account-menu-portal')
+      if (menuEl?.contains(target)) return
+      setOpenMenuId(null)
+    }
+    document.addEventListener('click', onDocClick)
+    return () => document.removeEventListener('click', onDocClick)
+  }, [openMenuId])
+
+  const handleRefreshToken = useCallback(
+    async (accountId: number) => {
+      setOpenMenuId(null)
+      try {
+        const { token } = await dispatch(refreshAccountToken(accountId)).unwrap()
+        if (token) setTokenToShow(token)
+      } catch {
+        // error đã lưu trong slice, UI hiển thị
+      }
+    },
+    [dispatch],
+  )
+
   const loadBanks = async () => {
     setBankStatus('loading')
-    setBankError(null)
     try {
       const res = await apiFetch<SupportedBank[] | ApiEnvelope<SupportedBank[]>>('/banks', {
         method: 'GET',
@@ -46,9 +92,8 @@ export const BanksPage: React.FC = () => {
       })
       setBanks(unwrapApiData(res))
       setBankStatus('succeeded')
-    } catch (e) {
+    } catch {
       setBankStatus('failed')
-      setBankError(e instanceof Error ? e.message : t('banks.supported.errorLoad', 'Failed to load banks'))
     }
   }
 
@@ -67,30 +112,6 @@ export const BanksPage: React.FC = () => {
       banks.find((b) => b.name.toLowerCase() === normalized) ??
       null
     )
-  }
-
-  const handleCreateBank = async () => {
-    setSavingBank(true)
-    setBankError(null)
-    try {
-      await apiFetch('/banks', {
-        method: 'POST',
-        token: token ?? undefined,
-        body: {
-          name: newBankName.trim(),
-          code: newBankCode.trim().toUpperCase(),
-          icon_url: newBankIconUrl.trim() || undefined,
-        },
-      })
-      setNewBankName('')
-      setNewBankCode('')
-      setNewBankIconUrl('')
-      await loadBanks()
-    } catch (e) {
-      setBankError(e instanceof Error ? e.message : t('banks.supported.errorCreate', 'Failed to create bank'))
-    } finally {
-      setSavingBank(false)
-    }
   }
 
   return (
@@ -135,6 +156,20 @@ export const BanksPage: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {error && (
+          <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-4 py-3 flex items-center justify-between gap-2">
+            <span>{error}</span>
+            <button
+              type="button"
+              className="text-red-400 hover:text-red-600"
+              onClick={() => dispatch(clearAccountsError())}
+              aria-label={t('banks.dismissError', 'Dismiss')}
+            >
+              <span className="material-symbols-outlined text-lg">close</span>
+            </button>
+          </div>
+        )}
 
         <Card className="overflow-hidden">
           <Table>
@@ -214,8 +249,15 @@ export const BanksPage: React.FC = () => {
                     <td className="px-6 py-4 text-sm text-slate-700">{acc.account_holder}</td>
                     <td className="px-6 py-4 text-right">
                       <button
+                        ref={openMenuId === acc.id ? menuTriggerRef : undefined}
                         type="button"
-                        className="text-slate-400 hover:text-slate-900 transition-colors"
+                        className="text-slate-400 hover:text-slate-900 transition-colors p-1 rounded hover:bg-slate-100"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setOpenMenuId(openMenuId === acc.id ? null : acc.id)
+                        }}
+                        aria-haspopup="true"
+                        aria-expanded={openMenuId === acc.id}
                       >
                         <span className="material-symbols-outlined text-lg">more_horiz</span>
                       </button>
@@ -226,7 +268,58 @@ export const BanksPage: React.FC = () => {
             </Table>
         </Card>
 
-        <Card className="mt-8 bg-primary/5 border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {openMenuId !== null && menuAnchor && (() => {
+          const acc = items.find((a) => a.id === openMenuId)
+          if (!acc) return null
+          return createPortal(
+            <div
+              id="bank-account-menu-portal"
+              role="menu"
+              className="fixed min-w-[180px] py-1 bg-white border border-slate-200 rounded-lg shadow-lg z-[100]"
+              style={{
+                top: menuAnchor.bottom + 4,
+                right: window.innerWidth - menuAnchor.right,
+              }}
+            >
+              <button
+                type="button"
+                className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                role="menuitem"
+                onClick={() => {
+                  setOpenMenuId(null)
+                  setEditingAccount(acc)
+                }}
+              >
+                <span className="material-symbols-outlined text-lg">edit</span>
+                {t('banks.menu.edit', 'Edit')}
+              </button>
+              <button
+                type="button"
+                className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                role="menuitem"
+                onClick={() => handleRefreshToken(acc.id)}
+              >
+                <span className="material-symbols-outlined text-lg">refresh</span>
+                {t('banks.menu.regenerateToken', 'Regenerate token')}
+              </button>
+              <button
+                type="button"
+                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                role="menuitem"
+                onClick={() => {
+                  setOpenMenuId(null)
+                  setDeletingAccount(acc)
+                }}
+              >
+                <span className="material-symbols-outlined text-lg">delete</span>
+                {t('banks.menu.delete', 'Delete')}
+              </button>
+            </div>,
+            document.body,
+          )
+        })()}
+
+        <Card className="mt-8 bg-primary/5 border-primary/10 flex flex-col md:flex-row items-center justify-between gap-6 p-6">
           <div className="flex gap-4 items-start">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
               <span className="material-symbols-outlined text-primary">verified_user</span>
@@ -276,101 +369,31 @@ export const BanksPage: React.FC = () => {
             </div>
           </Card>
         </div>
-
-        <section className="mt-12 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-slate-900">
-              {t('banks.supported.title', 'Supported banks')}
-            </h3>
-            <Button variant="secondary" size="sm" onClick={() => void loadBanks()}>
-              {t('banks.supported.refresh', 'Refresh')}
-            </Button>
-          </div>
-
-          <Card className="overflow-hidden">
-            <Table>
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
-                    {t('banks.supported.columns.code', 'Code')}
-                  </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
-                    {t('banks.supported.columns.name', 'Name')}
-                  </th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase">
-                    {t('banks.supported.columns.icon', 'Icon')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {bankStatus === 'loading' && (
-                  <tr>
-                    <td colSpan={3} className="px-6 py-6 text-sm text-slate-500 text-center">
-                      {t('banks.supported.loading', 'Loading banks...')}
-                    </td>
-                  </tr>
-                )}
-                {bankStatus !== 'loading' &&
-                  banks.map((bank) => (
-                    <tr key={bank.id}>
-                      <td className="px-6 py-4 text-sm font-mono">{bank.code}</td>
-                      <td className="px-6 py-4 text-sm text-slate-700">{bank.name}</td>
-                      <td className="px-6 py-4 text-sm">
-                        {bank.icon_url ? (
-                          <a href={bank.icon_url} target="_blank" rel="noreferrer" className="text-primary underline">
-                            {bank.icon_url}
-                          </a>
-                        ) : (
-                          '-'
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </Card>
-
-          <Card>
-            <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-3">
-              <input
-                value={newBankCode}
-                onChange={(e) => setNewBankCode(e.target.value)}
-                placeholder={t('banks.supported.create.codePlaceholder', 'Code (e.g. VCB)')}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
-              />
-              <input
-                value={newBankName}
-                onChange={(e) => setNewBankName(e.target.value)}
-                placeholder={t('banks.supported.create.namePlaceholder', 'Bank name')}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
-              />
-              <input
-                value={newBankIconUrl}
-                onChange={(e) => setNewBankIconUrl(e.target.value)}
-                placeholder={t('banks.supported.create.iconPlaceholder', 'Icon URL (optional)')}
-                className="rounded-lg border border-slate-200 px-3 py-2 text-sm"
-              />
-              <Button
-                onClick={handleCreateBank}
-                loading={savingBank}
-                disabled={!newBankCode.trim() || !newBankName.trim()}
-              >
-                {t('banks.supported.create.submit', 'Create bank')}
-              </Button>
-            </div>
-          </Card>
-
-          {bankError && (
-            <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2">
-              {bankError}
-            </div>
-          )}
-        </section>
       </section>
 
-      {showAdd && (
-        <AddBankModal
-          onClose={() => setShowAdd(false)}
+      {showAdd && <AddBankModal onClose={() => setShowAdd(false)} />}
+      {editingAccount && (
+        <EditBankAccountModal
+          account={editingAccount}
+          onClose={() => setEditingAccount(null)}
+        />
+      )}
+      {deletingAccount && (
+        <DeleteBankAccountModal
+          account={deletingAccount}
+          bankLabel={resolveBank(deletingAccount.bank_name)?.name ?? deletingAccount.bank_name}
+          onClose={() => setDeletingAccount(null)}
+        />
+      )}
+      {tokenToShow && (
+        <TokenDisplayModal
+          token={tokenToShow}
+          title={t('banks.tokenModal.regenerateTitle', 'API Token mới')}
+          message={t(
+            'banks.tokenModal.showOnceRegenerate',
+            'Token chỉ hiển thị một lần khi tạo lại. Hãy copy và lưu lại.',
+          )}
+          onClose={() => setTokenToShow(null)}
         />
       )}
     </AuthenticatedLayout>

@@ -3,7 +3,7 @@ import { apiFetch, unwrapApiData, type ApiEnvelope } from './apiClient'
 export type PublicContentType = 'BLOG_POST' | 'DOC_PAGE' | 'HELP_ARTICLE'
 
 export type PublicContentItem = {
-  id: number
+  id: string
   type: PublicContentType
   status: 'DRAFT' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED'
   title: string
@@ -15,8 +15,8 @@ export type PublicContentItem = {
   seo_description: string | null
   seo_keywords: string | null
   published_at: string | null
-  categories: Array<{ id: number; name: string; slug: string }>
-  tags: Array<{ id: number; name: string; slug: string }>
+  categories: Array<{ id: string; name: string; slug: string }>
+  tags: Array<{ id: string; name: string; slug: string }>
 }
 
 export async function listPublicContent(params: {
@@ -56,7 +56,7 @@ export async function getPublicContentBySlug(slug: string) {
 
 export async function listPublicCategories() {
   const res = await apiFetch<
-    Array<{ id: number; name: string; slug: string }> | ApiEnvelope<Array<{ id: number; name: string; slug: string }>>
+    Array<{ id: string; name: string; slug: string }> | ApiEnvelope<Array<{ id: string; name: string; slug: string }>>
   >('/public/content/categories', {
     method: 'GET',
   })
@@ -65,7 +65,7 @@ export async function listPublicCategories() {
 
 export async function listPublicTags() {
   const res = await apiFetch<
-    Array<{ id: number; name: string; slug: string }> | ApiEnvelope<Array<{ id: number; name: string; slug: string }>>
+    Array<{ id: string; name: string; slug: string }> | ApiEnvelope<Array<{ id: string; name: string; slug: string }>>
   >('/public/content/tags', {
     method: 'GET',
   })

@@ -3,14 +3,14 @@ import { apiFetch, unwrapApiData, type ApiEnvelope } from '../lib/apiClient'
 import type { RootState } from './store'
 
 export type TransactionAccount = {
-  id: number
+  id: string
   bank_name: string
   account_number: string
   account_holder: string
 }
 
 export type TransactionItem = {
-  id: number
+  id: string
   amount: number
   type: string
   description: string
@@ -21,7 +21,7 @@ export type TransactionItem = {
 
 type TransactionsState = {
   accounts: TransactionAccount[]
-  selectedAccountId: number | null
+  selectedAccountId: string | null
   items: TransactionItem[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
@@ -50,7 +50,7 @@ export const fetchTransactionAccounts = createAsyncThunk<
 
 export const fetchTransactionsByAccount = createAsyncThunk<
   TransactionItem[],
-  number,
+  string,
   { state: RootState }
 >('transactions/fetchByAccount', async (accountId, thunkApi) => {
   const token = thunkApi.getState().auth.token ?? undefined
@@ -68,7 +68,7 @@ const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    setSelectedAccountId(state, action: { payload: number | null }) {
+    setSelectedAccountId(state, action: { payload: string | null }) {
       state.selectedAccountId = action.payload
     },
   },

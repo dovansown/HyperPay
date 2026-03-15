@@ -32,7 +32,7 @@ function extractErrorMessage(raw: unknown, fallback: string): string {
 export async function apiFetch<TResponse, TBody = unknown>(
   path: string,
   options: {
-    method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
     body?: TBody
     token?: string
   } = {},
@@ -59,14 +59,19 @@ export async function apiFetch<TResponse, TBody = unknown>(
     if (!errorText) {
       throw new Error(fallback)
     }
+    let parsed: unknown
     try {
-      const parsed = JSON.parse(errorText) as unknown
-      throw new Error(extractErrorMessage(parsed, fallback))
+      parsed = JSON.parse(errorText) as unknown
     } catch {
       throw new Error(errorText || fallback)
     }
+    throw new Error(extractErrorMessage(parsed, fallback))
   }
 
-  return (await response.json().catch(() => ({}))) as TResponse
+  const body = (await response.json().catch(() => ({}))) as TResponse & { success?: boolean; error?: { message?: string } }
+  if (body && typeof body === 'object' && body.success === false && body.error?.message) {
+    throw new Error(body.error.message)
+  }
+  return body as TResponse
 }
 

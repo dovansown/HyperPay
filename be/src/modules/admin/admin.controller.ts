@@ -10,7 +10,7 @@ export class AdminController {
   }
 
   async updateUserRole(req: Request, res: Response) {
-    const data = await adminService.updateUserRole(Number(req.params.userId), req.body);
+    const data = await adminService.updateUserRole(req.params.userId, req.body);
     return sendSuccess(res, data);
   }
 
@@ -25,7 +25,7 @@ export class AdminController {
   }
 
   async updatePlan(req: Request, res: Response) {
-    const data = await adminService.updatePlan(Number(req.params.id), req.body);
+    const data = await adminService.updatePlan(req.params.id, req.body);
     return sendSuccess(res, data);
   }
 
@@ -40,7 +40,42 @@ export class AdminController {
   }
 
   async updateBank(req: Request, res: Response) {
-    const data = await adminService.updateBank(Number(req.params.id), req.body);
+    const data = await adminService.updateBank(req.params.id, req.body);
+    return sendSuccess(res, data);
+  }
+
+  async listPackages(req: Request, res: Response) {
+    const data = await adminService.listPackages(req.query as unknown as AdminListQuery);
+    return sendSuccess(res, data);
+  }
+
+  async createPackage(req: Request, res: Response) {
+    const data = await adminService.createPackage(req.body);
+    return sendSuccess(res, data, 201);
+  }
+
+  async updatePackage(req: Request, res: Response) {
+    const data = await adminService.updatePackage(req.params.id, req.body);
+    return sendSuccess(res, data);
+  }
+
+  async listDurations(_req: Request, res: Response) {
+    const data = await adminService.listDurations();
+    return sendSuccess(res, data);
+  }
+
+  async createDuration(req: Request, res: Response) {
+    const data = await adminService.createDuration(req.body);
+    return sendSuccess(res, data, 201);
+  }
+
+  async updateDuration(req: Request, res: Response) {
+    const data = await adminService.updateDuration(req.params.id, req.body);
+    return sendSuccess(res, data);
+  }
+
+  async deleteDuration(req: Request, res: Response) {
+    const data = await adminService.deleteDuration(req.params.id);
     return sendSuccess(res, data);
   }
 
@@ -55,7 +90,7 @@ export class AdminController {
   }
 
   async updateUserPackageStatus(req: Request, res: Response) {
-    const data = await adminService.updateUserPackageStatus(Number(req.params.id), req.body);
+    const data = await adminService.updateUserPackageStatus(req.params.id, req.body);
     return sendSuccess(res, data);
   }
 
@@ -66,6 +101,16 @@ export class AdminController {
 
   async listTransactions(req: Request, res: Response) {
     const data = await adminService.listTransactions(req.query as unknown as AdminListQuery);
+    return sendSuccess(res, data);
+  }
+
+  async getSystemSettings(_req: Request, res: Response) {
+    const data = await adminService.getSystemSettings();
+    return sendSuccess(res, data);
+  }
+
+  async updateSystemSettings(req: Request, res: Response) {
+    const data = await adminService.updateSystemSettings(req.body);
     return sendSuccess(res, data);
   }
 }

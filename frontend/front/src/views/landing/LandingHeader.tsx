@@ -26,7 +26,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({ variant = 'landing
             <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
               <span className="material-symbols-outlined text-xl">bolt</span>
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-900">HyperPay</span>
+            <span className="text-xl font-black tracking-tight text-slate-900">{t('landing.brandName')}</span>
           </button>
 
           <div className="hidden lg:flex items-center gap-7">
@@ -123,7 +123,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({ variant = 'landing
                 currentLanguage === 'en' ? 'bg-primary text-white' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              EN
+              {t('landing.langEn')}
             </button>
             <button
               type="button"
@@ -132,7 +132,7 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({ variant = 'landing
                 currentLanguage === 'vi' ? 'bg-primary text-white' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              VI
+              {t('landing.langVi')}
             </button>
           </div>
 

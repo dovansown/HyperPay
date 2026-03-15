@@ -8,6 +8,7 @@ import type { UpsertWebhookInput } from "./webhooks.schema.js";
 
 export class WebhooksService {
   private mapWebhook(webhook: {
+    id: string;
     url: string;
     secretToken: string;
     contentType: WebhookContentType;
@@ -27,9 +28,10 @@ export class WebhooksService {
     paymentCodeSuffixMaxLength: number | null;
     paymentCodeSuffixCharset: PaymentCodeCharset | null;
     isActive: boolean;
-    selectedAccounts: Array<{ bankAccountId: number; bankAccount: { accountNumber: string } }>;
+    selectedAccounts: Array<{ bankAccountId: string; bankAccount: { accountNumber: string } }>;
   }) {
     return {
+      id: webhook.id,
       url: webhook.url,
       secret_token: webhook.secretToken,
       account_ids: webhook.selectedAccounts.map((x) => x.bankAccountId),
@@ -54,27 +56,105 @@ export class WebhooksService {
     };
   }
 
-  async get(userId: number) {
-    const webhook = await webhooksRepository.findByUserId(userId);
-    if (!webhook) {
-      return null;
-    }
-    return this.mapWebhook(webhook);
+  async get(userId: string) {
+    const webhooks = await webhooksRepository.findManyByUserId(userId);
+    return webhooks.map((w) => this.mapWebhook(w));
   }
 
-  async upsert(userId: number, payload: UpsertWebhookInput) {
+  async create(userId: string, payload: UpsertWebhookInput) {
     const accountIds = [...new Set(payload.account_ids ?? [])];
     const ownedAccounts = await webhooksRepository.listOwnedAccounts(userId, accountIds);
     if (ownedAccounts.length !== accountIds.length) {
       throw new AppError(400, ErrorCodes.INVALID_REQUEST, "Some account_ids are invalid");
     }
-
-    const webhook = await webhooksRepository.upsert(userId, payload);
+    const webhook = await webhooksRepository.create(userId, payload);
     return this.mapWebhook(webhook);
+  }
+
+  async update(userId: string, id: string, payload: UpsertWebhookInput) {
+    const existing = await webhooksRepository.findByIdAndUserId(id, userId);
+    if (!existing) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "Webhook not found");
+    }
+    const accountIds = [...new Set(payload.account_ids ?? [])];
+    const ownedAccounts = await webhooksRepository.listOwnedAccounts(userId, accountIds);
+    if (ownedAccounts.length !== accountIds.length) {
+      throw new AppError(400, ErrorCodes.INVALID_REQUEST, "Some account_ids are invalid");
+    }
+    const webhook = await webhooksRepository.update(id, userId, payload);
+    return this.mapWebhook(webhook);
+  }
+
+  async remove(userId: string, id: string): Promise<{ deleted: boolean }> {
+    const deleted = await webhooksRepository.softDelete(id, userId);
+    return { deleted };
+  }
+
+  async getDeliveryLogs(userId: string, limit: number) {
+    const rows = await webhooksRepository.findRecentDeliveryLogs(userId, limit);
+    return rows.map((r) => ({
+      id: r.id,
+      url: r.url,
+      event_type: r.eventType,
+      response_status_code: r.responseStatusCode,
+      success: r.success,
+      error_message: r.errorMessage,
+      request_payload: r.requestPayload,
+      response_body: r.responseBody,
+      created_at: r.createdAt
+    }));
   }
 
   async enqueueDispatch(event: unknown) {
     await queueService.publish(env.RABBITMQ_WEBHOOK_QUEUE, event);
+  }
+
+  /** Gửi sự kiện thử (test event) vào hàng đợi, worker sẽ gửi tới endpoint và ghi log. */
+  async sendTestEvent(userId: string, webhookId?: string): Promise<{ queued: boolean }> {
+    const webhook = webhookId
+      ? await webhooksRepository.findByIdAndUserId(webhookId, userId)
+      : (await webhooksRepository.findManyByUserId(userId))[0] ?? null;
+    if (!webhook?.url) {
+      throw new AppError(
+        400,
+        ErrorCodes.INVALID_REQUEST,
+        "Chưa cấu hình webhook. Vui lòng lưu endpoint trước khi gửi sự kiện thử."
+      );
+    }
+
+    const payload: Record<string, unknown> = {
+      event: "webhook.test",
+      message: "Sự kiện thử từ HyperPay",
+      timestamp: new Date().toISOString(),
+      data: {
+        transaction_id: 0,
+        account_id: 0,
+        type: "CREDIT",
+        description: "Test event",
+        amount: 0,
+        balance: 0,
+        occurred_at: new Date().toISOString(),
+        payment_code: null
+      }
+    };
+
+    await queueService.publish(env.RABBITMQ_WEBHOOK_QUEUE, {
+      userId,
+      url: webhook.url,
+      payload,
+      secretToken: webhook.secretToken,
+      contentType: webhook.contentType,
+      authType: webhook.authType,
+      authHeaderName: webhook.authHeaderName,
+      authHeaderValue: webhook.authHeaderValue,
+      authBearerToken: webhook.authBearerToken,
+      authUsername: webhook.authUsername,
+      authPassword: webhook.authPassword,
+      retryOnNon2xx: webhook.retryOnNon2xx,
+      maxRetryAttempts: webhook.maxRetryAttempts
+    });
+
+    return { queued: true };
   }
 
   private directionOf(txType: string) {
@@ -115,12 +195,16 @@ export class WebhooksService {
     return `${rule.prefix}${match[1]}`;
   }
 
+  /**
+   * Gửi webhook cho user khi có giao dịch. Gửi tới mọi webhook active khớp điều kiện
+   * (account_ids, transaction_direction, payment code). Một tài khoản có thể trigger nhiều webhook.
+   */
   async dispatchForUser(
-    userId: number,
+    userId: string,
     payload: {
       event: string;
-      account_id: number;
-      transaction_id: number;
+      account_id: string;
+      transaction_id: string;
       type: string;
       description?: string;
       payment_code?: string | null;
@@ -129,66 +213,67 @@ export class WebhooksService {
       occurred_at: string;
     }
   ) {
-    const webhook = await webhooksRepository.findActiveByUserId(userId);
-    if (!webhook) {
-      return { queued: false };
-    }
-    const allowedAccountIds = webhook.selectedAccounts.map((x) => x.bankAccountId);
-    if (allowedAccountIds.length > 0 && !allowedAccountIds.includes(payload.account_id)) {
-      return { queued: false };
-    }
-
+    const webhooks = await webhooksRepository.findActiveByUserId(userId);
     const txDirection = this.directionOf(payload.type);
-    if (
-      (webhook.transactionDirection === TransactionDirectionFilter.IN && txDirection !== "IN") ||
-      (webhook.transactionDirection === TransactionDirectionFilter.OUT && txDirection !== "OUT")
-    ) {
-      return { queued: false };
-    }
+    let queued = false;
 
-    const extractedPaymentCode = this.extractPaymentCode(payload.description ?? "", {
-      enabled: webhook.paymentCodeRuleEnabled,
-      prefix: webhook.paymentCodePrefix,
-      min: webhook.paymentCodeSuffixMinLength,
-      max: webhook.paymentCodeSuffixMaxLength,
-      charset: webhook.paymentCodeSuffixCharset
-    });
-    const paymentCode = payload.payment_code ?? extractedPaymentCode;
-    if (webhook.requirePaymentCode && !paymentCode) {
-      return { queued: false };
-    }
-
-    try {
-      await packagesService.consumeWebhookDeliveryQuota(userId, 1);
-    } catch (error) {
-      if (
-        error instanceof AppError &&
-        (error.code === ErrorCodes.FORBIDDEN || error.code === ErrorCodes.CONFLICT)
-      ) {
-        return { queued: false };
+    for (const webhook of webhooks) {
+      const allowedAccountIds = webhook.selectedAccounts.map((x) => x.bankAccountId);
+      if (allowedAccountIds.length > 0 && !allowedAccountIds.includes(payload.account_id)) {
+        continue;
       }
-      throw error;
+      if (
+        (webhook.transactionDirection === TransactionDirectionFilter.IN && txDirection !== "IN") ||
+        (webhook.transactionDirection === TransactionDirectionFilter.OUT && txDirection !== "OUT")
+      ) {
+        continue;
+      }
+
+      const extractedPaymentCode = this.extractPaymentCode(payload.description ?? "", {
+        enabled: webhook.paymentCodeRuleEnabled,
+        prefix: webhook.paymentCodePrefix,
+        min: webhook.paymentCodeSuffixMinLength,
+        max: webhook.paymentCodeSuffixMaxLength,
+        charset: webhook.paymentCodeSuffixCharset
+      });
+      const paymentCode = payload.payment_code ?? extractedPaymentCode;
+      if (webhook.requirePaymentCode && !paymentCode) {
+        continue;
+      }
+
+      try {
+        await packagesService.consumeWebhookDeliveryQuota(userId, 1);
+      } catch (error) {
+        if (
+          error instanceof AppError &&
+          (error.code === ErrorCodes.FORBIDDEN || error.code === ErrorCodes.CONFLICT)
+        ) {
+          continue;
+        }
+        throw error;
+      }
+      await queueService.publish(env.RABBITMQ_WEBHOOK_QUEUE, {
+        userId,
+        url: webhook.url,
+        payload: {
+          ...payload,
+          has_payment_code: Boolean(paymentCode),
+          payment_code: paymentCode ?? null
+        },
+        secretToken: webhook.secretToken,
+        contentType: webhook.contentType,
+        authType: webhook.authType,
+        authHeaderName: webhook.authHeaderName,
+        authHeaderValue: webhook.authHeaderValue,
+        authBearerToken: webhook.authBearerToken,
+        authUsername: webhook.authUsername,
+        authPassword: webhook.authPassword,
+        retryOnNon2xx: webhook.retryOnNon2xx,
+        maxRetryAttempts: webhook.maxRetryAttempts
+      });
+      queued = true;
     }
-    await queueService.publish(env.RABBITMQ_WEBHOOK_QUEUE, {
-      userId,
-      url: webhook.url,
-      payload: {
-        ...payload,
-        has_payment_code: Boolean(paymentCode),
-        payment_code: paymentCode ?? null
-      },
-      secretToken: webhook.secretToken,
-      contentType: webhook.contentType,
-      authType: webhook.authType,
-      authHeaderName: webhook.authHeaderName,
-      authHeaderValue: webhook.authHeaderValue,
-      authBearerToken: webhook.authBearerToken,
-      authUsername: webhook.authUsername,
-      authPassword: webhook.authPassword,
-      retryOnNon2xx: webhook.retryOnNon2xx,
-      maxRetryAttempts: webhook.maxRetryAttempts
-    });
-    return { queued: true };
+    return { queued };
   }
 }
 

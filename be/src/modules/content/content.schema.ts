@@ -30,7 +30,7 @@ export const previewTokenParamsSchema = z.object({
 
 export const revisionParamsSchema = z.object({
   slug: z.string().trim().min(1),
-  revisionId: z.coerce.number().int().positive()
+  revisionId: z.string().uuid()
 });
 
 export const createContentBodySchema = z.object({

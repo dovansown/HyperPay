@@ -9,9 +9,14 @@ import {
   adminListQuerySchema,
   assignUserPackageSchema,
   createBankAdminSchema,
+  createDurationAdminSchema,
+  createPackageAdminSchema,
   createPlanAdminSchema,
   idParamsSchema,
+  systemSettingsUpdateSchema,
   updateBankAdminSchema,
+  updateDurationAdminSchema,
+  updatePackageAdminSchema,
   updatePlanAdminSchema,
   updateUserPackageStatusSchema,
   updateUserRoleSchema,
@@ -48,6 +53,39 @@ adminRoutes.patch(
   "/plans/:id",
   validate({ params: idParamsSchema, body: updatePlanAdminSchema }),
   asyncHandler(adminController.updatePlan)
+);
+
+adminRoutes.get(
+  "/packages",
+  validate({ query: adminListQuerySchema }),
+  asyncHandler(adminController.listPackages)
+);
+adminRoutes.post(
+  "/packages",
+  validate({ body: createPackageAdminSchema }),
+  asyncHandler(adminController.createPackage)
+);
+adminRoutes.patch(
+  "/packages/:id",
+  validate({ params: idParamsSchema, body: updatePackageAdminSchema }),
+  asyncHandler(adminController.updatePackage)
+);
+
+adminRoutes.get("/durations", asyncHandler(adminController.listDurations));
+adminRoutes.post(
+  "/durations",
+  validate({ body: createDurationAdminSchema }),
+  asyncHandler(adminController.createDuration)
+);
+adminRoutes.patch(
+  "/durations/:id",
+  validate({ params: idParamsSchema, body: updateDurationAdminSchema }),
+  asyncHandler(adminController.updateDuration)
+);
+adminRoutes.delete(
+  "/durations/:id",
+  validate({ params: idParamsSchema }),
+  asyncHandler(adminController.deleteDuration)
 );
 
 adminRoutes.get(
@@ -91,4 +129,11 @@ adminRoutes.get(
   "/transactions",
   validate({ query: adminListQuerySchema }),
   asyncHandler(adminController.listTransactions)
+);
+
+adminRoutes.get("/system-settings", asyncHandler(adminController.getSystemSettings));
+adminRoutes.put(
+  "/system-settings",
+  validate({ body: systemSettingsUpdateSchema }),
+  asyncHandler(adminController.updateSystemSettings)
 );

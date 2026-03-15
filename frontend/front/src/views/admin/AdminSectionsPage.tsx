@@ -23,7 +23,7 @@ export const AdminUsersPage: React.FC = () => (
 export const AdminPlansPage: React.FC = () => (
   <AuthenticatedLayout>
     <AdminLayout>
-      <SystemAdminPage section="plans" embedded />
+      <SystemAdminPage section="packages" embedded />
     </AdminLayout>
   </AuthenticatedLayout>
 )
@@ -32,6 +32,14 @@ export const AdminBanksPage: React.FC = () => (
   <AuthenticatedLayout>
     <AdminLayout>
       <SystemAdminPage section="banks" embedded />
+    </AdminLayout>
+  </AuthenticatedLayout>
+)
+
+export const AdminDurationsPage: React.FC = () => (
+  <AuthenticatedLayout>
+    <AdminLayout>
+      <SystemAdminPage section="durations" embedded />
     </AdminLayout>
   </AuthenticatedLayout>
 )
@@ -64,6 +72,14 @@ export const AdminTagsPage: React.FC = () => (
   <AuthenticatedLayout>
     <AdminLayout>
       <ContentAdminPage section="tags" embedded />
+    </AdminLayout>
+  </AuthenticatedLayout>
+)
+
+export const AdminSystemSettingsPage: React.FC = () => (
+  <AuthenticatedLayout>
+    <AdminLayout>
+      <SystemAdminPage section="system-settings" embedded />
     </AdminLayout>
   </AuthenticatedLayout>
 )

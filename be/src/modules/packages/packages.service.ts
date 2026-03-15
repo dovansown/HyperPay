@@ -1,15 +1,24 @@
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
 import { PackageStatus } from "@prisma/client";
+import { balanceService } from "../balance/balance.service.js";
 import { packagesRepository } from "./packages.repository.js";
 import type { CreatePackageInput } from "./packages.schema.js";
 
 export class PackagesService {
-  private async getActivePackageOrThrow(userId: number) {
+  private async getActivePackageOrThrow(userId: string) {
     const item = await packagesRepository.findActiveUserPackage(userId, new Date());
     if (!item) {
       throw new AppError(403, ErrorCodes.FORBIDDEN, "No active package");
     }
     return item;
+  }
+
+  private async getActivePackagesOrThrow(userId: string) {
+    const items = await packagesRepository.findAllActiveUserPackages(userId, new Date());
+    if (items.length === 0) {
+      throw new AppError(403, ErrorCodes.FORBIDDEN, "No active package");
+    }
+    return items;
   }
 
   async create(input: CreatePackageInput) {
@@ -31,17 +40,8 @@ export class PackagesService {
     return items.map((item) => this.mapPackage(item));
   }
 
-  async purchase(userId: number, packageId: number) {
+  async purchase(userId: string, packageId: string, durationId: string) {
     const now = new Date();
-    const active = await packagesRepository.findActiveUserPackage(userId, now);
-    if (active) {
-      throw new AppError(
-        409,
-        ErrorCodes.CONFLICT,
-        "User already has an active package. Wait until it expires."
-      );
-    }
-
     const item = await packagesRepository.findById(packageId);
     if (!item) {
       throw new AppError(404, ErrorCodes.NOT_FOUND, "Package not found");
@@ -50,74 +50,113 @@ export class PackagesService {
       throw new AppError(409, ErrorCodes.CONFLICT, "Package is not active");
     }
 
+    const pricing = await packagesRepository.findPriceByPackageAndDuration(packageId, durationId);
+    if (!pricing) {
+      throw new AppError(
+        400,
+        ErrorCodes.INVALID_REQUEST,
+        "This package does not have a price for the selected duration"
+      );
+    }
+
+    const discountFactor = 1 - ((pricing.duration.discountPercent ?? 0) / 100);
+    const totalPriceVnd = pricing.package.applyDefaultDiscount
+      ? Math.round(Number(pricing.package.priceVnd) * pricing.duration.months * discountFactor)
+      : Number(pricing.priceVnd);
+    const durationDays = pricing.duration.days;
+    await balanceService.deduct(userId, totalPriceVnd);
+
     const startAt = now;
-    const endAt = new Date(startAt.getTime() + item.durationDays * 24 * 60 * 60 * 1000);
+    const endAt = new Date(startAt.getTime() + durationDays * 24 * 60 * 60 * 1000);
     const purchase = await packagesRepository.createPurchase(userId, packageId, startAt, endAt);
 
     return this.mapUserPackage(purchase);
   }
 
-  async myActivePackage(userId: number) {
-    const item = await packagesRepository.findActiveUserPackage(userId, new Date());
+  /** Returns all active user packages (user can have multiple). */
+  async myActivePackages(userId: string) {
+    const [items, usedBankTypes] = await Promise.all([
+      packagesRepository.findAllActiveUserPackages(userId, new Date()),
+      packagesRepository.countDistinctUserBankNames(userId)
+    ]);
+    return items.map((item) => this.mapUserPackage(item, usedBankTypes));
+  }
+
+  /** Single active package (first) for backward compatibility. */
+  async myActivePackage(userId: string) {
+    const [item, usedBankTypes] = await Promise.all([
+      packagesRepository.findActiveUserPackage(userId, new Date()),
+      packagesRepository.countDistinctUserBankNames(userId)
+    ]);
     if (!item) {
       return null;
     }
-    return this.mapUserPackage(item);
+    return this.mapUserPackage(item, usedBankTypes);
   }
 
-  async assertBankAllowedAndSyncUsage(userId: number, bankCodeOrName: string) {
-    const active = await this.getActivePackageOrThrow(userId);
-    const limit = active.package.maxBankTypes;
+  /** Check limit across all active packages: max accounts per bank = number of packages that allow this bank. */
+  async assertBankAllowedAndSyncUsage(userId: string, bankCodeOrName: string) {
+    const actives = await this.getActivePackagesOrThrow(userId);
     const bank = await packagesRepository.findBankByCodeOrName(bankCodeOrName);
     if (!bank) {
       throw new AppError(400, ErrorCodes.INVALID_REQUEST, "Bank not found");
     }
-    if (limit === 0) {
-      return bank.code;
+
+    const allowedForThisBank = actives.reduce((sum, up) => {
+      const pb = up.package.packageBanks.find((p) => p.bankId === bank.id);
+      return sum + (pb ? pb.accountLimit : 0);
+    }, 0);
+    if (allowedForThisBank === 0) {
+      throw new AppError(
+        403,
+        ErrorCodes.FORBIDDEN,
+        `Ngân hàng "${bank.name}" không nằm trong gói của bạn. Chỉ được thêm tài khoản các ngân hàng trong gói đã mua.`
+      );
     }
 
-    const allowedBankIds = active.package.packageBanks.map((item) => item.bankId);
-    if (allowedBankIds.length > 0 && !allowedBankIds.includes(bank.id)) {
-      throw new AppError(403, ErrorCodes.FORBIDDEN, "Bank type is not allowed by current package");
-    }
-
-    const bankNames = await packagesRepository.countDistinctUserBankNamesInRange(
+    const currentCount = await packagesRepository.countUserAccountsForBank(
       userId,
-      active.startAt,
-      active.endAt
+      bank.code,
+      bank.name
     );
-    const alreadyUsing = bankNames.some(
-      (item) => item.bankName === bank.code || item.bankName === bank.name
-    );
-    const usedCount = bankNames.length;
-    if (!alreadyUsing && usedCount >= limit) {
-      throw new AppError(403, ErrorCodes.FORBIDDEN, "Reached bank type limit of current package");
+    if (currentCount >= allowedForThisBank) {
+      throw new AppError(
+        403,
+        ErrorCodes.FORBIDDEN,
+        `Bạn đã đạt giới hạn tài khoản cho ngân hàng ${bank.name} (tối đa ${allowedForThisBank} tài khoản theo gói).`
+      );
     }
 
-    const nextUsed = alreadyUsing ? usedCount : usedCount + 1;
-    await packagesRepository.updateUsedBankTypes(active.id, nextUsed);
     return bank.code;
   }
 
-  async consumeTransactionQuota(userId: number, by = 1) {
-    const active = await this.getActivePackageOrThrow(userId);
-    const limit = active.package.maxTransactions;
-    if (limit > 0 && active.usedTransactions + by > limit) {
-      throw new AppError(403, ErrorCodes.FORBIDDEN, "Reached transaction limit of current package");
+  /** Consume transaction quota from one active package that has remaining quota. */
+  async consumeTransactionQuota(userId: string, by = 1) {
+    const actives = await this.getActivePackagesOrThrow(userId);
+    const withQuota = actives.find(
+      (a) => a.package.maxTransactions === 0 || a.usedTransactions + by <= a.package.maxTransactions
+    );
+    if (!withQuota) {
+      throw new AppError(403, ErrorCodes.FORBIDDEN, "Reached transaction limit across your packages");
     }
-    await packagesRepository.increaseUsedTransactions(active.id, by);
+    await packagesRepository.increaseUsedTransactions(withQuota.id, by);
   }
 
-  async consumeWebhookDeliveryQuota(userId: number, by = 1) {
-    const active = await this.getActivePackageOrThrow(userId);
-    const limit = active.package.maxWebhookDeliveries;
-    if (limit > 0 && active.usedWebhookDeliveries + by > limit) {
-      throw new AppError(403, ErrorCodes.FORBIDDEN, "Reached webhook delivery limit of current package");
+  /** Consume webhook delivery quota from one active package that has remaining quota. */
+  async consumeWebhookDeliveryQuota(userId: string, by = 1) {
+    const actives = await this.getActivePackagesOrThrow(userId);
+    const withQuota = actives.find(
+      (a) =>
+        a.package.maxWebhookDeliveries === 0 ||
+        a.usedWebhookDeliveries + by <= a.package.maxWebhookDeliveries
+    );
+    if (!withQuota) {
+      throw new AppError(403, ErrorCodes.FORBIDDEN, "Reached webhook delivery limit across your packages");
     }
-    await packagesRepository.increaseUsedWebhookDeliveries(active.id, by);
+    await packagesRepository.increaseUsedWebhookDeliveries(withQuota.id, by);
   }
 
-  async assignDefaultPackageForUser(userId: number) {
+  async assignDefaultPackageForUser(userId: string) {
     const now = new Date();
     const active = await packagesRepository.findActiveUserPackage(userId, now);
     if (active) {
@@ -129,8 +168,11 @@ export class PackagesService {
       return null;
     }
 
+    const firstPrice = (defaultPackage as { packageDurationPrices?: Array<{ duration: { days: number } }> })
+      .packageDurationPrices?.[0];
+    const durationDays = defaultPackage.durationDays ?? firstPrice?.duration.days ?? 30;
     const startAt = now;
-    const endAt = new Date(startAt.getTime() + defaultPackage.durationDays * 24 * 60 * 60 * 1000);
+    const endAt = new Date(startAt.getTime() + durationDays * 24 * 60 * 60 * 1000);
     const purchase = await packagesRepository.createPurchase(userId, defaultPackage.id, startAt, endAt);
     return this.mapUserPackage(purchase);
   }
@@ -140,22 +182,57 @@ export class PackagesService {
     name: string;
     status: PackageStatus;
     isDefault: boolean;
+    applyDefaultDiscount?: boolean;
     defaultStartAt: Date | null;
     defaultEndAt: Date | null;
     priceVnd: bigint;
     maxTransactions: number;
     maxWebhookDeliveries: number;
     maxBankTypes: number;
-    durationDays: number;
+    durationDays: number | null;
     description: string | null;
-    packageBanks: Array<{ bankId: number }>;
+    packageBanks: Array<
+      | { bankId: number; accountLimit: number }
+      | { bankId: number; accountLimit: number; bank: { id: number; name: string; code: string } }
+    >;
+    packageDurationPrices?: Array<{
+      priceVnd: bigint;
+      duration: { id: number; name: string; months: number; days: number; isDefault?: boolean; discountPercent?: number | null };
+    }>;
   }) {
     const limit = (value: number) => (value === 0 ? null : value);
+    const banks = item.packageBanks.map((pb) => {
+      const bank = "bank" in pb ? pb.bank : null;
+      return {
+        bank_id: pb.bankId,
+        name: bank?.name ?? "",
+        code: bank?.code ?? "",
+        account_limit: pb.accountLimit
+      };
+    });
+    const applyDiscount = item.applyDefaultDiscount === true;
+    const pricing =
+      item.packageDurationPrices?.map((p) => {
+        const discountFactor = 1 - ((p.duration.discountPercent ?? 0) / 100);
+        const priceVnd = applyDiscount
+          ? Math.round(Number(item.priceVnd) * p.duration.months * discountFactor)
+          : Number(p.priceVnd);
+        return {
+          duration_id: p.duration.id,
+          duration_name: p.duration.name,
+          months: p.duration.months,
+          days: p.duration.days,
+          price_vnd: priceVnd,
+          is_default: p.duration.isDefault === true,
+          discount_percent: p.duration.discountPercent ?? null
+        };
+      }) ?? [];
     return {
       id: item.id,
       name: item.name,
       status: item.status,
       is_default: item.isDefault,
+      apply_default_discount: item.applyDefaultDiscount === true,
       default_start_at: item.defaultStartAt,
       default_end_at: item.defaultEndAt,
       price_vnd: Number(item.priceVnd),
@@ -165,39 +242,46 @@ export class PackagesService {
       is_unlimited_transactions: item.maxTransactions === 0,
       is_unlimited_webhook_deliveries: item.maxWebhookDeliveries === 0,
       is_unlimited_bank_types: item.maxBankTypes === 0,
-      duration_days: item.durationDays,
+      duration_days: item.durationDays ?? null,
       description: item.description ?? "",
-      bank_ids: item.packageBanks.map((x) => x.bankId)
+      bank_ids: item.packageBanks.map((x) => x.bankId),
+      banks,
+      pricing
     };
   }
 
-  private mapUserPackage(item: {
-    id: number;
-    userId: number;
-    packageId: number;
-    startAt: Date;
-    endAt: Date;
-    usedTransactions: number;
-    usedWebhookDeliveries: number;
-    usedBankTypes: number;
-    status: string;
-    package: {
+  private mapUserPackage(
+    item: {
       id: number;
-      name: string;
-      status: PackageStatus;
-      isDefault: boolean;
-      defaultStartAt: Date | null;
-      defaultEndAt: Date | null;
-      priceVnd: bigint;
-      maxTransactions: number;
-      maxWebhookDeliveries: number;
-      maxBankTypes: number;
-      durationDays: number;
-      description: string | null;
-      packageBanks: Array<{ bankId: number }>;
-    };
-  }) {
+      userId: number;
+      packageId: number;
+      startAt: Date;
+      endAt: Date;
+      usedTransactions: number;
+      usedWebhookDeliveries: number;
+      usedBankTypes: number;
+      status: string;
+      package: {
+        id: number;
+        name: string;
+        status: PackageStatus;
+        isDefault: boolean;
+        defaultStartAt: Date | null;
+        defaultEndAt: Date | null;
+        priceVnd: bigint;
+        maxTransactions: number;
+        maxWebhookDeliveries: number;
+        maxBankTypes: number;
+        durationDays: number | null;
+        description: string | null;
+        packageBanks: Array<{ bankId: number; accountLimit: number }>;
+      };
+    },
+    currentUsedBankTypes?: number
+  ) {
     const normalizeLimit = (value: number) => (value === 0 ? null : value);
+    const bankTypesUsage =
+      currentUsedBankTypes !== undefined ? currentUsedBankTypes : item.usedBankTypes;
     return {
       id: item.id,
       user_id: item.userId,
@@ -208,7 +292,7 @@ export class PackagesService {
       usage: {
         transactions: item.usedTransactions,
         webhook_deliveries: item.usedWebhookDeliveries,
-        bank_types: item.usedBankTypes
+        bank_types: bankTypesUsage
       },
       limits: {
         transactions: normalizeLimit(item.package.maxTransactions),

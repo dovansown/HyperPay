@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#645cff",
+                        "background-light": "#f5f5f8",
+                        "background-dark": "#100f23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Verify your email address - HyperPay</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased">
+<div class="flex min-h-screen w-full flex-col items-center justify-center py-12 px-4">
+<!-- Main Email Container -->
+<div class="w-full max-w-[560px] bg-white dark:bg-slate-900 rounded-xl shadow-sm overflow-hidden border border-slate-200 dark:border-slate-800">
+<!-- Header/Logo Section -->
+<div class="px-8 pt-10 pb-6 flex justify-center">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">payments</span>
+</div>
+<span class="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">HyperPay</span>
+</div>
+</div>
+<!-- Content Section -->
+<div class="px-8 py-6">
+<div class="text-center mb-8">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3">Verify your email address</h1>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        To finish setting up your account and start using HyperPay, please use the 6-digit verification code below.
+                    </p>
+</div>
+<!-- Verification Code Box -->
+<div class="bg-primary/10 dark:bg-primary/20 rounded-xl p-8 mb-8 text-center border border-primary/20">
+<div class="flex justify-center gap-3">
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">4</div>
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">8</div>
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">2</div>
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">9</div>
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">1</div>
+<div class="w-12 h-14 bg-white dark:bg-slate-800 border-2 border-primary/30 rounded-lg flex items-center justify-center text-2xl font-bold text-primary">0</div>
+</div>
+<p class="mt-4 text-xs font-medium text-primary uppercase tracking-widest">Expires in 15 minutes</p>
+</div>
+<!-- Primary Action -->
+<div class="flex flex-col items-center gap-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-sm">
+                        Verify Account
+                    </button>
+<p class="text-sm text-slate-500 dark:text-slate-500 text-center">
+                        If you didn't request this code, you can safely ignore this email.
+                    </p>
+</div>
+</div>
+<!-- Decorative Illustration -->
+<div class="px-8 pb-10">
+<div class="w-full h-32 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex items-center justify-center border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10" data-alt="Subtle geometric dot pattern in primary color" style="background-image: radial-gradient(#645cff 1px, transparent 1px); background-size: 16px 16px;"></div>
+<div class="z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2">verified_user</span>
+<span class="text-xs font-medium text-slate-400 uppercase tracking-widest">Secure Verification</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<footer class="w-full max-w-[560px] mt-8 px-4 text-center">
+<div class="flex justify-center gap-6 mb-6">
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Support</a>
+<a class="text-sm font-medium text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="space-y-1">
+<p class="text-xs text-slate-400 dark:text-slate-500">
+                    HyperPay Inc. 123 Payment Square, San Francisco, CA 94103
+                </p>
+<p class="text-xs text-slate-400 dark:text-slate-500">
+                    © 2024 HyperPay. All rights reserved.
+                </p>
+</div>
+</footer>
+</div>
+</body></html>

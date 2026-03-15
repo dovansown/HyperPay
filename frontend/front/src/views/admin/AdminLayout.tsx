@@ -13,9 +13,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const systemLinks = [
     { to: '/admin/users', icon: 'group', label: t('admin.nav.users', 'Users') },
-    { to: '/admin/plans', icon: 'inventory_2', label: t('admin.nav.plans', 'Plans') },
+    { to: '/admin/plans', icon: 'inventory_2', label: t('admin.nav.packages', 'Packages') },
+    { to: '/admin/durations', icon: 'schedule', label: t('admin.nav.durations', 'Durations') },
     { to: '/admin/user-packages', icon: 'deployed_code', label: t('admin.nav.userPackages', 'User Packages') },
     { to: '/admin/banks', icon: 'account_balance', label: t('admin.nav.banks', 'Banks') },
+    { to: '/admin/system-settings', icon: 'settings', label: t('admin.nav.systemSettings', 'System settings') },
   ] as const
   const contentLinks = [
     { to: '/admin/blog', icon: 'article', label: t('admin.nav.blog', 'Blog') },

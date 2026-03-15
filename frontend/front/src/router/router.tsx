@@ -29,8 +29,10 @@ import {
   AdminBanksPage,
   AdminPlansPage,
   AdminTagsPage,
+  AdminDurationsPage,
   AdminUserPackagesPage,
   AdminUsersPage,
+  AdminSystemSettingsPage,
 } from '../views/admin/AdminSectionsPage'
 
 const ProtectedDashboard = withAuth(DashboardPage)
@@ -46,10 +48,12 @@ const ProtectedTransactionDetail = withAuth(TransactionDetailPage)
 const ProtectedAdminUsers = withRole(AdminUsersPage, ['ADMIN'])
 const ProtectedAdminPlans = withRole(AdminPlansPage, ['ADMIN'])
 const ProtectedAdminBanks = withRole(AdminBanksPage, ['ADMIN'])
+const ProtectedAdminDurations = withRole(AdminDurationsPage, ['ADMIN'])
 const ProtectedAdminUserPackages = withRole(AdminUserPackagesPage, ['ADMIN'])
 const ProtectedAdminBlog = withRole(AdminBlogPage, ['EDITOR', 'ADMIN'])
 const ProtectedAdminCategories = withRole(AdminCategoriesPage, ['EDITOR', 'ADMIN'])
 const ProtectedAdminTags = withRole(AdminTagsPage, ['EDITOR', 'ADMIN'])
+const ProtectedAdminSystemSettings = withRole(AdminSystemSettingsPage, ['ADMIN'])
 const ProtectedAdminEntry = withRole(AdminEntryPage, ['EDITOR', 'ADMIN'])
 
 export const router = createBrowserRouter([
@@ -150,6 +154,10 @@ export const router = createBrowserRouter([
     element: <ProtectedAdminBanks />,
   },
   {
+    path: '/admin/durations',
+    element: <ProtectedAdminDurations />,
+  },
+  {
     path: '/admin/user-packages',
     element: <ProtectedAdminUserPackages />,
   },
@@ -164,6 +172,10 @@ export const router = createBrowserRouter([
   {
     path: '/admin/tags',
     element: <ProtectedAdminTags />,
+  },
+  {
+    path: '/admin/system-settings',
+    element: <ProtectedAdminSystemSettings />,
   },
   {
     path: '/content-studio',

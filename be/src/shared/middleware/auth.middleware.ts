@@ -16,7 +16,7 @@ export function authMiddleware(req: Request, _res: Response, next: NextFunction)
     req.user = {
       ...payload,
       role: payload.role ?? "USER",
-      userId: Number(payload.sub)
+      userId: payload.sub
     };
     next();
   } catch {

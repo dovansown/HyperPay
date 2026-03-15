@@ -15,14 +15,16 @@ export class PackagesController {
 
   async purchase(req: Request, res: Response) {
     const userId = req.user!.userId;
-    const { packageId } = req.params as unknown as { packageId: number };
-    const data = await packagesService.purchase(userId, packageId);
+    const { packageId } = req.params as { packageId: string };
+    const { duration_id } = req.body as { duration_id: string };
+    const data = await packagesService.purchase(userId, packageId, duration_id);
     return sendSuccess(res, data, 201);
   }
 
+  /** List all active packages for the current user (can have multiple). */
   async myActive(req: Request, res: Response) {
     const userId = req.user!.userId;
-    const data = await packagesService.myActivePackage(userId);
+    const data = await packagesService.myActivePackages(userId);
     return sendSuccess(res, data);
   }
 }

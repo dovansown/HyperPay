@@ -10,7 +10,7 @@ import { listPublicCategories, listPublicContent, type PublicContentItem } from 
 export const BlogPage: React.FC = () => {
   const { t } = useTranslation()
   const [items, setItems] = useState<PublicContentItem[]>([])
-  const [categories, setCategories] = useState<Array<{ id: number; name: string; slug: string }>>([])
+  const [categories, setCategories] = useState<Array<{ id: string; name: string; slug: string }>>([])
   const [query, setQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [loading, setLoading] = useState(true)

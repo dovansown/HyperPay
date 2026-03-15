@@ -6,7 +6,7 @@ import type { CreateExternalTransactionInput } from "./transactions.schema.js";
 import { transactionsRepository } from "./transactions.repository.js";
 
 export class TransactionsService {
-  async listByAccountId(accountId: number, userId: number) {
+  async listByAccountId(accountId: string, userId: string) {
     const account = await accountsRepository.findByIdAndUser(accountId, userId);
     if (!account) {
       throw new AppError(404, ErrorCodes.NOT_FOUND, "Account not found");
@@ -62,7 +62,7 @@ export class TransactionsService {
     };
   }
 
-  private async listByBankAccount(bankAccountId: number) {
+  private async listByBankAccount(bankAccountId: string) {
     const txs = await transactionsRepository.listByBankAccountId(bankAccountId);
     return txs.map((tx) => ({
       id: tx.id,

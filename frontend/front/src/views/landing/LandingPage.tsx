@@ -2,16 +2,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { LandingHeader } from './LandingHeader'
+import { PublicFooter } from '../public/PublicFooter'
 
 type SuiteItem = {
   icon: string
-  title: string
+  titleKey: string
   descriptionKey: string
-}
-
-type NavItem = {
-  label: string
-  href: string
 }
 
 type StatItem = {
@@ -62,20 +58,20 @@ const trustLogos: { alt: string; src: string }[] = [
 const suite: SuiteItem[] = [
   {
     icon: 'credit_card',
-    title: 'Payments',
-    descriptionKey: 'landing.suite.payments',
+    titleKey: 'landing.suite.payments.title',
+    descriptionKey: 'landing.suite.payments.description',
   },
   {
     icon: 'sync_alt',
-    title: 'Subscriptions',
-    descriptionKey: 'landing.suite.subscriptions',
+    titleKey: 'landing.suite.subscriptions.title',
+    descriptionKey: 'landing.suite.subscriptions.description',
   },
   {
     icon: 'account_balance',
-    title: 'Banking',
-    descriptionKey: 'landing.suite.banking',
+    titleKey: 'landing.suite.banking.title',
+    descriptionKey: 'landing.suite.banking.description',
   },
-] as const satisfies Array<SuiteItem & { descriptionKey: `landing.suite.${string}` }>
+]
 
 const globalStats: StatItem[] = [
   { value: '135+', labelKey: 'landing.globalStats.c1' },
@@ -128,49 +124,6 @@ const blogPosts: BlogPost[] = [
     excerptKey: 'landing.blog.strategy.excerpt',
     imageSrc:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuD7Kg3ivts7sssfo0yqv1yaXYY5yrlvPTbsVig8CW83b2T09BTK1RzrUBy1UyPTfav54aogTPvY-isTYdh66FI_jSmBKWgzsn4fHIp1AC5D4aIGrvtmn77UjClj32tF869pvXul9yD_nnu1qjVWG6f0wN1HvMlwZhNOKnKfMpRdOfGIKKG5gBbAw8-So2QGqdGZmAewiDWSEWM1y63_wufofu8DTSSwhAtm7P63559pIfgChxnILdpqqtCawnMGLSYg4rct8VAXbvY',
-  },
-]
-
-const footerCols: { title: string; links: NavItem[] }[] = [
-  {
-    title: 'footer.products',
-    links: [
-      { label: 'footer.products.payments', href: '#' },
-      { label: 'footer.products.billing', href: '#' },
-      { label: 'footer.products.connect', href: '#' },
-      { label: 'footer.products.terminal', href: '#' },
-      { label: 'footer.products.issuing', href: '#' },
-    ],
-  },
-  {
-    title: 'footer.solutions',
-    links: [
-      { label: 'footer.solutions.ecommerce', href: '#' },
-      { label: 'footer.solutions.saas', href: '#' },
-      { label: 'footer.solutions.marketplaces', href: '#' },
-      { label: 'footer.solutions.embeddedFinance', href: '#' },
-      { label: 'footer.solutions.crypto', href: '#' },
-    ],
-  },
-  {
-    title: 'footer.resources',
-    links: [
-      { label: 'footer.resources.docs', href: '#' },
-      { label: 'footer.resources.api', href: '#' },
-      { label: 'footer.resources.guides', href: '#' },
-      { label: 'footer.resources.caseStudies', href: '#' },
-      { label: 'footer.resources.support', href: '#' },
-    ],
-  },
-  {
-    title: 'footer.company',
-    links: [
-      { label: 'footer.company.about', href: '#' },
-      { label: 'footer.company.careers', href: '#' },
-      { label: 'footer.company.newsroom', href: '#' },
-      { label: 'footer.company.security', href: '#' },
-      { label: 'footer.company.privacy', href: '#' },
-    ],
   },
 ]
 
@@ -253,12 +206,12 @@ export const LandingPage: React.FC = () => {
                   <div className="size-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                     <span className="material-symbols-outlined">check_circle</span>
                   </div>
-                  <span className="font-medium">Payment success</span>
+                  <span className="font-medium">{t('landing.heroPaymentSuccess')}</span>
                 </div>
                 <div className="h-2 w-full bg-slate-100 rounded-full mb-2 overflow-hidden">
                   <div className="h-full w-2/3 bg-primary rounded-full" />
                 </div>
-                <p className="text-xs text-slate-custom">$2,450.00 USD processed</p>
+                <p className="text-xs text-slate-custom">{t('landing.heroProcessedAmount')}</p>
               </div>
             </div>
           </div>
@@ -285,16 +238,16 @@ export const LandingPage: React.FC = () => {
           </h3>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
           {suite.map((item) => (
             <div
-              key={item.title}
+              key={item.titleKey}
               className="group p-8 rounded-2xl bg-white hover:bg-slate-50 border border-slate-100 transition-all hover:-translate-y-1 shadow-sm"
             >
               <div className="size-12 bg-primary/10 text-primary rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-all">
                 <span className="material-symbols-outlined">{item.icon}</span>
               </div>
-              <h4 className="text-xl font-medium mb-3">{item.title}</h4>
+              <h4 className="text-xl font-medium mb-3">{t(item.titleKey)}</h4>
               <p className="text-slate-custom leading-relaxed">
                 {t(item.descriptionKey)}
               </p>
@@ -302,7 +255,7 @@ export const LandingPage: React.FC = () => {
                 className="inline-flex items-center gap-1 text-primary font-medium mt-6 text-sm"
                 href="#"
               >
-                {t('landing.learnMore', 'Learn more')}{' '}
+                {t('landing.learnMore')}{' '}
                 <span className="material-symbols-outlined text-sm">chevron_right</span>
               </a>
             </div>
@@ -324,11 +277,11 @@ export const LandingPage: React.FC = () => {
                   <div className="flex justify-between items-end mb-12">
                     <div>
                       <p className="text-slate-400 text-xs uppercase tracking-widest font-medium mb-1">
-                        Gross Volume
+                        {t('landing.dashboardGrossVolume')}
                       </p>
-                      <h5 className="text-3xl font-black">$241,560.80</h5>
+                      <h5 className="text-3xl font-black">{t('landing.dashboardSampleAmount')}</h5>
                     </div>
-                    <div className="text-green-400 font-medium text-sm">+24.5%</div>
+                    <div className="text-green-400 font-medium text-sm">{t('landing.dashboardSamplePercent')}</div>
                   </div>
                   <div className="grid grid-cols-7 gap-2 items-end h-32 mb-8">
                     {['h-12', 'h-20', 'h-16', 'h-28', 'h-24', 'h-32', 'h-28'].map((h, idx) => (
@@ -340,12 +293,12 @@ export const LandingPage: React.FC = () => {
                   </div>
                   <div className="space-y-4">
                     {[
-                      { label: 'Net earnings', value: '$189,200.00' },
-                      { label: 'Total fees', value: '$2,360.80' },
+                      { labelKey: 'landing.dashboardNetEarnings', valueKey: 'landing.dashboardSampleNetValue' },
+                      { labelKey: 'landing.dashboardTotalFees', valueKey: 'landing.dashboardSampleFeesValue' },
                     ].map((row) => (
-                      <div key={row.label} className="flex justify-between p-3 bg-white/5 rounded-lg">
-                        <span className="text-slate-400">{row.label}</span>
-                        <span className="font-medium">{row.value}</span>
+                      <div key={row.labelKey} className="flex justify-between p-3 bg-white/5 rounded-lg">
+                        <span className="text-slate-400">{t(row.labelKey)}</span>
+                        <span className="font-medium">{t(row.valueKey)}</span>
                       </div>
                     ))}
                   </div>
@@ -354,20 +307,19 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className="space-y-8">
-              <h2 className="text-4xl font-black leading-tight">Your unified business command center</h2>
+              <h2 className="text-4xl font-black leading-tight">{t('landing.dashboardTitle')}</h2>
               <p className="text-xl text-slate-300 leading-relaxed">
-                Track your performance across every channel and region. HyperPay Dashboard gives you
-                real-time visibility into your financial ecosystem, all in one place.
+                {t('landing.dashboardDescription')}
               </p>
               <ul className="space-y-4">
                 {[
-                  'Real-time transaction monitoring',
-                  'Advanced filtering and custom reports',
-                  'Multi-user access with granular permissions',
-                ].map((t) => (
-                  <li key={t} className="flex items-center gap-3">
+                  'landing.dashboardFeature1',
+                  'landing.dashboardFeature2',
+                  'landing.dashboardFeature3',
+                ].map((key) => (
+                  <li key={key} className="flex items-center gap-3">
                     <span className="material-symbols-outlined text-primary">done</span>
-                    <span className="font-medium">{t}</span>
+                    <span className="font-medium">{t(key)}</span>
                   </li>
                 ))}
               </ul>
@@ -426,12 +378,12 @@ export const LandingPage: React.FC = () => {
                 {t('landing.developersDescription')}
               </p>
               <div className="flex gap-4">
-                <button className="bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-primary/90 transition-all flex items-center gap-2">
-                  {t('landing.developersCtaDocs', 'Read the docs')}{' '}
+                <button type="button" className="bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-primary/90 transition-all flex items-center gap-2">
+                  {t('landing.developersCtaDocs')}{' '}
                   <span className="material-symbols-outlined">menu_book</span>
                 </button>
-                <button className="text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all border border-white/20">
-                  {t('landing.developersCtaApi', 'Explore API Reference')}
+                <button type="button" className="text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all border border-white/20">
+                  {t('landing.developersCtaApi')}
                 </button>
               </div>
             </div>
@@ -641,7 +593,7 @@ export const LandingPage: React.FC = () => {
           <div className="p-10 rounded-3xl bg-slate-900 text-white flex flex-col">
             <h4 className="text-2xl font-black mb-2">{t('landing.pricingEnterpriseTitle')}</h4>
             <p className="text-slate-400 mb-8">{t('landing.pricingEnterpriseSubtitle')}</p>
-            <div className="text-5xl font-black text-white mb-8">Custom</div>
+            <div className="text-5xl font-black text-white mb-8">{t('landing.pricingEnterpriseCustom')}</div>
             <ul className="space-y-4 mb-10 flex-grow">
               {[
                 'landing.pricingEnterprise.b1',
@@ -673,19 +625,19 @@ export const LandingPage: React.FC = () => {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-70 grayscale hover:grayscale-0 transition-all">
             {[
-              'J.P. Morgan',
-              'Goldman Sachs',
-              'HSBC',
-              'Barclays',
-              'Citi',
-              'Deutsche Bank',
-            ].map((n) => (
-              <div key={n} className="flex flex-col items-center gap-2">
+              'landing.banksPartnerNames.jpm',
+              'landing.banksPartnerNames.goldman',
+              'landing.banksPartnerNames.hsbc',
+              'landing.banksPartnerNames.barclays',
+              'landing.banksPartnerNames.citi',
+              'landing.banksPartnerNames.deutsche',
+            ].map((key) => (
+              <div key={key} className="flex flex-col items-center gap-2">
                   <span className="material-symbols-outlined text-4xl text-slate-400">
                     account_balance
                   </span>
                   <span className="text-xs font-medium text-slate-custom uppercase tracking-tighter">
-                    {n}
+                    {t(key)}
                   </span>
               </div>
             ))}
@@ -765,66 +717,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      <footer className="bg-white pt-24 pb-12 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-24">
-            <div className="col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-2 mb-8">
-                <div className="size-6 bg-primary rounded flex items-center justify-center text-white">
-                  <span className="material-symbols-outlined text-sm">bolt</span>
-                </div>
-                <span className="text-lg font-black tracking-tight text-slate-900">HyperPay</span>
-              </div>
-              <div className="flex gap-4 mb-8">
-                {['share', 'public', 'mail'].map((i) => (
-                  <span
-                    key={i}
-                    className="material-symbols-outlined text-slate-custom hover:text-primary cursor-pointer"
-                  >
-                    {i}
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-sm text-slate-custom font-medium">
-                <span className="material-symbols-outlined text-sm">language</span>
-                United States (English)
-              </div>
-            </div>
-
-            {footerCols.map((col) => (
-              <div key={col.title}>
-                <h6 className="font-medium text-slate-900 mb-6 uppercase text-xs tracking-widest">
-                  {t(col.title)}
-                </h6>
-                <ul className="space-y-4 text-slate-custom text-sm font-medium">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <a className="hover:text-primary transition-colors" href={l.href}>
-                        {t(l.label)}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-slate-100 text-xs text-slate-400 font-medium">
-            <p>{t('landing.footerCopyright')}</p>
-            <div className="flex gap-8 mt-4 md:mt-0">
-              <a className="hover:text-slate-900" href="#">
-                {t('landing.footerPrivacy')}
-              </a>
-              <a className="hover:text-slate-900" href="#">
-                {t('landing.footerCookie')}
-              </a>
-              <a className="hover:text-slate-900" href="#">
-                {t('landing.footerTerms')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   )
 }

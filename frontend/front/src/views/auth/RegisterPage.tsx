@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { registerThunk } from '../../store/authSlice'
+import { fetchCurrentUser, registerThunk } from '../../store/authSlice'
 import { AuthLayout } from './AuthLayout'
 import { Card, CardBody } from '../../components/ui/Card'
 import { Input } from '../../components/ui/Input'
@@ -28,6 +28,12 @@ export const RegisterPage: React.FC = () => {
     if (!acceptedTerms || loading) return
     try {
       await dispatch(registerThunk({ email, password, fullName })).unwrap()
+      // Sau khi đăng ký, token đã được lưu -> fetch profile để sync state
+      try {
+        await dispatch(fetchCurrentUser()).unwrap()
+      } catch {
+        // ignore, trang verify sẽ tiếp tục dùng token
+      }
       navigate('/verify')
     } catch {
       // error handled via slice

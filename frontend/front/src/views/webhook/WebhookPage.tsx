@@ -1,25 +1,29 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchWebhookConfig, saveWebhookConfig } from '../../store/webhookSlice'
+import { fetchWebhookConfig, saveWebhookConfig, sendTestEvent } from '../../store/webhookSlice'
 import { fetchAccounts } from '../../store/accountsSlice'
 import { Card, CardBody, CardHeader } from '../../components/ui/Card'
 import { Input } from '../../components/ui/Input'
-import { Checkbox } from '../../components/ui/Checkbox'
+import { Switch } from '../../components/ui/Switch'
 import { Button } from '../../components/ui/Button'
 
 export const WebhookPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const location = useLocation()
   const dispatch = useAppDispatch()
-  const { config, status, error } = useAppSelector((s) => s.webhook)
+  const { items: webhooks, status, error } = useAppSelector((s) => s.webhook)
+  const editId = (location.state as { editId?: string } | null)?.editId
+  const isAddMode = location.pathname === '/webhooks/new' && (location.state as { mode?: string } | null)?.mode === 'add'
+  const config = editId ? webhooks.find((w) => w.id === editId) ?? null : null
   const { items: accounts, status: accountStatus } = useAppSelector((s) => s.accounts)
 
   const [url, setUrl] = useState('https://')
   const [secret, setSecret] = useState('')
-  const [accountIds, setAccountIds] = useState<number[]>([])
+  const [accountIds, setAccountIds] = useState<string[]>([])
   const [transactionDirection, setTransactionDirection] = useState<'IN' | 'OUT' | 'BOTH'>('BOTH')
   const [retryOnNon2xx, setRetryOnNon2xx] = useState(true)
   const [maxRetryAttempts, setMaxRetryAttempts] = useState(3)
@@ -41,24 +45,26 @@ export const WebhookPage: React.FC = () => {
   const [isActive, setIsActive] = useState(true)
   const [clientError, setClientError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
+  const [testLoading, setTestLoading] = useState(false)
+  const [testMessage, setTestMessage] = useState<string | null>(null)
 
   const loading = status === 'loading'
   const hasWebhookConfig = useMemo(() => Boolean(config?.url), [config])
 
   useEffect(() => {
-    if (status === 'idle') {
-      void dispatch(fetchWebhookConfig())
-    }
+    void dispatch(fetchWebhookConfig())
+  }, [dispatch])
+  useEffect(() => {
     if (accountStatus === 'idle') {
       void dispatch(fetchAccounts())
     }
-  }, [accountStatus, dispatch, status])
+  }, [accountStatus, dispatch])
 
   useEffect(() => {
-    if (!config) return
+    if (!config || isAddMode) return
     setUrl(config.url || 'https://')
     setSecret(config.secret_token || '')
-    setAccountIds(config.account_ids ?? [])
+    setAccountIds((config.account_ids ?? []).map(String))
     setTransactionDirection(config.transaction_direction ?? 'BOTH')
     setRetryOnNon2xx(config.retry_on_non_2xx ?? true)
     setMaxRetryAttempts(config.max_retry_attempts ?? 3)
@@ -76,7 +82,7 @@ export const WebhookPage: React.FC = () => {
     setPaymentCodeSuffixMaxLength(config.payment_code_suffix_max_length ?? 12)
     setPaymentCodeSuffixCharset(config.payment_code_suffix_charset ?? 'NUMERIC')
     setIsActive(config.is_active)
-  }, [config])
+  }, [config, isAddMode])
 
   const validateForm = () => {
     if (authType === 'BEARER' && !authBearerToken.trim()) {
@@ -123,6 +129,7 @@ export const WebhookPage: React.FC = () => {
     try {
       await dispatch(
         saveWebhookConfig({
+          id: editId,
           url,
           secret_token: secret,
           account_ids: accountIds,
@@ -192,7 +199,30 @@ export const WebhookPage: React.FC = () => {
             >
               {t('webhook.actions.backToList', 'Back to list')}
             </Button>
-            <Button type="button" variant="secondary" size="md" className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              size="md"
+              className="flex items-center gap-2"
+              disabled={testLoading || !hasWebhookConfig}
+              loading={testLoading}
+              onClick={async () => {
+                setTestMessage(null)
+                setTestLoading(true)
+                try {
+                  const result = await dispatch(sendTestEvent(editId ?? undefined)).unwrap()
+                  setTestMessage(
+                    result.queued
+                      ? t('webhook.test.queued', 'Đã đưa sự kiện thử vào hàng đợi. Kết quả sẽ hiển thị trong Nhật ký gần đây.')
+                      : t('webhook.test.error', 'Gửi thử thất bại.')
+                  )
+                } catch (e) {
+                  setTestMessage(e instanceof Error ? e.message : t('webhook.test.error', 'Gửi thử thất bại.'))
+                } finally {
+                  setTestLoading(false)
+                }
+              }}
+            >
               <span className="material-symbols-outlined text-[20px]">send</span>
               {t('webhook.actions.test', 'Test event')}
             </Button>
@@ -204,6 +234,16 @@ export const WebhookPage: React.FC = () => {
             {t('webhook.tabs.settings', 'Endpoint')}
           </button>
         </div>
+
+        {testMessage && (
+          <div
+            className={`mb-4 rounded-lg border px-4 py-3 text-sm ${
+              testMessage.includes('hàng đợi') ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-700'
+            }`}
+          >
+            {testMessage}
+          </div>
+        )}
 
         <Card className="mb-8 overflow-hidden">
           <CardHeader className="px-6">
@@ -238,6 +278,10 @@ export const WebhookPage: React.FC = () => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 required
+                hint={t(
+                  'webhook.form.urlHintPost',
+                  'Endpoint phải chấp nhận request POST với body JSON. URL chỉ dùng GET (ví dụ /me) sẽ trả 404 khi gửi webhook.',
+                )}
               />
               <Input
                 id="secret"
@@ -266,20 +310,17 @@ export const WebhookPage: React.FC = () => {
                   {accounts.map((acc) => {
                     const checked = accountIds.includes(acc.id)
                     return (
-                      <label key={acc.id} className="flex items-center gap-2 text-sm text-slate-700">
-                        <input
-                          type="checkbox"
+                      <div key={acc.id} className="flex items-center gap-2 text-sm text-slate-700">
+                        <Switch
                           checked={checked}
-                          onChange={(e) => {
+                          onChange={(next) => {
                             setAccountIds((prev) =>
-                              e.target.checked ? [...prev, acc.id] : prev.filter((id) => id !== acc.id),
+                              next ? [...prev, acc.id] : prev.filter((id) => id !== acc.id),
                             )
                           }}
+                          label={`${acc.bank_name} - •••• ${acc.account_number.slice(-4)}`}
                         />
-                        <span>
-                          {acc.bank_name} - •••• {acc.account_number.slice(-4)}
-                        </span>
-                      </label>
+                      </div>
                     )
                   })}
                 </div>
@@ -324,9 +365,9 @@ export const WebhookPage: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Checkbox
+                <Switch
                   checked={retryOnNon2xx}
-                  onChange={(e) => setRetryOnNon2xx(e.target.checked)}
+                  onChange={(next) => setRetryOnNon2xx(next)}
                   label={t('webhook.form.retryOnNon2xx', 'Retry on non-2xx responses')}
                 />
                 <Input
@@ -416,14 +457,14 @@ export const WebhookPage: React.FC = () => {
                 <h4 className="font-medium text-slate-900">
                   {t('webhook.form.paymentRulesTitle', 'Payment code rules')}
                 </h4>
-                <Checkbox
+                <Switch
                   checked={requirePaymentCode}
-                  onChange={(e) => setRequirePaymentCode(e.target.checked)}
+                  onChange={(next) => setRequirePaymentCode(next)}
                   label={t('webhook.form.requirePaymentCode', 'Require payment code')}
                 />
-                <Checkbox
+                <Switch
                   checked={paymentCodeRuleEnabled}
-                  onChange={(e) => setPaymentCodeRuleEnabled(e.target.checked)}
+                  onChange={(next) => setPaymentCodeRuleEnabled(next)}
                   label={t(
                     'webhook.form.enablePaymentCodeRule',
                     'Enable payment code extraction rule',
@@ -484,9 +525,9 @@ export const WebhookPage: React.FC = () => {
               </div>
 
               <div className="flex items-center justify-between pt-2">
-                <Checkbox
+                <Switch
                   checked={isActive}
-                  onChange={(e) => setIsActive(e.target.checked)}
+                  onChange={(next) => setIsActive(next)}
                   label={t('webhook.form.activeToggle', 'Enable this endpoint')}
                 />
               </div>
@@ -517,7 +558,7 @@ export const WebhookPage: React.FC = () => {
                     if (!config) return
                     setUrl(config.url || 'https://')
                     setSecret(config.secret_token || '')
-                    setAccountIds(config.account_ids ?? [])
+                    setAccountIds((config.account_ids ?? []).map(String))
                     setTransactionDirection(config.transaction_direction ?? 'BOTH')
                     setRetryOnNon2xx(config.retry_on_non_2xx ?? true)
                     setMaxRetryAttempts(config.max_retry_attempts ?? 3)

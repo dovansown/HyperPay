@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchBillingData, purchasePackage } from '../../store/billingSlice'
-import { Card, CardBody, CardHeader } from '../../components/ui/Card'
+import { fetchBillingData, topUpBalance } from '../../store/billingSlice'
+import { Card, CardBody } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Table } from '../../components/ui/Table'
+import { PurchasePackageModal } from './PurchasePackageModal'
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat('vi-VN', {
@@ -18,20 +19,20 @@ function formatCurrency(value: number) {
 export const BillingPage: React.FC = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { activePackage, packages, plans, status, purchaseStatus, error } = useAppSelector((s) => s.billing)
+  const { activePackages, balanceVnd, packages, status, topUpStatus, error } =
+    useAppSelector((s) => s.billing)
+  const [topUpAmount, setTopUpAmount] = useState('')
+  const [purchaseModalOpen, setPurchaseModalOpen] = useState(false)
 
   useEffect(() => {
-    if (status === 'idle') {
-      void dispatch(fetchBillingData())
-    }
-  }, [dispatch, status])
+    void dispatch(fetchBillingData())
+  }, [dispatch])
 
   const loading = status === 'loading'
-  const purchasing = purchaseStatus === 'loading'
 
   return (
     <AuthenticatedLayout>
-      <section className="max-w-5xl mx-auto space-y-8">
+      <section className="max-w-6xl mx-auto space-y-8">
         <header className="space-y-2">
           <h1 className="text-3xl font-black text-slate-900">
             {t('billing.title', 'Billing Settings')}
@@ -44,124 +45,107 @@ export const BillingPage: React.FC = () => {
           </p>
         </header>
 
+        {error && (
+          <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-center gap-2">
+            <span className="material-symbols-outlined text-red-600 text-lg">error</span>
+            {error}
+          </div>
+        )}
+
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-16 text-slate-500">
+            <span className="material-symbols-outlined animate-spin text-4xl mb-3">progress_activity</span>
+            <p className="text-sm">{t('billing.loading', 'Loading billing...')}</p>
+          </div>
+        )}
+
+        {!loading && (
+        <>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <Card>
-              <CardBody>
-                <div className="flex justify-between items-start mb-6">
+              <CardBody className="space-y-4">
+                <div className="flex justify-between items-start">
                   <div>
-                    <div className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">
-                      {t('billing.plan.activeBadge', 'ACTIVE')}
-                    </div>
-                    <h3 className="mt-2 text-xl font-bold text-slate-900">
-                      {activePackage?.package.name ?? t('billing.plan.none', 'No active package')}
+                    <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+                      {t('billing.balance.title', 'Balance')}
                     </h3>
-                    <p className="text-slate-500 text-sm">
-                      {activePackage
-                        ? `${formatCurrency(activePackage.package.price_vnd)} / ${activePackage.package.duration_days} ${t(
-                            'billing.common.days',
-                            'days',
-                          )}`
-                        : t('billing.plan.selectHint', 'Choose a package below to activate subscription')}
-                    </p>
+                    <p className="mt-1 text-2xl font-bold text-slate-900">{formatCurrency(balanceVnd)}</p>
                   </div>
-                  <Button variant="secondary" onClick={() => void dispatch(fetchBillingData())}>
-                    {t('billing.plan.refresh', 'Refresh')}
-                  </Button>
-                </div>
-
-                <div className="bg-primary/5 rounded-lg p-4 border border-primary/10">
-                  <div className="flex items-start gap-3">
-                    <span className="material-symbols-outlined text-primary">info</span>
-                    {activePackage ? (
-                      <div className="text-sm text-slate-700 space-y-1">
-                        <p>
-                          {t('billing.plan.startAt', 'Start')}: {new Date(activePackage.start_at).toLocaleString()}
-                        </p>
-                        <p>
-                          {t('billing.plan.endAt', 'End')}: {new Date(activePackage.end_at).toLocaleString()}
-                        </p>
-                      </div>
-                    ) : (
-                      <p className="text-sm text-slate-700">
-                        {t(
-                          'billing.plan.noActive',
-                          'You do not have an active package. Purchase one from the list below.',
-                        )}
-                      </p>
-                    )}
+                  <div className="flex gap-2 items-end">
+                    <input
+                      type="number"
+                      min={1}
+                      placeholder={t('billing.balance.placeholder', 'Amount (VND)')}
+                      className="w-32 px-3 py-2 rounded-lg border border-slate-200 text-sm"
+                      value={topUpAmount}
+                      onChange={(e) => setTopUpAmount(e.target.value.replace(/\D/g, ''))}
+                    />
+                    <Button
+                      size="sm"
+                      loading={topUpStatus === 'loading'}
+                      disabled={!topUpAmount || parseInt(topUpAmount, 10) < 1}
+                      onClick={() => {
+                        const n = parseInt(topUpAmount, 10)
+                        if (n < 1) return
+                        void dispatch(topUpBalance(n)).then(() => {
+                          setTopUpAmount('')
+                          void dispatch(fetchBillingData())
+                        })
+                      }}
+                    >
+                      {t('billing.balance.topUp', 'Top up')}
+                    </Button>
                   </div>
                 </div>
               </CardBody>
             </Card>
 
             <Card>
-              <CardHeader className="px-6">
-                <h3 className="text-lg font-bold text-slate-900">
-                  {t('billing.packages.title', 'Available Packages')}
-                </h3>
-              </CardHeader>
-              <CardBody className="px-6 pb-6">
-                <div className="space-y-3">
-                  {packages.map((pkg) => {
-                    const isCurrent = activePackage?.package_id === pkg.id
-                    const canPurchase = pkg.status === 'ACTIVE' && !activePackage
-                    return (
-                      <div
-                        key={pkg.id}
-                        className={[
-                          'rounded-xl border p-4',
-                          isCurrent ? 'border-primary/50 bg-primary/5' : 'border-slate-200 bg-white',
-                        ].join(' ')}
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <div>
-                            <p className="font-semibold text-slate-900">{pkg.name}</p>
-                            <p className="text-xs text-slate-500">
-                              {formatCurrency(pkg.price_vnd)} / {pkg.duration_days} {t('billing.common.days', 'days')}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span
-                              className={[
-                                'inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold',
-                                pkg.status === 'ACTIVE'
-                                  ? 'bg-green-100 text-green-700'
-                                  : 'bg-slate-100 text-slate-600',
-                              ].join(' ')}
-                            >
-                              {pkg.status}
-                            </span>
-                            {isCurrent ? (
-                              <span className="text-xs text-primary font-semibold">
-                                {t('billing.packages.current', 'Current')}
-                              </span>
-                            ) : (
-                              <Button
-                                size="sm"
-                                disabled={!canPurchase}
-                                loading={purchasing}
-                                onClick={() => {
-                                  if (!canPurchase) return
-                                  void dispatch(purchasePackage(pkg.id)).then(() => {
-                                    void dispatch(fetchBillingData())
-                                  })
-                                }}
-                              >
-                                {t('billing.packages.purchase', 'Purchase')}
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                        <p className="text-xs text-slate-600 mt-2">
-                          {pkg.description || t('billing.packages.noDescription', 'No description')}
-                        </p>
+              <CardBody>
+                <div className="flex justify-between items-start mb-4 gap-3 flex-wrap">
+                  <div>
+                    <div className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">
+                      {t('billing.plan.activeBadge', 'ACTIVE')}
+                    </div>
+                    <h3 className="mt-2 text-xl font-bold text-slate-900">
+                      {activePackages.length > 0
+                        ? t('billing.plan.myPackages', 'My packages ({{count}})', { count: activePackages.length })
+                        : t('billing.plan.none', 'No active package')}
+                    </h3>
+                    <p className="text-slate-500 text-sm">
+                      {activePackages.length > 0
+                        ? t('billing.plan.selectHintMultiple', 'You can purchase more packages. Limits add up.')
+                        : t('billing.plan.selectHint', 'Buy a package to get started.')}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="secondary" onClick={() => void dispatch(fetchBillingData())}>
+                      {t('billing.plan.refresh', 'Refresh')}
+                    </Button>
+                    <Button onClick={() => setPurchaseModalOpen(true)}>
+                      {t('billing.modal.buyPackage', 'Buy package')}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="bg-primary/5 rounded-lg p-4 border border-primary/10 space-y-2">
+                  {activePackages.length > 0 ? (
+                    activePackages.map((ap) => (
+                      <div key={ap.id} className="text-sm text-slate-700 flex justify-between items-center">
+                        <span>
+                          {ap.package.name} · {t('billing.plan.startAt', 'Start')}{' '}
+                          {new Date(ap.start_at).toLocaleDateString()} → {t('billing.plan.endAt', 'End')}{' '}
+                          {new Date(ap.end_at).toLocaleDateString()}
+                        </span>
                       </div>
-                    )
-                  })}
-                  {!loading && packages.length === 0 && (
-                    <p className="text-sm text-slate-500">
-                      {t('billing.packages.empty', 'No packages available.')}
+                    ))
+                  ) : (
+                    <p className="text-sm text-slate-700">
+                      {t(
+                        'billing.plan.noActive',
+                        'You do not have an active package. Top up balance and buy a package.',
+                      )}
                     </p>
                   )}
                 </div>
@@ -175,34 +159,64 @@ export const BillingPage: React.FC = () => {
                 <h3 className="text-lg font-bold text-slate-900">
                   {t('billing.usage.title', 'Usage')}
                 </h3>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">{t('billing.usage.transactions', 'Transactions')}</span>
-                  <span className="text-slate-900 font-medium">
-                    {activePackage
-                      ? `${activePackage.usage.transactions} / ${activePackage.limits.transactions ?? '∞'}`
-                      : '-'}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">
-                    {t('billing.usage.webhookDeliveries', 'Webhook deliveries')}
-                  </span>
-                  <span className="text-slate-900 font-medium">
-                    {activePackage
-                      ? `${activePackage.usage.webhook_deliveries} / ${
-                          activePackage.limits.webhook_deliveries ?? '∞'
-                        }`
-                      : '-'}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">{t('billing.usage.bankTypes', 'Bank types')}</span>
-                  <span className="text-slate-900 font-medium">
-                    {activePackage
-                      ? `${activePackage.usage.bank_types} / ${activePackage.limits.bank_types ?? '∞'}`
-                      : '-'}
-                  </span>
-                </div>
+                {activePackages.length > 0 ? (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{t('billing.usage.transactions', 'Transactions')}</span>
+                      <span className="text-slate-900 font-medium">
+                        {activePackages.reduce((s, ap) => s + ap.usage.transactions, 0)} /{' '}
+                        {activePackages.every((ap) => ap.limits.is_unlimited_transactions)
+                          ? '∞'
+                          : activePackages.reduce((s, ap) => s + (ap.limits.transactions ?? 0), 0)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">
+                        {t('billing.usage.webhookDeliveries', 'Webhook deliveries')}
+                      </span>
+                      <span className="text-slate-900 font-medium">
+                        {activePackages.reduce((s, ap) => s + ap.usage.webhook_deliveries, 0)} /{' '}
+                        {activePackages.every((ap) => ap.limits.is_unlimited_webhook_deliveries)
+                          ? '∞'
+                          : activePackages.reduce((s, ap) => s + (ap.limits.webhook_deliveries ?? 0), 0)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{t('billing.usage.bankTypes', 'Bank types')}</span>
+                      <span className="text-slate-900 font-medium">
+                        {(activePackages[0]?.usage.bank_types ?? 0)} /{' '}
+                        {activePackages.every((ap) => ap.limits.is_unlimited_bank_types)
+                          ? '∞'
+                          : activePackages.reduce((s, ap) => s + (ap.limits.bank_types ?? 0), 0)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-500 pt-1">
+                      {t('billing.usage.fromPackages', 'Sum of {{count}} package(s)', {
+                        count: activePackages.length,
+                      })}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{t('billing.usage.transactions', 'Transactions')}</span>
+                      <span className="text-slate-900 font-medium">0 / –</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">
+                        {t('billing.usage.webhookDeliveries', 'Webhook deliveries')}
+                      </span>
+                      <span className="text-slate-900 font-medium">0 / –</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500">{t('billing.usage.bankTypes', 'Bank types')}</span>
+                      <span className="text-slate-900 font-medium">0 / –</span>
+                    </div>
+                    <p className="text-xs text-slate-500 pt-1">
+                      {t('billing.usage.noPackage', 'No package yet. Buy a package to get quotas.')}
+                    </p>
+                  </>
+                )}
               </CardBody>
             </Card>
 
@@ -234,7 +248,7 @@ export const BillingPage: React.FC = () => {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold text-slate-900">
-              {t('billing.plans.title', 'Plans Catalog')}
+              {t('billing.packages.catalogTitle', 'Package catalog')}
             </h3>
           </div>
           <Card className="overflow-hidden border-primary/10">
@@ -245,47 +259,54 @@ export const BillingPage: React.FC = () => {
                     {t('billing.plans.columns.name', 'Name')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    {t('billing.plans.columns.price', 'Price')}
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    {t('billing.plans.columns.maxBankAccounts', 'Max bank accounts')}
+                    {t('billing.packages.pricePerMonth', 'Price/month')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                     {t('billing.plans.columns.maxTransactions', 'Max transactions')}
                   </th>
                   <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    {t('billing.plans.columns.duration', 'Duration')}
+                    {t('billing.packages.banks', 'Banks')}
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-primary/5">
-                {plans.map((plan) => (
-                  <tr key={plan.id}>
-                    <td className="px-6 py-4 text-sm font-medium text-slate-900">{plan.name}</td>
-                    <td className="px-6 py-4 text-sm text-slate-500">{formatCurrency(plan.price_vnd)}</td>
-                    <td className="px-6 py-4 text-sm font-semibold text-slate-900">{plan.max_bank_accounts}</td>
-                    <td className="px-6 py-4 text-sm text-slate-700">{plan.max_transactions}</td>
+                {packages.map((pkg) => (
+                  <tr key={pkg.id}>
+                    <td className="px-6 py-4 text-sm font-medium text-slate-900">{pkg.name}</td>
+                    <td className="px-6 py-4 text-sm text-slate-500">{formatCurrency(pkg.price_vnd)}</td>
                     <td className="px-6 py-4 text-sm text-slate-700">
-                      {plan.duration_days} {t('billing.common.days', 'days')}
+                      {pkg.is_unlimited_transactions
+                        ? '∞'
+                        : pkg.max_transactions ?? '–'}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-slate-700">
+                      {pkg.banks && pkg.banks.length > 0
+                        ? pkg.banks
+                            .map((b) => `${b.name || b.code}: ${b.account_limit}`)
+                            .join(', ')
+                        : '–'}
                     </td>
                   </tr>
                 ))}
-                {!loading && plans.length === 0 && (
+                {!loading && packages.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-6 py-6 text-sm text-slate-500 text-center">
-                      {t('billing.plans.empty', 'No plans available.')}
+                    <td colSpan={4} className="px-6 py-6 text-sm text-slate-500 text-center">
+                      {t('billing.packages.empty', 'No packages available.')}
                     </td>
                   </tr>
                 )}
               </tbody>
             </Table>
           </Card>
-          {error && (
-            <div className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2">
-              {error}
-            </div>
-          )}
         </section>
+        </>
+        )}
+
+        <PurchasePackageModal
+          open={purchaseModalOpen}
+          onClose={() => setPurchaseModalOpen(false)}
+          onSuccess={() => void dispatch(fetchBillingData())}
+        />
       </section>
     </AuthenticatedLayout>
   )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { loginThunk } from '../../store/authSlice'
+import { fetchCurrentUser, loginThunk } from '../../store/authSlice'
 import { AuthLayout } from './AuthLayout'
 import { Card, CardBody } from '../../components/ui/Card'
 import { Input } from '../../components/ui/Input'
@@ -30,7 +30,24 @@ export const LoginPage: React.FC = () => {
     e.preventDefault()
     if (loading) return
     try {
-      await dispatch(loginThunk({ email, password })).unwrap()
+      const result = await dispatch(loginThunk({ email, password })).unwrap() as {
+        data?: { token?: string; needs_2fa?: boolean; temp_token?: string; needs_login_verify?: boolean; verification_id?: string }
+      }
+      const data = result?.data ?? result
+      if (data?.needs_2fa === true && data?.temp_token) {
+        navigate(`/verify?temp_token=${encodeURIComponent(data.temp_token)}`, { replace: true })
+        return
+      }
+      if (data?.needs_login_verify === true && data?.verification_id) {
+        navigate(`/verify?verification_id=${data.verification_id}&type=login`, { replace: true })
+        return
+      }
+      // login thành công bình thường -> load user từ /users/me
+      try {
+        await dispatch(fetchCurrentUser()).unwrap()
+      } catch {
+        // ignore; token vẫn được lưu, có thể fetch sau
+      }
       const state = location.state as LocationState | null
       const redirectTo = state?.from?.pathname ?? '/dashboard'
       navigate(redirectTo, { replace: true })

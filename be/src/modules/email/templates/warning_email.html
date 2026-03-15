@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New login - HyperPay</title>
+  <style>body{font-family:Inter,sans-serif;margin:0;padding:24px;background:#f5f5f8}.box{max-width:500px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0}.head{padding:24px;border-bottom:1px solid #f1f5f9}.body{padding:24px}.meta{background:#f8fafc;border-radius:8px;padding:20px;margin:20px 0}.row{margin:12px 0}.label{color:#64748b;font-size:14px}.val{color:#0f172a;font-weight:600}.btn{display:inline-block;background:#645cff;color:#fff!important;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:600}</style>
+</head>
+<body>
+  <div class="box">
+    <div class="head">
+      <h1 style="font-size:20px;color:#0f172a;margin:0">HyperPay</h1>
+    </div>
+    <div class="body">
+      <h2 style="font-size:22px;color:#0f172a;margin:0 0 8px">New login from an unrecognized device</h2>
+      <p style="color:#64748b;margin:0">We detected a login from a device or location we don't recognize.</p>
+      <div class="meta">
+        <div class="row"><span class="label">Time</span><br/><span class="val">{{time}}</span></div>
+        <div class="row"><span class="label">Location</span><br/><span class="val">{{location}}</span><br/><span class="label">IP: {{ip}}</span></div>
+        <div class="row"><span class="label">Device</span><br/><span class="val">{{device}}</span></div>
+      </div>
+      <a href="{{verifyLink}}" class="btn">Secure your account</a>
+      <p style="font-size:14px;color:#94a3b8;margin-top:20px">If this was you, you can safely ignore this email.</p>
+    </div>
+  </div>
+</body>
+</html>

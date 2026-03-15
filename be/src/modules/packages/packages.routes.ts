@@ -7,6 +7,7 @@ import { validate } from "../../shared/middleware/validate.middleware.js";
 import { packagesController } from "./packages.controller.js";
 import {
   createPackageSchema,
+  purchasePackageBodySchema,
   purchasePackageParamsSchema
 } from "./packages.schema.js";
 
@@ -24,6 +25,6 @@ packagesRoutes.post(
 packagesRoutes.post(
   "/:packageId/purchase",
   authMiddleware,
-  validate({ params: purchasePackageParamsSchema }),
+  validate({ params: purchasePackageParamsSchema, body: purchasePackageBodySchema }),
   asyncHandler(packagesController.purchase)
 );

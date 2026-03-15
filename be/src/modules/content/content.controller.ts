@@ -15,7 +15,7 @@ function assertCanManageContent(
 
 function assertCanManageExistingContent(
   user: NonNullable<Request["user"]>,
-  content: { authorId: number | null }
+  content: { authorId: string | null }
 ) {
   if (user.role === "EDITOR" || user.role === "ADMIN") {
     return;
@@ -280,7 +280,7 @@ export const contentController = {
 
   async restoreRevision(req: Request, res: Response) {
     assertCanManageContent(req.user);
-    const { slug, revisionId } = req.params as unknown as { slug: string; revisionId: number };
+    const { slug, revisionId } = req.params as { slug: string; revisionId: string };
     const content = await contentRepository.getBySlugForAdmin(slug);
     if (!content) {
       throw new AppError(404, ErrorCodes.NOT_FOUND, "Content not found");

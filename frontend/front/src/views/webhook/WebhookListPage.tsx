@@ -1,76 +1,149 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AuthenticatedLayout } from '../layout/AuthenticatedLayout'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchWebhookConfig } from '../../store/webhookSlice'
+import { fetchWebhookConfig, fetchWebhookLogs, type WebhookDeliveryLogEntry } from '../../store/webhookSlice'
+import { DeleteWebhookModal } from './DeleteWebhookModal'
 import { Card, CardBody, CardHeader } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Table } from '../../components/ui/Table'
 
-type LogItem = {
-  eventType: string
-  statusCode: string
-  statusTone: 'ok' | 'err'
-  entityId: string
-  timeAgo: string
+function formatTimeAgo(iso: string): string {
+  const d = new Date(iso)
+  const now = new Date()
+  const sec = Math.floor((now.getTime() - d.getTime()) / 1000)
+  if (sec < 60) return `${sec}s ago`
+  if (sec < 3600) return `${Math.floor(sec / 60)}m ago`
+  if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`
+  return d.toLocaleDateString()
 }
 
 export const WebhookListPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { config, status } = useAppSelector((s) => s.webhook)
+  const { items: webhooks, status, error, logs, logsStatus } = useAppSelector((s) => s.webhook)
 
   const loading = status === 'loading'
+  const failed = status === 'failed'
 
   useEffect(() => {
-    if (status === 'idle') {
-      void dispatch(fetchWebhookConfig())
+    void dispatch(fetchWebhookConfig())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (status === 'succeeded' || status === 'idle') {
+      void dispatch(fetchWebhookLogs())
     }
   }, [dispatch, status])
 
   const endpoints = useMemo(() => {
-    if (!config?.url) return []
-    return [
-      {
-        url: config.url,
-        createdAtLabel: t('webhook.list.createdAt', 'Created Oct 24, 2023'),
-        enabled: config.is_active,
-        events: ['payment_intent.succeeded', 'charge.refunded', '+14 more'],
-      },
-    ]
-  }, [config, t])
+    return webhooks.map((w) => {
+      const dir = w.transaction_direction
+      const directionLabel =
+        dir === 'BOTH'
+          ? t('webhook.form.transactionDirectionBoth', 'BOTH')
+          : dir === 'IN'
+            ? t('webhook.form.transactionDirectionIn', 'IN')
+            : t('webhook.form.transactionDirectionOut', 'OUT')
+      return {
+        id: w.id,
+        url: w.url,
+        enabled: w.is_active,
+        events: [directionLabel],
+      }
+    })
+  }, [webhooks, t])
 
-  const mockLogs = useMemo<LogItem[]>(
-    () => [
-      {
-        eventType: 'payment_intent.succeeded',
-        statusCode: '200 OK',
-        statusTone: 'ok',
-        entityId: 'pi_3Mv2...Y7p',
-        timeAgo: t('webhook.list.logs.timeAgo2m', '2 min ago'),
-      },
-      {
-        eventType: 'customer.created',
-        statusCode: '200 OK',
-        statusTone: 'ok',
-        entityId: 'cus_Og9...w1',
-        timeAgo: t('webhook.list.logs.timeAgo14m', '14 min ago'),
-      },
-      {
-        eventType: 'charge.failed',
-        statusCode: '500 ERR',
-        statusTone: 'err',
-        entityId: 'ch_8JkL...v4m',
-        timeAgo: t('webhook.list.logs.timeAgo1h', '1 hour ago'),
-      },
-    ],
-    [t],
+  const webhookLogs = useMemo(
+    () =>
+      logs.map((log) => ({
+        ...log,
+        eventType: log.event_type,
+        statusCode: String(log.response_status_code),
+        statusTone: (log.success ? 'ok' : 'err') as 'ok' | 'err',
+        entityId: `#${log.id}`,
+        timeAgo: formatTimeAgo(log.created_at),
+      })),
+    [logs]
   )
+  const [selectedLogIdx, setSelectedLogIdx] = useState<number | null>(null)
+  const [viewerTab, setViewerTab] = useState<'response' | 'payload' | 'metadata'>('response')
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [menuAnchor, setMenuAnchor] = useState<DOMRect | null>(null)
+  const [deletingWebhook, setDeletingWebhook] = useState<{ id: string; url: string } | null>(null)
+  const menuTriggerRef = useRef<HTMLButtonElement | null>(null)
 
-  const [selectedLogIdx, setSelectedLogIdx] = useState(0)
-  const selectedLog = mockLogs[selectedLogIdx]
+  useEffect(() => {
+    if (openMenuId === null) {
+      setMenuAnchor(null)
+      return
+    }
+    const rect = menuTriggerRef.current?.getBoundingClientRect()
+    setMenuAnchor(rect ?? null)
+  }, [openMenuId])
+
+  useEffect(() => {
+    if (openMenuId === null) return
+    const onDocClick = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (menuTriggerRef.current?.contains(target)) return
+      const menuEl = document.getElementById('webhook-endpoint-menu-portal')
+      if (menuEl?.contains(target)) return
+      setOpenMenuId(null)
+    }
+    document.addEventListener('click', onDocClick)
+    return () => document.removeEventListener('click', onDocClick)
+  }, [openMenuId])
+
+  const selectedLog: WebhookDeliveryLogEntry | null =
+    selectedLogIdx !== null ? logs[selectedLogIdx] ?? null : null
+
+  const viewerContent = (() => {
+    if (!selectedLog) return null
+    switch (viewerTab) {
+      case 'response': {
+        const obj: Record<string, unknown> = {
+          status_code: selectedLog.response_status_code,
+          success: selectedLog.success,
+          error_message: selectedLog.error_message ?? undefined,
+        }
+        if (selectedLog.response_body != null && selectedLog.response_body !== '') {
+          try {
+            obj.body = JSON.parse(selectedLog.response_body) as unknown
+          } catch {
+            obj.body = selectedLog.response_body
+          }
+        }
+        return JSON.stringify(obj, null, 2)
+      }
+      case 'payload': {
+        const raw = selectedLog.request_payload
+        if (raw == null || raw === '') return '(empty)'
+        try {
+          return JSON.stringify(JSON.parse(raw), null, 2)
+        } catch {
+          return raw
+        }
+      }
+      case 'metadata':
+      default:
+        return JSON.stringify(
+          {
+            id: selectedLog.id,
+            url: selectedLog.url,
+            event_type: selectedLog.event_type,
+            created_at: selectedLog.created_at,
+            response_status_code: selectedLog.response_status_code,
+            success: selectedLog.success,
+          },
+          null,
+          2
+        )
+    }
+  })()
 
   return (
     <AuthenticatedLayout>
@@ -86,6 +159,15 @@ export const WebhookListPage: React.FC = () => {
             {t('webhook.breadcrumb.current', 'Webhooks')}
           </span>
         </nav>
+
+        {failed && error && (
+          <div className="mb-6 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700 flex items-center justify-between gap-4 flex-wrap" role="alert">
+            <span>{error}</span>
+            <Button variant="secondary" size="sm" onClick={() => void dispatch(fetchWebhookConfig())}>
+              {t('common.retry')}
+            </Button>
+          </div>
+        )}
 
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
@@ -104,11 +186,7 @@ export const WebhookListPage: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <Button variant="secondary" className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[20px]">send</span>
-              {t('webhook.actions.test', 'Test event')}
-            </Button>
-            <Button className="flex items-center gap-2" onClick={() => navigate('/webhooks/new')}>
+            <Button className="flex items-center gap-2" onClick={() => navigate('/webhooks/new', { state: { mode: 'add' } })}>
               <span className="material-symbols-outlined text-[20px]">add</span>
               {t('webhook.list.addEndpoint', 'Add endpoint')}
             </Button>
@@ -168,13 +246,12 @@ export const WebhookListPage: React.FC = () => {
                     </tr>
                   )}
                   {endpoints.map((ep) => (
-                    <tr key={ep.url} className="hover:bg-slate-50 transition-colors">
+                    <tr key={ep.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <span className="material-symbols-outlined text-slate-400">link</span>
                           <div>
                             <p className="text-sm font-medium text-slate-900">{ep.url}</p>
-                            <p className="text-xs text-slate-500">{ep.createdAtLabel}</p>
                           </div>
                         </div>
                       </td>
@@ -204,14 +281,19 @@ export const WebhookListPage: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-slate-400 hover:text-primary px-0"
-                          onClick={() => navigate('/webhooks/new')}
+                        <button
+                          ref={openMenuId === ep.id ? menuTriggerRef : undefined}
+                          type="button"
+                          className="text-slate-400 hover:text-slate-900 transition-colors p-1 rounded hover:bg-slate-100"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setOpenMenuId(openMenuId === ep.id ? null : ep.id)
+                          }}
+                          aria-haspopup="true"
+                          aria-expanded={openMenuId === ep.id}
                         >
                           <span className="material-symbols-outlined">more_horiz</span>
-                        </Button>
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -219,6 +301,48 @@ export const WebhookListPage: React.FC = () => {
               </Table>
             </CardBody>
           </Card>
+
+          {openMenuId !== null && menuAnchor && (() => {
+            const ep = endpoints.find((e) => e.id === openMenuId)
+            if (!ep) return null
+            return createPortal(
+              <div
+                id="webhook-endpoint-menu-portal"
+                role="menu"
+                className="fixed min-w-[180px] py-1 bg-white border border-slate-200 rounded-lg shadow-lg z-[100]"
+                style={{
+                  top: menuAnchor.bottom + 4,
+                  right: window.innerWidth - menuAnchor.right,
+                }}
+              >
+                <button
+                  type="button"
+                  className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                  role="menuitem"
+                  onClick={() => {
+                    setOpenMenuId(null)
+                    navigate('/webhooks/new', { state: { editId: ep.id } })
+                  }}
+                >
+                  <span className="material-symbols-outlined text-lg">edit</span>
+                  {t('webhook.list.menu.edit', 'Chỉnh sửa')}
+                </button>
+                <button
+                  type="button"
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                  role="menuitem"
+                  onClick={() => {
+                    setOpenMenuId(null)
+                    setDeletingWebhook({ id: ep.id, url: ep.url })
+                  }}
+                >
+                  <span className="material-symbols-outlined text-lg">delete</span>
+                  {t('webhook.list.menu.delete', 'Xóa')}
+                </button>
+              </div>,
+              document.body,
+            )
+          })()}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-1 overflow-hidden flex flex-col h-[500px]">
@@ -233,91 +357,134 @@ export const WebhookListPage: React.FC = () => {
                 </div>
               </CardHeader>
               <div className="flex-1 overflow-y-auto divide-y divide-slate-50">
-                {mockLogs.map((log, idx) => {
-                  const selected = idx === selectedLogIdx
-                  return (
-                    <button
-                      key={`${log.eventType}-${idx}`}
-                      type="button"
-                      onClick={() => setSelectedLogIdx(idx)}
-                      className={[
-                        'w-full text-left p-4 transition-colors border-l-4',
-                        selected
-                          ? 'bg-primary/5 border-primary'
-                          : 'hover:bg-slate-50 border-transparent',
-                      ].join(' ')}
-                    >
-                      <div className="flex justify-between items-start mb-1">
-                        <span className="text-xs font-bold font-mono text-slate-900">
-                          {log.eventType}
-                        </span>
-                        <span
-                          className={[
-                            'text-[10px] font-bold px-1.5 rounded',
-                            log.statusTone === 'ok'
-                              ? 'text-green-600 bg-green-50'
-                              : 'text-red-600 bg-red-50',
-                          ].join(' ')}
-                        >
-                          {log.statusCode}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-end">
-                        <span className="text-xs text-slate-500 font-mono">{log.entityId}</span>
-                        <span className="text-[10px] text-slate-400">{log.timeAgo}</span>
-                      </div>
-                    </button>
-                  )
-                })}
+                {logsStatus === 'loading' ? (
+                  <div className="p-6 text-center text-sm text-slate-500">
+                    {t('webhook.list.logs.loading', 'Loading logs...')}
+                  </div>
+                ) : webhookLogs.length === 0 ? (
+                  <div className="p-6 text-center text-sm text-slate-500">
+                    {t('webhook.list.logs.empty', 'No delivery logs yet. Logs will appear when webhook events are sent to your endpoint.')}
+                  </div>
+                ) : (
+                  webhookLogs.map((log, idx) => {
+                    const selected = idx === selectedLogIdx
+                    return (
+                      <button
+                        key={log.id}
+                        type="button"
+                        onClick={() => setSelectedLogIdx(idx)}
+                        className={[
+                          'w-full text-left p-4 transition-colors border-l-4',
+                          selected
+                            ? 'bg-primary/5 border-primary'
+                            : 'hover:bg-slate-50 border-transparent',
+                        ].join(' ')}
+                      >
+                        <div className="flex justify-between items-start mb-1">
+                          <span className="text-xs font-bold font-mono text-slate-900">
+                            {log.eventType}
+                          </span>
+                          <span
+                            className={[
+                              'text-[10px] font-bold px-1.5 rounded',
+                              log.statusTone === 'ok'
+                                ? 'text-green-600 bg-green-50'
+                                : 'text-red-600 bg-red-50',
+                            ].join(' ')}
+                          >
+                            {log.statusCode}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-end">
+                          <span className="text-xs text-slate-500 font-mono truncate max-w-[120px]" title={log.url}>
+                            {log.entityId}
+                          </span>
+                          <span className="text-[10px] text-slate-400">{log.timeAgo}</span>
+                        </div>
+                      </button>
+                    )
+                  })
+                )}
               </div>
             </Card>
 
             <div className="lg:col-span-2 bg-slate-950 rounded-xl shadow-xl overflow-hidden flex flex-col h-[500px]">
               <div className="px-6 py-4 bg-slate-900 flex justify-between items-center">
                 <div className="flex gap-4">
-                  <button className="text-xs font-semibold text-white border-b-2 border-primary pb-1">
+                  <button
+                    type="button"
+                    onClick={() => setViewerTab('response')}
+                    className={`text-xs font-semibold pb-1 border-b-2 transition-colors ${
+                      viewerTab === 'response'
+                        ? 'text-white border-primary'
+                        : 'text-slate-400 hover:text-slate-200 border-transparent'
+                    }`}
+                  >
                     {t('webhook.list.viewer.response', 'Response')}
                   </button>
-                  <button className="text-xs font-semibold text-slate-400 hover:text-slate-200 pb-1">
+                  <button
+                    type="button"
+                    onClick={() => setViewerTab('payload')}
+                    className={`text-xs font-semibold pb-1 border-b-2 transition-colors ${
+                      viewerTab === 'payload'
+                        ? 'text-white border-primary'
+                        : 'text-slate-400 hover:text-slate-200 border-transparent'
+                    }`}
+                  >
                     {t('webhook.list.viewer.payload', 'Payload')}
                   </button>
-                  <button className="text-xs font-semibold text-slate-400 hover:text-slate-200 pb-1">
+                  <button
+                    type="button"
+                    onClick={() => setViewerTab('metadata')}
+                    className={`text-xs font-semibold pb-1 border-b-2 transition-colors ${
+                      viewerTab === 'metadata'
+                        ? 'text-white border-primary'
+                        : 'text-slate-400 hover:text-slate-200 border-transparent'
+                    }`}
+                  >
                     {t('webhook.list.viewer.metadata', 'Metadata')}
                   </button>
                 </div>
                 <div className="flex gap-2">
-                  <button className="text-slate-400 hover:text-white transition-colors" type="button">
-                    <span className="material-symbols-outlined text-[18px]">content_copy</span>
-                  </button>
-                  <button className="text-slate-400 hover:text-white transition-colors" type="button">
-                    <span className="material-symbols-outlined text-[18px]">download</span>
-                  </button>
+                  {viewerContent != null && (
+                    <button
+                      type="button"
+                      className="text-slate-400 hover:text-white transition-colors"
+                      onClick={() => void navigator.clipboard.writeText(viewerContent)}
+                      title={t('common.copy', 'Copy')}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">content_copy</span>
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="flex-1 p-6 overflow-auto">
-                <pre className="text-xs font-mono text-slate-300 leading-relaxed">
-{`{
-  "type": "${selectedLog?.eventType ?? t('webhook.list.logs.defaultEventType', 'event')}",
-  "id": "evt_...",
-  "status": "${selectedLog?.statusCode ?? '200 OK'}"
-}`}
-                </pre>
+                {selectedLog ? (
+                  <pre className="text-xs font-mono text-slate-300 leading-relaxed whitespace-pre-wrap break-all">
+                    {viewerContent ?? '(empty)'}
+                  </pre>
+                ) : (
+                  <p className="text-sm text-slate-500">
+                    {t('webhook.list.viewer.noLogSelected', 'Select a log or logs will appear here when webhooks are delivered.')}
+                  </p>
+                )}
               </div>
-              <div className="px-6 py-3 bg-slate-900 border-t border-slate-800 flex justify-between items-center">
-                <span className="text-[10px] text-slate-500 font-mono">
-                  {t('webhook.list.viewer.eventId', 'Event ID')}: evt_...
-                </span>
-                <div className="flex items-center gap-4">
-                  <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">schedule</span>
-                    {t('webhook.list.logs.sampleTime', '12:44:19 PM')}
+              {selectedLog && (
+                <div className="px-6 py-3 bg-slate-900 border-t border-slate-800 flex justify-between items-center">
+                  <span className="text-[10px] text-slate-500 font-mono truncate max-w-[200px]" title={selectedLog.url}>
+                    {t('webhook.list.viewer.eventId', 'Event ID')}: #{selectedLog.id}
                   </span>
-                  <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[12px]">speed</span>
-                    {t('webhook.list.logs.sampleLatency', '142ms')}
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-[10px] text-slate-400 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[12px]">schedule</span>
+                      {new Date(selectedLog.created_at).toLocaleString()}
+                    </span>
+                    <span className={`text-[10px] font-semibold ${selectedLog.success ? 'text-green-400' : 'text-red-400'}`}>
+                      {selectedLog.response_status_code}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -380,6 +547,13 @@ export const WebhookListPage: React.FC = () => {
           </div>
         </div>
       </section>
+      {deletingWebhook && (
+        <DeleteWebhookModal
+          webhookId={deletingWebhook.id}
+          endpointUrl={deletingWebhook.url}
+          onClose={() => setDeletingWebhook(null)}
+        />
+      )}
     </AuthenticatedLayout>
   )
 }

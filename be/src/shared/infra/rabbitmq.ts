@@ -24,6 +24,15 @@ export async function connectRabbit(): Promise<Channel> {
     deadLetterRoutingKey: "failed"
   });
 
+  await ch.assertExchange(env.RABBITMQ_EMAIL_DLX, "direct", { durable: true });
+  await ch.assertQueue(env.RABBITMQ_EMAIL_DLQ, { durable: true });
+  await ch.bindQueue(env.RABBITMQ_EMAIL_DLQ, env.RABBITMQ_EMAIL_DLX, "failed");
+  await ch.assertQueue(env.RABBITMQ_EMAIL_QUEUE, {
+    durable: true,
+    deadLetterExchange: env.RABBITMQ_EMAIL_DLX,
+    deadLetterRoutingKey: "failed"
+  });
+
   channel = ch;
   logger.info("RabbitMQ connected");
   return ch;
@@ -39,17 +48,23 @@ export async function consumeQueue(
   handler: (msg: ConsumeMessage) => Promise<void>
 ) {
   const ch = await connectRabbit();
-  await ch.consume(queue, async (msg) => {
-    if (!msg) {
-      return;
-    }
+  await ch.prefetch(1);
+  await ch.consume(
+    queue,
+    async (msg) => {
+      if (!msg) {
+        return;
+      }
 
-    try {
-      await handler(msg);
-      ch.ack(msg);
-    } catch (error) {
-      logger.error({ error }, "Queue handler failed, message moved to DLQ");
-      ch.nack(msg, false, false);
-    }
-  });
+      try {
+        await handler(msg);
+        ch.ack(msg);
+      } catch (error) {
+        logger.error({ error }, "Queue handler failed, message moved to DLQ");
+        ch.nack(msg, false, false);
+      }
+    },
+    { noAck: false }
+  );
+  logger.info({ queue }, "Consumer registered");
 }

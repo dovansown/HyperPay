@@ -8,27 +8,109 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique @db.VarChar(255)
-  password  String    @db.VarChar(255)
-  fullName  String?   @map("full_name") @db.VarChar(255)
-  role      UserRole  @default(USER)
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id                          String    @id @default(uuid()) @db.Uuid
+  email                       String    @unique @db.VarChar(255)
+  password                    String    @db.VarChar(255)
+  fullName                    String?   @map("full_name") @db.VarChar(255)
+  role                        UserRole  @default(USER)
+  emailVerified               Boolean   @default(false) @map("email_verified")
+  emailVerificationToken      String?   @map("email_verification_token") @db.VarChar(255)
+  emailVerificationExpiresAt  DateTime? @map("email_verification_expires_at")
+  totpSecret                  String?   @map("totp_secret") @db.VarChar(255)
+  totpEnabledAt               DateTime? @map("totp_enabled_at")
+  createdAt                   DateTime  @default(now()) @map("created_at")
+  updatedAt                   DateTime  @updatedAt @map("updated_at")
+  deletedAt                   DateTime? @map("deleted_at")
 
-  bankAccounts BankAccount[]
-  userPlans    UserPlan[]
-  userPackages UserPackage[]
-  webhooks     UserWebhook[]
-  contents     Content[]
-  editedRevisions ContentRevision[] @relation("content_revision_editor")
+  bankAccounts       BankAccount[]
+  userPlans          UserPlan[]
+  userPackages       UserPackage[]
+  webhooks           UserWebhook[]
+  webhookDeliveryLogs WebhookDeliveryLog[]
+  contents           Content[]
+  editedRevisions    ContentRevision[] @relation("content_revision_editor")
+  balance            UserBalance?
+  loginHistories     UserLoginHistory[]
+  verificationCodes  VerificationCode[]
+  backupCodes        UserBackupCode[]
 
   @@map("users")
 }
 
+model UserLoginHistory {
+  id           String   @id @default(uuid()) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  ip           String?  @db.VarChar(64)
+  userAgentHash String  @map("user_agent_hash") @db.VarChar(64)
+  userAgent    String?  @map("user_agent") @db.VarChar(512)
+  city         String?  @db.VarChar(120)
+  country      String?  @db.VarChar(120)
+  firstSeenAt  DateTime @map("first_seen_at")
+  lastSeenAt   DateTime @map("last_seen_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, userAgentHash])
+  @@map("user_login_histories")
+}
+
+enum VerificationCodeType {
+  EMAIL_VERIFY
+  LOGIN_VERIFY
+  CHANGE_PASSWORD
+}
+
+model VerificationCode {
+  id        String               @id @default(uuid()) @db.Uuid
+  userId    String               @map("user_id") @db.Uuid
+  type      VerificationCodeType
+  codeHash  String               @map("code_hash") @db.VarChar(255)
+  expiresAt DateTime             @map("expires_at")
+  usedAt    DateTime?            @map("used_at")
+  metadata  Json?                @db.JsonB
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([userId, type, expiresAt])
+  @@map("verification_codes")
+}
+
+model UserBackupCode {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  codeHash  String    @map("code_hash") @db.VarChar(255)
+  usedAt    DateTime? @map("used_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_backup_codes")
+}
+
+model SystemSetting {
+  id        String   @id @default(uuid()) @db.Uuid
+  key       String   @unique @db.VarChar(120)
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}
+
+model UserBalance {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @unique @map("user_id") @db.Uuid
+  balanceVnd BigInt   @default(0) @map("balance_vnd")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_balances")
+}
+
 model Bank {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid()) @db.Uuid
   name      String    @db.VarChar(255)
   code      String    @unique @db.VarChar(50)
   iconUrl   String?   @map("icon_url") @db.VarChar(512)
@@ -43,8 +125,8 @@ model Bank {
 }
 
 model BankAccount {
-  id             Int       @id @default(autoincrement())
-  userId         Int       @map("user_id")
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
   bankName       String    @map("bank_name") @db.VarChar(255)
   accountNumber  String    @map("account_number") @db.VarChar(50)
   accountHolder  String?   @map("account_holder") @db.VarChar(255)
@@ -63,8 +145,8 @@ model BankAccount {
 }
 
 model BankTransaction {
-  id            Int       @id @default(autoincrement())
-  bankAccountId Int       @map("bank_account_id")
+  id            String    @id @default(uuid()) @db.Uuid
+  bankAccountId String    @map("bank_account_id") @db.Uuid
   externalId    String?   @map("external_id") @db.VarChar(100)
   amount        BigInt
   type          String    @db.VarChar(20)
@@ -83,7 +165,7 @@ model BankTransaction {
 }
 
 model Plan {
-  id              Int       @id @default(autoincrement())
+  id              String    @id @default(uuid()) @db.Uuid
   name            String    @unique @db.VarChar(255)
   priceVnd        BigInt    @map("price_vnd")
   maxBankAccounts Int       @map("max_bank_accounts")
@@ -101,26 +183,63 @@ model Plan {
 }
 
 model Package {
-  id                   Int       @id @default(autoincrement())
-  name                 String    @unique @db.VarChar(255)
-  status               PackageStatus @default(ACTIVE)
-  isDefault            Boolean   @default(false) @map("is_default")
-  defaultStartAt       DateTime? @map("default_start_at")
-  defaultEndAt         DateTime? @map("default_end_at")
-  priceVnd             BigInt    @map("price_vnd")
-  maxTransactions      Int       @map("max_transactions")
-  maxWebhookDeliveries Int       @map("max_webhook_deliveries")
-  maxBankTypes         Int       @map("max_bank_types")
-  durationDays         Int       @map("duration_days")
-  description          String?   @db.VarChar(512)
-  createdAt            DateTime  @default(now()) @map("created_at")
-  updatedAt            DateTime  @updatedAt @map("updated_at")
-  deletedAt            DateTime? @map("deleted_at")
+  id                    String    @id @default(uuid()) @db.Uuid
+  name                  String    @unique @db.VarChar(255)
+  status                PackageStatus @default(ACTIVE)
+  isDefault             Boolean   @default(false) @map("is_default")
+  applyDefaultDiscount  Boolean   @default(false) @map("apply_default_discount")
+  defaultStartAt        DateTime? @map("default_start_at")
+  defaultEndAt          DateTime? @map("default_end_at")
+  priceVnd              BigInt    @map("price_vnd")
+  maxTransactions       Int       @map("max_transactions")
+  maxWebhookDeliveries  Int       @map("max_webhook_deliveries")
+  maxBankTypes          Int       @map("max_bank_types")
+  durationDays          Int?      @map("duration_days")
+  description           String?   @db.VarChar(512)
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+  deletedAt             DateTime? @map("deleted_at")
 
-  userPackages UserPackage[]
-  packageBanks PackageBank[]
+  userPackages         UserPackage[]
+  packageBanks         PackageBank[]
+  packageDurationPrices PackageDurationPrice[]
 
   @@map("packages")
+}
+
+model Duration {
+  id             String    @id @default(uuid()) @db.Uuid
+  name           String    @db.VarChar(120)
+  months         Int
+  days           Int
+  sortOrder      Int       @default(0) @map("sort_order")
+  isDefault      Boolean   @default(false) @map("is_default")
+  discountPercent Int?     @map("discount_percent")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  packageDurationPrices PackageDurationPrice[]
+
+  @@map("durations")
+}
+
+model PackageDurationPrice {
+  id         String   @id @default(uuid()) @db.Uuid
+  packageId  String   @map("package_id") @db.Uuid
+  durationId String   @map("duration_id") @db.Uuid
+  priceVnd   BigInt   @map("price_vnd")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  package  Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  duration Duration @relation(fields: [durationId], references: [id], onDelete: Restrict)
+
+  @@unique([packageId, durationId])
+  @@index([packageId])
+  @@index([durationId])
+  @@map("package_duration_prices")
 }
 
 enum PackageStatus {
@@ -130,9 +249,9 @@ enum PackageStatus {
 }
 
 model PlanBank {
-  id        Int       @id @default(autoincrement())
-  planId    Int       @map("plan_id")
-  bankId    Int       @map("bank_id")
+  id        String    @id @default(uuid()) @db.Uuid
+  planId    String    @map("plan_id") @db.Uuid
+  bankId    String    @map("bank_id") @db.Uuid
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
@@ -147,9 +266,9 @@ model PlanBank {
 }
 
 model UserPlan {
-  id               Int       @id @default(autoincrement())
-  userId           Int       @map("user_id")
-  planId           Int       @map("plan_id")
+  id               String    @id @default(uuid()) @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  planId           String    @map("plan_id") @db.Uuid
   startAt          DateTime  @map("start_at")
   endAt            DateTime  @map("end_at")
   usedBankAccounts Int       @default(0) @map("used_bank_accounts")
@@ -168,9 +287,9 @@ model UserPlan {
 }
 
 model UserPackage {
-  id                    Int       @id @default(autoincrement())
-  userId                Int       @map("user_id")
-  packageId             Int       @map("package_id")
+  id                    String    @id @default(uuid()) @db.Uuid
+  userId                String    @map("user_id") @db.Uuid
+  packageId             String    @map("package_id") @db.Uuid
   startAt               DateTime  @map("start_at")
   endAt                 DateTime  @map("end_at")
   usedTransactions      Int       @default(0) @map("used_transactions")
@@ -190,12 +309,13 @@ model UserPackage {
 }
 
 model PackageBank {
-  id        Int       @id @default(autoincrement())
-  packageId Int       @map("package_id")
-  bankId    Int       @map("bank_id")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  id           String    @id @default(uuid()) @db.Uuid
+  packageId    String    @map("package_id") @db.Uuid
+  bankId       String    @map("bank_id") @db.Uuid
+  accountLimit Int       @default(1) @map("account_limit")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
 
   package Package @relation(fields: [packageId], references: [id], onDelete: Cascade)
   bank    Bank    @relation(fields: [bankId], references: [id], onDelete: Restrict)
@@ -207,8 +327,8 @@ model PackageBank {
 }
 
 model UserWebhook {
-  id          Int       @id @default(autoincrement())
-  userId      Int       @map("user_id")
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
   url         String    @db.VarChar(512)
   secretToken String    @map("secret_token") @db.VarChar(255)
   contentType WebhookContentType @default(JSON) @map("content_type")
@@ -240,12 +360,12 @@ model UserWebhook {
 }
 
 model UserWebhookAccount {
-  id           Int       @id @default(autoincrement())
-  userWebhookId Int      @map("user_webhook_id")
-  bankAccountId Int      @map("bank_account_id")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
+  id            String    @id @default(uuid()) @db.Uuid
+  userWebhookId String    @map("user_webhook_id") @db.Uuid
+  bankAccountId String    @map("bank_account_id") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
 
   userWebhook UserWebhook @relation(fields: [userWebhookId], references: [id], onDelete: Cascade)
   bankAccount BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
@@ -254,6 +374,25 @@ model UserWebhookAccount {
   @@index([bankAccountId])
   @@unique([userWebhookId, bankAccountId])
   @@map("user_webhook_accounts")
+}
+
+model WebhookDeliveryLog {
+  id                 String    @id @default(uuid()) @db.Uuid
+  userId             String    @map("user_id") @db.Uuid
+  url                String    @db.VarChar(512)
+  eventType          String    @map("event_type") @db.VarChar(64)
+  responseStatusCode Int       @map("response_status_code")
+  success            Boolean
+  errorMessage       String?   @map("error_message") @db.VarChar(512)
+  requestPayload     String?   @map("request_payload") @db.Text
+  responseBody       String?   @map("response_body") @db.Text
+  createdAt          DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@map("webhook_delivery_logs")
 }
 
 enum WebhookContentType {
@@ -301,25 +440,25 @@ enum UserRole {
 }
 
 model Content {
-  id          Int           @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   type        ContentType
   status      ContentStatus @default(DRAFT)
-  title       String        @db.VarChar(255)
-  slug        String        @unique @db.VarChar(255)
-  excerpt     String?       @db.VarChar(512)
-  content     String        @db.Text
-  coverImage  String?       @map("cover_image") @db.VarChar(512)
-  seoTitle    String?       @map("seo_title") @db.VarChar(255)
-  seoDescription String?    @map("seo_description") @db.VarChar(512)
-  seoKeywords String?       @map("seo_keywords") @db.VarChar(512)
+  title       String    @db.VarChar(255)
+  slug        String    @unique @db.VarChar(255)
+  excerpt     String?   @db.VarChar(512)
+  content     String    @db.Text
+  coverImage  String?   @map("cover_image") @db.VarChar(512)
+  seoTitle    String?   @map("seo_title") @db.VarChar(255)
+  seoDescription String? @map("seo_description") @db.VarChar(512)
+  seoKeywords String?   @map("seo_keywords") @db.VarChar(512)
   scheduledPublishAt DateTime? @map("scheduled_publish_at")
   previewTokenHash String?  @map("preview_token_hash") @db.VarChar(255)
   previewTokenExpiredAt DateTime? @map("preview_token_expired_at")
-  authorId    Int?          @map("author_id")
-  publishedAt DateTime?     @map("published_at")
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  deletedAt   DateTime?     @map("deleted_at")
+  authorId    String?   @map("author_id") @db.Uuid
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
 
   author     User?                     @relation(fields: [authorId], references: [id], onDelete: SetNull)
   categories ContentCategoryOnContent[]
@@ -334,21 +473,21 @@ model Content {
 }
 
 model ContentRevision {
-  id               Int           @id @default(autoincrement())
-  contentId        Int           @map("content_id")
+  id               String    @id @default(uuid()) @db.Uuid
+  contentId        String    @map("content_id") @db.Uuid
   version          Int
-  title            String        @db.VarChar(255)
-  excerpt          String?       @db.VarChar(512)
-  contentBody      String        @map("content_body") @db.Text
-  coverImage       String?       @map("cover_image") @db.VarChar(512)
+  title            String    @db.VarChar(255)
+  excerpt          String?   @db.VarChar(512)
+  contentBody      String    @map("content_body") @db.Text
+  coverImage       String?   @map("cover_image") @db.VarChar(512)
   status           ContentStatus
-  seoTitle         String?       @map("seo_title") @db.VarChar(255)
-  seoDescription   String?       @map("seo_description") @db.VarChar(512)
-  seoKeywords      String?       @map("seo_keywords") @db.VarChar(512)
-  categorySlugs    Json?         @map("category_slugs")
-  tagSlugs         Json?         @map("tag_slugs")
-  editedById       Int?          @map("edited_by_id")
-  createdAt        DateTime      @default(now()) @map("created_at")
+  seoTitle         String?   @map("seo_title") @db.VarChar(255)
+  seoDescription   String?   @map("seo_description") @db.VarChar(512)
+  seoKeywords      String?   @map("seo_keywords") @db.VarChar(512)
+  categorySlugs    Json?     @map("category_slugs")
+  tagSlugs         Json?     @map("tag_slugs")
+  editedById      String?   @map("edited_by_id") @db.Uuid
+  createdAt        DateTime  @default(now()) @map("created_at")
 
   content Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
   editedBy User?  @relation("content_revision_editor", fields: [editedById], references: [id], onDelete: SetNull)
@@ -359,7 +498,7 @@ model ContentRevision {
 }
 
 model ContentCategory {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String    @db.VarChar(120)
   slug        String    @unique @db.VarChar(120)
   description String?   @db.VarChar(255)
@@ -373,7 +512,7 @@ model ContentCategory {
 }
 
 model ContentTag {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String    @db.VarChar(120)
   slug        String    @unique @db.VarChar(120)
   description String?   @db.VarChar(255)
@@ -387,8 +526,8 @@ model ContentTag {
 }
 
 model ContentCategoryOnContent {
-  contentId  Int      @map("content_id")
-  categoryId Int      @map("category_id")
+  contentId  String   @map("content_id") @db.Uuid
+  categoryId String   @map("category_id") @db.Uuid
   createdAt  DateTime @default(now()) @map("created_at")
 
   content  Content         @relation(fields: [contentId], references: [id], onDelete: Cascade)
@@ -400,8 +539,8 @@ model ContentCategoryOnContent {
 }
 
 model ContentTagOnContent {
-  contentId Int      @map("content_id")
-  tagId     Int      @map("tag_id")
+  contentId String   @map("content_id") @db.Uuid
+  tagId     String   @map("tag_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
 
   content Content    @relation(fields: [contentId], references: [id], onDelete: Cascade)

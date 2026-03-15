@@ -226,7 +226,7 @@ export const contentRepository = {
     });
   },
 
-  async create(authorId: number | null, data: CreateContentInput) {
+  async create(authorId: string | null, data: CreateContentInput) {
     const categoryIds = await ensureCategories(data.categorySlugs ?? []);
     const tagIds = await ensureTags(data.tagSlugs ?? []);
     const shouldSchedule = data.scheduledPublishAt && data.scheduledPublishAt > new Date();
@@ -256,7 +256,7 @@ export const contentRepository = {
     });
   },
 
-  async updateBySlug(slug: string, editorId: number | null, data: UpdateContentInput) {
+  async updateBySlug(slug: string, editorId: string | null, data: UpdateContentInput) {
     const current = await prisma.content.findFirst({
       where: { slug, deletedAt: null },
       include: {
@@ -315,7 +315,7 @@ export const contentRepository = {
             ? {
                 categories: {
                   deleteMany: {},
-                  create: categoryIds.map((categoryId: number) => ({ categoryId }))
+                  create: categoryIds.map((categoryId: string) => ({ categoryId }))
                 }
               }
             : {}),
@@ -323,7 +323,7 @@ export const contentRepository = {
             ? {
                 tags: {
                   deleteMany: {},
-                  create: tagIds.map((tagId: number) => ({ tagId }))
+                  create: tagIds.map((tagId: string) => ({ tagId }))
                 }
               }
             : {})
@@ -412,7 +412,7 @@ export const contentRepository = {
     });
   },
 
-  async restoreRevision(slug: string, revisionId: number, editorId: number | null) {
+  async restoreRevision(slug: string, revisionId: string, editorId: string | null) {
     const content = await prisma.content.findFirst({
       where: { slug, deletedAt: null },
       include: { revisions: { orderBy: { version: "desc" }, take: 1, select: { version: true } } }
@@ -462,11 +462,11 @@ export const contentRepository = {
           seoKeywords: revision.seoKeywords,
           categories: {
             deleteMany: {},
-            create: categoryIds.map((categoryId: number) => ({ categoryId }))
+            create: categoryIds.map((categoryId: string) => ({ categoryId }))
           },
           tags: {
             deleteMany: {},
-            create: tagIds.map((tagId: number) => ({ tagId }))
+            create: tagIds.map((tagId: string) => ({ tagId }))
           }
         }
       });

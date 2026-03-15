@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const accountIdParamsSchema = z.object({
-  accountId: z.coerce.number().int().positive()
+  accountId: z.string().uuid()
 });
 
 export const tokenParamsSchema = z.object({

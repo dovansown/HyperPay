@@ -3,9 +3,11 @@ import { apiFetch, unwrapApiData, type ApiEnvelope } from '../lib/apiClient'
 import type { RootState } from './store'
 
 export type WebhookConfig = {
+  id: string
   url: string
   secret_token: string
-  account_ids: number[]
+  account_ids: string[]
+  account_numbers?: string[]
   transaction_direction: 'IN' | 'OUT' | 'BOTH'
   retry_on_non_2xx: boolean
   max_retry_attempts: number
@@ -25,35 +27,53 @@ export type WebhookConfig = {
   is_active: boolean
 }
 
+export type WebhookDeliveryLogEntry = {
+  id: string
+  url: string
+  event_type: string
+  response_status_code: number
+  success: boolean
+  error_message: string | null
+  request_payload: string | null
+  response_body: string | null
+  created_at: string
+}
+
 type WebhookState = {
-  config: WebhookConfig | null
+  items: WebhookConfig[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | null
+  logs: WebhookDeliveryLogEntry[]
+  logsStatus: 'idle' | 'loading' | 'succeeded' | 'failed'
 }
 
 const initialState: WebhookState = {
-  config: null,
+  items: [],
   status: 'idle',
   error: null,
+  logs: [],
+  logsStatus: 'idle',
 }
 
 export const fetchWebhookConfig = createAsyncThunk<
-  WebhookConfig | null,
+  WebhookConfig[],
   void,
   { state: RootState }
 >('webhook/fetch', async (_, thunkApi) => {
   const token = thunkApi.getState().auth.token ?? undefined
-  const res = await apiFetch<WebhookConfig | null | ApiEnvelope<WebhookConfig | null>>('/webhook', {
+  const res = await apiFetch<WebhookConfig[] | ApiEnvelope<WebhookConfig[]>>('/webhook', {
     method: 'GET',
     token,
   })
-  return unwrapApiData<WebhookConfig | null>(res)
+  const data = unwrapApiData<WebhookConfig[] | null>(res)
+  return Array.isArray(data) ? data : []
 })
 
 type UpsertPayload = {
+  id?: string
   url: string
   secret_token: string
-  account_ids: number[]
+  account_ids: string[]
   transaction_direction: 'IN' | 'OUT' | 'BOTH'
   retry_on_non_2xx: boolean
   max_retry_attempts: number
@@ -79,12 +99,67 @@ export const saveWebhookConfig = createAsyncThunk<
   { state: RootState }
 >('webhook/save', async (payload, thunkApi) => {
   const token = thunkApi.getState().auth.token ?? undefined
-  const res = await apiFetch<WebhookConfig | ApiEnvelope<WebhookConfig>, UpsertPayload>('/webhook', {
+  const isUpdate = Boolean(payload.id)
+  const body = { ...payload, id: undefined }
+  const res = isUpdate
+    ? await apiFetch<WebhookConfig | ApiEnvelope<WebhookConfig>, Omit<UpsertPayload, 'id'>>(
+        `/webhook/${payload.id}`,
+        { method: 'PUT', token, body }
+      )
+    : await apiFetch<WebhookConfig | ApiEnvelope<WebhookConfig>, Omit<UpsertPayload, 'id'>>(
+        '/webhook',
+        { method: 'POST', token, body }
+      )
+  return unwrapApiData<WebhookConfig>(res)
+})
+
+export type SendTestResult = { queued: boolean }
+
+export const sendTestEvent = createAsyncThunk<
+  SendTestResult,
+  string | undefined,
+  { state: RootState }
+>('webhook/sendTest', async (webhookId, thunkApi) => {
+  const token = thunkApi.getState().auth.token ?? undefined
+  const res = await apiFetch<SendTestResult | ApiEnvelope<SendTestResult>>('/webhook/test', {
     method: 'POST',
     token,
-    body: payload,
+    body: webhookId ? { webhook_id: webhookId } : {},
   })
-  return unwrapApiData<WebhookConfig>(res)
+  if (res && typeof res === 'object' && 'queued' in res) {
+    return res as SendTestResult
+  }
+  const data = (res as ApiEnvelope<SendTestResult>)?.data
+  return data ?? { queued: false }
+})
+
+export const fetchWebhookLogs = createAsyncThunk<
+  WebhookDeliveryLogEntry[],
+  void,
+  { state: RootState }
+>('webhook/fetchLogs', async (_, thunkApi) => {
+  const token = thunkApi.getState().auth.token ?? undefined
+  const res = await apiFetch<WebhookDeliveryLogEntry[] | ApiEnvelope<WebhookDeliveryLogEntry[]>>(
+    '/webhook/logs?limit=50',
+    { method: 'GET', token }
+  )
+  const data = unwrapApiData(res)
+  return Array.isArray(data) ? data : []
+})
+
+export type DeleteWebhookResult = { deleted: boolean }
+
+export const deleteWebhookConfig = createAsyncThunk<
+  DeleteWebhookResult,
+  string,
+  { state: RootState }
+>('webhook/delete', async (id, thunkApi) => {
+  const token = thunkApi.getState().auth.token ?? undefined
+  const res = await apiFetch<DeleteWebhookResult | ApiEnvelope<DeleteWebhookResult>>(`/webhook/${id}`, {
+    method: 'DELETE',
+    token,
+  })
+  return unwrapApiData<DeleteWebhookResult>(res)
 })
 
 const webhookSlice = createSlice({
@@ -99,7 +174,7 @@ const webhookSlice = createSlice({
       })
       .addCase(fetchWebhookConfig.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        state.config = action.payload
+        state.items = action.payload
       })
       .addCase(fetchWebhookConfig.rejected, (state, action) => {
         state.status = 'failed'
@@ -111,11 +186,37 @@ const webhookSlice = createSlice({
       })
       .addCase(saveWebhookConfig.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        state.config = action.payload
+        const idx = state.items.findIndex((w) => w.id === action.payload.id)
+        if (idx >= 0) state.items[idx] = action.payload
+        else state.items.push(action.payload)
       })
       .addCase(saveWebhookConfig.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message ?? 'Failed to save webhook configuration'
+      })
+      .addCase(fetchWebhookLogs.pending, (state) => {
+        state.logsStatus = 'loading'
+      })
+      .addCase(fetchWebhookLogs.fulfilled, (state, action) => {
+        state.logsStatus = 'succeeded'
+        state.logs = action.payload
+      })
+      .addCase(fetchWebhookLogs.rejected, (state) => {
+        state.logsStatus = 'failed'
+      })
+      .addCase(deleteWebhookConfig.pending, (state) => {
+        state.status = 'loading'
+        state.error = null
+      })
+      .addCase(deleteWebhookConfig.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        if (action.payload?.deleted && action.meta.arg) {
+          state.items = state.items.filter((w) => w.id !== action.meta.arg)
+        }
+      })
+      .addCase(deleteWebhookConfig.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message ?? 'Failed to delete webhook'
       })
   },
 })

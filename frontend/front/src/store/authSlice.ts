@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiFetch } from '../lib/apiClient'
+import { apiFetch, unwrapApiData } from '../lib/apiClient'
 
 type AuthUser = {
   email: string
@@ -156,6 +156,25 @@ export const forgotPasswordThunk = createAsyncThunk<void, ForgotPasswordPayload>
   },
 )
 
+export const fetchCurrentUser = createAsyncThunk<
+  AuthUser,
+  void,
+  { state: { auth: AuthState } }
+>('auth/fetchCurrentUser', async (_arg, thunkApi) => {
+  const token = thunkApi.getState().auth.token
+  if (!token) throw new Error('No token')
+  const res = await apiFetch<{ id: string; email: string; full_name: string; role?: AuthUser['role'] }>(
+    '/users/me',
+    { token },
+  )
+  const data = unwrapApiData(res)
+  return {
+    email: data.email,
+    fullName: data.full_name,
+    role: data.role,
+  }
+})
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -175,15 +194,7 @@ const authSlice = createSlice({
       .addCase(registerThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
         const token = extractToken(action.payload)
-        const user = extractUser(action.payload)
         state.token = token ?? state.token
-        if (user?.email) {
-          state.user = {
-            email: user.email,
-            fullName: user.full_name,
-            role: user.role,
-          }
-        }
         if (state.token) {
           saveAuthToStorage({ token: state.token, user: state.user })
         }
@@ -198,16 +209,12 @@ const authSlice = createSlice({
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        const token = extractToken(action.payload)
-        const user = extractUser(action.payload)
-        state.token = token ?? state.token
-        if (user?.email) {
-          state.user = {
-            email: user.email,
-            fullName: user.full_name,
-            role: user.role,
-          }
+        const data = (action.payload as { data?: Record<string, unknown> })?.data ?? action.payload
+        if (data?.needs_2fa === true || data?.needs_login_verify === true) {
+          return
         }
+        const token = extractToken(action.payload as AuthResponse)
+        state.token = token ?? state.token
         if (state.token) {
           saveAuthToStorage({ token: state.token, user: state.user })
         }
@@ -226,6 +233,19 @@ const authSlice = createSlice({
       .addCase(forgotPasswordThunk.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message ?? 'Request failed'
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.status = state.status === 'idle' ? 'loading' : state.status
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.user = action.payload
+        if (state.token) {
+          saveAuthToStorage({ token: state.token, user: state.user })
+        }
+      })
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        // không logout tự động, chỉ giữ nguyên token; caller có thể xử lý
       })
   },
 })

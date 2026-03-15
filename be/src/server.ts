@@ -4,6 +4,7 @@ import { connectRabbit } from "./shared/infra/rabbitmq.js";
 import { connectRedis, redisClient } from "./shared/infra/redis.js";
 import { prisma } from "./shared/infra/prisma.js";
 import { logger } from "./shared/utils/logger.js";
+import { startEmailWorker } from "./modules/email/email.worker.js";
 import { startWebhookWorker } from "./modules/webhooks/webhooks.worker.js";
 
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
   await connectRedis();
   await connectRabbit();
   await startWebhookWorker();
+  await startEmailWorker();
 
   app.listen(env.PORT, () => {
     logger.info(`HyperPay be listening on port ${env.PORT}`);
