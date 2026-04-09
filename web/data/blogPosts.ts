@@ -1,0 +1,50 @@
+export const BLOG_POSTS_DATA = [
+  {
+    id: '1',
+    titleKey: 'blog.post1_title',
+    excerptKey: 'blog.post1_excerpt',
+    date: 'May 15, 2024',
+    category: 'Technology',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '2',
+    titleKey: 'blog.post2_title',
+    excerptKey: 'blog.post2_excerpt',
+    date: 'May 10, 2024',
+    category: 'Security',
+    image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '3',
+    titleKey: 'blog.post3_title',
+    excerptKey: 'blog.post3_excerpt',
+    date: 'May 5, 2024',
+    category: 'Engineering',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '4',
+    titleKey: 'blog.post4_title',
+    excerptKey: 'blog.post4_excerpt',
+    date: 'April 28, 2024',
+    category: 'Product Updates',
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '5',
+    titleKey: 'blog.post5_title',
+    excerptKey: 'blog.post5_excerpt',
+    date: 'April 20, 2024',
+    category: 'Guides',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800&h=400',
+  },
+  {
+    id: '6',
+    titleKey: 'blog.post6_title',
+    excerptKey: 'blog.post6_excerpt',
+    date: 'April 15, 2024',
+    category: 'Education',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800&h=400',
+  }
+];

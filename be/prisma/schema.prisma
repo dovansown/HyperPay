@@ -33,6 +33,8 @@ model User {
   loginHistories     UserLoginHistory[]
   verificationCodes  VerificationCode[]
   backupCodes        UserBackupCode[]
+  supportTickets     SupportTicket[]
+  notifications      Notification[]
 
   @@map("users")
 }
@@ -87,6 +89,46 @@ model UserBackupCode {
 
   @@index([userId])
   @@map("user_backup_codes")
+}
+
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+enum SupportTicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum SupportTicketCategory {
+  BILLING
+  TECHNICAL
+  ACCOUNT
+  OTHER
+}
+
+model SupportTicket {
+  id          String               @id @default(uuid()) @db.Uuid
+  code        String               @unique @default(cuid()) @db.VarChar(32)
+  userId      String               @map("user_id") @db.Uuid
+  subject     String               @db.VarChar(255)
+  description String               @db.Text
+  category    SupportTicketCategory
+  priority    SupportTicketPriority @default(MEDIUM)
+  status      SupportTicketStatus   @default(OPEN)
+  createdAt   DateTime             @default(now()) @map("created_at")
+  updatedAt   DateTime             @updatedAt @map("updated_at")
+  deletedAt   DateTime?            @map("deleted_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, status])
+  @@index([userId, priority])
+  @@map("support_tickets")
 }
 
 model SystemSetting {
@@ -437,6 +479,32 @@ enum UserRole {
   AUTHOR
   EDITOR
   ADMIN
+}
+
+enum NotificationType {
+  SYSTEM
+  WEBHOOK
+  BILLING
+  SECURITY
+  SUPPORT
+}
+
+model Notification {
+  id        String           @id @default(uuid()) @db.Uuid
+  userId    String           @map("user_id") @db.Uuid
+  type      NotificationType @default(SYSTEM)
+  title     String           @db.VarChar(255)
+  body      String?          @db.VarChar(1024)
+  data      Json?            @db.JsonB
+  readAt    DateTime?        @map("read_at")
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+  @@map("notifications")
 }
 
 model Content {

@@ -7,7 +7,7 @@ Backend Express + TypeScript theo kien truc module (repository/service/controlle
 Chay trong thu muc `be/`:
 
 ```bash
-npm run infra:up
+bun infra:up
 ```
 
 Service sau khi bat:
@@ -23,17 +23,17 @@ Service sau khi bat:
 ```bash
 npm install
 cp .env.example .env
-npm run prisma:generate
-npm run prisma:migrate
-npm run prisma:seed
-npm run dev
+bun prisma:generate
+bun prisma:migrate
+bun prisma:seed
+bun dev
 ```
 
 ## 3) Lenh ho tro
 
-- `npm run infra:ps`: xem trang thai container
-- `npm run infra:logs`: xem logs realtime
-- `npm run infra:down`: tat toan bo ha tang
+- `bun infra:ps`: xem trang thai container
+- `bun infra:logs`: xem logs realtime
+- `bun infra:down`: tat toan bo ha tang
 
 ## 4) Captcha service cho banking login
 

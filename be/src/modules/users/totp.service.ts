@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { prisma } from "../../shared/infra/prisma.js";
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
+import qrcode from "qrcode";
 
 const BACKUP_CODE_COUNT = 6;
 const BACKUP_CODE_LENGTH = 8;
@@ -28,7 +29,9 @@ function buildOtpAuthUri(secret: string, email: string): string {
 }
 
 export class TotpService {
-  async getSetupState(userId: string): Promise<{ secret: string; qrUrl: string } | null> {
+  async getSetupState(
+    userId: string
+  ): Promise<{ secret: string; qrUrl: string; qrDataUrl: string } | null> {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { email: true, totpSecret: true, totpEnabledAt: true },
@@ -45,7 +48,8 @@ export class TotpService {
       });
     }
     const qrUrl = buildOtpAuthUri(secret, user.email);
-    return { secret, qrUrl };
+    const qrDataUrl = await qrcode.toDataURL(qrUrl);
+    return { secret, qrUrl, qrDataUrl };
   }
 
   async enableTOTP(userId: string, code: string): Promise<{ backupCodes: string[] }> {
