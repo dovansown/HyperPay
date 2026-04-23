@@ -80,6 +80,9 @@ type AuthResponse = {
     };
     needs_2fa?: boolean;
     needs_login_verify?: boolean;
+    needs_email_verify?: boolean;
+    verification_id?: string;
+    temp_token?: string;
   };
   token?: string;
   access_token?: string;
@@ -91,6 +94,9 @@ type AuthResponse = {
   };
   needs_2fa?: boolean;
   needs_login_verify?: boolean;
+  needs_email_verify?: boolean;
+  verification_id?: string;
+  temp_token?: string;
 };
 
 function extractToken(payload: AuthResponse): string | undefined {

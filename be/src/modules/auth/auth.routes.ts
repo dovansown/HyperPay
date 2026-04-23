@@ -2,7 +2,7 @@ import { Router } from "express";
 import { asyncHandler } from "../../shared/http/async-handler.js";
 import { validate } from "../../shared/middleware/validate.middleware.js";
 import { authController } from "./auth.controller.js";
-import { forgotPasswordSchema, loginSchema, registerSchema, verify2FASchema, verifySchema } from "./auth.schema.js";
+import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema, verify2FASchema, verifySchema } from "./auth.schema.js";
 
 export const authRoutes = Router();
 
@@ -14,4 +14,9 @@ authRoutes.post(
   "/forgot-password",
   validate({ body: forgotPasswordSchema }),
   asyncHandler(authController.forgotPassword)
+);
+authRoutes.post(
+  "/reset-password",
+  validate({ body: resetPasswordSchema }),
+  asyncHandler(authController.resetPassword)
 );

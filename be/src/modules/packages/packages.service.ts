@@ -178,7 +178,7 @@ export class PackagesService {
   }
 
   private mapPackage(item: {
-    id: number;
+    id: string;
     name: string;
     status: PackageStatus;
     isDefault: boolean;
@@ -192,12 +192,12 @@ export class PackagesService {
     durationDays: number | null;
     description: string | null;
     packageBanks: Array<
-      | { bankId: number; accountLimit: number }
-      | { bankId: number; accountLimit: number; bank: { id: number; name: string; code: string } }
+      | { bankId: string; accountLimit: number }
+      | { bankId: string; accountLimit: number; bank: { id: string; name: string; code: string } }
     >;
     packageDurationPrices?: Array<{
       priceVnd: bigint;
-      duration: { id: number; name: string; months: number; days: number; isDefault?: boolean; discountPercent?: number | null };
+      duration: { id: string; name: string; months: number; days: number; isDefault?: boolean; discountPercent?: number | null };
     }>;
   }) {
     const limit = (value: number) => (value === 0 ? null : value);
@@ -252,9 +252,9 @@ export class PackagesService {
 
   private mapUserPackage(
     item: {
-      id: number;
-      userId: number;
-      packageId: number;
+      id: string;
+      userId: string;
+      packageId: string;
       startAt: Date;
       endAt: Date;
       usedTransactions: number;
@@ -262,7 +262,7 @@ export class PackagesService {
       usedBankTypes: number;
       status: string;
       package: {
-        id: number;
+        id: string;
         name: string;
         status: PackageStatus;
         isDefault: boolean;
@@ -274,7 +274,7 @@ export class PackagesService {
         maxBankTypes: number;
         durationDays: number | null;
         description: string | null;
-        packageBanks: Array<{ bankId: number; accountLimit: number }>;
+        packageBanks: Array<{ bankId: string; accountLimit: number }>;
       };
     },
     currentUsedBankTypes?: number

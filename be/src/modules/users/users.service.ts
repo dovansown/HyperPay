@@ -153,6 +153,90 @@ export class UsersService {
     await cacheService.del(`user:${userId}`);
     return { success: true };
   }
+
+  async getLoginHistory(userId: string) {
+    const history = await usersRepository.getLoginHistory(userId);
+    return history.map((h) => ({
+      id: h.id,
+      date: h.lastSeenAt.toISOString(),
+      ip: h.ip || "Unknown",
+      location: [h.city, h.country].filter(Boolean).join(", ") || "Unknown",
+      userAgent: h.userAgent || "Unknown",
+      status: "success",
+    }));
+  }
+
+  async getTrustedDevices(userId: string) {
+    const devices = await usersRepository.getTrustedDevices(userId);
+    return devices.map((d) => ({
+      id: d.userAgentHash,
+      device: this.parseDevice(d.userAgent || ""),
+      browser: this.parseBrowser(d.userAgent || ""),
+      lastActive: d.lastSeenAt.toISOString(),
+      firstSeen: d.firstSeenAt.toISOString(),
+    }));
+  }
+
+  async removeTrustedDevice(userId: string, userAgentHash: string) {
+    await usersRepository.removeTrustedDevice(userId, userAgentHash);
+    return { success: true, message: "Device removed successfully" };
+  }
+
+  async getNotificationSettings(userId: string) {
+    const settings = await usersRepository.getNotificationSettings(userId);
+    return {
+      success: settings?.success ?? true,
+      failed: settings?.failed ?? true,
+      dispute: settings?.dispute ?? true,
+      payout: settings?.payout ?? false,
+      newMember: settings?.newMember ?? true,
+      loginAlerts: settings?.loginAlerts ?? true,
+    };
+  }
+
+  async updateNotificationSettings(
+    userId: string,
+    data: {
+      success?: boolean;
+      failed?: boolean;
+      dispute?: boolean;
+      payout?: boolean;
+      newMember?: boolean;
+      loginAlerts?: boolean;
+    }
+  ) {
+    const updated = await usersRepository.updateNotificationSettings(userId, data);
+    return {
+      success: updated.success,
+      failed: updated.failed,
+      dispute: updated.dispute,
+      payout: updated.payout,
+      newMember: updated.newMember,
+      loginAlerts: updated.loginAlerts,
+    };
+  }
+
+  private parseDevice(userAgent: string): string {
+    if (!userAgent) return "Unknown Device";
+    // Simple parsing - can be improved with ua-parser-js library
+    if (userAgent.includes("iPhone")) return "iPhone";
+    if (userAgent.includes("iPad")) return "iPad";
+    if (userAgent.includes("Android")) return "Android Device";
+    if (userAgent.includes("Macintosh")) return "MacBook";
+    if (userAgent.includes("Windows")) return "Windows PC";
+    if (userAgent.includes("Linux")) return "Linux PC";
+    return "Unknown Device";
+  }
+
+  private parseBrowser(userAgent: string): string {
+    if (!userAgent) return "Unknown";
+    // Simple parsing
+    if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) return "Chrome";
+    if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) return "Safari";
+    if (userAgent.includes("Firefox")) return "Firefox";
+    if (userAgent.includes("Edg")) return "Edge";
+    return "Unknown";
+  }
 }
 
 export const usersService = new UsersService();

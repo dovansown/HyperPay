@@ -23,7 +23,17 @@ export class SupportController {
     const data = await supportService.updateTicket(req.user!.userId, String(req.params.ticketId), req.body);
     return sendSuccess(res, data);
   }
+
+  // Ticket Reply methods
+  async createReply(req: Request, res: Response) {
+    const data = await supportService.createReply(req.user!.userId, String(req.params.ticketId), req.body);
+    return sendSuccess(res, data, 201);
+  }
+
+  async listReplies(req: Request, res: Response) {
+    const data = await supportService.listReplies(req.user!.userId, String(req.params.ticketId));
+    return sendSuccess(res, data);
+  }
 }
 
 export const supportController = new SupportController();
-

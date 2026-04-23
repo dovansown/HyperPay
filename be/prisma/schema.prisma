@@ -23,7 +23,6 @@ model User {
   deletedAt                   DateTime? @map("deleted_at")
 
   bankAccounts       BankAccount[]
-  userPlans          UserPlan[]
   userPackages       UserPackage[]
   webhooks           UserWebhook[]
   webhookDeliveryLogs WebhookDeliveryLog[]
@@ -34,9 +33,28 @@ model User {
   verificationCodes  VerificationCode[]
   backupCodes        UserBackupCode[]
   supportTickets     SupportTicket[]
+  ticketReplies      TicketReply[]
   notifications      Notification[]
+  notificationSettings UserNotificationSettings?
 
   @@map("users")
+}
+
+model UserNotificationSettings {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @unique @map("user_id") @db.Uuid
+  success     Boolean  @default(true)
+  failed      Boolean  @default(true)
+  dispute     Boolean  @default(true)
+  payout      Boolean  @default(false)
+  newMember   Boolean  @default(true) @map("new_member")
+  loginAlerts Boolean  @default(true) @map("login_alerts")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_notification_settings")
 }
 
 model UserLoginHistory {
@@ -123,12 +141,31 @@ model SupportTicket {
   updatedAt   DateTime             @updatedAt @map("updated_at")
   deletedAt   DateTime?            @map("deleted_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replies TicketReply[]
 
   @@index([userId])
   @@index([userId, status])
   @@index([userId, priority])
   @@map("support_tickets")
+}
+
+model TicketReply {
+  id           String    @id @default(uuid()) @db.Uuid
+  ticketId     String    @map("ticket_id") @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  message      String    @db.Text
+  isStaffReply Boolean   @default(false) @map("is_staff_reply")
+  attachments  Json?     @db.JsonB
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@index([userId])
+  @@map("ticket_replies")
 }
 
 model SystemSetting {
@@ -160,7 +197,6 @@ model Bank {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  planBanks PlanBank[]
   packageBanks PackageBank[]
 
   @@map("banks")
@@ -204,24 +240,6 @@ model BankTransaction {
 
   @@index([bankAccountId])
   @@map("bank_transactions")
-}
-
-model Plan {
-  id              String    @id @default(uuid()) @db.Uuid
-  name            String    @unique @db.VarChar(255)
-  priceVnd        BigInt    @map("price_vnd")
-  maxBankAccounts Int       @map("max_bank_accounts")
-  maxTransactions Int       @map("max_transactions")
-  durationDays    Int       @map("duration_days")
-  description     String?   @db.VarChar(512)
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
-  deletedAt       DateTime? @map("deleted_at")
-
-  planBanks PlanBank[]
-  userPlans UserPlan[]
-
-  @@map("plans")
 }
 
 model Package {
@@ -288,44 +306,6 @@ enum PackageStatus {
   ACTIVE
   INACTIVE
   ARCHIVED
-}
-
-model PlanBank {
-  id        String    @id @default(uuid()) @db.Uuid
-  planId    String    @map("plan_id") @db.Uuid
-  bankId    String    @map("bank_id") @db.Uuid
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
-  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
-  bank Bank @relation(fields: [bankId], references: [id], onDelete: Cascade)
-
-  @@index([planId])
-  @@index([bankId])
-  @@unique([planId, bankId])
-  @@map("plan_banks")
-}
-
-model UserPlan {
-  id               String    @id @default(uuid()) @db.Uuid
-  userId           String    @map("user_id") @db.Uuid
-  planId           String    @map("plan_id") @db.Uuid
-  startAt          DateTime  @map("start_at")
-  endAt            DateTime  @map("end_at")
-  usedBankAccounts Int       @default(0) @map("used_bank_accounts")
-  usedTransactions Int       @default(0) @map("used_transactions")
-  status           String    @default("active") @db.VarChar(20)
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @updatedAt @map("updated_at")
-  deletedAt        DateTime? @map("deleted_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([planId])
-  @@map("user_plans")
 }
 
 model UserPackage {

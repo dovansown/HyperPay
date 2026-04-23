@@ -4,17 +4,6 @@ import type { RootState } from '@/store/store';
 
 export type DurationItem = { id: string; name: string; months: number; days: number; sort_order: number };
 
-export type PlanItem = {
-  id: number;
-  name: string;
-  price_vnd: number;
-  max_bank_accounts: number;
-  max_transactions: number;
-  duration_days: number;
-  description?: string;
-  bank_ids: number[];
-};
-
 export type PackageBankItem = {
   bank_id: number;
   name: string;
@@ -79,7 +68,6 @@ export type ActivePackage = {
 };
 
 type BillingState = {
-  plans: PlanItem[];
   packages: PackageItem[];
   durations: DurationItem[];
   activePackages: ActivePackage[];
@@ -91,7 +79,6 @@ type BillingState = {
 };
 
 const initialState: BillingState = {
-  plans: [],
   packages: [],
   durations: [],
   activePackages: [],
@@ -103,20 +90,18 @@ const initialState: BillingState = {
 };
 
 export const fetchBillingData = createAsyncThunk<
-  { plans: PlanItem[]; packages: PackageItem[]; durations: DurationItem[]; activePackages: ActivePackage[]; balanceVnd: number },
+  { packages: PackageItem[]; durations: DurationItem[]; activePackages: ActivePackage[]; balanceVnd: number },
   void,
   { state: RootState }
 >('billing/fetchAll', async (_, thunkApi) => {
   const token = thunkApi.getState().auth.token ?? undefined;
-  const [plansRes, packagesRes, durationsRes, activeRes, balanceRes] = await Promise.all([
-    apiFetch<PlanItem[] | ApiEnvelope<PlanItem[]>>('/plans', { method: 'GET', token }),
+  const [packagesRes, durationsRes, activeRes, balanceRes] = await Promise.all([
     apiFetch<PackageItem[] | ApiEnvelope<PackageItem[]>>('/packages', { method: 'GET', token }),
     apiFetch<DurationItem[] | ApiEnvelope<DurationItem[]>>('/durations', { method: 'GET', token }),
     apiFetch<ActivePackage[] | ApiEnvelope<ActivePackage[]>>('/packages/me/active', { method: 'GET', token }),
     apiFetch<{ balance_vnd: number } | ApiEnvelope<{ balance_vnd: number }>>('/balance', { method: 'GET', token }),
   ]);
 
-  const plans = unwrapApiData(plansRes);
   const packages = unwrapApiData(packagesRes);
   const durations = unwrapApiData(durationsRes);
   const activePayload = unwrapApiData(activeRes);
@@ -125,7 +110,6 @@ export const fetchBillingData = createAsyncThunk<
   const balanceVnd = typeof bal?.balance_vnd === 'number' ? bal.balance_vnd : 0;
 
   return {
-    plans: Array.isArray(plans) ? plans : [],
     packages: Array.isArray(packages) ? packages : [],
     durations: Array.isArray(durations) ? durations : [],
     activePackages,
@@ -174,7 +158,6 @@ const billingSlice = createSlice({
       })
       .addCase(fetchBillingData.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.plans = action.payload.plans;
         state.packages = action.payload.packages;
         state.durations = action.payload.durations;
         state.activePackages = action.payload.activePackages;

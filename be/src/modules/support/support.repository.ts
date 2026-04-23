@@ -111,7 +111,73 @@ export class SupportRepository {
       },
     });
   }
+
+  // Ticket Reply methods
+  createReply(ticketId: string, userId: string, data: {
+    message: string;
+    attachments?: string[];
+    isStaffReply: boolean;
+  }) {
+    return prisma.ticketReply.create({
+      data: {
+        ticketId,
+        userId,
+        message: data.message,
+        attachments: data.attachments ?? undefined,
+        isStaffReply: data.isStaffReply,
+      },
+      select: {
+        id: true,
+        ticketId: true,
+        userId: true,
+        message: true,
+        isStaffReply: true,
+        attachments: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            role: true,
+          },
+        },
+      },
+    });
+  }
+
+  listReplies(ticketId: string) {
+    return prisma.ticketReply.findMany({
+      where: { ticketId },
+      orderBy: { createdAt: "asc" },
+      select: {
+        id: true,
+        ticketId: true,
+        userId: true,
+        message: true,
+        isStaffReply: true,
+        attachments: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            role: true,
+          },
+        },
+      },
+    });
+  }
+
+  async touchTicketUpdatedAt(ticketId: string) {
+    await prisma.supportTicket.update({
+      where: { id: ticketId },
+      data: { updatedAt: new Date() },
+    });
+  }
 }
 
 export const supportRepository = new SupportRepository();
-

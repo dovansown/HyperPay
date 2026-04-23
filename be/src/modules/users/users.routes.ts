@@ -51,3 +51,26 @@ usersRoutes.post(
   asyncHandler(usersController.enable2FA)
 );
 usersRoutes.post("/me/2fa/disable", authMiddleware, asyncHandler(usersController.disable2FA));
+
+// Login History
+usersRoutes.get("/me/login-history", authMiddleware, asyncHandler(usersController.getLoginHistory));
+
+// Trusted Devices
+usersRoutes.get("/me/trusted-devices", authMiddleware, asyncHandler(usersController.getTrustedDevices));
+usersRoutes.delete(
+  "/me/trusted-devices/:userAgentHash",
+  authMiddleware,
+  asyncHandler(usersController.removeTrustedDevice)
+);
+
+// Notification Settings
+usersRoutes.get(
+  "/me/notification-settings",
+  authMiddleware,
+  asyncHandler(usersController.getNotificationSettings)
+);
+usersRoutes.patch(
+  "/me/notification-settings",
+  authMiddleware,
+  asyncHandler(usersController.updateNotificationSettings)
+);

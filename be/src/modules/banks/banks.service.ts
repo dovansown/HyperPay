@@ -28,7 +28,7 @@ export class BanksService {
     return mapped;
   }
 
-  private mapBank(bank: { id: number; name: string; code: string; iconUrl: string | null }) {
+  private mapBank(bank: { id: string; name: string; code: string; iconUrl: string | null }) {
     return {
       id: bank.id,
       name: bank.name,

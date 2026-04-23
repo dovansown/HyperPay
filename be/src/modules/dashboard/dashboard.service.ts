@@ -1,6 +1,5 @@
 import { accountsRepository } from "../accounts/accounts.repository.js";
 import { balanceService } from "../balance/balance.service.js";
-import { plansRepository } from "../plans/plans.repository.js";
 import { transactionsRepository } from "../transactions/transactions.repository.js";
 
 export type ChartDataPoint = { date: string; revenue: number; label: string };
@@ -44,15 +43,14 @@ function formatChartLabel(d: Date, period: 7 | 30): string {
 
 export class DashboardService {
   async getDashboard(userId: string, period: 7 | 30): Promise<DashboardResult> {
-    const [accounts, plans, totalBalanceVnd] = await Promise.all([
+    const [accounts, totalBalanceVnd] = await Promise.all([
       accountsRepository.listByUserId(userId),
-      plansRepository.list(),
       balanceService.getBalance(userId)
     ]);
 
-    const accountIds = accounts.map((a) => a.id);
+    const accountIds = accounts.map((a: { id: string }) => a.id);
     const totalAccounts = accounts.length;
-    const totalPlans = plans.length;
+    const totalPlans = 0; // Plans system removed
 
     const now = new Date();
     const todayStart = startOfDay(now);

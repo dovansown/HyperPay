@@ -25,7 +25,17 @@ export const updateTicketSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
 });
 
+export const createReplySchema = z.object({
+  message: z.string().trim().min(1).max(10_000),
+  attachments: z.array(z.string().url()).optional(),
+});
+
+export const replyIdParamsSchema = z.object({
+  replyId: z.string().uuid(),
+});
+
 export type ListTicketsQuery = z.infer<typeof listTicketsQuerySchema>;
 export type CreateTicketInput = z.infer<typeof createTicketSchema>;
 export type UpdateTicketInput = z.infer<typeof updateTicketSchema>;
+export type CreateReplyInput = z.infer<typeof createReplySchema>;
 

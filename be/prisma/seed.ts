@@ -35,24 +35,7 @@ async function main() {
     }
   }
 
-  await prisma.plan.upsert({
-    where: { name: "Starter" },
-    update: {
-      priceVnd: BigInt(99000),
-      maxBankAccounts: 1,
-      maxTransactions: 1000,
-      durationDays: 30,
-      description: "Goi co ban cho merchant moi."
-    },
-    create: {
-      name: "Starter",
-      priceVnd: BigInt(99000),
-      maxBankAccounts: 1,
-      maxTransactions: 1000,
-      durationDays: 30,
-      description: "Goi co ban cho merchant moi."
-    }
-  });
+  // Plans removed - using Packages only
 }
 
 main()

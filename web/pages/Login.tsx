@@ -27,7 +27,48 @@ export function Login() {
     e.preventDefault();
     dispatch(clearAuthError());
     try {
-      await dispatch(loginThunk({ email: email.trim(), password })).unwrap();
+      const result = await dispatch(loginThunk({ email: email.trim(), password })).unwrap();
+      
+      // Check if needs email verification
+      if (result.needs_email_verify && result.verification_id) {
+        navigate('/verify-otp', { 
+          replace: true, 
+          state: { 
+            verification_id: result.verification_id,
+            type: 'email',
+            email: email.trim()
+          } 
+        });
+        return;
+      }
+      
+      // Check if needs login verification (new device)
+      if (result.needs_login_verify && result.verification_id) {
+        navigate('/verify-otp', { 
+          replace: true, 
+          state: { 
+            verification_id: result.verification_id,
+            type: 'login',
+            email: email.trim()
+          } 
+        });
+        return;
+      }
+      
+      // Check if needs 2FA
+      if (result.needs_2fa && result.temp_token) {
+        navigate('/verify-otp', { 
+          replace: true, 
+          state: { 
+            temp_token: result.temp_token,
+            type: '2fa',
+            email: email.trim()
+          } 
+        });
+        return;
+      }
+      
+      // Normal login - go to dashboard
       await dispatch(fetchCurrentUser()).unwrap();
       navigate(from, { replace: true });
     } catch {

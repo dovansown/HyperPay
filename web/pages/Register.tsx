@@ -26,13 +26,26 @@ export function Register() {
     e.preventDefault();
     dispatch(clearAuthError());
     try {
-      await dispatch(registerThunk({ fullName: fullName.trim(), email: email.trim(), password })).unwrap();
+      const result = await dispatch(registerThunk({ fullName: fullName.trim(), email: email.trim(), password })).unwrap();
+      
+      // Backend returns verification_id if email needs verification
+      if (result.verification_id) {
+        navigate('/verify-otp', { 
+          replace: true, 
+          state: { 
+            verification_id: result.verification_id,
+            type: 'email',
+            email: email.trim()
+          } 
+        });
+        return;
+      }
+      
+      // If already verified or no verification needed, go to dashboard
       if (token) {
         await dispatch(fetchCurrentUser()).unwrap();
         navigate('/dashboard', { replace: true });
-        return;
       }
-      navigate('/login', { replace: true, state: { registered: true } });
     } catch {
       // error is in store
     }

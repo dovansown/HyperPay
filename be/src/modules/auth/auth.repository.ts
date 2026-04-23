@@ -65,6 +65,13 @@ export class AuthRepository {
       });
     }
   }
+
+  async updatePassword(userId: string, passwordHash: string) {
+    return prisma.user.update({
+      where: { id: userId },
+      data: { password: passwordHash },
+    });
+  }
 }
 
 export const authRepository = new AuthRepository();

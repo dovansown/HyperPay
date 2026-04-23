@@ -5,9 +5,20 @@ export type SupportTicket = {
   id: string;
   code: string;
   subject: string;
+  description?: string;
   category: 'BILLING' | 'TECHNICAL' | 'ACCOUNT' | 'OTHER';
   priority: 'LOW' | 'MEDIUM' | 'HIGH';
   status: 'OPEN' | 'IN_PROGRESS' | 'CLOSED';
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TicketReply = {
+  id: string;
+  ticketId: string;
+  userId: string;
+  message: string;
+  isStaffReply: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -29,6 +40,17 @@ type SupportState = {
 
   createStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   createError: string | null;
+
+  selectedTicket: SupportTicket | null;
+  ticketDetailStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  ticketDetailError: string | null;
+
+  replies: TicketReply[];
+  repliesStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  repliesError: string | null;
+
+  replyStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  replyError: string | null;
 };
 
 const initialState: SupportState = {
@@ -40,6 +62,14 @@ const initialState: SupportState = {
   error: null,
   createStatus: 'idle',
   createError: null,
+  selectedTicket: null,
+  ticketDetailStatus: 'idle',
+  ticketDetailError: null,
+  replies: [],
+  repliesStatus: 'idle',
+  repliesError: null,
+  replyStatus: 'idle',
+  replyError: null,
 };
 
 export const fetchTicketsThunk = createAsyncThunk<
@@ -73,6 +103,42 @@ export const createTicketThunk = createAsyncThunk<
   return unwrapApiData(res);
 });
 
+export const fetchTicketDetailThunk = createAsyncThunk<
+  SupportTicket,
+  string,
+  { state: { auth: { token: string | null } } }
+>('support/fetchTicketDetail', async (ticketId, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<SupportTicket>(`/support/tickets/${ticketId}`, { token });
+  return unwrapApiData(res);
+});
+
+export const fetchTicketRepliesThunk = createAsyncThunk<
+  TicketReply[],
+  string,
+  { state: { auth: { token: string | null } } }
+>('support/fetchTicketReplies', async (ticketId, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<TicketReply[]>(`/support/tickets/${ticketId}/replies`, { token });
+  return unwrapApiData(res);
+});
+
+export const createTicketReplyThunk = createAsyncThunk<
+  TicketReply,
+  { ticketId: string; message: string },
+  { state: { auth: { token: string | null } } }
+>('support/createTicketReply', async ({ ticketId, message }, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<TicketReply, { message: string }>(
+    `/support/tickets/${ticketId}/replies`,
+    { token, method: 'POST', body: { message } }
+  );
+  return unwrapApiData(res);
+});
+
 const supportSlice = createSlice({
   name: 'support',
   initialState,
@@ -80,6 +146,13 @@ const supportSlice = createSlice({
     clearSupportError(state) {
       state.error = null;
       state.createError = null;
+      state.ticketDetailError = null;
+      state.repliesError = null;
+      state.replyError = null;
+    },
+    clearSelectedTicket(state) {
+      state.selectedTicket = null;
+      state.replies = [];
     },
   },
   extraReducers: (builder) => {
@@ -111,10 +184,45 @@ const supportSlice = createSlice({
       .addCase(createTicketThunk.rejected, (state, action) => {
         state.createStatus = 'failed';
         state.createError = action.error.message ?? 'Create ticket failed';
+      })
+      .addCase(fetchTicketDetailThunk.pending, (state) => {
+        state.ticketDetailStatus = 'loading';
+        state.ticketDetailError = null;
+      })
+      .addCase(fetchTicketDetailThunk.fulfilled, (state, action) => {
+        state.ticketDetailStatus = 'succeeded';
+        state.selectedTicket = action.payload;
+      })
+      .addCase(fetchTicketDetailThunk.rejected, (state, action) => {
+        state.ticketDetailStatus = 'failed';
+        state.ticketDetailError = action.error.message ?? 'Fetch ticket detail failed';
+      })
+      .addCase(fetchTicketRepliesThunk.pending, (state) => {
+        state.repliesStatus = 'loading';
+        state.repliesError = null;
+      })
+      .addCase(fetchTicketRepliesThunk.fulfilled, (state, action) => {
+        state.repliesStatus = 'succeeded';
+        state.replies = action.payload;
+      })
+      .addCase(fetchTicketRepliesThunk.rejected, (state, action) => {
+        state.repliesStatus = 'failed';
+        state.repliesError = action.error.message ?? 'Fetch replies failed';
+      })
+      .addCase(createTicketReplyThunk.pending, (state) => {
+        state.replyStatus = 'loading';
+        state.replyError = null;
+      })
+      .addCase(createTicketReplyThunk.fulfilled, (state, action) => {
+        state.replyStatus = 'succeeded';
+        state.replies.push(action.payload);
+      })
+      .addCase(createTicketReplyThunk.rejected, (state, action) => {
+        state.replyStatus = 'failed';
+        state.replyError = action.error.message ?? 'Create reply failed';
       });
   },
 });
 
-export const { clearSupportError } = supportSlice.actions;
+export const { clearSupportError, clearSelectedTicket } = supportSlice.actions;
 export const supportReducer = supportSlice.reducer;
-

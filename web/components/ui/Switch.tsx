@@ -5,17 +5,20 @@ interface SwitchProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
+  disabled?: boolean;
 }
 
-export function Switch({ checked, onChange, className }: SwitchProps) {
+export function Switch({ checked, onChange, className, disabled }: SwitchProps) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={checked}
-      onClick={() => onChange(!checked)}
+      onClick={() => !disabled && onChange(!checked)}
+      disabled={disabled}
       className={cn(
-        "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none",
+        "relative inline-flex h-5 w-9 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ease-in-out focus:outline-none",
+        disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
         checked ? "bg-primary" : "bg-gray-200",
         className
       )}

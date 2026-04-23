@@ -16,6 +16,35 @@ type TwoFASetup = {
   qrDataUrl: string;
 };
 
+// Login History
+export type LoginHistoryItem = {
+  id: string;
+  date: string;
+  ip: string;
+  location: string;
+  userAgent: string;
+  status: string;
+};
+
+// Trusted Devices
+export type TrustedDevice = {
+  id: string;
+  device: string;
+  browser: string;
+  lastActive: string;
+  firstSeen: string;
+};
+
+// Notification Settings
+export type NotificationSettings = {
+  success: boolean;
+  failed: boolean;
+  dispute: boolean;
+  payout: boolean;
+  newMember: boolean;
+  loginAlerts: boolean;
+};
+
 type ProfileState = {
   profile: UserProfile | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -32,6 +61,18 @@ type ProfileState = {
   twoFAStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   twoFAError: string | null;
   lastBackupCodes: string[] | null;
+
+  loginHistory: LoginHistoryItem[];
+  loginHistoryStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  loginHistoryError: string | null;
+
+  trustedDevices: TrustedDevice[];
+  trustedDevicesStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  trustedDevicesError: string | null;
+
+  notificationSettings: NotificationSettings | null;
+  notificationSettingsStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  notificationSettingsError: string | null;
 };
 
 const initialState: ProfileState = {
@@ -47,6 +88,15 @@ const initialState: ProfileState = {
   twoFAStatus: 'idle',
   twoFAError: null,
   lastBackupCodes: null,
+  loginHistory: [],
+  loginHistoryStatus: 'idle',
+  loginHistoryError: null,
+  trustedDevices: [],
+  trustedDevicesStatus: 'idle',
+  trustedDevicesError: null,
+  notificationSettings: null,
+  notificationSettingsStatus: 'idle',
+  notificationSettingsError: null,
 };
 
 export const fetchProfile = createAsyncThunk<UserProfile, void, { state: { auth: { token: string | null } } }>(
@@ -150,6 +200,64 @@ export const disable2FAThunk = createAsyncThunk<
   const token = thunkApi.getState().auth.token;
   if (!token) throw new Error('No token');
   const res = await apiFetch<{ success: true }>('/users/me/2fa/disable', { token, method: 'POST' });
+  return unwrapApiData(res);
+});
+
+export const fetchLoginHistory = createAsyncThunk<
+  LoginHistoryItem[],
+  void,
+  { state: { auth: { token: string | null } } }
+>('profile/fetchLoginHistory', async (_arg, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<LoginHistoryItem[]>('/users/me/login-history', { token });
+  return unwrapApiData(res);
+});
+
+export const fetchTrustedDevices = createAsyncThunk<
+  TrustedDevice[],
+  void,
+  { state: { auth: { token: string | null } } }
+>('profile/fetchTrustedDevices', async (_arg, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<TrustedDevice[]>('/users/me/trusted-devices', { token });
+  return unwrapApiData(res);
+});
+
+export const removeTrustedDevice = createAsyncThunk<
+  string,
+  string,
+  { state: { auth: { token: string | null } } }
+>('profile/removeTrustedDevice', async (userAgentHash, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  await apiFetch(`/users/me/trusted-devices/${userAgentHash}`, { token, method: 'DELETE' });
+  return userAgentHash;
+});
+
+export const fetchNotificationSettings = createAsyncThunk<
+  NotificationSettings,
+  void,
+  { state: { auth: { token: string | null } } }
+>('profile/fetchNotificationSettings', async (_arg, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<NotificationSettings>('/users/me/notification-settings', { token });
+  return unwrapApiData(res);
+});
+
+export const updateNotificationSettings = createAsyncThunk<
+  NotificationSettings,
+  Partial<NotificationSettings>,
+  { state: { auth: { token: string | null } } }
+>('profile/updateNotificationSettings', async (body, thunkApi) => {
+  const token = thunkApi.getState().auth.token;
+  if (!token) throw new Error('No token');
+  const res = await apiFetch<NotificationSettings, Partial<NotificationSettings>>(
+    '/users/me/notification-settings',
+    { token, method: 'PATCH', body }
+  );
   return unwrapApiData(res);
 });
 
@@ -266,6 +374,60 @@ const profileSlice = createSlice({
       .addCase(disable2FAThunk.rejected, (state, action) => {
         state.twoFAStatus = 'failed';
         state.twoFAError = action.error.message ?? 'Disable 2FA failed';
+      })
+      // Login History
+      .addCase(fetchLoginHistory.pending, (state) => {
+        state.loginHistoryStatus = 'loading';
+        state.loginHistoryError = null;
+      })
+      .addCase(fetchLoginHistory.fulfilled, (state, action) => {
+        state.loginHistoryStatus = 'succeeded';
+        state.loginHistory = action.payload;
+      })
+      .addCase(fetchLoginHistory.rejected, (state, action) => {
+        state.loginHistoryStatus = 'failed';
+        state.loginHistoryError = action.error.message ?? 'Fetch login history failed';
+      })
+      // Trusted Devices
+      .addCase(fetchTrustedDevices.pending, (state) => {
+        state.trustedDevicesStatus = 'loading';
+        state.trustedDevicesError = null;
+      })
+      .addCase(fetchTrustedDevices.fulfilled, (state, action) => {
+        state.trustedDevicesStatus = 'succeeded';
+        state.trustedDevices = action.payload;
+      })
+      .addCase(fetchTrustedDevices.rejected, (state, action) => {
+        state.trustedDevicesStatus = 'failed';
+        state.trustedDevicesError = action.error.message ?? 'Fetch trusted devices failed';
+      })
+      .addCase(removeTrustedDevice.fulfilled, (state, action) => {
+        state.trustedDevices = state.trustedDevices.filter(d => d.id !== action.payload);
+      })
+      // Notification Settings
+      .addCase(fetchNotificationSettings.pending, (state) => {
+        state.notificationSettingsStatus = 'loading';
+        state.notificationSettingsError = null;
+      })
+      .addCase(fetchNotificationSettings.fulfilled, (state, action) => {
+        state.notificationSettingsStatus = 'succeeded';
+        state.notificationSettings = action.payload;
+      })
+      .addCase(fetchNotificationSettings.rejected, (state, action) => {
+        state.notificationSettingsStatus = 'failed';
+        state.notificationSettingsError = action.error.message ?? 'Fetch notification settings failed';
+      })
+      .addCase(updateNotificationSettings.pending, (state) => {
+        state.notificationSettingsStatus = 'loading';
+        state.notificationSettingsError = null;
+      })
+      .addCase(updateNotificationSettings.fulfilled, (state, action) => {
+        state.notificationSettingsStatus = 'succeeded';
+        state.notificationSettings = action.payload;
+      })
+      .addCase(updateNotificationSettings.rejected, (state, action) => {
+        state.notificationSettingsStatus = 'failed';
+        state.notificationSettingsError = action.error.message ?? 'Update notification settings failed';
       });
   },
 });

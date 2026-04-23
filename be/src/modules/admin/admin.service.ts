@@ -8,12 +8,10 @@ import type {
   CreateBankAdminInput,
   CreateDurationAdminInput,
   CreatePackageAdminInput,
-  CreatePlanAdminInput,
   UpdateDurationAdminInput,
   UpdatePackageAdminInput,
   UpdateUserPackageStatusInput,
   UpdateBankAdminInput,
-  UpdatePlanAdminInput,
   UpdateUserRoleInput
 } from "./admin.schema.js";
 
@@ -89,96 +87,7 @@ export class AdminService {
     };
   }
 
-  async listPlans(query: AdminListQuery) {
-    const where = {
-      ...(query.q ? { name: { contains: query.q, mode: "insensitive" as const } } : {}),
-      ...(query.min_price_vnd != null || query.max_price_vnd != null
-        ? {
-            priceVnd: {
-              ...(query.min_price_vnd != null ? { gte: BigInt(query.min_price_vnd) } : {}),
-              ...(query.max_price_vnd != null ? { lte: BigInt(query.max_price_vnd) } : {})
-            }
-          }
-        : {})
-    };
-    const [items, total] = await Promise.all([
-      prisma.plan.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip: query.offset,
-        take: query.limit
-      }),
-      prisma.plan.count({ where })
-    ]);
-    return {
-      items: items.map((x) => ({
-        id: x.id,
-        name: x.name,
-        price_vnd: Number(x.priceVnd),
-        max_bank_accounts: x.maxBankAccounts,
-        max_transactions: x.maxTransactions,
-        duration_days: x.durationDays,
-        description: x.description,
-        created_at: x.createdAt
-      })),
-      total,
-      limit: query.limit,
-      offset: query.offset
-    };
-  }
-
-  async createPlan(input: CreatePlanAdminInput) {
-    const existed = await prisma.plan.findFirst({ where: { name: input.name } });
-    if (existed) {
-      throw new AppError(409, ErrorCodes.CONFLICT, "Plan already exists");
-    }
-    const created = await prisma.plan.create({
-      data: {
-        name: input.name,
-        priceVnd: BigInt(input.price_vnd),
-        maxBankAccounts: input.max_bank_accounts,
-        maxTransactions: input.max_transactions,
-        durationDays: input.duration_days,
-        description: input.description ?? null
-      }
-    });
-    return {
-      id: created.id,
-      name: created.name,
-      price_vnd: Number(created.priceVnd),
-      max_bank_accounts: created.maxBankAccounts,
-      max_transactions: created.maxTransactions,
-      duration_days: created.durationDays,
-      description: created.description
-    };
-  }
-
-  async updatePlan(id: string, input: UpdatePlanAdminInput) {
-    const found = await prisma.plan.findUnique({ where: { id } });
-    if (!found) {
-      throw new AppError(404, ErrorCodes.NOT_FOUND, "Plan not found");
-    }
-    const updated = await prisma.plan.update({
-      where: { id },
-      data: {
-        name: input.name,
-        priceVnd: input.price_vnd == null ? undefined : BigInt(input.price_vnd),
-        maxBankAccounts: input.max_bank_accounts,
-        maxTransactions: input.max_transactions,
-        durationDays: input.duration_days,
-        description: input.description
-      }
-    });
-    return {
-      id: updated.id,
-      name: updated.name,
-      price_vnd: Number(updated.priceVnd),
-      max_bank_accounts: updated.maxBankAccounts,
-      max_transactions: updated.maxTransactions,
-      duration_days: updated.durationDays,
-      description: updated.description
-    };
-  }
+  // Plans removed - using Packages only
 
   async listBanks(query: AdminListQuery) {
     const where = {

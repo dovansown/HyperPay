@@ -9,6 +9,7 @@ import { contentReducer } from './slices/contentSlice';
 import { profileReducer } from './slices/profileSlice';
 import { supportReducer } from './slices/supportSlice';
 import { notificationsReducer } from './slices/notificationsSlice';
+import { transactionsReducer } from './slices/transactionsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     profile: profileReducer,
     support: supportReducer,
     notifications: notificationsReducer,
+    transactions: transactionsReducer,
   },
 });
 

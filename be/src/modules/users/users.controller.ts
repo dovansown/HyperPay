@@ -47,6 +47,32 @@ export class UsersController {
     const data = await usersService.disable2FA(req.user!.userId);
     return sendSuccess(res, data);
   }
+
+  async getLoginHistory(req: Request, res: Response) {
+    const data = await usersService.getLoginHistory(req.user!.userId);
+    return sendSuccess(res, data);
+  }
+
+  async getTrustedDevices(req: Request, res: Response) {
+    const data = await usersService.getTrustedDevices(req.user!.userId);
+    return sendSuccess(res, data);
+  }
+
+  async removeTrustedDevice(req: Request, res: Response) {
+    const { userAgentHash } = req.params;
+    const data = await usersService.removeTrustedDevice(req.user!.userId, userAgentHash);
+    return sendSuccess(res, data);
+  }
+
+  async getNotificationSettings(req: Request, res: Response) {
+    const data = await usersService.getNotificationSettings(req.user!.userId);
+    return sendSuccess(res, data);
+  }
+
+  async updateNotificationSettings(req: Request, res: Response) {
+    const data = await usersService.updateNotificationSettings(req.user!.userId, req.body);
+    return sendSuccess(res, data);
+  }
 }
 
 export const usersController = new UsersController();

@@ -1,5 +1,6 @@
 import type { SupportTicketCategory, SupportTicketPriority, SupportTicketStatus } from "@prisma/client";
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
+import { prisma } from "../../shared/infra/prisma.js";
 import { supportRepository } from "./support.repository.js";
 import type { CreateTicketInput, ListTicketsQuery, UpdateTicketInput } from "./support.schema.js";
 
@@ -49,7 +50,36 @@ export class SupportService {
     if (result.count === 0) throw new AppError(404, ErrorCodes.NOT_FOUND, "Ticket not found");
     return this.getTicket(userId, ticketId);
   }
+
+  // Ticket Reply methods
+  async createReply(userId: string, ticketId: string, payload: { message: string; attachments?: string[] }) {
+    // Verify ticket exists and user has access
+    const ticket = await supportRepository.findTicketById(userId, ticketId);
+    if (!ticket) throw new AppError(404, ErrorCodes.NOT_FOUND, "Ticket not found");
+
+    // Check if user is staff (ADMIN/EDITOR)
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } });
+    const isStaffReply = user?.role === "ADMIN" || user?.role === "EDITOR";
+
+    const reply = await supportRepository.createReply(ticketId, userId, {
+      message: payload.message,
+      attachments: payload.attachments,
+      isStaffReply,
+    });
+
+    // Touch ticket updatedAt
+    await supportRepository.touchTicketUpdatedAt(ticketId);
+
+    return reply;
+  }
+
+  async listReplies(userId: string, ticketId: string) {
+    // Verify ticket exists and user has access
+    const ticket = await supportRepository.findTicketById(userId, ticketId);
+    if (!ticket) throw new AppError(404, ErrorCodes.NOT_FOUND, "Ticket not found");
+
+    return supportRepository.listReplies(ticketId);
+  }
 }
 
 export const supportService = new SupportService();
-

@@ -36,16 +36,7 @@ export const updateUserRoleSchema = z.object({
   role: z.nativeEnum(UserRole)
 });
 
-export const createPlanAdminSchema = z.object({
-  name: z.string().min(1),
-  price_vnd: z.coerce.number().int().nonnegative(),
-  max_bank_accounts: z.coerce.number().int().min(1),
-  max_transactions: z.coerce.number().int().min(1),
-  duration_days: z.coerce.number().int().min(1),
-  description: z.string().optional()
-});
-
-export const updatePlanAdminSchema = createPlanAdminSchema.partial();
+// Plans removed - using Packages only
 
 export const createBankAdminSchema = z.object({
   name: z.string().min(1),
@@ -114,8 +105,6 @@ export const updatePackageAdminSchema = z.object({
 
 export type AdminListQuery = z.infer<typeof adminListQuerySchema>;
 export type UpdateUserRoleInput = z.infer<typeof updateUserRoleSchema>;
-export type CreatePlanAdminInput = z.infer<typeof createPlanAdminSchema>;
-export type UpdatePlanAdminInput = z.infer<typeof updatePlanAdminSchema>;
 export type CreateBankAdminInput = z.infer<typeof createBankAdminSchema>;
 export type UpdateBankAdminInput = z.infer<typeof updateBankAdminSchema>;
 export type AssignUserPackageInput = z.infer<typeof assignUserPackageSchema>;

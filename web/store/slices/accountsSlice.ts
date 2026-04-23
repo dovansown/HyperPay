@@ -63,6 +63,33 @@ export const refreshAccountToken = createAsyncThunk<{ accountId: string; token: 
   }
 );
 
+type UpdateAccountPayload = { accountId: string; bank_name?: string; account_number?: string; account_holder?: string };
+
+export const updateAccount = createAsyncThunk<BankAccount, UpdateAccountPayload, { state: RootState }>(
+  'accounts/update',
+  async ({ accountId, ...body }, thunkApi) => {
+    const token = thunkApi.getState().auth.token ?? undefined;
+    const res = await apiFetch<BankAccount | ApiEnvelope<BankAccount>, Omit<UpdateAccountPayload, 'accountId'>>(`/accounts/${accountId}`, {
+      method: 'PATCH',
+      token,
+      body,
+    });
+    return unwrapApiData(res);
+  }
+);
+
+export const deleteAccount = createAsyncThunk<string, string, { state: RootState }>(
+  'accounts/delete',
+  async (accountId, thunkApi) => {
+    const token = thunkApi.getState().auth.token ?? undefined;
+    await apiFetch(`/accounts/${accountId}`, {
+      method: 'DELETE',
+      token,
+    });
+    return accountId;
+  }
+);
+
 const accountsSlice = createSlice({
   name: 'accounts',
   initialState,
@@ -117,10 +144,37 @@ const accountsSlice = createSlice({
       })
       .addCase(refreshAccountToken.rejected, (state, action) => {
         state.error = action.error.message ?? 'Failed to refresh token';
+      })
+      .addCase(updateAccount.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(updateAccount.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const index = state.items.findIndex((item) => item.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(updateAccount.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message ?? 'Failed to update account';
+      })
+      .addCase(deleteAccount.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(deleteAccount.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.items = state.items.filter((item) => item.id !== action.payload);
+        delete state.lastRefreshedTokenByAccountId[action.payload];
+      })
+      .addCase(deleteAccount.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message ?? 'Failed to delete account';
       });
   },
 });
 
 export const { clearAccountsError, clearRefreshedToken } = accountsSlice.actions;
 export const accountsReducer = accountsSlice.reducer;
-

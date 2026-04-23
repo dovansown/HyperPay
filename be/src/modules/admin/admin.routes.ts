@@ -11,13 +11,11 @@ import {
   createBankAdminSchema,
   createDurationAdminSchema,
   createPackageAdminSchema,
-  createPlanAdminSchema,
   idParamsSchema,
   systemSettingsUpdateSchema,
   updateBankAdminSchema,
   updateDurationAdminSchema,
   updatePackageAdminSchema,
-  updatePlanAdminSchema,
   updateUserPackageStatusSchema,
   updateUserRoleSchema,
   userIdParamsSchema
@@ -39,21 +37,7 @@ adminRoutes.patch(
   asyncHandler(adminController.updateUserRole)
 );
 
-adminRoutes.get(
-  "/plans",
-  validate({ query: adminListQuerySchema }),
-  asyncHandler(adminController.listPlans)
-);
-adminRoutes.post(
-  "/plans",
-  validate({ body: createPlanAdminSchema }),
-  asyncHandler(adminController.createPlan)
-);
-adminRoutes.patch(
-  "/plans/:id",
-  validate({ params: idParamsSchema, body: updatePlanAdminSchema }),
-  asyncHandler(adminController.updatePlan)
-);
+// Plans removed - using Packages only
 
 adminRoutes.get(
   "/packages",

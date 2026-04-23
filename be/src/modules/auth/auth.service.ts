@@ -266,8 +266,74 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(_input: ForgotPasswordInput) {
-    return { accepted: true };
+  async forgotPassword(input: ForgotPasswordInput) {
+    const user = await authRepository.findByEmail(input.email);
+    // Always return success to prevent email enumeration
+    if (!user) {
+      return { accepted: true, message: "If the email exists, a reset code has been sent." };
+    }
+
+    await rateLimitService.checkEmailRateLimit(user.id);
+
+    const { code, verificationId, expiresAt } = await verificationService.createCode(
+      user.id,
+      VerificationCodeType.CHANGE_PASSWORD
+    );
+
+    const resetLink = `${env.FRONTEND_ORIGIN}/reset-password?verification_id=${verificationId}&code=${code}`;
+    await enqueueEmail({
+      to: user.email,
+      subject: "Reset your password - HyperPay",
+      template: "code_verify_email",
+      data: {
+        code,
+        verifyLink: resetLink,
+        expiresMinutes: "15",
+      },
+      userId: user.id,
+    });
+
+    return {
+      accepted: true,
+      message: "If the email exists, a reset code has been sent.",
+      verification_id: verificationId,
+      expires_at: expiresAt,
+    };
+  }
+
+  async resetPassword(verificationId: string, code: string, newPassword: string) {
+    const { userId } = await verificationService.verifyCode(
+      verificationId,
+      code,
+      VerificationCodeType.CHANGE_PASSWORD
+    );
+
+    const user = await authRepository.findById(userId);
+    if (!user) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "User not found");
+    }
+
+    const passwordHash = await hashPassword(newPassword);
+    await authRepository.updatePassword(userId, passwordHash);
+
+    // Invalidate all existing sessions by clearing cache
+    await cacheService.del(`user:${userId}`);
+
+    // Send confirmation email
+    await enqueueEmail({
+      to: user.email,
+      subject: "Password changed successfully - HyperPay",
+      template: "verified",
+      data: {
+        message: "Your password has been changed successfully.",
+      },
+      userId: user.id,
+    });
+
+    return {
+      success: true,
+      message: "Password reset successfully. Please login with your new password.",
+    };
   }
 }
 

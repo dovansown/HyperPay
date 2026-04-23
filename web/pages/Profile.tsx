@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/Switch';
 import { DataTable, Column } from '@/components/ui/DataTable';
 import { PopConfirm } from '@/components/ui/PopConfirm';
 import { Modal } from '@/components/ui/Modal';
+import { OTPInput } from '@/components/ui/OTPInput';
 import { 
   User, Bell, Shield, Link as LinkIcon, 
   Smartphone, Laptop, CheckCircle2,
@@ -25,7 +26,14 @@ import {
   fetchProfile,
   get2FASetupThunk,
   sendChangePasswordCodeThunk,
+  sendVerifyEmailCodeThunk,
   updateProfileThunk,
+  fetchLoginHistory,
+  fetchTrustedDevices,
+  removeTrustedDevice,
+  fetchNotificationSettings,
+  updateNotificationSettings,
+  type NotificationSettings,
 } from '@/store/slices/profileSlice';
 
 export function Profile() {
@@ -95,8 +103,13 @@ function PersonalInfo() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isEmailVerifyModalOpen, setIsEmailVerifyModalOpen] = useState(false);
   const [passwordCode, setPasswordCode] = useState('');
+  const [emailVerifyCode, setEmailVerifyCode] = useState('');
   const [localPasswordError, setLocalPasswordError] = useState<string | null>(null);
+  const [localEmailError, setLocalEmailError] = useState<string | null>(null);
+  const [emailVerificationId, setEmailVerificationId] = useState<string | null>(null);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
 
   useEffect(() => {
     if (profile) setFullName(profile.full_name ?? '');
@@ -127,19 +140,18 @@ function PersonalInfo() {
   const submitPasswordChange = async () => {
     setLocalPasswordError(null);
     const verificationId = lastPasswordVerificationId;
-    const code = passwordCode.replace(/\D/g, '').slice(0, 6);
     if (!verificationId) {
       setLocalPasswordError('Thiếu verification id');
       return;
     }
-    if (code.length !== 6) {
+    if (passwordCode.length !== 6) {
       setLocalPasswordError('Mã xác thực phải đủ 6 số');
       return;
     }
     await dispatch(
       changePasswordThunk({
         verification_id: verificationId,
-        code,
+        code: passwordCode,
         current_password: currentPassword,
         new_password: newPassword,
       })
@@ -151,10 +163,88 @@ function PersonalInfo() {
     setPasswordCode('');
   };
 
+  const sendEmailVerificationCode = async () => {
+    setLocalEmailError(null);
+    try {
+      const result = await dispatch(sendVerifyEmailCodeThunk()).unwrap();
+      setEmailVerificationId(result.verification_id);
+      setIsEmailVerifyModalOpen(true);
+    } catch (err: unknown) {
+      setLocalEmailError(err instanceof Error ? err.message : 'Failed to send verification code');
+    }
+  };
+
+  const submitEmailVerification = async () => {
+    setLocalEmailError(null);
+    if (!emailVerificationId) {
+      setLocalEmailError('Thiếu verification id');
+      return;
+    }
+    if (emailVerifyCode.length !== 6) {
+      setLocalEmailError('Mã xác thực phải đủ 6 số');
+      return;
+    }
+    setIsVerifyingEmail(true);
+    try {
+      // Call auth verify endpoint
+      const token = await dispatch((_, getState) => getState().auth.token);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1'}/auth/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          verification_id: emailVerificationId,
+          code: emailVerifyCode,
+          type: 'email',
+        }),
+      });
+      if (!res.ok) throw new Error('Verification failed');
+      
+      // Refresh profile
+      await dispatch(fetchProfile());
+      setIsEmailVerifyModalOpen(false);
+      setEmailVerifyCode('');
+      setEmailVerificationId(null);
+    } catch (err: unknown) {
+      setLocalEmailError(err instanceof Error ? err.message : 'Verification failed');
+    } finally {
+      setIsVerifyingEmail(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 animate-in fade-in duration-300 w-full">
       <h2 className="text-[20px] font-bold text-dark">{t('profile.personal')}</h2>
       
+      {/* Email Verification Card */}
+      {profile && !profile.email_verified && (
+        <Card className="p-6 md:p-8 w-full border-2 border-yellow-200 bg-yellow-50">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center shrink-0">
+              <Mail size={20} />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-[16px] font-bold text-dark mb-1">{t('profile.verify_email') || 'Verify your email'}</h3>
+              <p className="text-[13px] text-gray mb-4">
+                {t('profile.verify_email_desc') || 'Please verify your email address to access all features.'}
+              </p>
+              {localEmailError && (
+                <div className="mb-3 text-[13px] text-red-600">{localEmailError}</div>
+              )}
+              <Button 
+                className="px-4 py-2 rounded-xl text-[13px]"
+                onClick={sendEmailVerificationCode}
+                disabled={isVerifyingEmail}
+              >
+                {isVerifyingEmail ? t('common.loading') : (t('profile.send_verification_code') || 'Send Verification Code')}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
       <Card className="p-6 md:p-8 w-full">
         <h3 className="text-[16px] font-bold text-dark mb-6">{t('profile.your_profile')}</h3>
         {(error || updateError) && (
@@ -257,12 +347,11 @@ function PersonalInfo() {
           <div className="text-[13px] text-gray">
             Nhập mã 6 số được gửi về email để xác nhận đổi mật khẩu.
           </div>
-          <input
-            inputMode="numeric"
+          <OTPInput 
+            length={6}
             value={passwordCode}
-            onChange={(e) => setPasswordCode(e.target.value)}
-            placeholder="123456"
-            className="w-full px-4 py-3 bg-gray-50 border border-[#e8e8e8] rounded-xl text-[14px] outline-none focus:border-primary focus:bg-white transition-colors"
+            onChange={setPasswordCode}
+            disabled={isChangingPassword}
           />
           <div className="flex gap-3 pt-2">
             <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setIsPasswordModalOpen(false)}>
@@ -274,19 +363,58 @@ function PersonalInfo() {
           </div>
         </div>
       </Modal>
+
+      {/* Email Verification Modal */}
+      <Modal isOpen={isEmailVerifyModalOpen} onClose={() => setIsEmailVerifyModalOpen(false)} title={t('profile.verify_email') || 'Verify Email'}>
+        <div className="flex flex-col gap-4">
+          <div className="text-[13px] text-gray">
+            {t('profile.verify_email_modal_desc') || 'Enter the 6-digit code sent to your email to verify your account.'}
+          </div>
+          {localEmailError && (
+            <div className="text-[13px] text-red-600">{localEmailError}</div>
+          )}
+          <OTPInput 
+            length={6}
+            value={emailVerifyCode}
+            onChange={setEmailVerifyCode}
+            disabled={isVerifyingEmail}
+          />
+          <div className="flex gap-3 pt-2">
+            <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setIsEmailVerifyModalOpen(false)}>
+              {t('common.cancel')}
+            </Button>
+            <Button className="flex-1 rounded-xl" disabled={isVerifyingEmail} onClick={submitEmailVerification}>
+              {isVerifyingEmail ? t('common.loading') : t('common.confirm')}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
 
 function NotificationSettings() {
   const { t } = useLanguage();
-  const [notifs, setNotifs] = useState({
+  const dispatch = useAppDispatch();
+  const { notificationSettings, notificationSettingsStatus } = useAppSelector((s) => s.profile);
+
+  useEffect(() => {
+    dispatch(fetchNotificationSettings());
+  }, [dispatch]);
+
+  const handleToggle = async (key: keyof NotificationSettings, value: boolean) => {
+    await dispatch(updateNotificationSettings({ [key]: value }));
+  };
+
+  const notifs = notificationSettings || {
     success: true,
     failed: true,
     dispute: true,
     payout: false,
     newMember: true
-  });
+  };
+
+  const isLoading = notificationSettingsStatus === 'loading';
 
   return (
     <div className="flex flex-col gap-6 animate-in fade-in duration-300 w-full">
@@ -302,35 +430,40 @@ function NotificationSettings() {
             title={t('profile.notif_success_title')} 
             desc={t('profile.notif_success_desc')}
             checked={notifs.success}
-            onChange={(c) => setNotifs({...notifs, success: c})}
+            onChange={(c) => handleToggle('success', c)}
+            disabled={isLoading}
           />
           <hr className="border-[#e8e8e8]" />
           <NotifItem 
             title={t('profile.notif_failed_title')} 
             desc={t('profile.notif_failed_desc')}
             checked={notifs.failed}
-            onChange={(c) => setNotifs({...notifs, failed: c})}
+            onChange={(c) => handleToggle('failed', c)}
+            disabled={isLoading}
           />
           <hr className="border-[#e8e8e8]" />
           <NotifItem 
             title={t('profile.notif_dispute_title')} 
             desc={t('profile.notif_dispute_desc')}
             checked={notifs.dispute}
-            onChange={(c) => setNotifs({...notifs, dispute: c})}
+            onChange={(c) => handleToggle('dispute', c)}
+            disabled={isLoading}
           />
           <hr className="border-[#e8e8e8]" />
           <NotifItem 
             title={t('profile.notif_payout_title')} 
             desc={t('profile.notif_payout_desc')}
             checked={notifs.payout}
-            onChange={(c) => setNotifs({...notifs, payout: c})}
+            onChange={(c) => handleToggle('payout', c)}
+            disabled={isLoading}
           />
           <hr className="border-[#e8e8e8]" />
           <NotifItem 
             title={t('profile.notif_member_title')} 
             desc={t('profile.notif_member_desc')}
             checked={notifs.newMember}
-            onChange={(c) => setNotifs({...notifs, newMember: c})}
+            onChange={(c) => handleToggle('newMember', c)}
+            disabled={isLoading}
           />
         </div>
       </Card>
@@ -338,7 +471,7 @@ function NotificationSettings() {
   );
 }
 
-function NotifItem({ title, desc, checked, onChange }: { title: string, desc: string, checked: boolean, onChange: (c: boolean) => void }) {
+function NotifItem({ title, desc, checked, onChange, disabled }: { title: string, desc: string, checked: boolean, onChange: (c: boolean) => void, disabled?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <div>
@@ -346,7 +479,7 @@ function NotifItem({ title, desc, checked, onChange }: { title: string, desc: st
         <div className="text-[13px] text-gray">{desc}</div>
       </div>
       <div className="pt-1">
-        <Switch checked={checked} onChange={onChange} />
+        <Switch checked={checked} onChange={onChange} disabled={disabled} />
       </div>
     </div>
   );
@@ -355,40 +488,55 @@ function NotifItem({ title, desc, checked, onChange }: { title: string, desc: st
 function SecuritySettings() {
   const { t } = useLanguage();
   const dispatch = useAppDispatch();
-  const { profile, twoFASetup, twoFAStatus, twoFAError, lastBackupCodes } = useAppSelector((s) => s.profile);
+  const { profile, twoFASetup, twoFAStatus, twoFAError, lastBackupCodes, loginHistory, trustedDevices, notificationSettings } = useAppSelector((s) => s.profile);
   const twoFactor = !!profile?.totp_enabled;
   const [is2FAModalOpen, setIs2FAModalOpen] = useState(false);
-  const [loginAlerts, setLoginAlerts] = useState(true);
   const [step, setStep] = useState(1);
-  const [codeDigits, setCodeDigits] = useState<string[]>(['', '', '', '', '', '']);
-
-  const code = useMemo(() => codeDigits.join('').replace(/\D/g, '').slice(0, 6), [codeDigits]);
+  const [twoFACode, setTwoFACode] = useState('');
 
   const isWorking2FA = twoFAStatus === 'loading';
+
+  useEffect(() => {
+    dispatch(fetchLoginHistory());
+    dispatch(fetchTrustedDevices());
+    dispatch(fetchNotificationSettings());
+  }, [dispatch]);
 
   const handle2FAToggle = (checked: boolean) => {
     if (checked) {
       setIs2FAModalOpen(true);
       setStep(1);
-      setCodeDigits(['', '', '', '', '', '']);
+      setTwoFACode('');
       dispatch(get2FASetupThunk());
     } else {
       dispatch(disable2FAThunk());
     }
   };
 
-  const MOCK_LOGIN_HISTORY = [
-    { id: '1', date: '2024-05-16 10:23:45', ip: '192.168.1.1', location: 'Hanoi, Vietnam', status: t('profile.login_success') },
-    { id: '2', date: '2024-05-15 08:12:10', ip: '113.190.23.4', location: 'Ho Chi Minh City, Vietnam', status: t('profile.login_success') },
-    { id: '3', date: '2024-05-10 22:05:00', ip: '45.23.12.9', location: 'Singapore', status: t('profile.login_failed') },
-  ];
+  const handleLoginAlertsToggle = async (checked: boolean) => {
+    await dispatch(updateNotificationSettings({ loginAlerts: checked }));
+  };
 
-  const MOCK_TRUSTED_DEVICES = [
-    { id: '1', device: 'MacBook Pro 16"', browser: 'Chrome', lastActive: 'Vừa xong', icon: 'laptop' },
-    { id: '2', device: 'iPhone 13 Pro', browser: 'Safari', lastActive: '2 giờ trước', icon: 'smartphone' },
-  ];
+  const handleRemoveDevice = async (deviceId: string) => {
+    await dispatch(removeTrustedDevice(deviceId));
+    dispatch(fetchTrustedDevices());
+  };
 
-  const historyColumns: Column<typeof MOCK_LOGIN_HISTORY[0]>[] = [
+  const formatRelativeTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Vừa xong';
+    if (diffMins < 60) return `${diffMins} phút trước`;
+    if (diffHours < 24) return `${diffHours} giờ trước`;
+    return `${diffDays} ngày trước`;
+  };
+
+  const historyColumns: Column<typeof loginHistory[0]>[] = [
     { key: 'date', label: t('common.date'), sortable: true, cellClassName: "text-[13px] text-dark" },
     { key: 'ip', label: t('profile.ip_address'), sortable: true, cellClassName: "text-[13px] text-gray" },
     { key: 'location', label: t('profile.location'), sortable: true, cellClassName: "text-[13px] text-gray" },
@@ -399,32 +547,41 @@ function SecuritySettings() {
       render: (item) => (
         <span className={cn(
           "px-2.5 py-1 rounded-md text-[11px] font-bold",
-          item.status === t('profile.login_success') ? "bg-[#e8f5ee] text-primary" : "bg-red-50 text-red-500"
+          item.status === 'success' ? "bg-[#e8f5ee] text-primary" : "bg-red-50 text-red-500"
         )}>
-          {item.status}
+          {item.status === 'success' ? t('profile.login_success') : t('profile.login_failed')}
         </span>
       )
     }
   ];
 
-  const deviceColumns: Column<typeof MOCK_TRUSTED_DEVICES[0]>[] = [
+  const deviceColumns: Column<typeof trustedDevices[0]>[] = [
     { 
       key: 'device', 
       label: t('profile.device'), 
       sortable: true,
-      render: (item) => (
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gray-100 text-gray flex items-center justify-center">
-            {item.icon === 'laptop' ? <Laptop size={14} /> : <Smartphone size={14} />}
+      render: (item) => {
+        const icon = item.device.toLowerCase().includes('iphone') || item.device.toLowerCase().includes('android') ? 'smartphone' : 'laptop';
+        return (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-100 text-gray flex items-center justify-center">
+              {icon === 'laptop' ? <Laptop size={14} /> : <Smartphone size={14} />}
+            </div>
+            <div>
+              <div className="text-[13px] font-bold text-dark">{item.device}</div>
+              <div className="text-[11px] text-gray">{item.browser}</div>
+            </div>
           </div>
-          <div>
-            <div className="text-[13px] font-bold text-dark">{item.device}</div>
-            <div className="text-[11px] text-gray">{item.browser}</div>
-          </div>
-        </div>
-      )
+        );
+      }
     },
-    { key: 'lastActive', label: t('profile.last_active'), sortable: true, cellClassName: "text-[13px] text-gray" },
+    { 
+      key: 'lastActive', 
+      label: t('profile.last_active'), 
+      sortable: true, 
+      cellClassName: "text-[13px] text-gray",
+      render: (item) => formatRelativeTime(item.lastActive)
+    },
     {
       key: 'actions',
       label: '',
@@ -434,7 +591,7 @@ function SecuritySettings() {
         <PopConfirm
           title={t('profile.remove_device')}
           description={t('profile.remove_device_confirm')}
-          onConfirm={() => console.log('Removed device:', item.id)}
+          onConfirm={() => handleRemoveDevice(item.id)}
           okText={t('profile.remove_device')}
           cancelText={t('common.cancel')}
         >
@@ -462,8 +619,8 @@ function SecuritySettings() {
           <NotifItem 
             title={t('profile.login_alerts')} 
             desc={t('profile.login_alerts_desc')}
-            checked={loginAlerts}
-            onChange={setLoginAlerts}
+            checked={notificationSettings?.loginAlerts ?? true}
+            onChange={handleLoginAlertsToggle}
           />
         </div>
       </Card>
@@ -543,29 +700,20 @@ function SecuritySettings() {
                 <p className="text-[13px] text-gray">{t('2fa.step2_desc')}</p>
               </div>
 
-              <div className="flex justify-between gap-2 sm:gap-3">
-                {[0, 1, 2, 3, 4, 5].map((i) => (
-                  <input
-                    key={i}
-                    type="text"
-                    maxLength={1}
-                    value={codeDigits[i] ?? ''}
-                    onChange={(e) => {
-                      const v = e.target.value.replace(/\D/g, '').slice(0, 1);
-                      setCodeDigits((prev) => prev.map((p, idx) => (idx === i ? v : p)));
-                    }}
-                    className="flex-1 h-12 w-0 text-center text-[18px] font-bold text-dark bg-gray-50 border border-[#e8e8e8] rounded-xl outline-none focus:border-primary focus:bg-white transition-all"
-                  />
-                ))}
-              </div>
+              <OTPInput 
+                length={6}
+                value={twoFACode}
+                onChange={setTwoFACode}
+                disabled={isWorking2FA}
+              />
 
               <div className="flex gap-3">
                 <Button variant="outline" className="flex-1 rounded-xl" onClick={() => setStep(1)}>{t('2fa.back')}</Button>
                 <Button 
                   className="flex-1 rounded-xl" 
-                  disabled={isWorking2FA || code.length !== 6}
+                  disabled={isWorking2FA || twoFACode.length !== 6}
                   onClick={async () => {
-                    await dispatch(enable2FAThunk({ code })).unwrap();
+                    await dispatch(enable2FAThunk({ code: twoFACode })).unwrap();
                     setStep(3);
                   }}
                 >
@@ -622,7 +770,7 @@ function SecuritySettings() {
       <Card className="p-0 overflow-hidden w-full">
         <DataTable 
           columns={deviceColumns}
-          data={MOCK_TRUSTED_DEVICES}
+          data={trustedDevices}
           defaultPageSize={5}
           pageSizeOptions={[5, 10]}
         />
@@ -632,7 +780,7 @@ function SecuritySettings() {
       <Card className="p-0 overflow-hidden w-full">
         <DataTable 
           columns={historyColumns}
-          data={MOCK_LOGIN_HISTORY}
+          data={loginHistory}
           defaultPageSize={5}
           pageSizeOptions={[5, 10, 20]}
         />

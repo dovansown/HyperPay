@@ -18,7 +18,6 @@ export type RecentTransaction = {
 
 export type DashboardResult = {
   total_accounts: number;
-  total_plans: number;
   total_balance_vnd: number;
   today_revenue_vnd: number;
   chart_data: ChartDataPoint[];

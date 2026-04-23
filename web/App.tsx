@@ -12,6 +12,7 @@ import { Register } from '@/pages/Register';
 import { ForgotPassword } from '@/pages/ForgotPassword';
 import { Dashboard } from '@/pages/Dashboard';
 import { Bank } from '@/pages/Bank';
+import { Transactions } from '@/pages/Transactions';
 import { Webhook } from '@/pages/Webhook';
 import { WebhookForm } from '@/pages/WebhookForm';
 import { Billing } from '@/pages/Billing';
@@ -56,6 +57,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <Bank />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/transactions"
+            element={
+              <RequireAuth>
+                <Transactions />
               </RequireAuth>
             }
           />

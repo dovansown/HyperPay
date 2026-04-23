@@ -8,6 +8,7 @@ import {
   listTicketsQuerySchema,
   ticketIdParamsSchema,
   updateTicketSchema,
+  createReplySchema,
 } from "./support.schema.js";
 
 export const supportRoutes = Router();
@@ -35,3 +36,14 @@ supportRoutes.patch(
   asyncHandler(supportController.updateTicket)
 );
 
+
+supportRoutes.post(
+  "/tickets/:ticketId/replies",
+  validate({ params: ticketIdParamsSchema, body: createReplySchema }),
+  asyncHandler(supportController.createReply)
+);
+supportRoutes.get(
+  "/tickets/:ticketId/replies",
+  validate({ params: ticketIdParamsSchema }),
+  asyncHandler(supportController.listReplies)
+);

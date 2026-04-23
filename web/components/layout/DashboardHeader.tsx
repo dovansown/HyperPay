@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Search, 
-  Bell, 
   ChevronDown,
   LayoutDashboard, 
   Landmark,
@@ -19,14 +18,10 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import { useLanguage } from '@/context/LanguageContext';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { NotificationDropdown } from '@/components/NotificationDropdown';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchCurrentUser, logout } from '@/store/slices/authSlice';
 import { fetchProfile } from '@/store/slices/profileSlice';
-import {
-  fetchNotificationsThunk,
-  markAllNotificationsReadThunk,
-  markNotificationReadThunk,
-} from '@/store/slices/notificationsSlice';
 
 export function DashboardHeader() {
   const location = useLocation();
@@ -36,21 +31,17 @@ export function DashboardHeader() {
   const token = useAppSelector((s) => s.auth.token);
   const authUser = useAppSelector((s) => s.auth.user);
   const profile = useAppSelector((s) => s.profile.profile);
-  const { items: notifications, unreadCount } = useAppSelector((s) => s.notifications);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
-  const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) setIsSearchOpen(false);
-      if (notifRef.current && !notifRef.current.contains(event.target as Node)) setIsNotifOpen(false);
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) setIsProfileOpen(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -96,7 +87,7 @@ export function DashboardHeader() {
           {/* Search */}
           <div className="relative" ref={searchRef}>
             <button 
-              onClick={() => { setIsSearchOpen(!isSearchOpen); setIsNotifOpen(false); setIsProfileOpen(false); }}
+              onClick={() => { setIsSearchOpen(!isSearchOpen); setIsProfileOpen(false); }}
               className="w-9 h-9 bg-gray-50 rounded-full flex items-center justify-center text-gray hover:text-dark hover:bg-gray-100 transition-colors"
             >
               <Search size={18} />
@@ -125,103 +116,12 @@ export function DashboardHeader() {
           </div>
 
           {/* Notifications */}
-          <div className="relative" ref={notifRef}>
-            <button 
-              onClick={() => {
-                const nextOpen = !isNotifOpen;
-                setIsNotifOpen(nextOpen);
-                setIsSearchOpen(false);
-                setIsProfileOpen(false);
-                if (nextOpen && token) dispatch(fetchNotificationsThunk({ page: 1, limit: 10 }));
-              }}
-              className="w-9 h-9 bg-gray-50 rounded-full flex items-center justify-center text-gray hover:text-dark hover:bg-gray-100 transition-colors relative"
-            >
-              <Bell size={18} />
-              {unreadCount > 0 && (
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-              )}
-            </button>
-            <AnimatePresence>
-              {isNotifOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.15 }}
-                  className="fixed left-4 right-4 top-16 sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-3 sm:w-80 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-[#e8e8e8] overflow-hidden z-50"
-                >
-                  <div className="px-4 py-3 border-b border-[#e8e8e8] flex items-center justify-between bg-gray-50/50">
-                    <h3 className="text-[14px] font-bold text-dark">{t('dashboard.notifications')}</h3>
-                    <button
-                      className="text-[11px] text-primary hover:underline font-medium disabled:opacity-60"
-                      disabled={!token || unreadCount === 0}
-                      onClick={async () => {
-                        if (!token) return;
-                        await dispatch(markAllNotificationsReadThunk()).unwrap();
-                      }}
-                    >
-                      {t('dashboard.mark_read')}
-                    </button>
-                  </div>
-                  <div className="max-h-[300px] overflow-y-auto">
-                    {notifications.length === 0 ? (
-                      <div className="px-4 py-8 text-center text-[13px] text-gray">Chưa có thông báo</div>
-                    ) : (
-                      notifications.map((n, idx) => {
-                        const isUnread = !n.readAt;
-                        const createdAt = new Date(n.createdAt);
-                        const timeLabel = Number.isFinite(createdAt.getTime())
-                          ? createdAt.toLocaleString()
-                          : '';
-                        return (
-                          <div
-                            key={n.id}
-                            className={[
-                              "px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors",
-                              idx !== notifications.length - 1 ? "border-b border-[#e8e8e8]" : "",
-                            ].join(' ')}
-                            onClick={async () => {
-                              if (!token) return;
-                              if (isUnread) await dispatch(markNotificationReadThunk({ id: n.id })).unwrap();
-                            }}
-                          >
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="min-w-0">
-                                <div className="text-[13px] font-bold text-dark mb-1 truncate">{n.title}</div>
-                                {n.body && <div className="text-[12px] text-gray line-clamp-2">{n.body}</div>}
-                                {timeLabel && (
-                                  <div className={cn("text-[11px] font-medium mt-1", isUnread ? "text-primary" : "text-light-gray")}>
-                                    {timeLabel}
-                                  </div>
-                                )}
-                              </div>
-                              {isUnread && <span className="mt-1 w-2 h-2 rounded-full bg-primary shrink-0" />}
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                  <div className="px-4 py-2 border-t border-[#e8e8e8] text-center bg-gray-50/50">
-                    <button
-                      className="text-[12px] text-primary hover:underline font-medium"
-                      onClick={() => {
-                        setIsNotifOpen(false);
-                        // Chưa có trang /notifications, tạm điều hướng sang support (hoặc giữ nguyên)
-                      }}
-                    >
-                      {t('dashboard.view_all')}
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <NotificationDropdown />
 
           {/* Profile */}
           <div className="relative" ref={profileRef}>
             <div 
-              onClick={() => { setIsProfileOpen(!isProfileOpen); setIsSearchOpen(false); setIsNotifOpen(false); }}
+              onClick={() => { setIsProfileOpen(!isProfileOpen); setIsSearchOpen(false); }}
               className="flex items-center gap-2 pl-2 cursor-pointer hover:opacity-80 transition-opacity"
             >
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-dark"></div>

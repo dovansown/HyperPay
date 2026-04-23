@@ -4,7 +4,7 @@ import { transactionsService } from "./transactions.service.js";
 
 export class TransactionsController {
   async listByAccount(req: Request, res: Response) {
-    const data = await transactionsService.listByAccountId(req.params.accountId, req.user!.userId);
+    const data = await transactionsService.listByAccountId(String(req.params.accountId), req.user!.userId);
     return sendSuccess(res, data);
   }
 

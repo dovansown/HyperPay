@@ -8,15 +8,17 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { DataTable, Column } from '@/components/ui/DataTable';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Popover } from '@/components/ui/Popover';
-import { Copy, Filter, Plus, RefreshCcw, Search, Settings } from 'lucide-react';
+import { Copy, Filter, Plus, RefreshCcw, Search, Settings, Trash2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   clearAccountsError,
   clearRefreshedToken,
   createAccount,
+  deleteAccount,
   fetchAccounts,
-  refreshAccountToken
+  refreshAccountToken,
+  updateAccount
 } from '@/store/slices/accountsSlice';
 import { fetchBanks } from '@/store/slices/banksSlice';
 
@@ -41,7 +43,9 @@ export function Bank() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editingAccountId, setEditingAccountId] = useState<string | null>(null);
+  const [deletingAccountId, setDeletingAccountId] = useState<string | null>(null);
 
   const [formBankName, setFormBankName] = useState('');
   const [formAccountNumber, setFormAccountNumber] = useState('');
@@ -144,6 +148,17 @@ export function Bank() {
             title={t('common.edit')}
           >
             {t('common.edit')}
+          </button>
+          <button
+            className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              setDeletingAccountId(bank.id);
+              setIsDeleteModalOpen(true);
+            }}
+            title={t('common.delete')}
+          >
+            <Trash2 size={16} />
           </button>
         </div>
       )
@@ -316,8 +331,16 @@ export function Bank() {
             e.preventDefault();
             dispatch(clearAccountsError());
             if (editingAccountId) {
-              // backend có PATCH/DELETE, nhưng UI sẽ implement edit đầy đủ ở task tiếp theo
+              await dispatch(
+                updateAccount({
+                  accountId: editingAccountId,
+                  bank_name: formBankName,
+                  account_number: formAccountNumber,
+                  account_holder: formAccountHolder,
+                })
+              );
               setIsAddModalOpen(false);
+              setEditingAccountId(null);
               return;
             }
             await dispatch(
@@ -400,6 +423,51 @@ export function Bank() {
             </div>
           </div>
         )}
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setDeletingAccountId(null);
+        }} 
+        title={t('bank.delete_confirm_title') || 'Delete Bank Account'}
+      >
+        <div className="flex flex-col gap-5">
+          <p className="text-[13px] text-gray">
+            {t('bank.delete_confirm_message') || 'Are you sure you want to delete this bank account? This action cannot be undone.'}
+          </p>
+          
+          <div className="flex gap-3">
+            <Button 
+              type="button" 
+              variant="outline" 
+              className="flex-1 rounded-xl" 
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+                setDeletingAccountId(null);
+              }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button 
+              type="button"
+              className="flex-1 rounded-xl bg-red-500 hover:bg-red-600" 
+              disabled={accountsStatus === 'loading'}
+              onClick={async () => {
+                if (deletingAccountId) {
+                  dispatch(clearAccountsError());
+                  await dispatch(deleteAccount(deletingAccountId));
+                  setIsDeleteModalOpen(false);
+                  setDeletingAccountId(null);
+                }
+              }}
+            >
+              {accountsStatus === 'loading' ? t('common.loading') : (t('common.delete') || 'Delete')}
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

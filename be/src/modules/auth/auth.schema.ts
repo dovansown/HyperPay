@@ -15,6 +15,12 @@ export const forgotPasswordSchema = z.object({
   email: z.string().email()
 });
 
+export const resetPasswordSchema = z.object({
+  verification_id: z.string().uuid(),
+  code: z.string().min(6).max(6).regex(/^\d+$/, "Must be 6 digits"),
+  new_password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
 export const verifySchema = z.object({
   verification_id: z.string().uuid(),
   code: z.string().min(6).max(6).regex(/^\d+$/, "Must be 6 digits"),
@@ -29,5 +35,6 @@ export const verify2FASchema = z.object({
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type VerifyInput = z.infer<typeof verifySchema>;
 export type Verify2FAInput = z.infer<typeof verify2FASchema>;

@@ -38,6 +38,15 @@ export class AuthController {
     const data = await authService.forgotPassword(req.body);
     return sendSuccess(res, data);
   }
+
+  async resetPassword(req: Request, res: Response) {
+    const data = await authService.resetPassword(
+      req.body.verification_id,
+      req.body.code,
+      req.body.new_password
+    );
+    return sendSuccess(res, data);
+  }
 }
 
 export const authController = new AuthController();

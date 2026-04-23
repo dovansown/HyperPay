@@ -4,14 +4,15 @@ import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Drawer } from '@/components/ui/Drawer';
+import { Modal } from '@/components/ui/Modal';
 import { DataTable, Column } from '@/components/ui/DataTable';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Popover } from '@/components/ui/Popover';
-import { Search, Filter, Settings, Plus, Webhook as WebhookIcon, MoreVertical, Send } from 'lucide-react';
+import { Search, Filter, Settings, Plus, Webhook as WebhookIcon, MoreVertical, Send, AlertCircle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchWebhookConfig, fetchWebhookLogs, sendTestEvent } from '@/store/slices/webhookSlice';
+import { fetchWebhookConfig, fetchWebhookLogs, sendTestEvent, type WebhookDeliveryLogEntry } from '@/store/slices/webhookSlice';
 
 export function Webhook() {
   const { t } = useLanguage();
@@ -23,6 +24,8 @@ export function Webhook() {
   const [searchQuery, setSearchQuery] = useState('');
   const [logSearchQuery, setLogSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState<WebhookDeliveryLogEntry | null>(null);
+  const [isLogDetailOpen, setIsLogDetailOpen] = useState(false);
 
   useEffect(() => {
     void dispatch(fetchWebhookConfig());
@@ -161,6 +164,9 @@ export function Webhook() {
         webhook: l.url,
         status: `${l.response_status_code}${l.success ? ' OK' : ' Error'}`,
         date: new Date(l.created_at).toLocaleString('vi-VN'),
+        success: l.success,
+        statusCode: l.response_status_code,
+        rawLog: l,
       }))
       .filter((l) => (!q ? true : l.event.toLowerCase().includes(q) || l.webhook.toLowerCase().includes(q)));
   }, [logs, logSearchQuery]);
@@ -347,6 +353,10 @@ export function Webhook() {
             <DataTable 
               columns={activeLogColumns}
               data={logRows}
+              onRowClick={(log) => {
+                setSelectedLog(log.rawLog);
+                setIsLogDetailOpen(true);
+              }}
               defaultPageSize={4}
               pageSizeOptions={[4, 8, 12]}
             />
@@ -354,6 +364,115 @@ export function Webhook() {
           </Card>
         )}
       </main>
+
+      {/* Log Detail Modal */}
+      <Modal 
+        isOpen={isLogDetailOpen} 
+        onClose={() => {
+          setIsLogDetailOpen(false);
+          setSelectedLog(null);
+        }} 
+        title={t('webhook.log_detail') || 'Webhook Log Detail'}
+      >
+        {selectedLog && (
+          <div className="flex flex-col gap-5">
+            {/* Status */}
+            <div>
+              <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('common.status')}</div>
+              <div className="flex items-center gap-2">
+                {selectedLog.success ? (
+                  <CheckCircle size={20} className="text-green-600" />
+                ) : (
+                  <AlertCircle size={20} className="text-red-500" />
+                )}
+                <span className={cn(
+                  "px-3 py-1.5 rounded-lg text-[13px] font-bold",
+                  selectedLog.success ? "bg-green-100 text-green-600" : "bg-red-100 text-red-500"
+                )}>
+                  {selectedLog.response_status_code} {selectedLog.success ? 'Success' : 'Failed'}
+                </span>
+              </div>
+            </div>
+
+            {/* Event Type */}
+            <div>
+              <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('webhook.event')}</div>
+              <div className="text-[13px] text-dark font-bold">{selectedLog.event_type}</div>
+            </div>
+
+            {/* URL */}
+            <div>
+              <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('webhook.endpoint_url')}</div>
+              <div className="text-[13px] text-dark break-all">{selectedLog.url}</div>
+            </div>
+
+            {/* Date */}
+            <div>
+              <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('common.date')}</div>
+              <div className="text-[13px] text-gray">{new Date(selectedLog.created_at).toLocaleString('vi-VN')}</div>
+            </div>
+
+            {/* Error Message */}
+            {selectedLog.error_message && (
+              <div>
+                <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('webhook.error_message') || 'Error Message'}</div>
+                <div className="bg-red-50 border border-red-100 rounded-xl p-3 text-[12px] text-red-600 font-mono">
+                  {selectedLog.error_message}
+                </div>
+              </div>
+            )}
+
+            {/* Request Payload */}
+            {selectedLog.request_payload && (
+              <div>
+                <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('webhook.request_payload') || 'Request Payload'}</div>
+                <div className="bg-gray-50 border border-[#e8e8e8] rounded-xl p-3 max-h-[200px] overflow-auto">
+                  <pre className="text-[11px] text-dark font-mono whitespace-pre-wrap break-all">
+                    {(() => {
+                      try {
+                        return JSON.stringify(JSON.parse(selectedLog.request_payload), null, 2);
+                      } catch {
+                        return selectedLog.request_payload;
+                      }
+                    })()}
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {/* Response Body */}
+            {selectedLog.response_body && (
+              <div>
+                <div className="text-[11px] font-bold text-gray uppercase mb-2">{t('webhook.response_body') || 'Response Body'}</div>
+                <div className="bg-gray-50 border border-[#e8e8e8] rounded-xl p-3 max-h-[200px] overflow-auto">
+                  <pre className="text-[11px] text-dark font-mono whitespace-pre-wrap break-all">
+                    {(() => {
+                      try {
+                        return JSON.stringify(JSON.parse(selectedLog.response_body), null, 2);
+                      } catch {
+                        return selectedLog.response_body;
+                      }
+                    })()}
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-2">
+              <Button 
+                variant="outline" 
+                className="w-full rounded-xl" 
+                onClick={() => {
+                  setIsLogDetailOpen(false);
+                  setSelectedLog(null);
+                }}
+              >
+                {t('common.close') || 'Close'}
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
 
       {/* Filter Drawer */}
       <Drawer isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} title={t('webhook.filter_title')}>
