@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearAuthError, fetchCurrentUser, registerThunk } from '@/store/slices/authSlice';
+import { toast } from 'sonner';
 
 export function Register() {
   const { t } = useLanguage();
@@ -30,6 +31,7 @@ export function Register() {
       
       // Backend returns verification_id if email needs verification
       if (result.verification_id) {
+        toast.success(t('auth.register_success') || 'Registration successful! Please verify your email.');
         navigate('/verify-otp', { 
           replace: true, 
           state: { 
@@ -44,10 +46,12 @@ export function Register() {
       // If already verified or no verification needed, go to dashboard
       if (token) {
         await dispatch(fetchCurrentUser()).unwrap();
+        toast.success(t('auth.register_success') || 'Registration successful!');
         navigate('/dashboard', { replace: true });
       }
-    } catch {
-      // error is in store
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('auth.register_failed') || 'Registration failed';
+      toast.error(errorMessage);
     }
   };
 
@@ -102,12 +106,6 @@ export function Register() {
             />
           </div>
           
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-              {error}
-            </div>
-          )}
-
           <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
             {isSubmitting ? t('common.loading') : t('nav.signup')}
           </Button>

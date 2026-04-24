@@ -8,12 +8,12 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { DataTable, Column } from '@/components/ui/DataTable';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Popover } from '@/components/ui/Popover';
-import { Copy, Filter, Plus, RefreshCcw, Search, Settings, Trash2 } from 'lucide-react';
+import { Filter, Plus, RefreshCcw, Search, Settings, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   clearAccountsError,
-  clearRefreshedToken,
   createAccount,
   deleteAccount,
   fetchAccounts,
@@ -34,8 +34,6 @@ export function Bank() {
 
   const accounts = useAppSelector((s) => s.accounts.items);
   const accountsStatus = useAppSelector((s) => s.accounts.status);
-  const accountsError = useAppSelector((s) => s.accounts.error);
-  const refreshedTokens = useAppSelector((s) => s.accounts.lastRefreshedTokenByAccountId);
 
   const banks = useAppSelector((s) => s.banks.items);
   const banksStatus = useAppSelector((s) => s.banks.status);
@@ -50,12 +48,12 @@ export function Bank() {
   const [formBankName, setFormBankName] = useState('');
   const [formAccountNumber, setFormAccountNumber] = useState('');
   const [formAccountHolder, setFormAccountHolder] = useState('');
-  const [copiedAccountId, setCopiedAccountId] = useState<string | null>(null);
 
   useEffect(() => {
     void dispatch(fetchAccounts());
     void dispatch(fetchBanks());
   }, [dispatch]);
+
 
   const ALL_COLUMNS = [
     { key: 'bankName', label: t('bank.name') },
@@ -110,31 +108,17 @@ export function Bank() {
             onClick={async (e) => {
               e.stopPropagation();
               dispatch(clearAccountsError());
-              await dispatch(refreshAccountToken(bank.id));
+              try {
+                const result = await dispatch(refreshAccountToken(bank.id)).unwrap();
+                toast.success(result.message || 'API token mới đã được gửi về email của bạn.');
+              } catch (err: unknown) {
+                toast.error(err instanceof Error ? err.message : 'Không thể làm mới API token');
+              }
             }}
             title="Refresh token"
           >
             <RefreshCcw size={16} />
           </button>
-          {refreshedTokens[bank.id] && (
-            <button
-              className="p-1.5 text-primary hover:text-primary-dark hover:bg-primary/10 rounded-md transition-colors"
-              onClick={async (e) => {
-                e.stopPropagation();
-                const token = refreshedTokens[bank.id];
-                if (token) await navigator.clipboard.writeText(token);
-                setCopiedAccountId(bank.id);
-              }}
-              title={t('common.copy')}
-            >
-              <Copy size={16} />
-            </button>
-          )}
-          {copiedAccountId === bank.id && (
-            <span className="text-[11px] font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">
-              OK
-            </span>
-          )}
           <button
             className="px-2 py-1.5 text-[12px] font-bold text-gray hover:text-dark hover:bg-gray-100 rounded-md transition-colors"
             onClick={(e) => {
@@ -185,11 +169,6 @@ export function Bank() {
     );
   }, [searchQuery, tableRows]);
 
-  useEffect(() => {
-    if (!copiedAccountId) return;
-    const tmr = window.setTimeout(() => setCopiedAccountId(null), 1500);
-    return () => window.clearTimeout(tmr);
-  }, [copiedAccountId]);
 
   return (
     <div className="min-h-screen bg-section-bg font-sans flex flex-col">
@@ -199,12 +178,6 @@ export function Bank() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <h1 className="text-[24px] font-bold text-dark">{t('bank.title')}</h1>
         </div>
-
-        {accountsError && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {accountsError}
-          </div>
-        )}
 
         <Card className="p-0 overflow-hidden">
           {/* Toolbar */}
@@ -330,27 +303,34 @@ export function Bank() {
           onSubmit={async (e) => {
             e.preventDefault();
             dispatch(clearAccountsError());
-            if (editingAccountId) {
-              await dispatch(
-                updateAccount({
-                  accountId: editingAccountId,
+            try {
+              if (editingAccountId) {
+                await dispatch(
+                  updateAccount({
+                    accountId: editingAccountId,
+                    bank_name: formBankName,
+                    account_number: formAccountNumber,
+                    account_holder: formAccountHolder,
+                  })
+                ).unwrap();
+                toast.success('Cập nhật tài khoản ngân hàng thành công');
+                setIsAddModalOpen(false);
+                setEditingAccountId(null);
+                return;
+              }
+
+              const result = await dispatch(
+                createAccount({
                   bank_name: formBankName,
                   account_number: formAccountNumber,
                   account_holder: formAccountHolder,
                 })
-              );
+              ).unwrap();
+              toast.success(('message' in result && result.message) || 'Tài khoản ngân hàng đã được thêm và API token đã được gửi về email của bạn.');
               setIsAddModalOpen(false);
-              setEditingAccountId(null);
-              return;
+            } catch (err: unknown) {
+              toast.error(err instanceof Error ? err.message : 'Không thể lưu tài khoản ngân hàng');
             }
-            await dispatch(
-              createAccount({
-                bank_name: formBankName,
-                account_number: formAccountNumber,
-                account_holder: formAccountHolder,
-              })
-            );
-            setIsAddModalOpen(false);
           }}
         >
           <div>
@@ -405,24 +385,6 @@ export function Bank() {
           </div>
         </form>
 
-        {editingAccountId && refreshedTokens[editingAccountId] && (
-          <div className="mt-6 bg-gray-50 border border-[#e8e8e8] rounded-xl p-4">
-            <div className="text-[11px] font-bold text-gray uppercase mb-2">API token</div>
-            <div className="flex items-center justify-between gap-3">
-              <code className="text-[12px] font-mono text-dark break-all">{refreshedTokens[editingAccountId]}</code>
-              <button
-                className="p-2 text-primary hover:bg-primary/10 rounded-lg"
-                onClick={async () => {
-                  const token = refreshedTokens[editingAccountId];
-                  if (token) await navigator.clipboard.writeText(token);
-                  dispatch(clearRefreshedToken(editingAccountId));
-                }}
-              >
-                <Copy size={16} />
-              </button>
-            </div>
-          </div>
-        )}
       </Modal>
 
       {/* Delete Confirmation Modal */}
@@ -456,11 +418,15 @@ export function Bank() {
               className="flex-1 rounded-xl bg-red-500 hover:bg-red-600" 
               disabled={accountsStatus === 'loading'}
               onClick={async () => {
-                if (deletingAccountId) {
-                  dispatch(clearAccountsError());
-                  await dispatch(deleteAccount(deletingAccountId));
+                if (!deletingAccountId) return;
+                dispatch(clearAccountsError());
+                try {
+                  await dispatch(deleteAccount(deletingAccountId)).unwrap();
+                  toast.success('Xóa tài khoản ngân hàng thành công');
                   setIsDeleteModalOpen(false);
                   setDeletingAccountId(null);
+                } catch (err: unknown) {
+                  toast.error(err instanceof Error ? err.message : 'Không thể xóa tài khoản ngân hàng');
                 }
               }}
             >

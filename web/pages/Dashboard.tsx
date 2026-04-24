@@ -19,6 +19,7 @@ import {
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchDashboard, setPeriod } from '@/store/slices/dashboardSlice';
+import { toast } from 'sonner';
 
 function formatVnd(amount: number): string {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
@@ -39,6 +40,10 @@ export function Dashboard() {
     dispatch(setPeriod(effectivePeriod));
     void dispatch(fetchDashboard({ period: effectivePeriod }));
   }, [dispatch, effectivePeriod]);
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
 
   const chartData = useMemo(() => {
     const points = data?.chart_data ?? [];
@@ -64,12 +69,6 @@ export function Dashboard() {
             <DatePicker />
           </div>
         </div>
-
-        {error && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {error}
-          </div>
-        )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">

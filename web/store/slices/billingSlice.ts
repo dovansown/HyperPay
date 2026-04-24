@@ -5,14 +5,14 @@ import type { RootState } from '@/store/store';
 export type DurationItem = { id: string; name: string; months: number; days: number; sort_order: number };
 
 export type PackageBankItem = {
-  bank_id: number;
+  bank_id: string;
   name: string;
   code: string;
   account_limit: number;
 };
 
 export type PackagePricingItem = {
-  duration_id: number;
+  duration_id: string;
   duration_name: string;
   months: number;
   days: number;
@@ -22,7 +22,7 @@ export type PackagePricingItem = {
 };
 
 export type PackageItem = {
-  id: number;
+  id: string;
   name: string;
   status: 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
   is_default: boolean;
@@ -38,15 +38,15 @@ export type PackageItem = {
   is_unlimited_bank_types: boolean;
   duration_days: number | null;
   description: string;
-  bank_ids: number[];
+  bank_ids: string[];
   banks?: PackageBankItem[];
   pricing?: PackagePricingItem[];
 };
 
 export type ActivePackage = {
-  id: number;
-  user_id: number;
-  package_id: number;
+  id: string;
+  user_id: string;
+  package_id: string;
   status: string;
   start_at: string;
   end_at: string;
@@ -63,7 +63,7 @@ export type ActivePackage = {
     is_unlimited_webhook_deliveries: boolean;
     is_unlimited_bank_types: boolean;
   };
-  allowed_bank_ids: number[];
+  allowed_bank_ids: string[];
   package: PackageItem;
 };
 
@@ -130,11 +130,11 @@ export const topUpBalance = createAsyncThunk<number, { amountVnd: number }, { st
   }
 );
 
-export const purchasePackage = createAsyncThunk<ActivePackage, { packageId: number; durationId: number }, { state: RootState }>(
+export const purchasePackage = createAsyncThunk<ActivePackage, { packageId: string; durationId: string }, { state: RootState }>(
   'billing/purchase',
   async ({ packageId, durationId }, thunkApi) => {
     const token = thunkApi.getState().auth.token ?? undefined;
-    const res = await apiFetch<ActivePackage | ApiEnvelope<ActivePackage>, { duration_id: number }>(
+    const res = await apiFetch<ActivePackage | ApiEnvelope<ActivePackage>, { duration_id: string }>(
       `/packages/${packageId}/purchase`,
       { method: 'POST', token, body: { duration_id: durationId } }
     );

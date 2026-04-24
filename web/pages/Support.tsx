@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -95,6 +96,18 @@ export function Support() {
     }, 250);
     return () => window.clearTimeout(handle);
   }, [dispatch, filterPriority, filterStatus, searchQuery]);
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (createError) toast.error(createError);
+  }, [createError]);
+
+  useEffect(() => {
+    if (replyError) toast.error(replyError);
+  }, [replyError]);
 
   const columns: Column<Row>[] = [
     {
@@ -250,8 +263,7 @@ export function Support() {
           </div>
 
           {/* Table */}
-          {error && <div className="px-4 py-3 text-[13px] text-red-600 border-b border-[#e8e8e8]">{error}</div>}
-          <DataTable 
+          <DataTable
             columns={activeColumns} 
             data={rows}
             onRowClick={async (row) => {
@@ -378,7 +390,6 @@ export function Support() {
             {/* Reply Form */}
             {selectedTicket.status !== 'CLOSED' && (
               <div>
-                {replyError && <div className="text-[13px] text-red-600 mb-2">{replyError}</div>}
                 <div className="flex gap-2">
                   <textarea
                     placeholder={t('support.type_reply') || 'Type your reply...'}
@@ -478,7 +489,6 @@ export function Support() {
       {/* Add Ticket Modal */}
       <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title={t('support.add')}>
         <AddTicketForm
-          error={createError}
           isSubmitting={createStatus === 'loading'}
           onCancel={() => setIsAddModalOpen(false)}
           onSubmit={async (payload) => {
@@ -495,12 +505,10 @@ function AddTicketForm({
   onSubmit,
   onCancel,
   isSubmitting,
-  error,
 }: {
   onSubmit: (payload: { subject: string; category: SupportTicket['category']; description: string; priority?: SupportTicket['priority'] }) => Promise<void>;
   onCancel: () => void;
   isSubmitting: boolean;
-  error: string | null;
 }) {
   const { t } = useLanguage();
   const [subject, setSubject] = useState('');
@@ -517,7 +525,6 @@ function AddTicketForm({
         await onSubmit({ subject, category, description, priority });
       }}
     >
-      {error && <div className="text-[13px] text-red-600">{error}</div>}
       <div>
         <label className="block text-[13px] font-bold text-dark mb-2">{t('support.subject')}</label>
         <input

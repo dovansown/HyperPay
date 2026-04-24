@@ -3,7 +3,8 @@ export type EmailTemplateType =
   | "warning_email"
   | "change_amount"
   | "verified"
-  | "verify_link";
+  | "verify_link"
+  | "bank_api_token";
 
 export interface EmailJob {
   to: string;

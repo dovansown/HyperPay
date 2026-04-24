@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
 import { ArrowLeft, Copy, Check, Trash2, Send, RefreshCcw } from 'lucide-react';
+import { toast } from 'sonner';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchAccounts } from '@/store/slices/accountsSlice';
@@ -96,6 +97,10 @@ export function WebhookForm() {
     }));
   }, [existing, isEditing]);
 
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(formData.secret);
     setCopied(true);
@@ -135,7 +140,7 @@ export function WebhookForm() {
       await dispatch(saveWebhookConfig(payload)).unwrap();
       navigate('/webhook');
     } catch {
-      // error displayed in UI
+      // toast handled from slice error state
     }
   };
 
@@ -155,12 +160,6 @@ export function WebhookForm() {
             {isEditing ? t('webhook.edit_title') : t('webhook.create_title')}
           </h1>
         </div>
-
-        {error && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={onSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

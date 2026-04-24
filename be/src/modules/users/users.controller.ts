@@ -59,7 +59,7 @@ export class UsersController {
   }
 
   async removeTrustedDevice(req: Request, res: Response) {
-    const { userAgentHash } = req.params;
+    const userAgentHash = String(req.params.userAgentHash);
     const data = await usersService.removeTrustedDevice(req.user!.userId, userAgentHash);
     return sendSuccess(res, data);
   }

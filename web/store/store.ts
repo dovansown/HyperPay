@@ -10,6 +10,14 @@ import { profileReducer } from './slices/profileSlice';
 import { supportReducer } from './slices/supportSlice';
 import { notificationsReducer } from './slices/notificationsSlice';
 import { transactionsReducer } from './slices/transactionsSlice';
+import { adminUsersReducer } from './slices/admin/adminUsersSlice';
+import { adminPackagesReducer } from './slices/admin/adminPackagesSlice';
+import { adminBanksReducer } from './slices/admin/adminBanksSlice';
+import { adminDurationsReducer } from './slices/admin/adminDurationsSlice';
+import { adminUserPackagesReducer } from './slices/admin/adminUserPackagesSlice';
+import { adminWebhooksReducer } from './slices/admin/adminWebhooksSlice';
+import { adminTransactionsReducer } from './slices/admin/adminTransactionsSlice';
+import { adminSettingsReducer } from './slices/admin/adminSettingsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +32,15 @@ export const store = configureStore({
     support: supportReducer,
     notifications: notificationsReducer,
     transactions: transactionsReducer,
+    // Admin reducers
+    adminUsers: adminUsersReducer,
+    adminPackages: adminPackagesReducer,
+    adminBanks: adminBanksReducer,
+    adminDurations: adminDurationsReducer,
+    adminUserPackages: adminUserPackagesReducer,
+    adminWebhooks: adminWebhooksReducer,
+    adminTransactions: adminTransactionsReducer,
+    adminSettings: adminSettingsReducer,
   },
 });
 

@@ -123,7 +123,10 @@ export class AuthService {
     const knownDevice = await authRepository.hasKnownUserAgent(user.id, uaHash);
 
     if (user.totpSecret && user.totpEnabledAt) {
-      const tempToken = signTemp2FAToken(user.id);
+      const tempToken = signTemp2FAToken(user.id, {
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
       return {
         needs_2fa: true,
         temp_token: tempToken,
@@ -243,7 +246,7 @@ export class AuthService {
   }
 
   async verify2FA(tempToken: string, code: string) {
-    const { sub: userId } = verifyTemp2FAToken(tempToken);
+    const { sub: userId, ip, userAgent } = verifyTemp2FAToken(tempToken);
     const { totpService } = await import("../users/totp.service.js");
     const valid = await totpService.verifyTOTP(userId, code);
     if (!valid) {
@@ -253,6 +256,12 @@ export class AuthService {
     if (!user) {
       throw new AppError(404, ErrorCodes.NOT_FOUND, "User not found");
     }
+    await authRepository.recordLogin({
+      userId,
+      ip: ip ?? null,
+      userAgentHash: hashUserAgent(userAgent ?? ""),
+      userAgent: userAgent ?? null,
+    });
     const token = signAccessToken({ sub: user.id, email: user.email, role: user.role });
     return {
       token,

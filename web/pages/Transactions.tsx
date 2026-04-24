@@ -7,6 +7,7 @@ import { DataTable, Column } from '@/components/ui/DataTable';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Popover } from '@/components/ui/Popover';
 import { ArrowDownLeft, ArrowUpRight, Download, Filter, Search, Settings } from 'lucide-react';
+import { toast } from 'sonner';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearTransactions, fetchTransactionsByAccount } from '@/store/slices/transactionsSlice';
@@ -63,6 +64,10 @@ export function Transactions() {
       dispatch(clearTransactions());
     }
   }, [dispatch, selectedAccountId]);
+
+  useEffect(() => {
+    if (transactionsError) toast.error(transactionsError);
+  }, [transactionsError]);
 
   const ALL_COLUMNS = [
     { key: 'type', label: t('transactions.type') || 'Type' },
@@ -205,12 +210,6 @@ export function Transactions() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <h1 className="text-[24px] font-bold text-dark">{t('transactions.title') || 'Transactions'}</h1>
         </div>
-
-        {transactionsError && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {transactionsError}
-          </div>
-        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">

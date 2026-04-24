@@ -6,6 +6,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { RequireAuth } from '@/components/RequireAuth';
+import { RequireAdmin } from '@/components/RequireAdmin';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
@@ -24,12 +25,24 @@ import { BlogPost } from '@/pages/BlogPost';
 import { Docs } from '@/pages/Docs';
 import { Support } from '@/pages/Support';
 import { VerifyOTP } from '@/pages/VerifyOTP';
+import { AdminLayout } from '@/components/admin/AdminLayout';
+import { AdminDashboard } from '@/pages/admin/AdminDashboard';
+import { AdminUsers } from '@/pages/admin/AdminUsers';
+import { AdminPackages } from '@/pages/admin/AdminPackages';
+import { AdminBanks } from '@/pages/admin/AdminBanks';
+import { AdminDurations } from '@/pages/admin/AdminDurations';
+import { AdminUserPackages } from '@/pages/admin/AdminUserPackages';
+import { AdminWebhooks } from '@/pages/admin/AdminWebhooks';
+import { AdminTransactions } from '@/pages/admin/AdminTransactions';
+import { AdminSettings } from '@/pages/admin/AdminSettings';
 
 import { LanguageProvider } from '@/context/LanguageContext';
+import { Toaster } from 'sonner';
 
 export default function App() {
   return (
     <LanguageProvider>
+      <Toaster position="top-right" richColors closeButton />
       <Router>
         <ScrollToTop />
         <Routes>
@@ -116,6 +129,28 @@ export default function App() {
               </RequireAuth>
             }
           />
+          
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth>
+                <RequireAdmin>
+                  <AdminLayout />
+                </RequireAdmin>
+              </RequireAuth>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="packages" element={<AdminPackages />} />
+      <Route path="banks" element={<AdminBanks />} />
+      <Route path="durations" element={<AdminDurations />} />
+      <Route path="user-packages" element={<AdminUserPackages />} />
+      <Route path="webhooks" element={<AdminWebhooks />} />
+      <Route path="transactions" element={<AdminTransactions />} />
+      <Route path="settings" element={<AdminSettings />} />
+          </Route>
         </Routes>
       </Router>
     </LanguageProvider>

@@ -78,6 +78,9 @@ export function DashboardHeader() {
             <NavItem to="/webhook" icon={<WebhookIcon size={16} />} label={t('nav.webhook')} active={location.pathname.startsWith('/webhook')} />
             <NavItem to="/billing" icon={<CreditCard size={16} />} label={t('nav.billing')} active={location.pathname === '/billing'} />
             <NavItem to="/support" icon={<LifeBuoy size={16} />} label={t('nav.support')} active={location.pathname === '/support'} />
+            {displayRole === 'ADMIN' && (
+              <NavItem to="/admin" icon={<User size={16} />} label={t('nav.admin')} active={location.pathname.startsWith('/admin')} />
+            )}
           </nav>
         </div>
 
@@ -205,6 +208,9 @@ export function DashboardHeader() {
                 <MobileNavItem to="/webhook" icon={<WebhookIcon size={18} />} label={t('nav.webhook')} active={location.pathname.startsWith('/webhook')} onClick={() => setIsMobileMenuOpen(false)} />
                 <MobileNavItem to="/billing" icon={<CreditCard size={18} />} label={t('nav.billing')} active={location.pathname === '/billing'} onClick={() => setIsMobileMenuOpen(false)} />
                 <MobileNavItem to="/support" icon={<LifeBuoy size={18} />} label={t('nav.support')} active={location.pathname === '/support'} onClick={() => setIsMobileMenuOpen(false)} />
+                {displayRole === 'ADMIN' && (
+                  <MobileNavItem to="/admin" icon={<User size={18} />} label={t('nav.admin')} active={location.pathname.startsWith('/admin')} onClick={() => setIsMobileMenuOpen(false)} />
+                )}
               </nav>
             </motion.div>
           </>

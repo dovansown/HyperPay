@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { Card } from '@/components/ui/Card';
@@ -36,6 +37,10 @@ export function Webhook() {
       void dispatch(fetchWebhookLogs({ limit: 50 }));
     }
   }, [activeTab, dispatch]);
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
 
   const ALL_WEBHOOK_COLUMNS = [
     { key: 'url', label: t('webhook.endpoint_url') },
@@ -201,11 +206,6 @@ export function Webhook() {
           <h1 className="text-[24px] font-bold text-dark">{t('webhook.title')}</h1>
         </div>
 
-        {error && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {error}
-          </div>
-        )}
         {lastTestQueued === true && (
           <div className="mb-6 text-sm text-primary bg-primary/10 border border-primary/20 rounded-xl px-4 py-3">
             Đã đưa test event vào hàng đợi. Vui lòng xem tab Logs.

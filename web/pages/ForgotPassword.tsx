@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 import { ArrowLeft } from 'lucide-react';
+import { toast } from 'sonner';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearAuthError, forgotPasswordThunk } from '@/store/slices/authSlice';
@@ -16,6 +17,10 @@ export function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const isSubmitting = status === 'loading';
+
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,11 +64,6 @@ export function ForgotPassword() {
           {sent && (
             <div className="text-sm text-primary bg-primary/10 border border-primary/20 rounded-xl px-4 py-3">
               {t('auth.send_reset_link') || 'Send Reset Link'}: OK
-            </div>
-          )}
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-              {error}
             </div>
           )}
 

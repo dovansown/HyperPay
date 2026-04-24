@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { toast } from 'sonner';
 import { useParams, Link } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -20,6 +21,10 @@ export function BlogPost() {
     void dispatch(fetchPublicContentBySlug({ slug }));
   }, [dispatch, slug]);
 
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
   const isHtml = useMemo(() => {
     const c = item?.content ?? '';
     return /<\/?[a-z][\s\S]*>/i.test(c);
@@ -36,12 +41,6 @@ export function BlogPost() {
               <ArrowLeft size={16} /> {t('blog.back')}
             </Link>
 
-            {error && (
-              <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                {error}
-              </div>
-            )}
-            
             <div className="flex items-center gap-4 mb-6">
               <span className="text-[13px] font-bold text-primary bg-primary/10 px-3 py-1 rounded-full flex items-center gap-1.5">
                 <Tag size={14} /> {(item?.category_slugs?.[0] ?? 'blog').replace(/-/g, ' ')}

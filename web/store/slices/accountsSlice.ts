@@ -14,14 +14,12 @@ type AccountsState = {
   items: BankAccount[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  lastRefreshedTokenByAccountId: Record<string, string | undefined>;
 };
 
 const initialState: AccountsState = {
   items: [],
   status: 'idle',
   error: null,
-  lastRefreshedTokenByAccountId: {},
 };
 
 export const fetchAccounts = createAsyncThunk<BankAccount[], void, { state: RootState }>(
@@ -35,7 +33,8 @@ export const fetchAccounts = createAsyncThunk<BankAccount[], void, { state: Root
 );
 
 type CreateAccountPayload = { bank_name: string; account_number: string; account_holder: string };
-type CreateAccountResponse = { account: BankAccount; token: string } | BankAccount;
+type CreateAccountResponse = { account: BankAccount; message: string } | BankAccount;
+type RefreshAccountTokenResponse = { message: string };
 
 export const createAccount = createAsyncThunk<CreateAccountResponse, CreateAccountPayload, { state: RootState }>(
   'accounts/create',
@@ -50,16 +49,15 @@ export const createAccount = createAsyncThunk<CreateAccountResponse, CreateAccou
   }
 );
 
-export const refreshAccountToken = createAsyncThunk<{ accountId: string; token: string }, string, { state: RootState }>(
+export const refreshAccountToken = createAsyncThunk<RefreshAccountTokenResponse, string, { state: RootState }>(
   'accounts/refreshToken',
   async (accountId, thunkApi) => {
     const token = thunkApi.getState().auth.token ?? undefined;
-    const res = await apiFetch<{ token: string } | ApiEnvelope<{ token: string }>>(`/accounts/${accountId}/token/refresh`, {
+    const res = await apiFetch<RefreshAccountTokenResponse | ApiEnvelope<RefreshAccountTokenResponse>>(`/accounts/${accountId}/token/refresh`, {
       method: 'POST',
       token,
     });
-    const data = unwrapApiData(res);
-    return { accountId, token: data.token };
+    return unwrapApiData(res);
   }
 );
 
@@ -97,9 +95,6 @@ const accountsSlice = createSlice({
     clearAccountsError(state) {
       state.error = null;
     },
-    clearRefreshedToken(state, action: { payload: string }) {
-      delete state.lastRefreshedTokenByAccountId[action.payload];
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -122,14 +117,9 @@ const accountsSlice = createSlice({
       .addCase(createAccount.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const payload = action.payload as unknown;
-        // API create trả { account, token } (theo be/api.http) hoặc trả thẳng account
         if (payload && typeof payload === 'object' && 'account' in (payload as object)) {
           const account = (payload as { account: BankAccount }).account;
           state.items.unshift(account);
-          const tokenValue = (payload as { token?: unknown }).token;
-          if (typeof tokenValue === 'string' && tokenValue) {
-            state.lastRefreshedTokenByAccountId[account.id] = tokenValue;
-          }
         } else {
           const account = payload as BankAccount;
           if (account?.id) state.items.unshift(account);
@@ -139,8 +129,8 @@ const accountsSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message ?? 'Failed to create account';
       })
-      .addCase(refreshAccountToken.fulfilled, (state, action) => {
-        state.lastRefreshedTokenByAccountId[action.payload.accountId] = action.payload.token;
+      .addCase(refreshAccountToken.fulfilled, (state) => {
+        state.error = null;
       })
       .addCase(refreshAccountToken.rejected, (state, action) => {
         state.error = action.error.message ?? 'Failed to refresh token';
@@ -167,7 +157,6 @@ const accountsSlice = createSlice({
       .addCase(deleteAccount.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = state.items.filter((item) => item.id !== action.payload);
-        delete state.lastRefreshedTokenByAccountId[action.payload];
       })
       .addCase(deleteAccount.rejected, (state, action) => {
         state.status = 'failed';
@@ -176,5 +165,5 @@ const accountsSlice = createSlice({
   },
 });
 
-export const { clearAccountsError, clearRefreshedToken } = accountsSlice.actions;
+export const { clearAccountsError } = accountsSlice.actions;
 export const accountsReducer = accountsSlice.reducer;

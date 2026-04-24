@@ -52,8 +52,10 @@ export async function apiFetch<TResponse, TBody = unknown>(
     if (!text) throw new Error(fallback);
     try {
       const parsed = JSON.parse(text) as unknown;
-      throw new Error(extractErrorMessage(parsed, fallback));
-    } catch {
+      const message = extractErrorMessage(parsed, fallback);
+      throw new Error(message);
+    } catch (error) {
+      if (error instanceof Error && error.message !== text) throw error;
       throw new Error(text || fallback);
     }
   }

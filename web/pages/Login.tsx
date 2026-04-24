@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearAuthError, fetchCurrentUser, loginThunk } from '@/store/slices/authSlice';
+import { toast } from 'sonner';
 
 export function Login() {
   const { t } = useLanguage();
@@ -31,6 +32,7 @@ export function Login() {
       
       // Check if needs email verification
       if (result.needs_email_verify && result.verification_id) {
+        toast.info(t('auth.verify_email_required') || 'Please verify your email to continue');
         navigate('/verify-otp', { 
           replace: true, 
           state: { 
@@ -42,37 +44,40 @@ export function Login() {
         return;
       }
       
-      // Check if needs login verification (new device)
-      if (result.needs_login_verify && result.verification_id) {
-        navigate('/verify-otp', { 
-          replace: true, 
-          state: { 
-            verification_id: result.verification_id,
-            type: 'login',
-            email: email.trim()
-          } 
-        });
-        return;
-      }
-      
       // Check if needs 2FA
       if (result.needs_2fa && result.temp_token) {
-        navigate('/verify-otp', { 
-          replace: true, 
-          state: { 
+        navigate('/verify-otp', {
+          replace: true,
+          state: {
             temp_token: result.temp_token,
             type: '2fa',
             email: email.trim()
-          } 
+          }
+        });
+        return;
+      }
+
+      // Check if needs login verification (new device)
+      if (result.needs_login_verify && result.verification_id) {
+        toast.info(t('auth.verify_login_required') || 'Please verify this login from a new device');
+        navigate('/verify-otp', {
+          replace: true,
+          state: {
+            verification_id: result.verification_id,
+            type: 'login',
+            email: email.trim()
+          }
         });
         return;
       }
       
       // Normal login - go to dashboard
       await dispatch(fetchCurrentUser()).unwrap();
+      toast.success(t('auth.login_success') || 'Login successful!');
       navigate(from, { replace: true });
-    } catch {
-      // error is in store
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : t('auth.login_failed') || 'Login failed';
+      toast.error(errorMessage);
     }
   };
 
@@ -118,12 +123,6 @@ export function Login() {
             />
           </div>
           
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-              {error}
-            </div>
-          )}
-
           <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
             {isSubmitting ? t('common.loading') : t('nav.login')}
           </Button>

@@ -1,6 +1,9 @@
 import crypto from "node:crypto";
 import { AppError, ErrorCodes } from "../../shared/http/app-error.js";
+import { env } from "../../shared/config/env.js";
 import { cacheService } from "../cache/cache.service.js";
+import { enqueueEmail } from "../email/email.queue.js";
+import { authRepository } from "../auth/auth.repository.js";
 import { packagesService } from "../packages/packages.service.js";
 import { accountsRepository } from "./accounts.repository.js";
 import type { CreateAccountInput, UpdateAccountInput } from "./accounts.schema.js";
@@ -27,6 +30,10 @@ export class AccountsService {
         "Tài khoản ngân hàng với chủ tài khoản này đã tồn tại cho ngân hàng đã chọn."
       );
     }
+    const user = await authRepository.findById(userId);
+    if (!user) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "User not found");
+    }
     const token = this.generateApiToken();
     const suffix = token.slice(-8);
     const account = await accountsRepository.create(
@@ -35,10 +42,18 @@ export class AccountsService {
       token,
       suffix
     );
+    await this.sendApiTokenEmail({
+      userId,
+      email: user.email,
+      bankName: normalizedBankCode,
+      accountNumber: input.account_number,
+      token,
+      isRefresh: false,
+    });
     await cacheService.del(this.cacheKey(userId));
     return {
       account: this.mapAccount(account),
-      token
+      message: "API token đã được gửi về email của bạn."
     };
   }
 
@@ -59,12 +74,24 @@ export class AccountsService {
     if (!account) {
       throw new AppError(404, ErrorCodes.NOT_FOUND, "Account not found");
     }
+    const user = await authRepository.findById(userId);
+    if (!user) {
+      throw new AppError(404, ErrorCodes.NOT_FOUND, "User not found");
+    }
 
     const token = this.generateApiToken();
     const suffix = token.slice(-8);
     await accountsRepository.updateToken(account.id, token, suffix);
+    await this.sendApiTokenEmail({
+      userId,
+      email: user.email,
+      bankName: account.bankName,
+      accountNumber: account.accountNumber,
+      token,
+      isRefresh: true,
+    });
     await cacheService.del(this.cacheKey(userId));
-    return { token };
+    return { message: "API token mới đã được gửi về email của bạn." };
   }
 
   async update(userId: string, accountId: string, input: UpdateAccountInput) {
@@ -91,6 +118,32 @@ export class AccountsService {
 
   private generateApiToken() {
     return crypto.randomBytes(32).toString("hex");
+  }
+
+  private async sendApiTokenEmail(params: {
+    userId: string;
+    email: string;
+    bankName: string;
+    accountNumber: string;
+    token: string;
+    isRefresh: boolean;
+  }) {
+    await enqueueEmail({
+      to: params.email,
+      subject: params.isRefresh ? "Your new bank API token - HyperPay" : "Your bank API token - HyperPay",
+      template: "bank_api_token",
+      data: {
+        title: params.isRefresh ? "Your bank API token has been regenerated" : "Your bank API token is ready",
+        description: params.isRefresh
+          ? "A new API token was generated for your bank account. Use this new token for future integrations."
+          : "Your bank account was added successfully. Use the API token below for your integration.",
+        bankName: params.bankName,
+        accountNumber: params.accountNumber,
+        token: params.token,
+        dashboardLink: `${env.FRONTEND_ORIGIN}/bank`,
+      },
+      userId: params.userId,
+    });
   }
 
   private mapAccount(account: {

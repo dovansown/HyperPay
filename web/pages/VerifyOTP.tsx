@@ -8,6 +8,7 @@ import { motion } from 'motion/react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch } from '@/store/hooks';
 import { fetchCurrentUser } from '@/store/slices/authSlice';
+import { toast } from 'sonner';
 
 type VerificationType = 'email' | 'login' | '2fa';
 
@@ -34,7 +35,6 @@ export function VerifyOTP() {
   const [timer, setTimer] = useState(30);
   const [isResending, setIsResending] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Redirect if no verification data
@@ -52,7 +52,6 @@ export function VerifyOTP() {
 
   const handleResend = async () => {
     setIsResending(true);
-    setError(null);
     try {
       // Resend code based on type
       const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
@@ -69,9 +68,11 @@ export function VerifyOTP() {
         });
       }
       
+      toast.success(t('auth.code_resent') || 'Verification code resent successfully');
       setTimer(30);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to resend code');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to resend code';
+      toast.error(errorMessage);
     } finally {
       setIsResending(false);
     }
@@ -82,7 +83,6 @@ export function VerifyOTP() {
     if (otp.length !== 6) return;
 
     setIsSubmitting(true);
-    setError(null);
 
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/v1';
@@ -100,7 +100,7 @@ export function VerifyOTP() {
 
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.message || 'Verification failed');
+          throw new Error(data.error?.message || data.message || 'Verification failed');
         }
 
         const data = await res.json();
@@ -109,6 +109,7 @@ export function VerifyOTP() {
         if (token) {
           localStorage.setItem('token', token);
           await dispatch(fetchCurrentUser()).unwrap();
+          toast.success(t('auth.verification_success') || 'Verification successful!');
           navigate('/dashboard', { replace: true });
         }
       } else {
@@ -125,7 +126,7 @@ export function VerifyOTP() {
 
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.message || 'Verification failed');
+          throw new Error(data.error?.message || data.message || 'Verification failed');
         }
 
         const data = await res.json();
@@ -134,11 +135,13 @@ export function VerifyOTP() {
         if (token) {
           localStorage.setItem('token', token);
           await dispatch(fetchCurrentUser()).unwrap();
+          toast.success(t('auth.verification_success') || 'Verification successful!');
           navigate('/dashboard', { replace: true });
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Verification failed');
+      const errorMessage = err instanceof Error ? err.message : 'Verification failed';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -208,12 +211,6 @@ export function VerifyOTP() {
               onChange={setOtp}
               disabled={isSubmitting}
             />
-
-            {error && (
-              <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                {error}
-              </div>
-            )}
 
             {verificationType !== '2fa' && (
               <div className="text-center">

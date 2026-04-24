@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Book, Menu, X } from 'lucide-react';
@@ -30,6 +31,14 @@ export function Docs() {
     void dispatch(fetchPublicContentBySlug({ slug: activeSlug }));
   }, [activeSlug, dispatch]);
 
+  useEffect(() => {
+    if (listError) toast.error(listError);
+  }, [listError]);
+
+  useEffect(() => {
+    if (itemError) toast.error(itemError);
+  }, [itemError]);
+
   const SidebarContent = () => (
     <nav className="space-y-6">
       <div>
@@ -51,7 +60,6 @@ export function Docs() {
           ))}
         </ul>
         {listStatus === 'loading' && <div className="px-3 text-xs text-gray">{t('common.loading')}</div>}
-        {listError && <div className="px-3 text-xs text-red-600">{listError}</div>}
       </div>
     </nav>
   );
@@ -107,12 +115,6 @@ export function Docs() {
         {/* Main Content */}
         <main className="flex-1 py-8 px-6 md:px-12 max-w-4xl min-w-0">
           <div className="prose prose-slate max-w-none">
-            {itemError && (
-              <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                {itemError}
-              </div>
-            )}
-
             <h1 className="text-3xl md:text-4xl font-bold text-dark mb-4">{item?.title ?? t('docs.title')}</h1>
 
             {item?.excerpt && <p className="text-lg text-gray mb-8">{item.excerpt}</p>}

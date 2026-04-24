@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bank API token - HyperPay</title>
+  <style>body{font-family:Inter,sans-serif;margin:0;padding:24px;background:#f5f5f8}.box{max-width:580px;margin:0 auto;background:#fff;border-radius:12px;padding:32px;border:1px solid #e2e8f0}.token{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;line-height:1.6;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;word-break:break-all}.btn{display:inline-block;background:#645cff;color:#fff!important;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:16px}</style>
+</head>
+<body>
+  <div class="box">
+    <h2 style="font-size:22px;color:#0f172a;margin:0 0 8px">{{title}}</h2>
+    <p style="color:#64748b;margin:0 0 16px">{{description}}</p>
+    <p style="color:#64748b;font-size:14px;margin:0 0 8px">Bank: <strong>{{bankName}}</strong></p>
+    <p style="color:#64748b;font-size:14px;margin:0 0 16px">Account: <strong>{{accountNumber}}</strong></p>
+    <div class="token">{{token}}</div>
+    <p style="color:#64748b;font-size:14px;margin:16px 0 0">Keep this token secret. It will not be shown again in the web app.</p>
+    <a href="{{dashboardLink}}" class="btn">Open Dashboard</a>
+  </div>
+</body>
+</html>

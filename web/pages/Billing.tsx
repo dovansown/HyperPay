@@ -10,6 +10,7 @@ import { Drawer } from '@/components/ui/Drawer';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/context/LanguageContext';
 import { Modal } from '@/components/ui/Modal';
+import { toast } from 'sonner';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearBillingError, fetchBillingData, purchasePackage, topUpBalance } from '@/store/slices/billingSlice';
 
@@ -29,8 +30,8 @@ export function Billing() {
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState<number>(100000);
 
-  const [selectedPackageId, setSelectedPackageId] = useState<number | null>(null);
-  const [selectedDurationId, setSelectedDurationId] = useState<number | null>(null);
+  const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
+  const [selectedDurationId, setSelectedDurationId] = useState<string | null>(null);
 
   useEffect(() => {
     void dispatch(fetchBillingData());
@@ -44,7 +45,7 @@ export function Billing() {
 
   useEffect(() => {
     if (!selectedDurationId && durationOptions.length) {
-      setSelectedDurationId(Number(durationOptions[0].id));
+      setSelectedDurationId(durationOptions[0].id);
     }
   }, [durationOptions, selectedDurationId]);
 
@@ -127,12 +128,6 @@ export function Billing() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <h1 className="text-[24px] font-bold text-dark">{t('billing.title')}</h1>
         </div>
-
-        {error && (
-          <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-            {error}
-          </div>
-        )}
 
         {/* Top Section: Plan, Balance, Chart */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -333,9 +328,10 @@ export function Billing() {
             dispatch(clearBillingError());
             try {
               await dispatch(topUpBalance({ amountVnd: topUpAmount })).unwrap();
+              toast.success('Nạp tiền thành công');
               setIsTopUpOpen(false);
-            } catch {
-              // error shown above
+            } catch (err: unknown) {
+              toast.error(err instanceof Error ? err.message : 'Không thể nạp tiền');
             }
           }}
         >
@@ -365,11 +361,11 @@ export function Billing() {
           <label className="text-[13px] font-bold text-dark">Duration</label>
           <select
             value={selectedDurationId ?? ''}
-            onChange={(e) => setSelectedDurationId(parseInt(e.target.value) || null)}
+            onChange={(e) => setSelectedDurationId(e.target.value || null)}
             className="w-full px-4 py-2.5 bg-gray-50 border border-[#e8e8e8] rounded-xl text-[13px] outline-none focus:border-primary focus:bg-white transition-colors"
           >
             {durationOptions.map((d) => (
-              <option key={d.id} value={Number(d.id)}>
+              <option key={d.id} value={d.id}>
                 {d.name} ({d.days} ngày)
               </option>
             ))}
@@ -389,9 +385,10 @@ export function Billing() {
                 try {
                   await dispatch(purchasePackage({ packageId: selectedPackageId, durationId: selectedDurationId })).unwrap();
                   await dispatch(fetchBillingData()).unwrap();
+                  toast.success('Mua gói thành công');
                   setSelectedPackageId(null);
-                } catch {
-                  // error shown above
+                } catch (err: unknown) {
+                  toast.error(err instanceof Error ? err.message : 'Không thể mua gói');
                 }
               }}
             >

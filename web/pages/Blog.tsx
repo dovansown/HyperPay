@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -16,6 +17,10 @@ export function Blog() {
     void dispatch(fetchPublicContentList({ type: 'BLOG_POST', limit: 12, offset: 0 }));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (listError) toast.error(listError);
+  }, [listError]);
+
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <Navbar />
@@ -24,12 +29,6 @@ export function Blog() {
         <section className="py-20">
           <div className="max-w-[1400px] mx-auto px-6">
             <h2 className="text-3xl font-bold text-dark text-center mb-12">{t('blog.title')}</h2>
-
-            {listError && (
-              <div className="mb-6 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
-                {listError}
-              </div>
-            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {list.map((post) => (

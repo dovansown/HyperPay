@@ -10,6 +10,8 @@ export interface AuthJwtPayload {
 export interface Temp2FAPayload {
   sub: string;
   purpose: "2fa";
+  ip?: string | null;
+  userAgent?: string | null;
 }
 
 export function signAccessToken(payload: AuthJwtPayload) {
@@ -20,9 +22,14 @@ export function verifyAccessToken(token: string) {
   return jwt.verify(token, env.JWT_SECRET) as AuthJwtPayload;
 }
 
-export function signTemp2FAToken(userId: string) {
+export function signTemp2FAToken(userId: string, meta?: { ip?: string | null; userAgent?: string | null }) {
   return jwt.sign(
-    { sub: userId, purpose: "2fa" } as Temp2FAPayload,
+    {
+      sub: userId,
+      purpose: "2fa",
+      ip: meta?.ip ?? null,
+      userAgent: meta?.userAgent ?? null,
+    } as Temp2FAPayload,
     env.JWT_SECRET,
     { expiresIn: "5m" }
   );

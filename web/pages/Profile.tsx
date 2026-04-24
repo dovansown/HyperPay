@@ -14,6 +14,7 @@ import {
   QrCode, Copy, RefreshCw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 import { useLanguage } from '@/context/LanguageContext';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -115,6 +116,18 @@ function PersonalInfo() {
     if (profile) setFullName(profile.full_name ?? '');
   }, [profile]);
 
+  useEffect(() => {
+    if (error) toast.error(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (updateError) toast.error(updateError);
+  }, [updateError]);
+
+  useEffect(() => {
+    if (passwordError) toast.error(passwordError);
+  }, [passwordError]);
+
   const isLoadingProfile = status === 'loading';
   const isSavingProfile = updateStatus === 'loading';
   const isChangingPassword = passwordStatus === 'loading';
@@ -129,11 +142,18 @@ function PersonalInfo() {
       setLocalPasswordError(t('auth.passwords_do_not_match') || 'Mật khẩu không khớp');
       return;
     }
-    await dispatch(checkChangePasswordThunk({ current_password: currentPassword, new_password: newPassword })).unwrap();
-    const sendRes = await dispatch(sendChangePasswordCodeThunk()).unwrap();
-    if (sendRes.verification_id) {
-      setPasswordCode('');
-      setIsPasswordModalOpen(true);
+    try {
+      await dispatch(checkChangePasswordThunk({ current_password: currentPassword, new_password: newPassword })).unwrap();
+      const sendRes = await dispatch(sendChangePasswordCodeThunk()).unwrap();
+      if (sendRes.verification_id) {
+        setPasswordCode('');
+        setIsPasswordModalOpen(true);
+        toast.success(t('auth.code_sent') || 'Verification code sent to your email');
+      }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to initiate password change';
+      setLocalPasswordError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -148,19 +168,26 @@ function PersonalInfo() {
       setLocalPasswordError('Mã xác thực phải đủ 6 số');
       return;
     }
-    await dispatch(
-      changePasswordThunk({
-        verification_id: verificationId,
-        code: passwordCode,
-        current_password: currentPassword,
-        new_password: newPassword,
-      })
-    ).unwrap();
-    setIsPasswordModalOpen(false);
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
-    setPasswordCode('');
+    try {
+      await dispatch(
+        changePasswordThunk({
+          verification_id: verificationId,
+          code: passwordCode,
+          current_password: currentPassword,
+          new_password: newPassword,
+        })
+      ).unwrap();
+      toast.success(t('profile.password_changed') || 'Password changed successfully!');
+      setIsPasswordModalOpen(false);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      setPasswordCode('');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to change password';
+      setLocalPasswordError(errorMessage);
+      toast.error(errorMessage);
+    }
   };
 
   const sendEmailVerificationCode = async () => {
@@ -169,8 +196,11 @@ function PersonalInfo() {
       const result = await dispatch(sendVerifyEmailCodeThunk()).unwrap();
       setEmailVerificationId(result.verification_id);
       setIsEmailVerifyModalOpen(true);
+      toast.success(t('auth.code_sent') || 'Verification code sent to your email');
     } catch (err: unknown) {
-      setLocalEmailError(err instanceof Error ? err.message : 'Failed to send verification code');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to send verification code';
+      setLocalEmailError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -200,15 +230,21 @@ function PersonalInfo() {
           type: 'email',
         }),
       });
-      if (!res.ok) throw new Error('Verification failed');
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error?.message || data.message || 'Verification failed');
+      }
       
       // Refresh profile
       await dispatch(fetchProfile());
+      toast.success(t('auth.email_verified') || 'Email verified successfully!');
       setIsEmailVerifyModalOpen(false);
       setEmailVerifyCode('');
       setEmailVerificationId(null);
     } catch (err: unknown) {
-      setLocalEmailError(err instanceof Error ? err.message : 'Verification failed');
+      const errorMessage = err instanceof Error ? err.message : 'Verification failed';
+      setLocalEmailError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsVerifyingEmail(false);
     }
@@ -247,11 +283,6 @@ function PersonalInfo() {
 
       <Card className="p-6 md:p-8 w-full">
         <h3 className="text-[16px] font-bold text-dark mb-6">{t('profile.your_profile')}</h3>
-        {(error || updateError) && (
-          <div className="mb-4 text-[13px] text-red-600">
-            {updateError || error}
-          </div>
-        )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <label className="block text-[13px] font-bold text-dark mb-2">{t('auth.full_name')}</label>
@@ -287,7 +318,15 @@ function PersonalInfo() {
           <Button
             className="px-6 py-2.5 rounded-xl"
             disabled={isLoadingProfile || isSavingProfile || !fullName.trim()}
-            onClick={() => dispatch(updateProfileThunk({ full_name: fullName.trim() }))}
+            onClick={async () => {
+              try {
+                await dispatch(updateProfileThunk({ full_name: fullName.trim() })).unwrap();
+                toast.success(t('profile.profile_updated') || 'Profile updated successfully!');
+              } catch (err: unknown) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to update profile';
+                toast.error(errorMessage);
+              }
+            }}
           >
             {isSavingProfile ? t('common.loading') : t('common.save')}
           </Button>
@@ -296,11 +335,6 @@ function PersonalInfo() {
 
       <Card className="p-6 md:p-8 w-full">
         <h3 className="text-[16px] font-bold text-dark mb-6">{t('profile.change_password')}</h3>
-        {(passwordError || localPasswordError) && (
-          <div className="mb-4 text-[13px] text-red-600">
-            {localPasswordError || passwordError}
-          </div>
-        )}
         <div className="flex flex-col gap-6 mb-6">
           <div>
             <label className="block text-[13px] font-bold text-dark mb-2">{t('profile.current_password')}</label>
@@ -403,7 +437,13 @@ function NotificationSettings() {
   }, [dispatch]);
 
   const handleToggle = async (key: keyof NotificationSettings, value: boolean) => {
-    await dispatch(updateNotificationSettings({ [key]: value }));
+    try {
+      await dispatch(updateNotificationSettings({ [key]: value })).unwrap();
+      toast.success(t('profile.settings_updated') || 'Settings updated successfully!');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update settings';
+      toast.error(errorMessage);
+    }
   };
 
   const notifs = notificationSettings || {
@@ -509,17 +549,37 @@ function SecuritySettings() {
       setTwoFACode('');
       dispatch(get2FASetupThunk());
     } else {
-      dispatch(disable2FAThunk());
+      dispatch(disable2FAThunk())
+        .unwrap()
+        .then(() => {
+          toast.success(t('2fa.disabled') || '2FA disabled successfully!');
+        })
+        .catch((err: unknown) => {
+          const errorMessage = err instanceof Error ? err.message : 'Failed to disable 2FA';
+          toast.error(errorMessage);
+        });
     }
   };
 
   const handleLoginAlertsToggle = async (checked: boolean) => {
-    await dispatch(updateNotificationSettings({ loginAlerts: checked }));
+    try {
+      await dispatch(updateNotificationSettings({ loginAlerts: checked })).unwrap();
+      toast.success(t('profile.settings_updated') || 'Settings updated successfully!');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update settings';
+      toast.error(errorMessage);
+    }
   };
 
   const handleRemoveDevice = async (deviceId: string) => {
-    await dispatch(removeTrustedDevice(deviceId));
-    dispatch(fetchTrustedDevices());
+    try {
+      await dispatch(removeTrustedDevice(deviceId)).unwrap();
+      dispatch(fetchTrustedDevices());
+      toast.success(t('profile.device_removed') || 'Device removed successfully!');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to remove device';
+      toast.error(errorMessage);
+    }
   };
 
   const formatRelativeTime = (isoDate: string) => {
@@ -713,8 +773,14 @@ function SecuritySettings() {
                   className="flex-1 rounded-xl" 
                   disabled={isWorking2FA || twoFACode.length !== 6}
                   onClick={async () => {
-                    await dispatch(enable2FAThunk({ code: twoFACode })).unwrap();
-                    setStep(3);
+                    try {
+                      await dispatch(enable2FAThunk({ code: twoFACode })).unwrap();
+                      toast.success(t('2fa.enabled') || '2FA enabled successfully!');
+                      setStep(3);
+                    } catch (err: unknown) {
+                      const errorMessage = err instanceof Error ? err.message : 'Failed to enable 2FA';
+                      toast.error(errorMessage);
+                    }
                   }}
                 >
                   {isWorking2FA ? t('common.loading') : t('2fa.complete')}
